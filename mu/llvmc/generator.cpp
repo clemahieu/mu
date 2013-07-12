@@ -944,6 +944,21 @@ namespace mu
                         function_m.last = new_last;
                         break;
                     }
+                    case mu::llvmc::instruction_type::extractvalue:
+                    {
+                        assert (instruction->predicate_position == 3);
+                        auto aggregate (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [1]));
+                        function_m.retrieve_value (aggregate);
+                        auto index (mu::cast <mu::llvmc::skeleton::constant_integer> (instruction->arguments [2]));
+                        function_m.retrieve_value (index);
+                        predicate = function_m.and_predicates (aggregate->predicate, index->predicate);
+                        predicate = function_m.process_predicates (predicate, instruction->arguments, instruction->predicate_position);
+                        auto instruction_l (llvm::ExtractValueInst::Create (aggregate->generated, llvm::ArrayRef <unsigned> (index->value_m)));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        function_m.last->getInstList().push_back (instruction_l);
+                        value = instruction_l;
+                        break;
+                    }
                     case mu::llvmc::instruction_type::getelementptr:
                     {
                         assert (instruction->predicate_position >= 3);
