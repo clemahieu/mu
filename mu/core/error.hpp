@@ -159,7 +159,8 @@ namespace mu
 			unexpected_node_type,
 			select_three_arguments,
 			expecting_one_bit_integer,
-			select_arguments_same_type
+			select_arguments_same_type,
+            expecting_a_constant
         };
         class error
         {

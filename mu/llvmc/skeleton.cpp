@@ -433,6 +433,16 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ();
             break;
         }
+        case mu::llvmc::instruction_type::extractvalue:
+        {
+            assert (predicate_position == 3);
+            auto aggregate (mu::cast <mu::llvmc::skeleton::value> (arguments [1]));
+            auto type (mu::cast <mu::llvmc::skeleton::struct_type> (aggregate->type ()));
+            auto index (mu::cast <mu::llvmc::skeleton::constant_integer> (arguments [2]));
+            assert (index->value_m < type->elements.size ());
+            result = type->elements [index->value_m];
+            break;
+        }
 		case mu::llvmc::instruction_type::getelementptr:
 		{
             assert (predicate_position >= 3);

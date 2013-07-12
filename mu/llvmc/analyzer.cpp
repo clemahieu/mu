@@ -1445,6 +1445,42 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                 }
                 break;
             }
+            case mu::llvmc::instruction_type::extractvalue:
+            {
+                if (predicate_offset == 3)
+                {
+                    auto aggregate (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+                    if (aggregate != nullptr)
+                    {
+                        auto struct_l (dynamic_cast <mu::llvmc::skeleton::struct_type *> (aggregate->type ()));
+                        if (struct_l != nullptr)
+                        {
+                            auto index (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (arguments [2]));
+                            if (index != nullptr)
+                            {
+                                module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
+                            }
+                            else
+                            {
+                                error = new (GC) mu::core::error_string (U"Extractvalue requires second argument to be a constant", mu::core::error_type::expecting_a_constant, expression_a->region);
+                            }
+                        }
+                        else
+                        {
+                            error = new (GC) mu::core::error_string (U"Exctractvalue requires first argument to be an aggregate type", mu::core::error_type::expecting_an_aggregate, expression_a->region);
+                        }
+                    }
+                    else
+                    {
+                        error = new (GC) mu::core::error_string (U"Exctractvalue requires first arguments to be a values", mu::core::error_type::expecting_a_value, expression_a->region);
+                    }
+                }
+                else
+                {
+                    error = new (GC) mu::core::error_string (U"Extractvalue requires two arguments", mu::core::error_type::incorrect_number_of_arguments, expression_a->region);
+                }
+                break;
+            }
 			case mu::llvmc::instruction_type::getelementptr:
 			{
 				if (predicate_offset >= 3)

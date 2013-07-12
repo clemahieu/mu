@@ -232,14 +232,14 @@ let mmap function
 let umax function
 [int64 left int64 right]
 [
-	let result [select [icmp ugt left right] left right]
+	let result [select [icmp iugt left right] left right]
 ]
 [[int64 result]]
 
 let umin function
 [int64 left int64 right]
 [
-	let result [select [icmp ult left right] left right]
+	let result [select [icmp iult left right] left right]
 ]
 [[int64 result]]
 
