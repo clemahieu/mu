@@ -161,7 +161,8 @@ let write-test function
 [int64 fd]
 [
 	let initial [string-new-set [bitcast write-test-string ptr int8] cint64 #13]
-	let result [write-string fd [string-resize initial cint64 #13]]
+	let full [string-concatenate initial initial]
+	let result [write-string fd full]
 ]
 [[;result]]
 
@@ -339,6 +340,15 @@ let string-resize function
 ]
 [[string-type result; copied]]
 
+let string-concatenate function
+[string-type left string-type right]
+[
+	let result [string-resize [string-new] [add let left-size [string-size-get left] [string-size-get right]]]
+	let copied1 [memcopy [string-data-get left] [string-data-get result] [string-size-get left]]
+	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result] left-size] [string-size-get right]]
+]
+[[string-type result; copied1 copied2]]
+
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
 [
@@ -348,7 +358,7 @@ let memcopy function
 	[source_l destination_l]
 	[
 		let done not-done [if [icmp ieq [ptrtoint source_l int64] end]]
-		let stored [store [load source_l] destination_l; not-done]
+		let stored [store [load source_l; not-done] destination_l]
 	]
 	[[[getelementptr source_l cint64 #1] [getelementptr destination_l cint64 #1]; stored][; done]]
 ]
