@@ -289,7 +289,7 @@ let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 let string-type struct [int64 ptr int8]
 
 let string-size-set function
-[string-type str int64 val]
+[ptr string-type str int64 val]
 [
 	let result [insertvalue str val cint64 #0]
 ]
@@ -341,11 +341,13 @@ let string-resize function
 [[string-type result; copied]]
 
 let string-concatenate function
-[string-type left string-type right]
+[ptr string-type left-a ptr string-type right-a]
 [
-	let result [string-resize [string-new] [add let left-size [string-size-get left] [string-size-get right]]]
+	let left [load left-a]
+	let right [load right-a]
+	let result [string-resize [string-new] [add let left-size [string-size-get left] let right-size [string-size-get right]]]
 	let copied1 [memcopy [string-data-get left] [string-data-get result] [string-size-get left]]
-	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result] left-size] [string-size-get right]]
+	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result] left-size] right-size]
 ]
 [[string-type result; copied1 copied2]]
 

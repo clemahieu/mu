@@ -144,6 +144,7 @@ namespace mu
             class pointer_type : public mu::llvmc::ast::node
             {
             public:
+                pointer_type () = default;
                 pointer_type (mu::llvmc::ast::node * pointed_type_a);
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * pointed_type;

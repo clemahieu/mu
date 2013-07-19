@@ -1233,16 +1233,16 @@ mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::core::region const & regi
 {
     assert (data_a == U"");
     mu::llvmc::node_result result ({nullptr, nullptr});
-    auto item (parser_a.peek ());
-    if (item.ast != nullptr)
-    {
-        result.node = new (GC) mu::llvmc::ast::pointer_type (item.ast);
-        result.node->region = mu::core::region (region_a.first, item.ast->region.last);
-    }
-    else
-    {
-        result.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
-    }
+    auto type (new (GC) mu::llvmc::ast::pointer_type);
+    result.node = type;
+    auto first (region_a.first);
+    result.error = parser_a.parse_ast_or_refer (
+                                 [type, first]
+                                 (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                                 {
+                                     type->pointed_type = node_a;
+                                     type->region = mu::core::region (first, region_a.last);
+                                 });
     return result;
 }
 

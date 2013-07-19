@@ -976,6 +976,40 @@ TEST (llvmc_parser, ptr_int_type42)
     EXPECT_EQ (U"42", type2->bits);
 }
 
+TEST (llvmc_parser, ptr_reference)
+{
+    test_parser parser ("let i8 int8 let test1 function [ptr i8 val] [] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (2, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (set1->items [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->parameters.size ());
+    ASSERT_EQ (0, function1->results.size ());
+    auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
+    ASSERT_EQ (mu::core::region (32, 1, 33, 41, 1, 42), parameter1->region);
+    ASSERT_NE (nullptr, parameter1);
+    auto type1 (dynamic_cast <mu::llvmc::ast::pointer_type *> (parameter1->type));
+    ASSERT_EQ (mu::core::region (32, 1, 33, 37, 1, 38), type1->region);
+    ASSERT_NE (nullptr, type1);
+    auto element2 (dynamic_cast <mu::llvmc::ast::element *> (type1->pointed_type));
+    ASSERT_NE (nullptr, element2);
+    auto set2 (dynamic_cast <mu::llvmc::ast::set_expression *> (element2->node));
+    ASSERT_NE (nullptr, set2);
+    ASSERT_EQ (1, set2->items.size ());
+    auto type2 (dynamic_cast <mu::llvmc::ast::integer_type *> (set2->items [0]));
+    ASSERT_NE (nullptr, type2);
+    EXPECT_EQ (U"8", type2->bits);
+}
+
 TEST (llvmc_parser, result_no_type_error)
 {
     test_parser parser ("let test function [int1 i] [] [[");
