@@ -151,7 +151,7 @@ let write-test-string global ascii {%}Hello world!
 %
 
 let write-string function
-[int64 fd string-type str]
+[int64 fd ptr string-type str]
 [
 	let result [write fd [string-data-get str] [string-size-get str]]
 ]
@@ -288,68 +288,75 @@ let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
 let string-type struct [int64 ptr int8]
 
+let string-type-size function
+[]
+[
+	let result [sub [ptrtoint [getelementptr let base null ptr string-type cint32 #0] int64] [ptrtoint [getelementptr base cint32 #1] int64]]
+]
+[[int64 result]]
+
 let string-size-set function
 [ptr string-type str int64 val]
 [
-	let result [insertvalue str val cint64 #0]
+	let result [store val [getelementptr str cint32 #0 cint32 #0]]
 ]
-[[string-type result]]
+[[; result]]
 
 let string-size-get function
-[string-type str]
+[ptr string-type str]
 [
-	let result [extractvalue str cint64 #0]
+	let result [load [getelementptr str cint32 #0 cint32 #0]]
 ]
 [[int64 result]]
 
 let string-data-set function
-[string-type str ptr int8 val]
+[ptr string-type str ptr int8 val]
 [
-	let result [insertvalue str val cint64 #1]
+	let result [store val [getelementptr str cint32 #0 cint32 #1]]
 ]
-[[string-type result]]
+[[; result]]
 
 let string-data-get function
-[string-type str]
+[ptr string-type str]
 [
-	let result [extractvalue str cint64 #1]
+	let result [load [getelementptr str cint32 #0 cint32 #1]]
 ]
 [[ptr int8 result]]
 
 let string-new function
 []
 [
-	let initial undefined string-type
-	let result [string-size-set [string-data-set initial null ptr int8] cint64 #0]
+	let str [bitcast [lalloc [string-type-size]] ptr string-type]
+	let data [string-data-set str null ptr int8]
+	let size [string-size-set str cint64 #0]
 ]
-[[string-type result]]
+[[ptr string-type str; data size]]
 
 let string-new-set function
 [ptr int8 str-a int64 size-a]
 [
-	let initial undefined string-type
-	let result [string-size-set [string-data-set initial str-a] size-a]
+	let str [bitcast [lalloc [string-type-size]] ptr string-type]
+	let data [string-data-set str str-a]
+	let size [string-size-set str size-a]
 ]
-[[string-type result]]
+[[ptr string-type str; data size]]
 
 let string-resize function
-[string-type str int64 size]
+[ptr string-type str int64 size]
 [
 	let result [string-new-set let new-buffer [lalloc size] size]
 	let copied [memcopy [string-data-get str] new-buffer [umin size [string-size-get str]]]
 ]
-[[string-type result; copied]]
+[[; result copied]]
 
 let string-concatenate function
-[ptr string-type left-a ptr string-type right-a]
+[ptr string-type left ptr string-type right]
 [
-	let left [load left-a]
-	let right [load right-a]
-	let result [string-resize [string-new] [add let left-size [string-size-get left] let right-size [string-size-get right]]]
+	let resized [string-resize let result [string-new] [add let left-size [string-size-get left] let right-size [string-size-get right]]]
 	let copied1 [memcopy [string-data-get left] [string-data-get result] [string-size-get left]]
 	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result] left-size] right-size]
 ]
-[[string-type result; copied1 copied2]]
+[[ptr string-type result; copied1 copied2 resized]]
 
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
