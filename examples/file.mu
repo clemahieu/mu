@@ -286,51 +286,49 @@ let lalloc function
 let file-name-osx global ascii /Users/clemahieu/test.txt:a00
 let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
-let string-type struct [int64 ptr int8]
+let string-type struct [ptr int8 int64]
 
 let string-type-size function
 []
 [
-	let result [sub [ptrtoint [getelementptr let base null ptr string-type cint32 #0] int64] [ptrtoint [getelementptr base cint32 #1] int64]]
+	let result [sub [ptrtoint [getelementptr let base null ptr string-type cint32 #1] int64] [ptrtoint [getelementptr base cint32 #0] int64]]
 ]
 [[int64 result]]
 
 let string-size-set function
 [ptr string-type str int64 val]
 [
-	let result [store val [getelementptr str cint32 #0 cint32 #0]]
+	let result [store val [getelementptr str cint32 #0 cint32 #1]]
 ]
 [[; result]]
 
 let string-size-get function
 [ptr string-type str]
 [
-	let result [load [getelementptr str cint32 #0 cint32 #0]]
+	let result [load [getelementptr str cint32 #0 cint32 #1]]
 ]
 [[int64 result]]
 
 let string-data-set function
 [ptr string-type str ptr int8 val]
 [
-	let result [store val [getelementptr str cint32 #0 cint32 #1]]
+	let result [store val [getelementptr str cint32 #0 cint32 #0]]
 ]
 [[; result]]
 
 let string-data-get function
 [ptr string-type str]
 [
-	let result [load [getelementptr str cint32 #0 cint32 #1]]
+	let result [load [getelementptr str cint32 #0 cint32 #0]]
 ]
 [[ptr int8 result]]
 
 let string-new function
 []
 [
-	let str [bitcast [lalloc [string-type-size]] ptr string-type]
-	let data [string-data-set str null ptr int8]
-	let size [string-size-set str cint64 #0]
+	let str [string-new-set null ptr int8 cint64 #0]
 ]
-[[ptr string-type str; data size]]
+[[ptr string-type str]]
 
 let string-new-set function
 [ptr int8 str-a int64 size-a]
@@ -353,10 +351,10 @@ let string-concatenate function
 [ptr string-type left ptr string-type right]
 [
 	let resized [string-resize let result [string-new] [add let left-size [string-size-get left] let right-size [string-size-get right]]]
-	let copied1 [memcopy [string-data-get left] [string-data-get result] [string-size-get left]]
-	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result] left-size] right-size]
+	let copied1 [memcopy [string-data-get left] [string-data-get result] left-size; resized]
+	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result] left-size] right-size; resized]
 ]
-[[ptr string-type result; copied1 copied2 resized]]
+[[ptr string-type result; copied1 copied2]]
 
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
