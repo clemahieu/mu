@@ -380,7 +380,7 @@ let entry function
 	let fd [open [bitcast file-name-linux ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]:)
-	let hello [write-test cint64 #1]
+	let hello [write-test cint64 #1; [umax cint64 #0 cint64 #0]]
 	let alloc1 [lalloc cint64 #100]
 	let alloc2 [lalloc cint64 #1000]
 	let result [exit cint64 #0; hello alloc1 alloc2]

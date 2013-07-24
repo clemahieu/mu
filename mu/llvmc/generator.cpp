@@ -558,7 +558,7 @@ namespace mu
                 auto & context (function_m.module.target.module->getContext ());
                 llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
                 std::vector <llvm::PHINode *> parameters;
-				std::vector <llvm::DIVariable> declarations;
+                std::vector <llvm::Value *> shadows;
                 auto loop_entry (llvm::BasicBlock::Create (context));
                 function_m.function_m->getBasicBlockList ().push_back (loop_entry);
                 {
@@ -578,11 +578,13 @@ namespace mu
 						auto param (loop_element->source->parameters [position]);
                         param->generated = loop_parameter;
                         param->predicate = predicate;
-						auto declaration (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (param->name.begin (), param->name.end ()), function_m.module.file, 0, param->type ()->debug));
-						declarations.push_back (declaration);
 						auto alloc (new llvm::AllocaInst (loop_parameter->getType ()));
 						function_m.last->getInstList ().push_back (alloc);
-						function_m.module.builder.insertDeclare (loop_parameter, declaration, function_m.last);
+                        shadows.push_back (alloc);
+                        auto store (new llvm::StoreInst (loop_parameter, alloc));
+                        function_m.last->getInstList ().push_back (store);
+						auto declaration (function_m.module.builder.insertDeclare (alloc, function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (param->name.begin (), param->name.end ()), function_m.module.file, 0, param->type ()->debug), function_m.last));
+                        declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function_m.function_d));
                         parameters.push_back (loop_parameter);
                     }
                     assert (position == loop_element->source->parameters.size ());
@@ -609,7 +611,8 @@ namespace mu
                                                             if (feedback_branch)
                                                             {
                                                                 assert (parameter_position < parameters.size ());
-																function_m.module.builder.insertDbgValueIntrinsic (value->generated, 0, declarations [parameter_position], function_m.last);
+                                                                auto store (new llvm::StoreInst (value->generated, shadows [parameter_position]));
+                                                                function_m.last->getInstList ().push_back (store);
                                                                 parameters [parameter_position]->addIncoming (value->generated, function_m.last);
                                                                 ++parameter_position;
                                                             }
@@ -845,10 +848,10 @@ namespace mu
 					auto alloc (new llvm::AllocaInst (named->generated->getType ()));
 					function_m.last->getInstList ().push_back (alloc);
 					auto variable_info (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug));
+                    auto store (new llvm::StoreInst (named->generated, alloc));
+                    function_m.last->getInstList().push_back (store);
                     auto declaration (function_m.module.builder.insertDeclare (alloc, variable_info, function_m.last));
 					declaration->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function_d));
-					auto redefined (function_m.module.builder.insertDbgValueIntrinsic (named->generated, 0, variable_info, function_m.last));
-					redefined->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function_d));
                 }
             }
             void instruction (mu::llvmc::skeleton::instruction * instruction) override
