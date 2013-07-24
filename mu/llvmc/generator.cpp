@@ -155,7 +155,15 @@ void mu::llvmc::generate_function::generate ()
             auto existing (value->type ());
             assert (existing->generated != nullptr);
             auto const & name ((*k)->name);
-            module.builder.insertDeclare (parameter, module.builder.createLocalVariable (llvm::dwarf::DW_TAG_arg_variable, function_d, std::string (name.begin (), name.end ()), module.file, 0, existing->debug), entry);
+			auto alloc (new llvm::AllocaInst (parameter->getType ()));
+			entry->getInstList ().push_back (alloc);
+			auto variable_info (module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_d, std::string (name.begin (), name.end ()), module.file, 0, existing->debug));
+            auto declaration (module.builder.insertDeclare (alloc, variable_info, entry));
+			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.last.row, value->region.last.column, function_d));
+			auto store (new llvm::StoreInst (parameter, alloc));
+			entry->getInstList ().push_back (store);
+			auto redefined (module.builder.insertDbgValueIntrinsic (parameter, 0, variable_info, entry));
+			redefined->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function_d));
         }
         assert ((i != j) == (k != l));
     }
@@ -572,8 +580,10 @@ namespace mu
 						auto param (loop_element->source->parameters [position]);
                         param->generated = loop_parameter;
                         param->predicate = predicate;
-						auto declaration (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_arg_variable, function_m.function_d, std::string (param->name.begin (), param->name.end ()), function_m.module.file, 0, param->type ()->debug));
+						auto declaration (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (param->name.begin (), param->name.end ()), function_m.module.file, 0, param->type ()->debug));
 						declarations.push_back (declaration);
+						auto alloc (new llvm::AllocaInst (loop_parameter->getType ()));
+						function_m.last->getInstList ().push_back (alloc);
 						function_m.module.builder.insertDeclare (loop_parameter, declaration, function_m.last);
                         parameters.push_back (loop_parameter);
                     }
@@ -834,7 +844,13 @@ namespace mu
                 assert (type->generated != nullptr);
                 if (value_l->generated != nullptr)
                 {
-                    function_m.module.builder.insertDeclare (value_l->generated, function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug), function_m.last);
+					auto alloc (new llvm::AllocaInst (named->generated->getType ()));
+					function_m.last->getInstList ().push_back (alloc);
+					auto variable_info (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug));
+                    auto declaration (function_m.module.builder.insertDeclare (alloc, variable_info, function_m.last));
+					declaration->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function_d));
+					auto redefined (function_m.module.builder.insertDbgValueIntrinsic (named->generated, 0, variable_info, function_m.last));
+					redefined->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function_d));
                 }
             }
             void instruction (mu::llvmc::skeleton::instruction * instruction) override
