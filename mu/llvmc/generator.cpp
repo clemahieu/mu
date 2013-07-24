@@ -158,12 +158,10 @@ void mu::llvmc::generate_function::generate ()
 			auto alloc (new llvm::AllocaInst (parameter->getType ()));
 			entry->getInstList ().push_back (alloc);
 			auto variable_info (module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_d, std::string (name.begin (), name.end ()), module.file, 0, existing->debug));
-            auto declaration (module.builder.insertDeclare (alloc, variable_info, entry));
-			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.last.row, value->region.last.column, function_d));
 			auto store (new llvm::StoreInst (parameter, alloc));
 			entry->getInstList ().push_back (store);
-			auto redefined (module.builder.insertDbgValueIntrinsic (parameter, 0, variable_info, entry));
-			redefined->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function_d));
+            auto declaration (module.builder.insertDeclare (alloc, variable_info, entry));
+			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.last.row, value->region.last.column, function_d));
         }
         assert ((i != j) == (k != l));
     }
