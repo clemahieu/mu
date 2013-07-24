@@ -31,10 +31,8 @@ namespace mu
             class node
             {
             public:
-				node (mu::string const & name_a = U"");
                 virtual ~node ();
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
-				mu::string name;
 				mu::core::region region;
             };
             class value : public mu::llvmc::ast::node
@@ -68,15 +66,17 @@ namespace mu
                 parameter (mu::string const & name_a, mu::llvmc::ast::node * type_a);
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * type;
+				mu::string name;
             };
             class element : public mu::llvmc::ast::node
             {
             public:
                 element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a, mu::core::region const & region_a);
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
-                mu::llvmc::ast::node * node_m;
+                mu::llvmc::ast::node * node;
                 size_t index;
                 size_t total;
+                mu::string name;
             };
 			template <typename S, typename T, typename U, typename V, typename W>
 			void for_each_argument (S arguments, size_t predicate_position, T argument_op, U predicate_op, V transition_op, W loop_op);

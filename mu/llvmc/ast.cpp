@@ -12,28 +12,23 @@ mu::llvmc::ast::node::~node ()
 {
 }
 
-mu::llvmc::ast::node::node (mu::string const & name_a) :
-name (name_a)
-{
-}
-
 mu::llvmc::ast::value::value (mu::llvmc::skeleton::node * node_a):
 node_m (node_a)
 {
 }
 
-mu::llvmc::ast::element::element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a, mu::core::region const & region_a) :
-node (name_a),
-node_m (node_a),
+mu::llvmc::ast::element::element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a, mu::core::region const & region_a):
+node (node_a),
 index (index_a),
-total (total_a)
+total (total_a),
+name (name_a)
 {
     region = region_a;
 }
 
-mu::llvmc::ast::parameter::parameter (mu::string const & name_a, mu::llvmc::ast::node * type_a) :
-node (name_a),
-type (type_a)
+mu::llvmc::ast::parameter::parameter (mu::string const & name_a, mu::llvmc::ast::node * type_a):
+type (type_a),
+name (name_a)
 {
 }
 
