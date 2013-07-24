@@ -53,6 +53,8 @@ namespace mu
             class loop_parameter : public mu::llvmc::ast::node
             {
             public:
+				loop_parameter (mu::string const & name_a);
+				mu::string const & name;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
             };
             class unit : public mu::llvmc::ast::node

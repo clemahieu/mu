@@ -365,3 +365,8 @@ void mu::llvmc::ast::undefined::visit (mu::llvmc::ast::visitor * visitor_a)
 {
     visitor_a->undefined (this);
 }
+
+mu::llvmc::ast::loop_parameter::loop_parameter (mu::string const & name_a) :
+name (name_a)
+{
+}

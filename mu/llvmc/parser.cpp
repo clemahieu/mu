@@ -1070,9 +1070,10 @@ void mu::llvmc::loop::parse_binds ()
                     {
                         case mu::io::token_id::identifier:
                         {
-                            auto parameter (new (GC) mu::llvmc::ast::loop_parameter);
+							auto identifier (mu::cast <mu::io::identifier> (next.token));
+                            auto parameter (new (GC) mu::llvmc::ast::loop_parameter (identifier->string));
                             loop_m->parameters.push_back (parameter);
-                            auto error (parser.current_mapping->insert(static_cast <mu::io::identifier *> (next.token)->string, parameter));
+                            auto error (parser.current_mapping->insert (identifier->string, parameter));
                             if (error)
                             {
                                 done = true;

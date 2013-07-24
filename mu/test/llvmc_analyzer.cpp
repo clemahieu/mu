@@ -2939,7 +2939,7 @@ TEST (llvmc_analyzer, fail_loop_same_branch)
     mu::llvmc::ast::loop loop1;
     loop1.arguments.push_back (&parameter1);
     loop1.set_argument_offset ();
-    mu::llvmc::ast::loop_parameter parameter2;
+    mu::llvmc::ast::loop_parameter parameter2 (U"p1");
     loop1.parameters.push_back (&parameter2);
     loop1.results.push_back (&parameter2);
     loop1.add_predicate_offset ();
@@ -2974,7 +2974,7 @@ TEST (llvmc_analyzer, loop_passthrough)
     mu::llvmc::ast::loop loop1;
     loop1.arguments.push_back (&parameter1);
     loop1.set_argument_offset ();
-    mu::llvmc::ast::loop_parameter parameter2;
+    mu::llvmc::ast::loop_parameter parameter2 (U"p1");
     loop1.parameters.push_back (&parameter2);
     loop1.add_predicate_offset ();
     loop1.add_branch_end ();
