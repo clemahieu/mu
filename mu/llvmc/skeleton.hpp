@@ -318,10 +318,11 @@ namespace mu
 			class loop_parameter : public mu::llvmc::skeleton::value
 			{
 			public:
-				loop_parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+				loop_parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 				mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;
+                mu::string name;
 			};
 			class loop
 			{

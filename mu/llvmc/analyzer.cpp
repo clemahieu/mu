@@ -488,12 +488,13 @@ namespace mu
 						auto k (loop_s->arguments.begin ());
 						for (; i != j; ++i, ++k)
 						{
+							auto parameter (mu::cast <mu::llvmc::ast::loop_parameter> (*i));
 							auto argument (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
 							if (argument != nullptr)
 							{
-								auto new_parameter (new (GC) mu::llvmc::skeleton::loop_parameter (loop_a->region, loop_entry_branch, static_cast<mu::llvmc::skeleton::value *> (*k)->type ()));
+								auto new_parameter (new (GC) mu::llvmc::skeleton::loop_parameter (loop_a->region, loop_entry_branch, static_cast<mu::llvmc::skeleton::value *> (*k)->type (), parameter->name));
 								loop_s->parameters.push_back (new_parameter);
-								analyzer.module.already_generated [*i].push_back (new_parameter);
+								analyzer.module.already_generated [parameter].push_back (new_parameter);
 							}
 							else
 							{

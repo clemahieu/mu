@@ -684,9 +684,10 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_element::type ()
     return type_m;
 }
 
-mu::llvmc::skeleton::loop_parameter::loop_parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+mu::llvmc::skeleton::loop_parameter::loop_parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a) :
 value (region_a, branch_a),
-type_m (type_a)
+type_m (type_a),
+name (name_a)
 {
 }
 

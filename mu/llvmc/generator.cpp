@@ -552,6 +552,7 @@ namespace mu
                 auto & context (function_m.module.target.module->getContext ());
                 llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
                 std::vector <llvm::PHINode *> parameters;
+				std::vector <llvm::DIVariable> declarations;
                 auto loop_entry (llvm::BasicBlock::Create (context));
                 function_m.function_m->getBasicBlockList ().push_back (loop_entry);
                 {
@@ -568,8 +569,12 @@ namespace mu
                         loop_parameter->addIncoming (value->generated, function_m.last);
                         loop_entry->getInstList ().push_back (loop_parameter);
                         assert (position < loop_element->source->parameters.size ());
-                        loop_element->source->parameters [position]->generated = loop_parameter;
-                        loop_element->source->parameters [position]->predicate = predicate;
+						auto param (loop_element->source->parameters [position]);
+                        param->generated = loop_parameter;
+                        param->predicate = predicate;
+						auto declaration (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_arg_variable, function_m.function_d, std::string (param->name.begin (), param->name.end ()), function_m.module.file, 0, param->type ()->debug));
+						declarations.push_back (declaration);
+						function_m.module.builder.insertDeclare (loop_parameter, declaration, function_m.last);
                         parameters.push_back (loop_parameter);
                     }
                     assert (position == loop_element->source->parameters.size ());
@@ -596,6 +601,7 @@ namespace mu
                                                             if (feedback_branch)
                                                             {
                                                                 assert (parameter_position < parameters.size ());
+																function_m.module.builder.insertDbgValueIntrinsic (value->generated, 0, declarations [parameter_position], function_m.last);
                                                                 parameters [parameter_position]->addIncoming (value->generated, function_m.last);
                                                                 ++parameter_position;
                                                             }

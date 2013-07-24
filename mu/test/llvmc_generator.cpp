@@ -1676,7 +1676,7 @@ TEST (llvmc_generator, generate_loop1)
 	loop1.arguments.push_back (&parameter1);
 	loop1.set_argument_predicate_offset ();
 	ASSERT_EQ (loop1.arguments.size (), loop1.argument_predicate_offset);
-	mu::llvmc::skeleton::loop_parameter loop_parameter1 (mu::empty_region, loop1.loop_entry_branch, &type1);
+	mu::llvmc::skeleton::loop_parameter loop_parameter1 (mu::empty_region, loop1.loop_entry_branch, &type1, U"parameter2");
 	loop1.parameters.push_back (&loop_parameter1);
 	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
 	mu::llvmc::skeleton::constant_integer constant_integer1 (mu::empty_region, module.global, 1, 0);
@@ -1739,8 +1739,8 @@ TEST (llvmc_generator, generate_loop_count)
 	mu::llvmc::skeleton::constant_integer constant_integer1 (mu::empty_region, module.global, 32, 0);
 	loop1.arguments.push_back (&constant_integer1);
 	loop1.set_argument_predicate_offset ();
-	mu::llvmc::skeleton::loop_parameter loop_parameter1 (mu::empty_region, loop1.loop_entry_branch, &type1); // Iteration
-	mu::llvmc::skeleton::loop_parameter loop_parameter2 (mu::empty_region, loop1.loop_entry_branch, &type1); // Total
+	mu::llvmc::skeleton::loop_parameter loop_parameter1 (mu::empty_region, loop1.loop_entry_branch, &type1, U"parameter2"); // Iteration
+	mu::llvmc::skeleton::loop_parameter loop_parameter2 (mu::empty_region, loop1.loop_entry_branch, &type1, U"parameter3"); // Total
 	loop1.parameters.push_back (&loop_parameter1);
 	loop1.parameters.push_back (&loop_parameter2);	
 	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
