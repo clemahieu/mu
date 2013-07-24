@@ -158,10 +158,10 @@ namespace mu
 			}
 			void element (mu::llvmc::ast::element * element_a) override
 			{
-				analyzer.process_node (element_a->node);
+				analyzer.process_node (element_a->node_m);
 				if (analyzer.error == nullptr)
 				{
-					auto existing (analyzer.module.already_generated.find (element_a->node));
+					auto existing (analyzer.module.already_generated.find (element_a->node_m));
 					if (existing->second.size () > element_a->index)
 					{
 						auto node (existing->second [element_a->index]);
@@ -514,7 +514,7 @@ namespace mu
 														  assert (analyzer.module.already_generated.find (expression_a) != analyzer.module.already_generated.end ());
 														  for (auto i : analyzer.module.already_generated [expression_a])
 														  {
-															  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
+															  auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
 															  if (value != nullptr)
 															  {
 																  branches.add_branch (value->branch, expression_a->region);
