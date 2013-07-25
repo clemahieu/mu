@@ -342,8 +342,10 @@ let string-new-set function
 let string-resize function
 [ptr string-type str int64 size]
 [
-	let result [string-new-set let new-buffer [lalloc size] size]
-	let copied [memcopy [string-data-get str] new-buffer [umin size [string-size-get str]]]
+	let new-buffer [lalloc size]
+	let old-buffer [string-data-get str]
+	let copied [memcopy old-buffer new-buffer [umin size [string-size-get str]]]
+	let result [string-data-set str new-buffer; old-buffer]
 ]
 [[; result copied]]
 
@@ -351,8 +353,8 @@ let string-concatenate function
 [ptr string-type left ptr string-type right]
 [
 	let resized [string-resize let result [string-new] [add let left-size [string-size-get left] let right-size [string-size-get right]]]
-	let copied1 [memcopy [string-data-get left] [string-data-get result] left-size; resized]
-	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result] left-size] right-size; resized]
+	let copied1 [memcopy [string-data-get left] [string-data-get result; resized] left-size]
+	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result; resized] left-size] right-size]
 ]
 [[ptr string-type result; copied1 copied2]]
 
@@ -380,7 +382,7 @@ let entry function
 	let fd [open [bitcast file-name-linux ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]:)
-	let hello [write-test cint64 #1; [umax cint64 #0 cint64 #0]]
+	let hello [write-test cint64 #1]
 	let alloc1 [lalloc cint64 #100]
 	let alloc2 [lalloc cint64 #1000]
 	let result [exit cint64 #0; hello alloc1 alloc2]

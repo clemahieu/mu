@@ -846,11 +846,13 @@ namespace mu
                 {
 					auto alloc (new llvm::AllocaInst (named->generated->getType ()));
 					function_m.last->getInstList ().push_back (alloc);
-					auto variable_info (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug));
                     auto store (new llvm::StoreInst (named->generated, alloc));
                     function_m.last->getInstList().push_back (store);
+					auto variable_info (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug));
                     auto declaration (function_m.module.builder.insertDeclare (alloc, variable_info, function_m.last));
 					declaration->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function_d));
+                    auto update (function_m.module.builder.insertDbgValueIntrinsic(named->generated, 0, variable_info, function_m.last));
+					update->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function_d));
                 }
             }
             void instruction (mu::llvmc::skeleton::instruction * instruction) override
