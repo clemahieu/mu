@@ -822,7 +822,7 @@ TEST (llvmc_generator, generate_sub)
 
 extern char const * const generate_udiv_expected;
 
-TEST (llvmc_generator, generate_udiv_expected)
+TEST (llvmc_generator, generate_udiv)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -1795,9 +1795,9 @@ TEST (llvmc_generator, generate_loop_count)
     auto result (generator.generate (context, &module, U"generate_loop_count", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
+    print_module (result.module, info);
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
     ASSERT_EQ (std::string (generate_loop_count_expected), info);
     auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));

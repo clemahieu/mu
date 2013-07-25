@@ -558,9 +558,10 @@ namespace mu
                 auto & context (function_m.module.target.module->getContext ());
                 llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
                 std::vector <llvm::PHINode *> parameters;
-                std::vector <llvm::Value *> shadows;
-                auto loop_entry (llvm::BasicBlock::Create (context));
-                function_m.function_m->getBasicBlockList ().push_back (loop_entry);
+                auto phi_entry (llvm::BasicBlock::Create (context));
+                auto shadow_entry (llvm::BasicBlock::Create (context));
+                function_m.function_m->getBasicBlockList ().push_back (phi_entry);
+                function_m.function_m->getBasicBlockList ().push_back (shadow_entry);
                 {
                     size_t position (0);
                     auto end (loop_element->source->argument_predicate_offset);
@@ -573,16 +574,15 @@ namespace mu
                         predicate = function_m.and_predicates (predicate, value->predicate);
                         auto loop_parameter (llvm::PHINode::Create (value->generated->getType (), 2));
                         loop_parameter->addIncoming (value->generated, function_m.last);
-                        loop_entry->getInstList ().push_back (loop_parameter);
+                        phi_entry->getInstList ().push_back (loop_parameter);
+						auto alloc (new llvm::AllocaInst (loop_parameter->getType ()));
+						function_m.last->getInstList ().push_back (alloc);
+                        auto store (new llvm::StoreInst (loop_parameter, alloc));
+                        shadow_entry->getInstList ().push_back (store);
                         assert (position < loop_element->source->parameters.size ());
 						auto param (loop_element->source->parameters [position]);
                         param->generated = loop_parameter;
                         param->predicate = predicate;
-						auto alloc (new llvm::AllocaInst (loop_parameter->getType ()));
-						function_m.last->getInstList ().push_back (alloc);
-                        shadows.push_back (alloc);
-                        auto store (new llvm::StoreInst (loop_parameter, alloc));
-                        function_m.last->getInstList ().push_back (store);
 						auto declaration (function_m.module.builder.insertDeclare (alloc, function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (param->name.begin (), param->name.end ()), function_m.module.file, 0, param->type ()->debug), function_m.last));
                         declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function_m.function_d));
                         parameters.push_back (loop_parameter);
@@ -592,8 +592,9 @@ namespace mu
                 auto entry (function_m.last);
                 auto successor (llvm::BasicBlock::Create (context));
                 function_m.function_m->getBasicBlockList ().push_back (successor);
-                entry->getInstList ().push_back (llvm::BranchInst::Create (loop_entry, successor, predicate));
-                function_m.last = loop_entry;
+                entry->getInstList ().push_back (llvm::BranchInst::Create (phi_entry, successor, predicate));
+                phi_entry->getInstList().push_back (llvm::BranchInst::Create (shadow_entry));
+                function_m.last = shadow_entry;
                 auto feedback_branch (true);
                 auto branch_predicate (predicate);
                 llvm::Value * feedback_predicate;
@@ -611,8 +612,6 @@ namespace mu
                                                             if (feedback_branch)
                                                             {
                                                                 assert (parameter_position < parameters.size ());
-                                                                auto store (new llvm::StoreInst (value->generated, shadows [parameter_position]));
-                                                                function_m.last->getInstList ().push_back (store);
                                                                 parameters [parameter_position]->addIncoming (value->generated, function_m.last);
                                                                 ++parameter_position;
                                                             }
@@ -672,7 +671,7 @@ namespace mu
                     i->setIncomingBlock (0, entry);
                     i->setIncomingBlock (1, function_m.last);
                 }
-                auto feedback (llvm::BranchInst::Create (loop_entry, successor, feedback_predicate));
+                auto feedback (llvm::BranchInst::Create (phi_entry, successor, feedback_predicate));
                 function_m.last->getInstList ().push_back (feedback);
                 function_m.last = successor;
             }
