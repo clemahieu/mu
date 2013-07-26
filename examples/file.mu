@@ -346,9 +346,9 @@ let string-resize function
 	let old-buffer [string-data-get str]
 	let copied [memcopy old-buffer new-buffer [umin size let old-size [string-size-get str]]]
 	let data [string-data-set str new-buffer; old-buffer]
-	let size [string-size-set str size; old-size]
+	let size-l [string-size-set str size; old-size]
 ]
-[[; data size copied]]
+[[; data size-l copied]]
 
 let string-concatenate function
 [ptr string-type left ptr string-type right]
