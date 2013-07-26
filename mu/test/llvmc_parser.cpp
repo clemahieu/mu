@@ -1993,3 +1993,11 @@ TEST (llvmc_parser, struct_type)
     auto type2 (dynamic_cast <mu::llvmc::ast::struct_type *> (undefined1->type));
     ASSERT_NE (nullptr, type2);
 }
+
+TEST (llvmc_parser, local_covering_parameter_error)
+{
+    test_parser parser ("let test1 function [int64 a] [let a int32] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+}

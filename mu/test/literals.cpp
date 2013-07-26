@@ -86,10 +86,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -123,10 +126,13 @@ define i8* @"0000000000000000-0000000000000000-0"() {
   %5 = alloca i8*
   store i8* %4, i8** %5
   call void @llvm.dbg.declare(metadata !{i8** %5}, metadata !12), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8* %4}, i64 0, metadata !12), !dbg !11
   ret i8* %4, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -159,10 +165,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -196,10 +205,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -229,10 +241,13 @@ define i8* @"0000000000000000-0000000000000000-0"(i32*) {
   %4 = alloca i8*
   store i8* %3, i8** %4
   call void @llvm.dbg.declare(metadata !{i8** %4}, metadata !15), !dbg !14
+  call void @llvm.dbg.value(metadata !{i8* %3}, i64 0, metadata !15), !dbg !14
   ret i8* %3, !dbg !14
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -307,10 +322,13 @@ define i1 @"0000000000000000-0000000000000000-0"({ i1 }) {
   %5 = alloca i1
   store i1 %4, i1* %5
   call void @llvm.dbg.declare(metadata !{i1* %5}, metadata !15), !dbg !14
+  call void @llvm.dbg.value(metadata !{i1 %4}, i64 0, metadata !15), !dbg !14
   ret i1 %4, !dbg !14
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -343,10 +361,13 @@ define i8* @"0000000000000000-0000000000000000-0"(i8*) {
   %5 = alloca i8*
   store i8* %4, i8** %5
   call void @llvm.dbg.declare(metadata !{i8** %5}, metadata !13), !dbg !12
+  call void @llvm.dbg.value(metadata !{i8* %4}, i64 0, metadata !13), !dbg !12
   ret i8* %4, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -395,10 +416,13 @@ define i1 @"0000000000000000-0000000000000000-0"(i1, i1) {
   %7 = alloca i1
   store i1 %6, i1* %7
   call void @llvm.dbg.declare(metadata !{i1* %7}, metadata !15), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %6}, i64 0, metadata !15), !dbg !11
   ret i1 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -429,10 +453,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8) {
   %3 = alloca i8
   store i8 %0, i8* %3
   call void @llvm.dbg.declare(metadata !{i8* %3}, metadata !12), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %0}, i64 0, metadata !12), !dbg !11
   ret i8 %0, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -465,10 +492,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -502,10 +532,13 @@ define { i1 } @"0000000000000000-0000000000000000-0"(i1, { i1 }) {
   %7 = alloca { i1 }
   store { i1 } %6, { i1 }* %7
   call void @llvm.dbg.declare(metadata !{{ i1 }* %7}, metadata !16), !dbg !14
+  call void @llvm.dbg.value(metadata !{{ i1 } %6}, i64 0, metadata !16), !dbg !14
   ret { i1 } %6, !dbg !14
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -545,10 +578,13 @@ define i1 @"0000000000000000-0000000000000000-0"(i1*) {
   %7 = alloca i1
   store i1 %6, i1* %7
   call void @llvm.dbg.declare(metadata !{i1* %7}, metadata !15), !dbg !12
+  call void @llvm.dbg.value(metadata !{i1 %6}, i64 0, metadata !15), !dbg !12
   ret i1 %6, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -584,10 +620,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -621,10 +660,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -654,10 +696,13 @@ define i32* @"0000000000000000-0000000000000000-0"(i64) {
   %4 = alloca i32*
   store i32* %3, i32** %4
   call void @llvm.dbg.declare(metadata !{i32** %4}, metadata !14), !dbg !13
+  call void @llvm.dbg.value(metadata !{i32* %3}, i64 0, metadata !14), !dbg !13
   ret i32* %3, !dbg !13
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -688,10 +733,13 @@ define i64 @"0000000000000000-0000000000000000-0"(i32*) {
   %4 = alloca i64
   store i64 %3, i64* %4
   call void @llvm.dbg.declare(metadata !{i64* %4}, metadata !14), !dbg !13
+  call void @llvm.dbg.value(metadata !{i64 %3}, i64 0, metadata !14), !dbg !13
   ret i64 %3, !dbg !13
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -726,10 +774,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -761,10 +812,13 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %6 = alloca i1
   store i1 %5, i1* %6
   call void @llvm.dbg.declare(metadata !{i1* %6}, metadata !12), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %5}, i64 0, metadata !12), !dbg !11
   ret i1 %5, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -793,10 +847,13 @@ define i16 @"0000000000000000-0000000000000000-0"(i8) {
   %4 = alloca i16
   store i16 %3, i16* %4
   call void @llvm.dbg.declare(metadata !{i16* %4}, metadata !13), !dbg !12
+  call void @llvm.dbg.value(metadata !{i16 %3}, i64 0, metadata !13), !dbg !12
   ret i16 %3, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -830,10 +887,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -867,10 +927,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -973,10 +1036,13 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %5 = alloca i1
   store i1 %4, i1* %5
   call void @llvm.dbg.declare(metadata !{i1* %5}, metadata !14), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %4}, i64 0, metadata !14), !dbg !11
   ret i1 %4, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1011,10 +1077,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !15), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !15), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1050,10 +1119,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !15), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !15), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1089,10 +1161,13 @@ define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %7 = alloca i8
   store i8 %6, i8* %7
   call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !15), !dbg !11
+  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !15), !dbg !11
   ret i8 %6, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1124,10 +1199,13 @@ define i16 @"0000000000000000-0000000000000000-0"(i8) {
   %4 = alloca i16
   store i16 %3, i16* %4
   call void @llvm.dbg.declare(metadata !{i16* %4}, metadata !13), !dbg !12
+  call void @llvm.dbg.value(metadata !{i16 %3}, i64 0, metadata !13), !dbg !12
   ret i16 %3, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1320,6 +1398,7 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %11 = alloca i1
   store i1 %10, i1* %11
   call void @llvm.dbg.declare(metadata !{i1* %11}, metadata !12), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %10}, i64 0, metadata !12), !dbg !11
   %12 = and i1 true, %9
   %13 = and i1 true, true
   %14 = and i1 %13, %8
@@ -1327,6 +1406,7 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %16 = alloca i1
   store i1 %15, i1* %16
   call void @llvm.dbg.declare(metadata !{i1* %16}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %15}, i64 0, metadata !13), !dbg !11
   %17 = and i1 true, %14
   %18 = or i1 false, %12
   %19 = select i1 %12, i1 %10, i1 undef
@@ -1335,10 +1415,13 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %22 = alloca i1
   store i1 %21, i1* %22
   call void @llvm.dbg.declare(metadata !{i1* %22}, metadata !14), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %21}, i64 0, metadata !14), !dbg !11
   ret i1 %21, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1381,10 +1464,13 @@ define i32 @"0000000000000000-0000000000000000-0"(i1) {
   %16 = alloca i32
   store i32 %15, i32* %16
   call void @llvm.dbg.declare(metadata !{i32* %16}, metadata !13), !dbg !12
+  call void @llvm.dbg.value(metadata !{i32 %15}, i64 0, metadata !13), !dbg !12
   ret i32 %15, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1423,6 +1509,7 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %11 = alloca i1
   store i1 %10, i1* %11
   call void @llvm.dbg.declare(metadata !{i1* %11}, metadata !17), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %10}, i64 0, metadata !17), !dbg !16
   %12 = and i1 true, %9
   %13 = and i1 true, true
   %14 = and i1 %13, %8
@@ -1430,6 +1517,7 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %16 = alloca i1
   store i1 %15, i1* %16
   call void @llvm.dbg.declare(metadata !{i1* %16}, metadata !18), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %15}, i64 0, metadata !18), !dbg !16
   %17 = and i1 true, %14
   %18 = or i1 false, %12
   %19 = select i1 %12, i1 %10, i1 undef
@@ -1438,6 +1526,7 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %22 = alloca i1
   store i1 %21, i1* %22
   call void @llvm.dbg.declare(metadata !{i1* %22}, metadata !19), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %21}, i64 0, metadata !19), !dbg !16
   %23 = and i1 true, %20
   %24 = select i1 %23, i8 0, i8 undef
   %25 = and i1 true, true
@@ -1446,6 +1535,7 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %28 = alloca i1
   store i1 %27, i1* %28
   call void @llvm.dbg.declare(metadata !{i1* %28}, metadata !20), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %27}, i64 0, metadata !20), !dbg !16
   %29 = and i1 true, %26
   %30 = and i1 true, true
   %31 = and i1 %30, %8
@@ -1453,6 +1543,7 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %33 = alloca i1
   store i1 %32, i1* %33
   call void @llvm.dbg.declare(metadata !{i1* %33}, metadata !21), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %32}, i64 0, metadata !21), !dbg !16
   %34 = and i1 true, %31
   %35 = or i1 false, %29
   %36 = select i1 %29, i1 %27, i1 undef
@@ -1461,6 +1552,7 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %39 = alloca i1
   store i1 %38, i1* %39
   call void @llvm.dbg.declare(metadata !{i1* %39}, metadata !22), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %38}, i64 0, metadata !22), !dbg !16
   %40 = and i1 true, %37
   %41 = select i1 %40, i8 1, i8 %24
   %42 = insertvalue %0 undef, i1 %21, 0
@@ -1470,6 +1562,8 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1521,6 +1615,7 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %13 = alloca i1
   store i1 %12, i1* %13
   call void @llvm.dbg.declare(metadata !{i1* %13}, metadata !14), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %12}, i64 0, metadata !14), !dbg !11
   %14 = and i1 true, %8
   %15 = and i1 true, %7
   br i1 %15, label %16, label %18
@@ -1534,6 +1629,7 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %20 = alloca i1
   store i1 %19, i1* %20
   call void @llvm.dbg.declare(metadata !{i1* %20}, metadata !15), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %19}, i64 0, metadata !15), !dbg !11
   %21 = and i1 true, %15
   %22 = or i1 false, %14
   %23 = select i1 %14, i1 %12, i1 undef
@@ -1542,10 +1638,13 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %26 = alloca i1
   store i1 %25, i1* %26
   call void @llvm.dbg.declare(metadata !{i1* %26}, metadata !16), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %25}, i64 0, metadata !16), !dbg !11
   ret i1 %25, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 

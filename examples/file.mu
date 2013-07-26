@@ -344,10 +344,11 @@ let string-resize function
 [
 	let new-buffer [lalloc size]
 	let old-buffer [string-data-get str]
-	let copied [memcopy old-buffer new-buffer [umin size [string-size-get str]]]
-	let result [string-data-set str new-buffer; old-buffer]
+	let copied [memcopy old-buffer new-buffer [umin size let old-size [string-size-get str]]]
+	let data [string-data-set str new-buffer; old-buffer]
+	let size [string-size-set str size; old-size]
 ]
-[[; result copied]]
+[[; data size copied]]
 
 let string-concatenate function
 [ptr string-type left ptr string-type right]

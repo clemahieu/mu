@@ -25,7 +25,7 @@ static void print_module (llvm::Module * module, std::string & target)
 static llvm::ExecutionEngine * prepare_module_jit (llvm::Module * module_a)
 {
     llvm::PassManager manager;
-    manager.add (llvm::createStripDebugDeclarePass ());
+    manager.add (llvm::createStripSymbolsPass (true));
     manager.run (*module_a);
     llvm::EngineBuilder builder (module_a);
     auto engine (builder.create ());
@@ -190,8 +190,7 @@ TEST (llvmc_generator, generate_add)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_add_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
@@ -230,8 +229,7 @@ TEST (llvmc_generator, generate_alloca)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_alloca_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
     auto function3 (reinterpret_cast <void * (*) ()> (function2));
@@ -270,8 +268,7 @@ TEST (llvmc_generator, generate_and)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_and_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
@@ -314,8 +311,7 @@ TEST (llvmc_generator, generate_ashr)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_ashr_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
@@ -455,7 +451,7 @@ TEST (llvmc_generator, generate_load)
 
 extern char const * const generate_lshr_expected;
 
-TEST (llvmc_generator, generate_lshr_expected)
+TEST (llvmc_generator, generate_lshr)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -498,7 +494,7 @@ TEST (llvmc_generator, generate_lshr_expected)
 
 extern char const * const generate_mul_expected;
 
-TEST (llvmc_generator, generate_mul_expected)
+TEST (llvmc_generator, generate_mul)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -539,7 +535,7 @@ TEST (llvmc_generator, generate_mul_expected)
 
 extern char const * const generate_or_expected;
 
-TEST (llvmc_generator, generate_or_expected)
+TEST (llvmc_generator, generate_or)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -582,7 +578,7 @@ TEST (llvmc_generator, generate_or_expected)
 
 extern char const * const generate_sdiv_expected;
 
-TEST (llvmc_generator, generate_sdiv_expected)
+TEST (llvmc_generator, generate_sdiv)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -623,7 +619,7 @@ TEST (llvmc_generator, generate_sdiv_expected)
 
 extern char const * const generate_sext_expected;
 
-TEST (llvmc_generator, generate_sext_expected)
+TEST (llvmc_generator, generate_sext)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -663,7 +659,7 @@ TEST (llvmc_generator, generate_sext_expected)
 
 extern char const * const generate_shl_expected;
 
-TEST (llvmc_generator, generate_shl_expected)
+TEST (llvmc_generator, generate_shl)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -702,7 +698,7 @@ TEST (llvmc_generator, generate_shl_expected)
 
 extern char const * const generate_srem_expected;
 
-TEST (llvmc_generator, generate_srem_expected)
+TEST (llvmc_generator, generate_srem)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -863,7 +859,7 @@ TEST (llvmc_generator, generate_udiv)
 
 extern char const * const generate_urem_expected;
 
-TEST (llvmc_generator, generate_urem_expected)
+TEST (llvmc_generator, generate_urem)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -904,7 +900,7 @@ TEST (llvmc_generator, generate_urem_expected)
 
 extern char const * const generate_xor_expected;
 
-TEST (llvmc_generator, generate_xor_expected)
+TEST (llvmc_generator, generate_xor)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -945,7 +941,7 @@ TEST (llvmc_generator, generate_xor_expected)
 
 extern char const * const generate_zext_expected;
 
-TEST (llvmc_generator, generate_zext_expected)
+TEST (llvmc_generator, generate_zext)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
