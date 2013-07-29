@@ -283,6 +283,12 @@ let lalloc function
 ]
 [[ptr int8 result; store1 store2]]
 
+let lfree function
+[ptr int8 data]
+[
+]
+[[;data]]
+
 let file-name-osx global ascii /Users/clemahieu/test.txt:a00
 let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
@@ -347,8 +353,9 @@ let string-resize function
 	let copied [memcopy old-buffer new-buffer [umin size let old-size [string-size-get str]]]
 	let data [string-data-set str new-buffer; old-buffer]
 	let size-l [string-size-set str size; old-size]
+	let freed [lfree old-buffer; copied]
 ]
-[[; data size-l copied]]
+[[; data size-l freed]]
 
 let string-concatenate function
 [ptr string-type left ptr string-type right]
