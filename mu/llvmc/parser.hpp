@@ -110,7 +110,6 @@ namespace mu
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
             mu::string const & name () override;
-            mu::llvmc::availability::module * current_module;
         };
         class function_hook : public mu::llvmc::hook
         {

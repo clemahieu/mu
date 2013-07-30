@@ -96,12 +96,13 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::analyzer_node 
 {
 	for (auto k (function_a->parameters.begin ()), l (function_a->parameters.end ()); k != l && result_m.error == nullptr; ++k)
 	{
-        auto node ((*k)->type);
+		auto parameter (mu::cast <mu::llvmc::ast::parameter> (*k));
+        auto node (parameter->type);
 		auto type_l (nodes.process_type (node));
 		if (type_l != nullptr)
 		{
-			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter ((*k)->region, function_s->entry, type_l, (*k)->name));
-			module.already_generated [*k].push_back (parameter_s);
+			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (parameter->region, function_s->entry, type_l, parameter->name));
+			module.already_generated [parameter].push_back (parameter_s);
 			function_s->parameters.push_back (parameter_s);
 		}
 		else

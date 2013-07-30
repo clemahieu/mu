@@ -196,7 +196,7 @@ TEST (llvmc_analyzer, empty)
 TEST (llvmc_analyzer, fail_not_module)
 {
     mu::llvmc::analyzer analyzer;
-    mu::llvmc::ast::node node;
+    mu::llvmc::ast::unit node;
     auto result (analyzer.analyze (&node));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
