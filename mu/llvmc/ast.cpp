@@ -726,3 +726,23 @@ name (other_a.name)
 		argument = nullptr;
 	}
 }
+
+void mu::llvmc::ast::template_parameter::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+	visitor_a->template_parameter (this);
+}
+
+void mu::llvmc::ast::template_c::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+	visitor_a->template_c (this);
+}
+
+void mu::llvmc::ast::visitor::template_c (mu::llvmc::ast::template_c * node_a)
+{
+	node (node_a);
+}
+
+void mu::llvmc::ast::visitor::template_parameter (mu::llvmc::ast::template_parameter * node_a)
+{
+	node (node_a);
+}
