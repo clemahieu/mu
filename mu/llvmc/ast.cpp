@@ -696,3 +696,33 @@ mu::llvmc::ast::node * mu::llvmc::ast::unit_type::clone ()
 	auto result (new (GC) mu::llvmc::ast::unit_type (*this));
 	return result;
 }
+
+mu::llvmc::ast::template_parameter::template_parameter (mu::string const & name_a) :
+name (name_a)
+{
+}
+
+mu::llvmc::ast::template_c::template_c (mu::llvmc::ast::template_c const & other_a)
+{
+	for (auto i: other_a.parameters)
+	{
+		parameters.push_back (i->clone ());
+	}
+	for (auto i: other_a.body)
+	{
+		body.push_back (i->clone ());
+	}
+}
+
+mu::llvmc::ast::template_parameter::template_parameter (mu::llvmc::ast::template_parameter const & other_a) :
+name (other_a.name)
+{
+	if (other_a.argument != nullptr)
+	{
+		argument = other_a.argument->clone ();
+	}
+	else
+	{
+		argument = nullptr;
+	}
+}

@@ -293,6 +293,13 @@ namespace mu
             mu::core::position position;
             mu::string const * name;
         };
+		class template_hook : public mu::llvmc::hook
+		{
+		public:
+            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+            mu::string const & name () override;
+		};
         class parser
         {
         public:
@@ -305,6 +312,8 @@ namespace mu
 			mu::core::error * parse_ast_or_refer_or_right_square (T op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             template <typename T>
             mu::core::error * parse_identifier (T identifier_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
+            template <typename T, typename U>
+            mu::core::error * parse_identifier_or_right_square (T identifier_op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             template <typename T, typename U>
             mu::core::error * parse_left_or_right_square (T left_square_op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             template <typename T, typename U, typename V>
@@ -335,6 +344,7 @@ namespace mu
             mu::llvmc::constant_pointer_null constant_pointer_null;
             mu::io::stream_token & stream;
             mu::llvmc::keywords keywords;
+			mu::llvmc::template_hook template_hook;
             std::vector <mu::llvmc::parser_frame> parse_stack;
         };
         class parser_error : public mu::core::error

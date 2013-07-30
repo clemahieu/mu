@@ -61,6 +61,29 @@ mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t
 }
 
 template <typename T, typename U>
+mu::core::error * mu::llvmc::parser::parse_identifier_or_right_square (T identifier_op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a)
+{
+    mu::core::error * result;
+	auto item (stream [0]);
+	auto id (item->id ());
+	switch (id)
+	{
+		case mu::io::token_id::identifier:
+			stream.consume (1);
+			result = identifier_op (mu::cast <mu::io::identifier> (item));
+			break;
+		case mu::io::token_id::right_square:
+			stream.consume (1);
+			result = right_square_op (mu::cast <mu::io::right_square> (item));
+			break;
+		default:
+			result = new (GC) mu::core::error_string (error_message_a, error_type_a, item->region);
+			break;
+	}
+    return result;
+}
+
+template <typename T, typename U>
 mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a)
 {
     mu::core::error * result (nullptr);

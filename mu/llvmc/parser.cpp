@@ -63,6 +63,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"struct", &struct_hook);
     assert (!error);
+    error = keywords.insert (U"template", &template_hook);
+    assert (!error);
     error = keywords.insert (U"undefined", &undefined_hook);
     assert (!error);
     error = builtins.insert  (U"false", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0")));
@@ -1954,4 +1956,85 @@ mu::core::error_type mu::llvmc::parser_error::type ()
 mu::core::region mu::llvmc::parser_error::region ()
 {
     return region_m;
+}
+
+mu::llvmc::node_result mu::llvmc::template_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+	mu::llvmc::block block (parser_a.current_mapping);
+    parser_a.current_mapping = &block;
+	mu::llvmc::node_result result ({nullptr, nullptr});
+	result.error = parser_a.parse_left_square_required (U"template parser expecting parameter list", mu::core::error_type::expecting_left_square);
+	auto template_l (new (GC) mu::llvmc::ast::template_c);
+	if (result.error == nullptr)
+	{
+		auto done (false);
+		while (!done && result.error == nullptr)
+		{
+			result.error = parser_a.parse_identifier_or_right_square (
+				[&]
+				(mu::io::identifier * identifier_a) 
+				{
+					mu::core::error * result (nullptr);
+					auto node (new (GC) mu::llvmc::ast::template_parameter (identifier_a->string));
+					template_l->parameters.push_back (node);
+					auto error (parser_a.current_mapping->insert (identifier_a->string, node));
+					if (error)
+					{
+						result = new (GC) mu::core::error_string (U"Unable to use name", mu::core::error_type::unable_to_use_identifier);
+					}
+					return result;
+				}, 
+				[&] 
+				(mu::io::right_square * right_square_a) 
+				{
+					done = true;
+					return nullptr;
+				}, U"Template parser expecting parameter name or right square", mu::core::error_type::expecting_identifier_or_right_square
+			);
+		}
+		if (result.error == nullptr)
+		{
+			result.error = parser_a.parse_left_square_required (U"template parser expecting template body", mu::core::error_type::expecting_left_square);
+			auto done (false);
+			while (!done && result.error == nullptr)
+			{
+				auto position (template_l->body.size ());
+				template_l->body.push_back (nullptr);
+				result.error = parser_a.parse_ast_or_refer_or_right_square (
+					[template_l, position] 
+					(mu::llvmc::ast::node * node_a, mu::core::region const & region_a) 
+					{
+						template_l->body [position] = node_a;
+						return nullptr;
+					}, 
+					[&] 
+					(mu::io::right_square * right_square_a) 
+					{
+						done = true;
+						return nullptr;
+					}, 
+					U"Template body expecting references or right square", mu::core::error_type::expecting_argument_or_right_square
+				);
+			}
+			template_l->body.pop_back ();
+		}
+	}
+	if (result.error == nullptr)
+	{
+		result.node = template_l;
+	}
+    parser_a.current_mapping = block.parent;
+	return result;
+}
+
+bool mu::llvmc::template_hook::covering ()
+{
+	return false;
+}
+
+static mu::string template_hook_name (U"template_hook");
+
+mu::string const & mu::llvmc::template_hook::name ()
+{
+	return template_hook_name;
 }

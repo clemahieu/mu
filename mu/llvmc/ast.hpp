@@ -329,6 +329,22 @@ namespace mu
                 virtual void struct_type (mu::llvmc::ast::struct_type * node_a);
                 virtual void undefined (mu::llvmc::ast::undefined * node_a);
             };
+			class template_parameter : public mu::llvmc::ast::node
+			{
+			public:
+				template_parameter (mu::string const & name_a);
+				template_parameter (mu::llvmc::ast::template_parameter const & other_a);
+				mu::llvmc::ast::node * argument;
+				mu::string name;
+			};
+			class template_c : public mu::llvmc::ast::node
+			{
+			public:
+				template_c () = default;
+				template_c (mu::llvmc::ast::template_c const & other_a);
+				mu::vector <mu::llvmc::ast::node *> parameters;
+				mu::vector <mu::llvmc::ast::node *> body;
+			};
         }
     }
 }

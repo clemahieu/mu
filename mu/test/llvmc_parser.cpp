@@ -2001,3 +2001,44 @@ TEST (llvmc_parser, local_covering_parameter_error)
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
 }
+
+TEST (llvmc_parser, template_t)
+{
+    test_parser parser ("let test1 template [] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+	auto template1 (dynamic_cast <mu::llvmc::ast::template_c *> (set1->items [0]));
+	ASSERT_NE (nullptr, template1);
+	ASSERT_EQ (0, template1->parameters.size ());
+	ASSERT_EQ (0, template1->body.size ());
+}
+
+TEST (llvmc_parser, template_parameter)
+{
+    test_parser parser ("let test1 template [thing] [thing]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+	auto template1 (dynamic_cast <mu::llvmc::ast::template_c *> (set1->items [0]));
+	ASSERT_NE (nullptr, template1);
+	ASSERT_EQ (1, template1->parameters.size ());
+	ASSERT_EQ (1, template1->body.size ());
+	ASSERT_EQ (template1->parameters [0], template1->body [0]);
+}
