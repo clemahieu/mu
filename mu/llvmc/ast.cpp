@@ -739,3 +739,15 @@ void mu::llvmc::ast::visitor::template_parameter (mu::llvmc::ast::template_param
 {
 	node (node_a);
 }
+
+mu::llvmc::ast::node * mu::llvmc::ast::template_parameter::clone ()
+{
+	auto result (new (GC) mu::llvmc::ast::template_parameter (*this));
+	return result;
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::template_c::clone ()
+{
+	auto result (new (GC) mu::llvmc::ast::template_c (*this));
+	return result;
+}

@@ -304,6 +304,7 @@ namespace mu
 			public:
 				template_parameter (mu::string const & name_a);
 				template_parameter (mu::llvmc::ast::template_parameter const & other_a);
+				mu::llvmc::ast::node * clone () override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
 				size_t argument;
 				mu::string name;
@@ -313,6 +314,7 @@ namespace mu
 			public:
 				template_c () = default;
 				template_c (mu::llvmc::ast::template_c const & other_a);
+				mu::llvmc::ast::node * clone () override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
 				mu::vector <mu::llvmc::ast::node *> parameters;
 				mu::vector <mu::llvmc::ast::node *> body;
