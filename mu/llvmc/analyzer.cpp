@@ -735,7 +735,9 @@ void mu::llvmc::process_node::undefined (mu::llvmc::ast::undefined * node_a)
 
 void mu::llvmc::process_node::template_c (mu::llvmc::ast::template_c * node_a)
 {
-	analyzer.module.already_generated [node_a].push_back (new (GC) mu::llvmc::skeleton::template_c);
+	auto node (new (GC) mu::llvmc::skeleton::template_c);
+	node->body = node_a->body;
+	analyzer.module.already_generated [node_a].push_back (node);
 }
 
 namespace mu

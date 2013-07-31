@@ -3547,3 +3547,30 @@ TEST (llvmc_analyzer, struct_type)
     ASSERT_EQ (undefined2->branch, result.module->global);
     ASSERT_EQ (8, type4->bits);
 }
+
+TEST (llvmc_analyzer, empty_template)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    function.region = mu::core::region (2, 2, 2, 3, 3, 3);
+	mu::llvmc::ast::template_c template_l;
+	mu::llvmc::ast::template_parameter parameter1 (U"parameter1");
+	parameter1.argument = 0;
+	template_l.parameters.push_back (&parameter1);
+	template_l.body.push_back (&parameter1);
+	mu::llvmc::ast::definite_expression expression1;
+	expression1.arguments.push_back (&template_l);
+	expression1.arguments.push_back (&function);
+	expression1.set_predicate_position ();
+	module.globals [U"0"] = &expression1;
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [U"0"]));
+    ASSERT_NE (nullptr, function1);
+    EXPECT_EQ (0, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+	ASSERT_EQ (function.region, function1->region);
+}
