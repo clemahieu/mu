@@ -305,7 +305,7 @@ namespace mu
 				template_parameter (mu::string const & name_a);
 				template_parameter (mu::llvmc::ast::template_parameter const & other_a);
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
-				mu::llvmc::ast::node * argument;
+				size_t argument;
 				mu::string name;
 			};
 			class template_c : public mu::llvmc::ast::node

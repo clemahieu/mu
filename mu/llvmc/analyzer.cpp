@@ -112,606 +112,671 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::analyzer_node 
 	}
 }
 
+mu::llvmc::process_node::process_node (mu::llvmc::analyzer_node & analyzer_a) :
+analyzer (analyzer_a)
+{                
+}
+
+void mu::llvmc::process_node::node (mu::llvmc::ast::node * node_a)
+{
+	analyzer.error = new (GC) mu::core::error_string (U"Unexpected node type", mu::core::error_type::unexpected_node_type, node_a->region);
+}
+
+void mu::llvmc::process_node::value (mu::llvmc::ast::value * value_node)
+{
+	auto value (dynamic_cast <mu::llvmc::skeleton::value *> (value_node->node_m));
+	if (value != nullptr)
+	{
+		assert (value->branch == nullptr);
+		value->branch = analyzer.module.module->global;
+	}
+	analyzer.module.already_generated [value_node].push_back (value_node->node_m);
+}
+
+void mu::llvmc::process_node::integer_type (mu::llvmc::ast::integer_type * type_a)
+{
+	try
+	{
+		std::string data_l (type_a->bits.begin (), type_a->bits.end ());
+		unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
+		if (bits <= 1024)
+		{
+			analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::integer_type (bits));
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, type_a->region);
+		}
+	}
+	catch (boost::bad_lexical_cast)
+	{
+		analyzer.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
+	}
+}
+
+void mu::llvmc::process_node::element (mu::llvmc::ast::element * element_a)
+{
+	analyzer.process_node (element_a->node);
+	if (analyzer.error == nullptr)
+	{
+		auto existing (analyzer.module.already_generated.find (element_a->node));
+		if (existing->second.size () > element_a->index)
+		{
+			auto node (existing->second [element_a->index]);
+			auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
+			if (value != nullptr)
+			{
+				analyzer.module.already_generated [element_a].push_back (new (GC) mu::llvmc::skeleton::named (element_a->region, value, element_a->name));
+			}
+			else
+			{
+				analyzer.module.already_generated [element_a].push_back (node);
+			}
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index, element_a->region);
+		}
+	}
+}
+
+void mu::llvmc::process_node::unit (mu::llvmc::ast::unit * node_a)
+{
+	analyzer.module.already_generated [node_a].push_back (&analyzer.module.module->the_unit_value);
+}
+
+void mu::llvmc::process_node::constant_int (mu::llvmc::ast::constant_int * constant_a)
+{
+	try
+	{
+		std::string data_l (constant_a->bits.begin (), constant_a->bits.end ());
+		unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
+		if (bits <= 1024)
+		{
+			auto number (dynamic_cast<mu::llvmc::ast::number *> (constant_a->number));
+			if (number != nullptr)
+			{
+				auto number_l (analyzer.process_number (number));
+				if (number_l != nullptr)
+				{
+					analyzer.module.already_generated [constant_a].push_back (new (GC) mu::llvmc::skeleton::constant_integer (constant_a->region, analyzer.module.module->global, bits, number_l->value));
+				}
+			}
+			else
+			{
+				analyzer.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number, constant_a->number->region);
+			}
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, constant_a->region);
+		}
+	}
+	catch (boost::bad_lexical_cast)
+	{
+		analyzer.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, constant_a->region);
+	}
+}
+
+void mu::llvmc::process_node::pointer_type (mu::llvmc::ast::pointer_type * type_a)
+{
+	auto pointed_type (analyzer.process_type (type_a->pointed_type));
+	if (pointed_type != nullptr)
+	{
+		analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::pointer_type (pointed_type));
+	}
+}
+
+void mu::llvmc::process_node::asm_c (mu::llvmc::ast::asm_c * asm_l)
+{
+	auto type (analyzer.process_type (asm_l->type));
+	if (type != nullptr)
+	{
+		analyzer.module.already_generated [asm_l].push_back (new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints));
+	}
+	else
+	{
+		analyzer.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
+	}
+}
+
+void mu::llvmc::process_node::number (mu::llvmc::ast::number * node_a)
+{
+	analyzer.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
+}
+
+void mu::llvmc::process_node::array_type (mu::llvmc::ast::array_type * type_a)
+{
+	auto element (analyzer.process_type (type_a->element_type));
+	if (element != nullptr)
+	{
+		auto number (dynamic_cast <mu::llvmc::ast::number *> (type_a->size));
+		if (number != nullptr)
+		{
+			auto number_l (analyzer.process_number (number));
+			if (number_l != nullptr)
+			{
+				analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::array_type (element, number_l->value));
+			}
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
+		}
+	}
+}
+
+void mu::llvmc::process_node::constant_array (mu::llvmc::ast::constant_array * array_a)
+{
+	auto type (analyzer.process_type (array_a->type));
+	if (type != nullptr)
+	{
+		mu::vector <mu::llvmc::skeleton::constant *> initializer;
+		for (auto i (array_a->initializer.begin ()), j (array_a->initializer.end ()); i != j && analyzer.error == nullptr; ++i)
+		{
+			analyzer.process_node (*i);
+			auto & values (analyzer.module.already_generated [*i]);
+			for (auto k (values.begin ()), l (values.end ()); k != l && analyzer.error == nullptr; ++k)
+			{
+				auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (*k));
+				if (constant != nullptr)
+				{
+					if (*type == *constant->type ())
+					{
+						initializer.push_back (constant);
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Initializer type doesn't match array element type", mu::core::error_type::initializer_type_doesnt_match, (*i)->region);
+					}
+				}
+				else
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Initializer must be a constant", mu::core::error_type::initializer_must_be_constant, (*i)->region);
+				}
+			}
+		}
+		auto array_type (new (GC) mu::llvmc::skeleton::array_type (type, initializer.size ()));
+		analyzer.module.already_generated [array_a].push_back (new (GC) mu::llvmc::skeleton::constant_array (array_a->region, analyzer.module.module->global, array_type, initializer));
+	}
+}
+
+void mu::llvmc::process_node::set_expression (mu::llvmc::ast::set_expression * set)
+{				
+	auto & values (analyzer.module.already_generated [set]);
+	for (auto i : set->items)
+	{
+		analyzer.process_node (i);
+		auto & values_l (analyzer.module.already_generated [i]);
+		values.insert (values.end (), values_l.begin (), values_l.end ());
+	}
+}
+
+void mu::llvmc::process_node::global_variable (mu::llvmc::ast::global_variable * global_variable)
+{
+	analyzer.process_node (global_variable->initializer);
+	auto & values (analyzer.module.already_generated [global_variable->initializer]);
+	if (values.size () == 1)
+	{
+		auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (values [0]));
+		if (constant != nullptr)
+		{
+			auto & targets (analyzer.module.already_generated [global_variable]);
+			assert (targets.empty ());
+			auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, analyzer.module.module->global, constant));
+			targets.push_back (skeleton);
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
+		}
+	}
+	else
+	{
+		analyzer.error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, global_variable->initializer->region);
+	}
+}
+
+void mu::llvmc::process_node::constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null)
+{
+	auto type (analyzer.process_type (constant_pointer_null->type));
+	if (type != nullptr)
+	{
+		auto pointer (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (type));
+		if (pointer != nullptr)
+		{
+			auto & values (analyzer.module.already_generated [constant_pointer_null]);
+			auto skeleton (new (GC) mu::llvmc::skeleton::constant_pointer_null (constant_pointer_null->region, analyzer.module.module->global, type));
+			values.push_back (skeleton);
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Type is not a pointer", mu::core::error_type::expecting_a_pointer_type, constant_pointer_null->type->region);
+		}
+	}
+}
+
+void mu::llvmc::process_node::unit_type (mu::llvmc::ast::unit_type * unit_type)
+{
+	auto & values (analyzer.module.already_generated [unit_type]);
+	values.push_back (&analyzer.module.module->the_unit_type);
+}
+
+void mu::llvmc::process_node::join (mu::llvmc::ast::join * node_a)
+{
+	mu::llvmc::branch_analyzer analyzer_l (analyzer.module.module->global, analyzer.error);
+	auto join (new (GC) mu::llvmc::skeleton::join_value);
+	for (auto & i: node_a->branches)
+	{
+		auto & target (join->add_branch ());
+		for (auto j: i.arguments)
+		{
+			analyzer.process_node (j);
+			if (analyzer.error == nullptr)
+			{
+				auto & values (analyzer.module.already_generated [j]);
+				for (auto k: values)
+				{
+					auto value (dynamic_cast <mu::llvmc::skeleton::value *> (k));
+					if (value != nullptr)
+					{
+						target.arguments.push_back (value);
+						analyzer_l.add_branch (value->branch, value->region);
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values, j->region);
+					}
+				}
+			}
+		}
+		for (auto j: i.predicates)
+		{
+			analyzer.process_node (j);
+			if (analyzer.error == nullptr)
+			{
+				auto & values (analyzer.module.already_generated [j]);
+				for (auto k: values)
+				{
+					auto value (dynamic_cast <mu::llvmc::skeleton::value *> (k));
+					if (value != nullptr)
+					{
+						target.predicates.push_back (value);
+						analyzer_l.add_branch (value->branch, value->region);
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values, j->region);
+					}
+				}
+			}
+		}
+		analyzer_l.new_set ();
+	}
+	if (analyzer.error == nullptr)
+	{
+		if (join->branches.size () > 1)
+		{
+			auto size (join->branches [0].arguments.size ());
+			if (size > 0)
+			{
+				mu::vector <mu::llvmc::skeleton::type *> types;
+				for (auto i: join->branches [0].arguments)
+				{
+					types.push_back (i->type ());
+				}
+				for (auto & i: join->branches)
+				{
+					if (i.arguments.size () == size)
+					{
+						size_t index (0);
+						for (auto j: i.arguments)
+						{
+							if (*j->type() != *types [index])
+							{
+								analyzer.error = new (GC) mu::core::error_string (U"Join argument types must match for each branch", mu::core::error_type::joining_types_are_different, node_a->region);
+							}
+							++index;
+						}
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Join branches must have same cardinality", mu::core::error_type::join_branches_same_cardinality, node_a->region);
+					}
+				}
+				if (analyzer.error == nullptr)
+				{
+					assert (!analyzer_l.leaves.empty ());
+					auto least_specific_branch (*analyzer_l.leaves.begin ());
+					for (auto i: analyzer_l.leaves)
+					{
+						least_specific_branch = least_specific_branch->least_specific (i);
+					}
+					assert (least_specific_branch != analyzer.module.module->global);
+					auto & elements (join->elements);
+					auto & generated (analyzer.module.already_generated [node_a]);
+					for (auto i: types)
+					{
+						auto element (new (GC) mu::llvmc::skeleton::join_element (node_a->region, least_specific_branch->parent, join, i));
+						generated.push_back (element);
+						elements.push_back (element);
+					}
+				}
+			}
+			else
+			{
+				analyzer.error = new (GC) mu::core::error_string (U"Joining branches must contain at least one value", mu::core::error_type::must_be_joining_at_least_two_values, node_a->region);
+			}
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Must be joining at least two branches", mu::core::error_type::must_be_joining_at_least_two_branches, node_a->region);
+		}
+	}
+}
+
+void mu::llvmc::process_node::function (mu::llvmc::ast::function * function_node)
+{
+	analyzer_function analyzer_l (analyzer.module);
+	analyzer_l.analyze (function_node);
+	analyzer.error = analyzer_l.result_m.error;
+}
+
+void mu::llvmc::process_node::loop (mu::llvmc::ast::loop * loop_a)
+{
+	auto loop_s (new (GC) mu::llvmc::skeleton::loop (&analyzer.module.module->the_unit_type));
+	mu::llvmc::skeleton::branch * loop_branch (analyzer.module.module->global);
+	size_t predicate_offset (~0);
+	analyzer.process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, loop_branch, predicate_offset);
+	loop_s->argument_predicate_offset = predicate_offset;
+	if (analyzer.error == nullptr)
+	{
+		if (loop_s->arguments.size () == loop_a->parameters.size ())
+		{
+			auto loop_entry_branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
+			loop_s->loop_entry_branch = loop_entry_branch;
+			auto i (loop_a->parameters.begin ());
+			auto j (loop_a->parameters.end ());
+			auto k (loop_s->arguments.begin ());
+			for (; i != j; ++i, ++k)
+			{
+				auto parameter (mu::cast <mu::llvmc::ast::loop_parameter> (*i));
+				auto argument (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
+				if (argument != nullptr)
+				{
+					auto new_parameter (new (GC) mu::llvmc::skeleton::loop_parameter (loop_a->region, loop_entry_branch, static_cast<mu::llvmc::skeleton::value *> (*k)->type (), parameter->name));
+					loop_s->parameters.push_back (new_parameter);
+					analyzer.module.already_generated [parameter].push_back (new_parameter);
+				}
+				else
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
+				}
+			}
+			auto branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
+			auto empty (true);
+			auto feedback_branch (true);
+			mu::llvmc::branch_analyzer branches (analyzer.module.module->global, analyzer.error);
+			loop_a->for_each_results (
+									  [&]
+									  (mu::llvmc::ast::node * expression_a, size_t index_a)
+									  {
+										  analyzer.process_node (expression_a);
+										  if (analyzer.error == nullptr)
+										  {
+											  assert (analyzer.module.already_generated.find (expression_a) != analyzer.module.already_generated.end ());
+											  for (auto i : analyzer.module.already_generated [expression_a])
+											  {
+												  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
+												  if (value != nullptr)
+												  {
+													  branches.add_branch (value->branch, expression_a->region);
+													  loop_s->results.push_back (value);
+													  auto element (new (GC) mu::llvmc::skeleton::loop_element (expression_a->region, branch, loop_s, value->type ()));
+													  loop_s->elements.push_back (element);
+												  }
+												  else
+												  {
+													  analyzer.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+												  }
+											  }
+										  }
+										  empty = false;
+									  },
+									  [&]
+									  (mu::llvmc::ast::node * expression_a, size_t)
+									  {
+										  analyzer.process_node (expression_a);
+										  if (analyzer.error == nullptr)
+										  {
+											  assert (analyzer.module.already_generated.find (expression_a) != analyzer.module.already_generated.end ());
+											  for (auto i : analyzer.module.already_generated [expression_a])
+											  {
+												  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
+												  if (value != nullptr)
+												  {
+													  branches.add_branch (value->branch, expression_a->region);
+													  loop_s->results.push_back (value);
+												  }
+												  else
+												  {
+													  analyzer.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+												  }
+											  }
+										  }
+									  },
+									  [&]
+									  (mu::llvmc::ast::node * node_a, size_t index_a)
+									  {
+										  loop_s->predicate_offsets.push_back (loop_s->results.size ());
+										  if (empty)
+										  {
+											  auto element (new (GC) mu::llvmc::skeleton::loop_element (node_a->region, branch, loop_s, &analyzer.module.module->the_unit_type));
+											  loop_s->elements.push_back (element);
+										  }
+									  },
+									  [&]
+									  (mu::llvmc::ast::node * node_a, size_t)
+									  {
+										  branches.new_set ();
+										  loop_s->branch_ends.push_back (loop_s->results.size ());
+										  branch = new (GC) mu::llvmc::skeleton::branch (loop_branch);
+										  feedback_branch = false;
+										  empty = true;
+									  },
+									  [&]
+									  ()
+									  {
+										  return analyzer.error == nullptr;
+									  }
+									  );
+			assert (analyzer.error != nullptr || loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
+			switch (loop_s->elements.size ())
+			{
+				case 0:
+				{
+					analyzer.module.already_generated [loop_a].push_back (new (GC) mu::llvmc::skeleton::loop_element (loop_a->region, branch, loop_s, &analyzer.module.module->the_unit_type));
+					break;
+				}
+				case 1:
+				{
+					analyzer.module.already_generated [loop_a].push_back (loop_s->elements [0]);
+					break;
+				}
+				default:
+				{
+					auto & target (analyzer.module.already_generated [loop_a]);
+					target.insert (target.end (), loop_s->elements.begin (), loop_s->elements.end ());
+				}
+			}
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
+		}
+	}
+}
+
+void mu::llvmc::process_node::definite_expression (mu::llvmc::ast::definite_expression * expression_a)
+{
+	auto existing (analyzer.module.current_expression_generation.find (expression_a));
+	if (existing == analyzer.module.current_expression_generation.end ())
+	{
+		analyzer.module.current_expression_generation.insert (expression_a);
+		if (!expression_a->arguments.empty ())
+		{
+			analyzer.process_node (expression_a->arguments [0]);
+			if (analyzer.error == nullptr)
+			{
+				mu::llvmc::skeleton::node * target;
+				auto & generated = analyzer.module.already_generated [expression_a->arguments [0]];
+				if (!generated.empty ())
+				{
+					target = generated [0];
+				}
+				else
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target, expression_a->arguments [0]->region);
+				}
+				if (analyzer.error == nullptr)
+				{
+					auto value (dynamic_cast <mu::llvmc::skeleton::value *> (target));
+					if (value != nullptr)
+					{
+						analyzer.process_value_call (expression_a);
+					}
+					else
+					{
+						auto marker (dynamic_cast <mu::llvmc::skeleton::marker *> (target));
+						if (marker != nullptr)
+						{
+							analyzer.process_marker (expression_a);
+						}
+						else
+						{
+							auto asm_l (dynamic_cast <mu::llvmc::skeleton::asm_c *> (target));
+							if (asm_l != nullptr)
+							{
+								analyzer.process_asm (expression_a);
+							}
+							else
+							{
+								auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
+								if (identity != nullptr)
+								{
+									analyzer.process_identity (expression_a);
+								}
+								else
+								{
+									auto template_l (dynamic_cast <mu::llvmc::skeleton::template_c *> (target));
+									if (template_l != nullptr)
+									{
+										process_template (expression_a);
+									}
+									else
+									{
+										analyzer.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target, expression_a->region);
+		}
+	}
+	else
+	{
+		analyzer.error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions, expression_a->region);
+	}
+	analyzer.module.current_expression_generation.erase (expression_a);
+	assert (analyzer.module.current_expression_generation.find (expression_a) == analyzer.module.current_expression_generation.end ());
+	assert (analyzer.error != nullptr || (analyzer.module.already_generated.find (expression_a) != analyzer.module.already_generated.end ()));
+}
+
+void mu::llvmc::process_node::struct_type (mu::llvmc::ast::struct_type * node_a)
+{
+	auto struct_l (new (GC) mu::llvmc::skeleton::struct_type);
+	for (auto i: node_a->elements)
+	{
+		auto type (analyzer.process_type (i));
+		if (type != nullptr)
+		{
+			struct_l->elements.push_back (type);
+		}
+		else
+		{
+			analyzer.error = new (GC) mu::core::error_string (U"Struct type definition must list other types", mu::core::error_type::struct_must_contain_types, i->region);
+		}
+	}
+	if (analyzer.error == nullptr)
+	{
+		analyzer.module.already_generated [node_a].push_back (struct_l);
+	}
+}
+
+void mu::llvmc::process_node::undefined (mu::llvmc::ast::undefined * node_a)
+{
+	auto type (analyzer.process_type (node_a->type));
+	if (type != nullptr)
+	{
+		auto undefined_l (new (GC) mu::llvmc::skeleton::undefined (node_a->region, analyzer.module.module->global, type));
+		analyzer.module.already_generated [node_a].push_back (undefined_l);
+	}
+	else
+	{
+		analyzer.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, node_a->region);
+	}
+}
+
+void mu::llvmc::process_node::template_c (mu::llvmc::ast::template_c * node_a)
+{
+	analyzer.module.already_generated [node_a].push_back (new (GC) mu::llvmc::skeleton::template_c);
+}
+
+void mu::llvmc::process_node::process_template (mu::llvmc::ast::definite_expression * node_a)
+{
+	if (node_a->predicate_position == node_a->arguments.size ())
+	{
+		mu::vector <mu::llvmc::skeleton::node *> arguments;
+		for (auto i (node_a->arguments.begin ()), j (node_a->arguments.end ()); i != j && analyzer.error == nullptr; ++i)
+		{						
+		}
+	}
+	else
+	{
+		analyzer.error = new (GC) mu::core::error_string (U"Template instantiations cannot have predicates", mu::core::error_type::template_instantiations_cannot_have_predicates, node_a->region);
+	}
+}
+
 namespace mu
 {
     namespace llvmc
     {
-        class process_node : public mu::llvmc::ast::visitor
-        {
-        public:
-            process_node (mu::llvmc::analyzer_node & analyzer_a) :
-            analyzer (analyzer_a)
-            {                
-            }
-            void node (mu::llvmc::ast::node * node_a) override
-            {
-				analyzer.error = new (GC) mu::core::error_string (U"Unexpected node type", mu::core::error_type::unexpected_node_type, node_a->region);
-            }
-			void value (mu::llvmc::ast::value * value_node) override
-			{
-				auto value (dynamic_cast <mu::llvmc::skeleton::value *> (value_node->node_m));
-				if (value != nullptr)
-				{
-					assert (value->branch == nullptr);
-					value->branch = analyzer.module.module->global;
-				}
-				analyzer.module.already_generated [value_node].push_back (value_node->node_m);
-			}
-			void integer_type (mu::llvmc::ast::integer_type * type_a) override
-			{
-				try
-				{
-					std::string data_l (type_a->bits.begin (), type_a->bits.end ());
-					unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
-					if (bits <= 1024)
-					{
-						analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::integer_type (bits));
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, type_a->region);
-					}
-				}
-				catch (boost::bad_lexical_cast)
-				{
-					analyzer.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
-				}
-			}
-			void element (mu::llvmc::ast::element * element_a) override
-			{
-				analyzer.process_node (element_a->node);
-				if (analyzer.error == nullptr)
-				{
-					auto existing (analyzer.module.already_generated.find (element_a->node));
-					if (existing->second.size () > element_a->index)
-					{
-						auto node (existing->second [element_a->index]);
-						auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
-						if (value != nullptr)
-						{
-							analyzer.module.already_generated [element_a].push_back (new (GC) mu::llvmc::skeleton::named (element_a->region, value, element_a->name));
-						}
-						else
-						{
-							analyzer.module.already_generated [element_a].push_back (node);
-						}
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index, element_a->region);
-					}
-				}
-			}
-			void unit (mu::llvmc::ast::unit * node_a) override
-			{
-				analyzer.module.already_generated [node_a].push_back (&analyzer.module.module->the_unit_value);
-			}
-			void constant_int (mu::llvmc::ast::constant_int * constant_a) override
-			{
-				try
-				{
-					std::string data_l (constant_a->bits.begin (), constant_a->bits.end ());
-					unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
-					if (bits <= 1024)
-					{
-						auto number (dynamic_cast<mu::llvmc::ast::number *> (constant_a->number));
-						if (number != nullptr)
-						{
-							auto number_l (analyzer.process_number (number));
-							if (number_l != nullptr)
-							{
-								analyzer.module.already_generated [constant_a].push_back (new (GC) mu::llvmc::skeleton::constant_integer (constant_a->region, analyzer.module.module->global, bits, number_l->value));
-							}
-						}
-						else
-						{
-							analyzer.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number, constant_a->number->region);
-						}
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, constant_a->region);
-					}
-				}
-				catch (boost::bad_lexical_cast)
-				{
-					analyzer.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, constant_a->region);
-				}
-			}
-			void pointer_type (mu::llvmc::ast::pointer_type * type_a) override
-			{
-				auto pointed_type (analyzer.process_type (type_a->pointed_type));
-				if (pointed_type != nullptr)
-				{
-					analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::pointer_type (pointed_type));
-				}
-			}
-			void asm_c (mu::llvmc::ast::asm_c * asm_l) override
-			{
-				auto type (analyzer.process_type (asm_l->type));
-				if (type != nullptr)
-				{
-					analyzer.module.already_generated [asm_l].push_back (new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints));
-				}
-				else
-				{
-					analyzer.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
-				}
-			}
-			void number (mu::llvmc::ast::number * node_a) override
-			{
-				analyzer.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
-			}
-			void array_type (mu::llvmc::ast::array_type * type_a) override
-			{
-				auto element (analyzer.process_type (type_a->element_type));
-				if (element != nullptr)
-				{
-					auto number (dynamic_cast <mu::llvmc::ast::number *> (type_a->size));
-					if (number != nullptr)
-					{
-						auto number_l (analyzer.process_number (number));
-						if (number_l != nullptr)
-						{
-							analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::array_type (element, number_l->value));
-						}
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
-					}
-				}
-			}
-			void constant_array (mu::llvmc::ast::constant_array * array_a) override
-			{
-				auto type (analyzer.process_type (array_a->type));
-				if (type != nullptr)
-				{
-					mu::vector <mu::llvmc::skeleton::constant *> initializer;
-					for (auto i (array_a->initializer.begin ()), j (array_a->initializer.end ()); i != j && analyzer.error == nullptr; ++i)
-					{
-						analyzer.process_node (*i);
-						auto & values (analyzer.module.already_generated [*i]);
-						for (auto k (values.begin ()), l (values.end ()); k != l && analyzer.error == nullptr; ++k)
-						{
-							auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (*k));
-							if (constant != nullptr)
-							{
-								if (*type == *constant->type ())
-								{
-									initializer.push_back (constant);
-								}
-								else
-								{
-									analyzer.error = new (GC) mu::core::error_string (U"Initializer type doesn't match array element type", mu::core::error_type::initializer_type_doesnt_match, (*i)->region);
-								}
-							}
-							else
-							{
-								analyzer.error = new (GC) mu::core::error_string (U"Initializer must be a constant", mu::core::error_type::initializer_must_be_constant, (*i)->region);
-							}
-						}
-					}
-					auto array_type (new (GC) mu::llvmc::skeleton::array_type (type, initializer.size ()));
-					analyzer.module.already_generated [array_a].push_back (new (GC) mu::llvmc::skeleton::constant_array (array_a->region, analyzer.module.module->global, array_type, initializer));
-				}
-			}
-			void set_expression (mu::llvmc::ast::set_expression * set) override
+		class process_template : public mu::llvmc::ast::visitor
+		{
+		public:
+			process_template (mu::llvmc::process_node & parent_a, mu::vector <mu::vector <mu::llvmc::skeleton::node *>> & template_arguments_a) :
+			parent (parent_a),
+			template_arguments (template_arguments_a)
 			{				
-				auto & values (analyzer.module.already_generated [set]);
-				for (auto i : set->items)
-				{
-					analyzer.process_node (i);
-					auto & values_l (analyzer.module.already_generated [i]);
-					values.insert (values.end (), values_l.begin (), values_l.end ());
-				}
 			}
-			void global_variable (mu::llvmc::ast::global_variable * global_variable) override
+			void node (mu::llvmc::ast::node * node_a) override
 			{
-				analyzer.process_node (global_variable->initializer);
-				auto & values (analyzer.module.already_generated [global_variable->initializer]);
-				if (values.size () == 1)
-				{
-					auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (values [0]));
-					if (constant != nullptr)
-					{
-						auto & targets (analyzer.module.already_generated [global_variable]);
-						assert (targets.empty ());
-						auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, analyzer.module.module->global, constant));
-						targets.push_back (skeleton);
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
-					}
-				}
-				else
-				{
-					analyzer.error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, global_variable->initializer->region);
-				}
+				node_a->visit (&parent);
 			}
-			void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null) override
+			void template_parameter (mu::llvmc::ast::template_parameter * node_a) override
 			{
-				auto type (analyzer.process_type (constant_pointer_null->type));
-				if (type != nullptr)
-				{
-					auto pointer (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (type));
-					if (pointer != nullptr)
-					{
-						auto & values (analyzer.module.already_generated [constant_pointer_null]);
-						auto skeleton (new (GC) mu::llvmc::skeleton::constant_pointer_null (constant_pointer_null->region, analyzer.module.module->global, type));
-						values.push_back (skeleton);
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"Type is not a pointer", mu::core::error_type::expecting_a_pointer_type, constant_pointer_null->type->region);
-					}
-				}
+				assert (node_a->argument < template_arguments.size ());
+				parent.analyzer.module.already_generated [node_a] = template_arguments [node_a->argument];
 			}
-			void unit_type (mu::llvmc::ast::unit_type * unit_type) override
-			{
-				auto & values (analyzer.module.already_generated [unit_type]);
-				values.push_back (&analyzer.module.module->the_unit_type);
-			}
-			void join (mu::llvmc::ast::join * node_a) override
-			{
-				mu::llvmc::branch_analyzer analyzer_l (analyzer.module.module->global, analyzer.error);
-				auto join (new (GC) mu::llvmc::skeleton::join_value);
-				for (auto & i: node_a->branches)
-				{
-					auto & target (join->add_branch ());
-					for (auto j: i.arguments)
-					{
-						analyzer.process_node (j);
-						if (analyzer.error == nullptr)
-						{
-							auto & values (analyzer.module.already_generated [j]);
-							for (auto k: values)
-							{
-								auto value (dynamic_cast <mu::llvmc::skeleton::value *> (k));
-								if (value != nullptr)
-								{
-									target.arguments.push_back (value);
-									analyzer_l.add_branch (value->branch, value->region);
-								}
-								else
-								{
-									analyzer.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values, j->region);
-								}
-							}
-						}
-					}
-					for (auto j: i.predicates)
-					{
-						analyzer.process_node (j);
-						if (analyzer.error == nullptr)
-						{
-							auto & values (analyzer.module.already_generated [j]);
-							for (auto k: values)
-							{
-								auto value (dynamic_cast <mu::llvmc::skeleton::value *> (k));
-								if (value != nullptr)
-								{
-									target.predicates.push_back (value);
-									analyzer_l.add_branch (value->branch, value->region);
-								}
-								else
-								{
-									analyzer.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values, j->region);
-								}
-							}
-						}
-					}
-					analyzer_l.new_set ();
-				}
-				if (analyzer.error == nullptr)
-				{
-					if (join->branches.size () > 1)
-					{
-						auto size (join->branches [0].arguments.size ());
-						if (size > 0)
-						{
-							mu::vector <mu::llvmc::skeleton::type *> types;
-							for (auto i: join->branches [0].arguments)
-							{
-								types.push_back (i->type ());
-							}
-							for (auto & i: join->branches)
-							{
-								if (i.arguments.size () == size)
-								{
-									size_t index (0);
-									for (auto j: i.arguments)
-									{
-										if (*j->type() != *types [index])
-										{
-											analyzer.error = new (GC) mu::core::error_string (U"Join argument types must match for each branch", mu::core::error_type::joining_types_are_different, node_a->region);
-										}
-										++index;
-									}
-								}
-								else
-								{
-									analyzer.error = new (GC) mu::core::error_string (U"Join branches must have same cardinality", mu::core::error_type::join_branches_same_cardinality, node_a->region);
-								}
-							}
-							if (analyzer.error == nullptr)
-							{
-								assert (!analyzer_l.leaves.empty ());
-								auto least_specific_branch (*analyzer_l.leaves.begin ());
-								for (auto i: analyzer_l.leaves)
-								{
-									least_specific_branch = least_specific_branch->least_specific (i);
-								}
-								assert (least_specific_branch != analyzer.module.module->global);
-								auto & elements (join->elements);
-								auto & generated (analyzer.module.already_generated [node_a]);
-								for (auto i: types)
-								{
-									auto element (new (GC) mu::llvmc::skeleton::join_element (node_a->region, least_specific_branch->parent, join, i));
-									generated.push_back (element);
-									elements.push_back (element);
-								}
-							}
-						}
-						else
-						{
-							analyzer.error = new (GC) mu::core::error_string (U"Joining branches must contain at least one value", mu::core::error_type::must_be_joining_at_least_two_values, node_a->region);
-						}
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"Must be joining at least two branches", mu::core::error_type::must_be_joining_at_least_two_branches, node_a->region);
-					}
-				}
-			}
-			void function (mu::llvmc::ast::function * function_node) override
-			{
-				analyzer_function analyzer_l (analyzer.module);
-				analyzer_l.analyze (function_node);
-				analyzer.error = analyzer_l.result_m.error;
-			}
-			void loop (mu::llvmc::ast::loop * loop_a) override
-			{
-				auto loop_s (new (GC) mu::llvmc::skeleton::loop (&analyzer.module.module->the_unit_type));
-				mu::llvmc::skeleton::branch * loop_branch (analyzer.module.module->global);
-				size_t predicate_offset (~0);
-				analyzer.process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, loop_branch, predicate_offset);
-				loop_s->argument_predicate_offset = predicate_offset;
-				if (analyzer.error == nullptr)
-				{
-					if (loop_s->arguments.size () == loop_a->parameters.size ())
-					{
-						auto loop_entry_branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
-						loop_s->loop_entry_branch = loop_entry_branch;
-						auto i (loop_a->parameters.begin ());
-						auto j (loop_a->parameters.end ());
-						auto k (loop_s->arguments.begin ());
-						for (; i != j; ++i, ++k)
-						{
-							auto parameter (mu::cast <mu::llvmc::ast::loop_parameter> (*i));
-							auto argument (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
-							if (argument != nullptr)
-							{
-								auto new_parameter (new (GC) mu::llvmc::skeleton::loop_parameter (loop_a->region, loop_entry_branch, static_cast<mu::llvmc::skeleton::value *> (*k)->type (), parameter->name));
-								loop_s->parameters.push_back (new_parameter);
-								analyzer.module.already_generated [parameter].push_back (new_parameter);
-							}
-							else
-							{
-								analyzer.error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
-							}
-						}
-						auto branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
-						auto empty (true);
-						auto feedback_branch (true);
-						mu::llvmc::branch_analyzer branches (analyzer.module.module->global, analyzer.error);
-						loop_a->for_each_results (
-												  [&]
-												  (mu::llvmc::ast::node * expression_a, size_t index_a)
-												  {
-													  analyzer.process_node (expression_a);
-													  if (analyzer.error == nullptr)
-													  {
-														  assert (analyzer.module.already_generated.find (expression_a) != analyzer.module.already_generated.end ());
-														  for (auto i : analyzer.module.already_generated [expression_a])
-														  {
-															  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
-															  if (value != nullptr)
-															  {
-																  branches.add_branch (value->branch, expression_a->region);
-																  loop_s->results.push_back (value);
-																  auto element (new (GC) mu::llvmc::skeleton::loop_element (expression_a->region, branch, loop_s, value->type ()));
-																  loop_s->elements.push_back (element);
-															  }
-															  else
-															  {
-																  analyzer.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-															  }
-														  }
-													  }
-													  empty = false;
-												  },
-												  [&]
-												  (mu::llvmc::ast::node * expression_a, size_t)
-												  {
-													  analyzer.process_node (expression_a);
-													  if (analyzer.error == nullptr)
-													  {
-														  assert (analyzer.module.already_generated.find (expression_a) != analyzer.module.already_generated.end ());
-														  for (auto i : analyzer.module.already_generated [expression_a])
-														  {
-															  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
-															  if (value != nullptr)
-															  {
-																  branches.add_branch (value->branch, expression_a->region);
-																  loop_s->results.push_back (value);
-															  }
-															  else
-															  {
-																  analyzer.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-															  }
-														  }
-													  }
-												  },
-												  [&]
-												  (mu::llvmc::ast::node * node_a, size_t index_a)
-												  {
-													  loop_s->predicate_offsets.push_back (loop_s->results.size ());
-													  if (empty)
-													  {
-														  auto element (new (GC) mu::llvmc::skeleton::loop_element (node_a->region, branch, loop_s, &analyzer.module.module->the_unit_type));
-														  loop_s->elements.push_back (element);
-													  }
-												  },
-												  [&]
-												  (mu::llvmc::ast::node * node_a, size_t)
-												  {
-													  branches.new_set ();
-													  loop_s->branch_ends.push_back (loop_s->results.size ());
-													  branch = new (GC) mu::llvmc::skeleton::branch (loop_branch);
-													  feedback_branch = false;
-													  empty = true;
-												  },
-												  [&]
-												  ()
-												  {
-													  return analyzer.error == nullptr;
-												  }
-												  );
-						assert (analyzer.error != nullptr || loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
-						switch (loop_s->elements.size ())
-						{
-							case 0:
-							{
-								analyzer.module.already_generated [loop_a].push_back (new (GC) mu::llvmc::skeleton::loop_element (loop_a->region, branch, loop_s, &analyzer.module.module->the_unit_type));
-								break;
-							}
-							case 1:
-							{
-								analyzer.module.already_generated [loop_a].push_back (loop_s->elements [0]);
-								break;
-							}
-							default:
-							{
-								auto & target (analyzer.module.already_generated [loop_a]);
-								target.insert (target.end (), loop_s->elements.begin (), loop_s->elements.end ());
-							}
-						}
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
-					}
-				}
-			}
-			void definite_expression (mu::llvmc::ast::definite_expression * expression_a) override
-			{
-				auto existing (analyzer.module.current_expression_generation.find (expression_a));
-				if (existing == analyzer.module.current_expression_generation.end ())
-				{
-					analyzer.module.current_expression_generation.insert (expression_a);
-					if (!expression_a->arguments.empty ())
-					{
-						analyzer.process_node (expression_a->arguments [0]);
-						if (analyzer.error == nullptr)
-						{
-							mu::llvmc::skeleton::node * target;
-							auto & generated = analyzer.module.already_generated [expression_a->arguments [0]];
-							if (!generated.empty ())
-							{
-								target = generated [0];
-							}
-							else
-							{
-								analyzer.error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target, expression_a->arguments [0]->region);
-							}
-							if (analyzer.error == nullptr)
-							{
-								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (target));
-								if (value != nullptr)
-								{
-									analyzer.process_value_call (expression_a);
-								}
-								else
-								{
-									auto marker (dynamic_cast<mu::llvmc::skeleton::marker *> (target));
-									if (marker != nullptr)
-									{
-										analyzer.process_marker (expression_a);
-									}
-									else
-									{
-										auto asm_l (dynamic_cast <mu::llvmc::skeleton::asm_c *> (target));
-										if (asm_l != nullptr)
-										{
-											analyzer.process_asm (expression_a);
-										}
-										else
-										{
-											auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
-											if (identity != nullptr)
-											{
-												analyzer.process_identity (expression_a);
-											}
-											else
-											{
-												analyzer.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-					else
-					{
-						analyzer.error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target, expression_a->region);
-					}
-				}
-				else
-				{
-					analyzer.error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions, expression_a->region);
-				}
-				analyzer.module.current_expression_generation.erase (expression_a);
-				assert (analyzer.module.current_expression_generation.find (expression_a) == analyzer.module.current_expression_generation.end ());
-				assert (analyzer.error != nullptr || (analyzer.module.already_generated.find (expression_a) != analyzer.module.already_generated.end ()));
-			}
-            void struct_type (mu::llvmc::ast::struct_type * node_a) override
-            {
-                auto struct_l (new (GC) mu::llvmc::skeleton::struct_type);
-                for (auto i: node_a->elements)
-                {
-                    auto type (analyzer.process_type (i));
-                    if (type != nullptr)
-                    {
-                        struct_l->elements.push_back (type);
-                    }
-                    else
-                    {
-                        analyzer.error = new (GC) mu::core::error_string (U"Struct type definition must list other types", mu::core::error_type::struct_must_contain_types, i->region);
-                    }
-                }
-				if (analyzer.error == nullptr)
-				{
-					analyzer.module.already_generated [node_a].push_back (struct_l);
-				}
-            }
-			void undefined (mu::llvmc::ast::undefined * node_a) override
-			{
-				auto type (analyzer.process_type (node_a->type));
-				if (type != nullptr)
-				{
-					auto undefined_l (new (GC) mu::llvmc::skeleton::undefined (node_a->region, analyzer.module.module->global, type));
-					analyzer.module.already_generated [node_a].push_back (undefined_l);
-				}
-				else
-				{
-					analyzer.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, node_a->region);
-				}
-			}
-            mu::llvmc::analyzer_node & analyzer;
-        };
+			mu::llvmc::process_node & parent;
+			mu::vector <mu::vector <mu::llvmc::skeleton::node *>> & template_arguments;
+		};
     }
 }
 
@@ -721,8 +786,7 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
 	auto existing (module.already_generated.find (node_a));
 	if (existing == module.already_generated.end ())
 	{
-        mu::llvmc::process_node process (*this);
-        node_a->visit (&process);
+		node_a->visit (current_context);
 	}
 	assert (error != nullptr || (module.already_generated.find (node_a) != module.already_generated.end ()));
 }
@@ -2051,6 +2115,8 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
 mu::llvmc::analyzer_node::analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a) :
 module (module_a),
 error (error_a),
-entry (entry_a)
+entry (entry_a),
+base_processor (*this),
+current_context (&base_processor)
 {
 }

@@ -715,16 +715,9 @@ mu::llvmc::ast::template_c::template_c (mu::llvmc::ast::template_c const & other
 }
 
 mu::llvmc::ast::template_parameter::template_parameter (mu::llvmc::ast::template_parameter const & other_a) :
+argument (other_a.argument),
 name (other_a.name)
 {
-	if (other_a.argument != nullptr)
-	{
-		argument = other_a.argument->clone ();
-	}
-	else
-	{
-		argument = nullptr;
-	}
 }
 
 void mu::llvmc::ast::template_parameter::visit (mu::llvmc::ast::visitor * visitor_a)

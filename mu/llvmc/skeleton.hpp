@@ -402,6 +402,10 @@ namespace mu
                 number (uint64_t value_a);
                 uint64_t value;
             };
+			class template_c : public mu::llvmc::skeleton::node
+			{
+			public:
+			};
             class asm_c : public mu::llvmc::skeleton::node
             {
             public:

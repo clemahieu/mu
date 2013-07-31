@@ -160,7 +160,8 @@ namespace mu
 			select_three_arguments,
 			expecting_one_bit_integer,
 			select_arguments_same_type,
-            expecting_a_constant
+            expecting_a_constant,
+			template_instantiations_cannot_have_predicates
         };
         class error
         {

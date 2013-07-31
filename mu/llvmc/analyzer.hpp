@@ -2,6 +2,8 @@
 
 #include <mu/core/types.hpp>
 
+#include "ast.hpp"
+
 namespace mu
 {
     namespace core
@@ -61,6 +63,36 @@ namespace mu
             mu::llvmc::skeleton::function * function;
             mu::core::error * error;
         };
+		class analyzer_node;
+        class process_node : public mu::llvmc::ast::visitor
+        {
+        public:
+            process_node (mu::llvmc::analyzer_node & analyzer_a);
+            void node (mu::llvmc::ast::node * node_a) override;
+			void value (mu::llvmc::ast::value * value_node) override;
+			void integer_type (mu::llvmc::ast::integer_type * type_a) override;
+			void element (mu::llvmc::ast::element * element_a) override;
+			void unit (mu::llvmc::ast::unit * node_a) override;
+			void constant_int (mu::llvmc::ast::constant_int * constant_a) override;
+			void pointer_type (mu::llvmc::ast::pointer_type * type_a) override;
+			void asm_c (mu::llvmc::ast::asm_c * asm_l) override;
+			void number (mu::llvmc::ast::number * node_a) override;
+			void array_type (mu::llvmc::ast::array_type * type_a) override;
+			void constant_array (mu::llvmc::ast::constant_array * array_a) override;
+			void set_expression (mu::llvmc::ast::set_expression * set) override;
+			void global_variable (mu::llvmc::ast::global_variable * global_variable) override;
+			void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null) override;
+			void unit_type (mu::llvmc::ast::unit_type * unit_type) override;
+			void join (mu::llvmc::ast::join * node_a) override;
+			void function (mu::llvmc::ast::function * function_node) override;
+			void loop (mu::llvmc::ast::loop * loop_a) override;
+			void definite_expression (mu::llvmc::ast::definite_expression * expression_a) override;
+            void struct_type (mu::llvmc::ast::struct_type * node_a) override;
+			void undefined (mu::llvmc::ast::undefined * node_a) override;
+			void template_c (mu::llvmc::ast::template_c * node_a) override;
+			void process_template (mu::llvmc::ast::definite_expression * node_a);
+            mu::llvmc::analyzer_node & analyzer;
+        };
         class analyzer_node
         {
         public:
@@ -80,6 +112,8 @@ namespace mu
             mu::llvmc::analyzer_module & module;
             mu::core::error * & error;
             mu::llvmc::skeleton::branch * entry;
+			mu::llvmc::process_node base_processor;
+			mu::llvmc::ast::visitor * current_context;
         };
         class analyzer_function
         {
