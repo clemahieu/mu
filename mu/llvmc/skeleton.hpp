@@ -405,6 +405,7 @@ namespace mu
 			class template_c : public mu::llvmc::skeleton::node
 			{
 			public:
+				mu::vector <mu::llvmc::ast::node *> body;
 			};
             class asm_c : public mu::llvmc::skeleton::node
             {

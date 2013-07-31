@@ -738,21 +738,6 @@ void mu::llvmc::process_node::template_c (mu::llvmc::ast::template_c * node_a)
 	analyzer.module.already_generated [node_a].push_back (new (GC) mu::llvmc::skeleton::template_c);
 }
 
-void mu::llvmc::process_node::process_template (mu::llvmc::ast::definite_expression * node_a)
-{
-	if (node_a->predicate_position == node_a->arguments.size ())
-	{
-		mu::vector <mu::llvmc::skeleton::node *> arguments;
-		for (auto i (node_a->arguments.begin ()), j (node_a->arguments.end ()); i != j && analyzer.error == nullptr; ++i)
-		{						
-		}
-	}
-	else
-	{
-		analyzer.error = new (GC) mu::core::error_string (U"Template instantiations cannot have predicates", mu::core::error_type::template_instantiations_cannot_have_predicates, node_a->region);
-	}
-}
-
 namespace mu
 {
     namespace llvmc
@@ -760,24 +745,61 @@ namespace mu
 		class process_template : public mu::llvmc::ast::visitor
 		{
 		public:
-			process_template (mu::llvmc::process_node & parent_a, mu::vector <mu::vector <mu::llvmc::skeleton::node *>> & template_arguments_a) :
+			process_template (mu::llvmc::ast::visitor * parent_a, mu::llvmc::analyzer_module & module_a, mu::vector <mu::llvmc::skeleton::node *> & template_arguments_a) :
 			parent (parent_a),
+			module (module_a),
 			template_arguments (template_arguments_a)
 			{				
 			}
 			void node (mu::llvmc::ast::node * node_a) override
 			{
-				node_a->visit (&parent);
+				node_a->visit (parent);
 			}
 			void template_parameter (mu::llvmc::ast::template_parameter * node_a) override
 			{
 				assert (node_a->argument < template_arguments.size ());
-				parent.analyzer.module.already_generated [node_a] = template_arguments [node_a->argument];
+				module.already_generated [node_a].push_back (template_arguments [node_a->argument]);
 			}
-			mu::llvmc::process_node & parent;
-			mu::vector <mu::vector <mu::llvmc::skeleton::node *>> & template_arguments;
+			mu::llvmc::ast::visitor * parent;
+			mu::llvmc::analyzer_module & module;
+			mu::vector <mu::llvmc::skeleton::node *> & template_arguments;
 		};
     }
+}
+
+void mu::llvmc::process_node::process_template (mu::llvmc::ast::definite_expression * node_a)
+{
+	if (node_a->predicate_position == node_a->arguments.size ())
+	{
+		mu::vector <mu::llvmc::skeleton::node *> arguments;
+		for (auto i (node_a->arguments.begin ()), j (node_a->arguments.end ()); i != j && analyzer.error == nullptr; ++i)
+		{
+			auto value (*i);
+			analyzer.process_node (value);
+			auto & nodes (analyzer.module.already_generated [value]);
+			arguments.insert (arguments.end (), nodes.begin (), nodes.end ());
+		}
+		if (analyzer.error == nullptr)
+		{
+			assert (arguments.size () > 0);
+			auto template_l (mu::cast <mu::llvmc::skeleton::template_c> (arguments [0]));
+			mu::llvmc::process_template processor (analyzer.current_context, analyzer.module, arguments);
+			analyzer.current_context = &processor;
+			auto & target (analyzer.module.already_generated [node_a]);
+			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && analyzer.error == nullptr; ++i)
+			{
+				auto value ((*i)->clone ());
+				analyzer.process_node (value);
+				auto & nodes (analyzer.module.already_generated [value]);
+				target.insert (target.end (), nodes.begin (), nodes.end ());
+			}
+			analyzer.current_context = processor.parent;
+		}
+	}
+	else
+	{
+		analyzer.error = new (GC) mu::core::error_string (U"Template instantiations cannot have predicates", mu::core::error_type::template_instantiations_cannot_have_predicates, node_a->region);
+	}
 }
 
 void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
