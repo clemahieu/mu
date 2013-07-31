@@ -2005,13 +2005,11 @@ mu::llvmc::node_result mu::llvmc::template_hook::parse (mu::core::region const &
 					(mu::llvmc::ast::node * node_a, mu::core::region const & region_a) 
 					{
 						template_l->body [position] = node_a;
-						return nullptr;
 					}, 
 					[&] 
 					(mu::io::right_square * right_square_a) 
 					{
 						done = true;
-						return nullptr;
 					}, 
 					U"Template body expecting references or right square", mu::core::error_type::expecting_argument_or_right_square
 				);
