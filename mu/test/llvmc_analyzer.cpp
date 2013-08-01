@@ -3585,6 +3585,23 @@ TEST (llvmc_analyzer, function_clone)
 	ASSERT_EQ (42, function2->predicate_offsets [0]);
 }
 
+TEST (llvmc_analyzer, function_parameter_clone)
+{
+	mu::llvmc::ast::function function1;
+	mu::llvmc::ast::integer_type type1 (U"8");
+	mu::llvmc::ast::parameter parameter1 (U"parameter1", &type1);
+	function1.parameters.push_back (&parameter1);
+	mu::llvmc::ast::result result1 (&type1);
+	result1.value = &parameter1;
+	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone ()));
+	ASSERT_NE (nullptr, function2);
+	ASSERT_EQ (1, function2->parameters.size ());
+	ASSERT_EQ (1, function2->results.size ());
+	auto result2 (dynamic_cast <mu::llvmc::ast::result *> (function2->results [0]));
+	ASSERT_NE (nullptr, result2);
+	ASSERT_EQ (function2->parameters [0], result2->value);
+}
+
 TEST (llvmc_analyzer, function_template)
 {
     mu::llvmc::analyzer analyzer;
