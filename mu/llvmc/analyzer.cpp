@@ -86,28 +86,23 @@ result_m ({nullptr, nullptr})
 {
 }
 
-mu::llvmc::analyzer_function::analyzer_function (mu::llvmc::analyzer_module & module_a) :
-result_m ({nullptr, nullptr}),
-module (module_a)
+void mu::llvmc::process_node::process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
 {
-}
-
-void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::analyzer_node & nodes, mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
-{
-	for (auto k (function_a->parameters.begin ()), l (function_a->parameters.end ()); k != l && result_m.error == nullptr; ++k)
+	for (auto k (function_a->parameters.begin ()), l (function_a->parameters.end ()); k != l && analyzer.error == nullptr; ++k)
 	{
 		auto parameter (mu::cast <mu::llvmc::ast::parameter> (*k));
         auto node (parameter->type);
-		auto type_l (nodes.process_type (node));
+		auto & id (typeid (*node));
+		auto type_l (analyzer.process_type (node));
 		if (type_l != nullptr)
 		{
 			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (parameter->region, function_s->entry, type_l, parameter->name));
-			module.already_generated [parameter].push_back (parameter_s);
+			analyzer.module.already_generated [parameter].push_back (parameter_s);
 			function_s->parameters.push_back (parameter_s);
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_type_in_parameters, node->region);
+			analyzer.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_type_in_parameters, node->region);
 		}
 	}
 }
@@ -477,9 +472,16 @@ void mu::llvmc::process_node::join (mu::llvmc::ast::join * node_a)
 
 void mu::llvmc::process_node::function (mu::llvmc::ast::function * function_node)
 {
-	analyzer_function analyzer_l (analyzer.module);
-	analyzer_l.analyze (function_node);
-	analyzer.error = analyzer_l.result_m.error;
+	assert (function_node->branch_ends.size () == function_node->predicate_offsets.size ());
+	auto function_s (new (GC) mu::llvmc::skeleton::function (function_node->region, analyzer.module.module->global));
+	analyzer.entry = function_s->entry;
+	process_parameters (function_node, function_s);
+	process_results (function_node, function_s);
+	if (analyzer.error == nullptr)
+	{
+		analyzer.module.already_generated [function_node].push_back (function_s);
+	}
+	analyzer.entry = analyzer.module.module->global;
 }
 
 void mu::llvmc::process_node::loop (mu::llvmc::ast::loop * loop_a)
@@ -926,9 +928,9 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_node::process_type (mu::llvmc::a
 	return result;
 }
 
-void mu::llvmc::analyzer_function::process_results (mu::llvmc::analyzer_node & nodes, mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
+void mu::llvmc::process_node::process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
 {
-	mu::llvmc::branch_analyzer branches (module.module->global, result_m.error);
+	mu::llvmc::branch_analyzer branches (analyzer.module.module->global, analyzer.error);
 	function_a->for_each_results (
         [&]
         (mu::llvmc::ast::node * node_a, size_t index_a)
@@ -936,10 +938,10 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::analyzer_node & n
             auto result_a (dynamic_cast <mu::llvmc::ast::result *> (node_a));
 			if (result_a != nullptr)
 			{
-				auto type (nodes.process_type (result_a->written_type));
+				auto type (analyzer.process_type (result_a->written_type));
 				if (type != nullptr)
 				{
-					auto value (nodes.process_value (result_a->value));
+					auto value (analyzer.process_value (result_a->value));
 					if (value != nullptr)
 					{
                         if (*type == *value->type ())
@@ -949,27 +951,27 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::analyzer_node & n
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, result_a->region);
+                            analyzer.error = new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, result_a->region);
                         }
 					}
 				}
 				else
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, result_a->written_type->region);
+					analyzer.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, result_a->written_type->region);
 				}
 			}
 			else
 			{
-				result_m.error = new (GC) mu::core::error_string (U"Expecting a result", mu::core::error_type::expecting_a_result, node_a->region);
+				analyzer.error = new (GC) mu::core::error_string (U"Expecting a result", mu::core::error_type::expecting_a_result, node_a->region);
 			}
         },
         [&]
         (mu::llvmc::ast::node * node_a, size_t)
         {
-            nodes.process_node (node_a);
-            if (result_m.error == nullptr)
+            analyzer.process_node (node_a);
+            if (analyzer.error == nullptr)
             {
-                for (auto i : module.already_generated [node_a])
+                for (auto i : analyzer.module.already_generated [node_a])
                 {
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
                     if (value != nullptr)
@@ -979,7 +981,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::analyzer_node & n
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value, node_a->region);
+                        analyzer.error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value, node_a->region);
                     }
                 }
             }
@@ -998,33 +1000,9 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::analyzer_node & n
         [&]
         ()
         {
-            return result_m.error == nullptr;
+            return analyzer.error == nullptr;
         }
 	);
-}
-
-mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast::node * function_a)
-{
-    auto function_l (dynamic_cast<mu::llvmc::ast::function *> (function_a));
-    if (function_l != nullptr)
-    {
-        assert (function_l->branch_ends.size () == function_l->predicate_offsets.size ());
-        auto function_s (new (GC) mu::llvmc::skeleton::function (function_a->region, module.module->global));
-        result_m.function = function_s;
-        module.already_generated [function_a].push_back (function_s);
-        mu::llvmc::analyzer_node nodes (module, result_m.error, function_s->entry);
-        process_parameters (nodes, function_l, function_s);
-        process_results (nodes, function_l, function_s);
-        if (result_m.error != nullptr)
-        {
-            result_m.function = nullptr;
-        }
-    }
-    else
-    {
-        result_m.error = new (GC) mu::core::error_string (U"Expecting a function", mu::core::error_type::expecting_a_function, function_a->region);
-    }
-	return result_m;
 }
 
 mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::node * module_a)
@@ -2139,8 +2117,8 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
 mu::llvmc::analyzer_node::analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a) :
 module (module_a),
 error (error_a),
-entry (entry_a),
 base_processor (*this),
+entry (entry_a),
 current_context (&base_processor)
 {
 }
