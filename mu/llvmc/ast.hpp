@@ -26,7 +26,8 @@ namespace mu
             {
             public:
 				node () = default;
-				node (mu::llvmc::ast::node const & other_a);
+				node (mu::llvmc::ast::node const & other_a) = delete;
+                node (mu::llvmc::ast::node const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 virtual ~node ();
 				mu::llvmc::ast::node * clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
@@ -37,7 +38,7 @@ namespace mu
             class value : public mu::llvmc::ast::node
             {
             public:
-				value (mu::llvmc::ast::value const & other_a) = default;
+				value (mu::llvmc::ast::value const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 value (mu::llvmc::skeleton::node * node_a);
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
@@ -66,7 +67,7 @@ namespace mu
             {
 			public:
 				unit () = default;
-				unit (mu::llvmc::ast::unit const & other_a) = default;
+				unit (mu::llvmc::ast::unit const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
             };
@@ -240,6 +241,7 @@ namespace mu
             class number : public mu::llvmc::ast::node
             {
             public:
+                number (mu::llvmc::ast::number const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 number (mu::string const & number_a);
@@ -305,7 +307,7 @@ namespace mu
 			{
 			public:
 				template_parameter (mu::string const & name_a);
-				template_parameter (mu::llvmc::ast::template_parameter const & other_a);
+				template_parameter (mu::llvmc::ast::template_parameter const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
 				size_t argument;

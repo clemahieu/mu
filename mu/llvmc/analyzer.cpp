@@ -791,10 +791,11 @@ void mu::llvmc::process_node::process_template (mu::llvmc::ast::definite_express
 			mu::llvmc::process_template processor (analyzer.current_context, analyzer.module, arguments);
 			analyzer.current_context = &processor;
 			auto & target (analyzer.module.already_generated [node_a]);
+            mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> generated;
 			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && analyzer.error == nullptr; ++i)
 			{
-				mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> generated;
-				auto value ((*i)->clone (generated));
+                auto orig (*i);
+				auto value (orig->clone (generated));
 				analyzer.process_node (value);
 				auto & nodes (analyzer.module.already_generated [value]);
 				target.insert (target.end (), nodes.begin (), nodes.end ());
@@ -1050,7 +1051,15 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 						}
 						else
 						{
-							result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
+                            auto template_l (dynamic_cast <mu::llvmc::skeleton::template_c *> (value));
+                            if (template_l != nullptr)
+                            {
+                                // Template float in module
+                            }
+                            else
+                            {
+                                result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
+                            }
 						}
                     }
 				}

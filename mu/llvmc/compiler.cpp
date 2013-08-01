@@ -13,6 +13,7 @@
 #include <llvm/DerivedTypes.h>
 #include <llvm/Instructions.h>
 #include <llvm/InlineAsm.h>
+#include <llvm/Analysis/Verifier.h>
 
 mu::llvmc::compiler::compiler (mu::io::stream_istream & stream_a, llvm::formatted_raw_ostream & output_a) :
 lexer (stream_a),
@@ -34,6 +35,12 @@ void mu::llvmc::compiler::compile (mu::string const & name_a, mu::string const &
             mu::llvmc::generator generator;
             llvm::LLVMContext context;
             auto module (generator.generate (context, analyze_result.module, name_a, path_a, 0));
+            std::string contents;
+            llvm::raw_string_ostream stream (contents);
+            module.module->print (stream, nullptr);
+            std::cout << contents;
+            std::string info;
+            assert (!llvm::verifyModule (*module.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
             auto entry (module.names.find (U"entry"));
             if (entry != module.names.end ())
             {
@@ -54,10 +61,6 @@ void mu::llvmc::compiler::compile (mu::string const & name_a, mu::string const &
                             llvm::PassManager pass_manager;
                             auto failed (machine->addPassesToEmitFile (pass_manager, output, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile));
                             pass_manager.run (*module.module);
-                            std::string contents;
-                            llvm::raw_string_ostream stream (contents);
-                            module.module->print (stream, nullptr);
-                            std::cout << contents;
                         }
                         else
                         {
