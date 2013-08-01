@@ -688,7 +688,7 @@ mu::llvmc::ast::node * mu::llvmc::ast::node::clone (mu::map <mu::llvmc::ast::nod
 	}
 	else
 	{
-		result = clone (generated_a);
+		result = do_clone (generated_a);
 		generated_a [this] = result;
 	}
 	return result;

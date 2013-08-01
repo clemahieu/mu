@@ -3594,6 +3594,9 @@ TEST (llvmc_analyzer, function_parameter_clone)
 	function1.parameters.push_back (&parameter1);
 	mu::llvmc::ast::result result1 (&type1);
 	result1.value = &parameter1;
+    function1.results.push_back (&result1);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.branch_ends.push_back (function1.results.size ());
 	mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> generated;
 	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (generated)));
 	ASSERT_NE (nullptr, function2);
