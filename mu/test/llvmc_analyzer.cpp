@@ -3574,3 +3574,13 @@ TEST (llvmc_analyzer, empty_template)
     EXPECT_EQ (0, function1->results.size ());
 	ASSERT_EQ (function.region, function1->region);
 }
+
+TEST (llvmc_analyzer, function_clone)
+{
+	mu::llvmc::ast::function function1;
+	function1.predicate_offsets.push_back (42);
+	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone ()));
+	ASSERT_NE (nullptr, function2);
+	ASSERT_EQ (1, function2->predicate_offsets.size ());
+	ASSERT_EQ (42, function2->predicate_offsets [0]);
+}

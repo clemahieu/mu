@@ -650,7 +650,8 @@ name (other_a.name)
 }
 
 mu::llvmc::ast::function::function (mu::llvmc::ast::function const & other_a) :
-branch_ends (other_a.branch_ends)
+branch_ends (other_a.branch_ends),
+predicate_offsets (other_a.predicate_offsets)
 {
 	for (auto i: other_a.parameters)
 	{
