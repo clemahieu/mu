@@ -3640,5 +3640,5 @@ TEST (llvmc_analyzer, function_template)
     auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [U"0"]));
     ASSERT_NE (nullptr, function1);
     EXPECT_EQ (1, function1->parameters.size ());
-    EXPECT_EQ (0, function1->results.size ());
+    EXPECT_EQ (1, function1->results.size ());
 }
