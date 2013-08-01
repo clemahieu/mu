@@ -3584,3 +3584,34 @@ TEST (llvmc_analyzer, function_clone)
 	ASSERT_EQ (1, function2->predicate_offsets.size ());
 	ASSERT_EQ (42, function2->predicate_offsets [0]);
 }
+
+TEST (llvmc_analyzer, function_template)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+	mu::llvmc::ast::template_c template_l;
+	mu::llvmc::ast::template_parameter parameter1 (U"parameter1");
+    mu::llvmc::ast::function function;
+    function.region = mu::core::region (2, 2, 2, 3, 3, 3);
+	mu::llvmc::ast::parameter parameter2;
+	parameter2.name = U"parameter2";
+	parameter2.type = &parameter1;
+	function.parameters.push_back (&parameter2);
+	parameter1.argument = 0;
+	template_l.parameters.push_back (&parameter1);
+	template_l.body.push_back (&function);
+	mu::llvmc::ast::definite_expression expression1;
+	expression1.arguments.push_back (&template_l);
+	mu::llvmc::ast::integer_type type1 (U"8");
+	expression1.arguments.push_back (&type1);
+	expression1.set_predicate_position ();
+	module.globals [U"0"] = &expression1;
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [U"0"]));
+    ASSERT_NE (nullptr, function1);
+    EXPECT_EQ (1, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+}
