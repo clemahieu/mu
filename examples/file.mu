@@ -238,6 +238,19 @@ let mmap function
 ]
 [[ptr int8 result]]
 
+let generic_add template [type]
+[
+	function
+	[type left type right]
+	[
+		let result [mul left right]
+	]
+	[[type result]]
+]
+
+let add64 [generic_add int64]
+let add32 [generic_add int32]
+
 let umax function
 [int64 left int64 right]
 [
