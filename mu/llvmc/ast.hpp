@@ -28,25 +28,27 @@ namespace mu
 				node () = default;
 				node (mu::llvmc::ast::node const & other_a);
                 virtual ~node ();
-				virtual mu::llvmc::ast::node * clone ();
+				mu::llvmc::ast::node * clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
 				mu::core::region region;
+			private:
+				virtual mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
             };
             class value : public mu::llvmc::ast::node
             {
             public:
 				value (mu::llvmc::ast::value const & other_a) = default;
                 value (mu::llvmc::skeleton::node * node_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::skeleton::node * node_m;
             };
             class result : public mu::llvmc::ast::node
             {
             public:
-				result (mu::llvmc::ast::result const & other_a);
+				result (mu::llvmc::ast::result const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 result (mu::llvmc::ast::node * written_type_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * written_type;
                 mu::llvmc::ast::node * value;
@@ -56,7 +58,7 @@ namespace mu
             public:
 				loop_parameter (mu::llvmc::ast::loop_parameter const & other_a);
 				loop_parameter (mu::string const & name_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
 				mu::string name;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
             };
@@ -65,16 +67,16 @@ namespace mu
 			public:
 				unit () = default;
 				unit (mu::llvmc::ast::unit const & other_a) = default;
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
             };
             class parameter : public mu::llvmc::ast::node
             {
             public:
 				parameter () = default;
-				parameter (mu::llvmc::ast::parameter const & other_a);
+				parameter (mu::llvmc::ast::parameter const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 parameter (mu::string const & name_a, mu::llvmc::ast::node * type_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * type;
 				mu::string name;
@@ -83,8 +85,8 @@ namespace mu
             {
             public:
                 element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a, mu::core::region const & region_a);
-				element (mu::llvmc::ast::element const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				element (mu::llvmc::ast::element const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * node;
                 size_t index;
@@ -97,8 +99,8 @@ namespace mu
             {
             public:
 				loop ();
-				loop (mu::llvmc::ast::loop const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				loop (mu::llvmc::ast::loop const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 mu::vector <mu::llvmc::ast::node *> parameters;
@@ -117,8 +119,8 @@ namespace mu
             {
             public:
                 definite_expression ();
-				definite_expression (mu::llvmc::ast::definite_expression const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				definite_expression (mu::llvmc::ast::definite_expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 void set_predicate_position ();
                 mu::vector <mu::llvmc::ast::node *> arguments;
@@ -128,8 +130,8 @@ namespace mu
             {
             public:
 				set_expression () = default;
-				set_expression (mu::llvmc::ast::set_expression const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				set_expression (mu::llvmc::ast::set_expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::vector <mu::llvmc::ast::node *> items;
             };
@@ -138,7 +140,7 @@ namespace mu
             public:
 				if_expression () = default;
 				if_expression (mu::llvmc::ast::if_expression const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * predicate;
                 mu::vector <mu::llvmc::ast::node *> true_roots;
@@ -148,8 +150,8 @@ namespace mu
             {
             public:
 				function () = default;
-				function (mu::llvmc::ast::function const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				function (mu::llvmc::ast::function const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::llvmc::ast::node *> results;
@@ -164,7 +166,7 @@ namespace mu
             public:
 				integer_type (mu::llvmc::ast::integer_type const & other_a);
                 integer_type (mu::string const & bits_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::string bits;
             };
@@ -172,9 +174,9 @@ namespace mu
             {
             public:
                 pointer_type () = default;
-				pointer_type (mu::llvmc::ast::pointer_type const & other_a);
+				pointer_type (mu::llvmc::ast::pointer_type const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 pointer_type (mu::llvmc::ast::node * pointed_type_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * pointed_type;
             };
@@ -182,9 +184,9 @@ namespace mu
             {
             public:
                 array_type () = default;
-				array_type (mu::llvmc::ast::array_type const & other_a);
+				array_type (mu::llvmc::ast::array_type const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 array_type (mu::llvmc::ast::node * element_type_a, mu::llvmc::ast::node * size_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * element_type;
                 mu::llvmc::ast::node * size;
@@ -194,24 +196,24 @@ namespace mu
             public:
 				unit_type () = default;
 				unit_type (mu::llvmc::ast::unit_type const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
             };
             class module : public mu::llvmc::ast::node
             {
             public:
                 module ();
-				module (mu::llvmc::ast::module const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				module (mu::llvmc::ast::module const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::map <mu::string, mu::llvmc::ast::node *> globals;
             };
             class constant_int : public mu::llvmc::ast::node
             {
             public:
-				constant_int (mu::llvmc::ast::constant_int const & other_a);
+				constant_int (mu::llvmc::ast::constant_int const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 constant_int (mu::string const & bits_a, mu::llvmc::ast::node * number_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::string bits;
                 mu::llvmc::ast::node * number;
@@ -220,8 +222,8 @@ namespace mu
             {
             public:
 				constant_array () = default;
-				constant_array (mu::llvmc::ast::constant_array const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				constant_array (mu::llvmc::ast::constant_array const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * type;
                 mu::vector <mu::llvmc::ast::node *> initializer;
@@ -230,15 +232,15 @@ namespace mu
             {
             public:
 				constant_pointer_null () = default;
-				constant_pointer_null (mu::llvmc::ast::constant_pointer_null const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				constant_pointer_null (mu::llvmc::ast::constant_pointer_null const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * type;
             };
             class number : public mu::llvmc::ast::node
             {
             public:
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 number (mu::string const & number_a);
                 mu::string number_m;
@@ -247,9 +249,9 @@ namespace mu
             {
             public:
                 asm_c () = default;
-				asm_c (mu::llvmc::ast::asm_c const & other_a);
+				asm_c (mu::llvmc::ast::asm_c const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 asm_c (mu::llvmc::ast::node * type_a, mu::string const & text_a, mu::string const & constraints_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * type;
                 mu::string text;
@@ -259,9 +261,9 @@ namespace mu
             {
             public:
                 global_variable () = default;
-				global_variable (mu::llvmc::ast::global_variable const & other_a);
+				global_variable (mu::llvmc::ast::global_variable const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 global_variable (mu::llvmc::ast::node * initializer_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * initializer;
             };
@@ -275,8 +277,8 @@ namespace mu
             {
             public:
 				join () = default;
-				join (mu::llvmc::ast::join const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				join (mu::llvmc::ast::join const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::vector <mu::llvmc::ast::join_branch> branches;
                 mu::llvmc::ast::join_branch & add_branch ();
@@ -285,8 +287,8 @@ namespace mu
             {
             public:
 				struct_type () = default;
-				struct_type (mu::llvmc::ast::struct_type const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				struct_type (mu::llvmc::ast::struct_type const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::vector <mu::llvmc::ast::node *> elements;
             };
@@ -294,8 +296,8 @@ namespace mu
             {
             public:
 				undefined () = default;
-				undefined (mu::llvmc::ast::undefined const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				undefined (mu::llvmc::ast::undefined const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * type;
             };
@@ -304,7 +306,7 @@ namespace mu
 			public:
 				template_parameter (mu::string const & name_a);
 				template_parameter (mu::llvmc::ast::template_parameter const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
 				size_t argument;
 				mu::string name;
@@ -313,8 +315,8 @@ namespace mu
 			{
 			public:
 				template_c () = default;
-				template_c (mu::llvmc::ast::template_c const & other_a);
-				mu::llvmc::ast::node * clone () override;
+				template_c (mu::llvmc::ast::template_c const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
 				mu::vector <mu::llvmc::ast::node *> parameters;
 				mu::vector <mu::llvmc::ast::node *> body;

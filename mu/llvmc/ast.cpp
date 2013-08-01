@@ -371,161 +371,161 @@ name (name_a)
 {
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::loop_parameter::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::loop_parameter::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::loop_parameter (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::module::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::module::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::module (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::number::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::number::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::number (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::result::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::result::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::result (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::function::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::function::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::function (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::array_type::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::array_type::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::array_type (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::struct_type::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::struct_type::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::struct_type (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::constant_int::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::constant_int::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::constant_int (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::integer_type::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::integer_type::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::integer_type (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::pointer_type::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::pointer_type::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::pointer_type (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::constant_array::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::constant_array::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::constant_array (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::set_expression::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::set_expression::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::set_expression (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::global_variable::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::global_variable::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::global_variable (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::definite_expression::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::definite_expression::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::definite_expression (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::constant_pointer_null::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::constant_pointer_null::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::constant_pointer_null (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::join::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::join::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::join (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::loop::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::loop::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::loop (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::unit::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::unit::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::unit (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::asm_c::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::asm_c::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::asm_c (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::value::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::value::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::value (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::element::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::element::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::element (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::parameter::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::parameter::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::parameter (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::undefined::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::undefined::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::undefined (*this));
 	return result;
 }
 
-mu::llvmc::ast::array_type::array_type (mu::llvmc::ast::array_type const & other_a) :
-element_type (other_a.element_type->clone ()),
-size (other_a.size->clone ())
+mu::llvmc::ast::array_type::array_type (mu::llvmc::ast::array_type const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+element_type (other_a.element_type->clone (generated_a)),
+size (other_a.size->clone (generated_a))
 {
 }
 
-mu::llvmc::ast::struct_type::struct_type (mu::llvmc::ast::struct_type const & other_a)
+mu::llvmc::ast::struct_type::struct_type (mu::llvmc::ast::struct_type const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	for (auto i: other_a.elements)
 	{
-		elements.push_back (i->clone ());
+		elements.push_back (i->clone (generated_a));
 	}
 }
 
-mu::llvmc::ast::constant_int::constant_int (mu::llvmc::ast::constant_int const & other_a) :
+mu::llvmc::ast::constant_int::constant_int (mu::llvmc::ast::constant_int const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
 bits (other_a.bits),
-number (other_a.number->clone ())
+number (other_a.number->clone (generated_a))
 {
 }
 
@@ -534,17 +534,17 @@ bits (other_a.bits)
 {
 }
 
-mu::llvmc::ast::pointer_type::pointer_type (mu::llvmc::ast::pointer_type const & other_a) :
-pointed_type (other_a.pointed_type->clone ())
+mu::llvmc::ast::pointer_type::pointer_type (mu::llvmc::ast::pointer_type const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+pointed_type (other_a.pointed_type->clone (generated_a))
 {
 }
 
-mu::llvmc::ast::constant_array::constant_array (mu::llvmc::ast::constant_array const & other_a) :
-type (other_a.type->clone ())
+mu::llvmc::ast::constant_array::constant_array (mu::llvmc::ast::constant_array const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+type (other_a.type->clone (generated_a))
 {
 	for (auto i: other_a.initializer)
 	{
-		initializer.push_back (i->clone ());
+		initializer.push_back (i->clone ( generated_a));
 	}
 }
 
@@ -553,34 +553,34 @@ name (other_a.name)
 {
 }
 
-mu::llvmc::ast::set_expression::set_expression (mu::llvmc::ast::set_expression const & other_a)
+mu::llvmc::ast::set_expression::set_expression (mu::llvmc::ast::set_expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	for (auto i: other_a.items)
 	{
-		items.push_back (i->clone ());
+		items.push_back (i->clone (generated_a));
 	}
 }
 
-mu::llvmc::ast::global_variable::global_variable (mu::llvmc::ast::global_variable const & other_a) :
-initializer (other_a.initializer->clone ())
+mu::llvmc::ast::global_variable::global_variable (mu::llvmc::ast::global_variable const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+initializer (other_a.initializer->clone (generated_a))
 {
 }
 
-mu::llvmc::ast::definite_expression::definite_expression (mu::llvmc::ast::definite_expression const & other_a) :
+mu::llvmc::ast::definite_expression::definite_expression (mu::llvmc::ast::definite_expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
 predicate_position (other_a.predicate_position)
 {
 	for (auto i: other_a.arguments)
 	{
-		arguments.push_back (i->clone ());
+		arguments.push_back (i->clone (generated_a));
 	}
 }
 
-mu::llvmc::ast::constant_pointer_null::constant_pointer_null (mu::llvmc::ast::constant_pointer_null const & other_a) :
-type (other_a.type->clone ())
+mu::llvmc::ast::constant_pointer_null::constant_pointer_null (mu::llvmc::ast::constant_pointer_null const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+type (other_a.type->clone (generated_a))
 {
 }
 
-mu::llvmc::ast::join::join (mu::llvmc::ast::join const & other_a)
+mu::llvmc::ast::join::join (mu::llvmc::ast::join const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	for (auto & i: other_a.branches)
 	{
@@ -588,97 +588,113 @@ mu::llvmc::ast::join::join (mu::llvmc::ast::join const & other_a)
 		auto & target (branches [branches.size () - 1]);
 		for (auto j: i.arguments)
 		{
-			target.arguments.push_back (j->clone ());
+			target.arguments.push_back (j->clone (generated_a));
 		}
 		for (auto j: i.predicates)
 		{
-			target.predicates.push_back (j->clone ());
+			target.predicates.push_back (j->clone (generated_a));
 		}
 	}
 }
 
-mu::llvmc::ast::loop::loop (mu::llvmc::ast::loop const & other_a) :
+mu::llvmc::ast::loop::loop (mu::llvmc::ast::loop const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
 argument_predicate_offset (other_a.argument_predicate_offset),
 predicate_offsets (other_a.predicate_offsets),
 branch_ends (other_a.branch_ends)
 {
 	for (auto i: other_a.arguments)
 	{
-		arguments.push_back (i->clone ());
+		arguments.push_back (i->clone (generated_a));
 	}
 	for (auto i: other_a.parameters)
 	{
-		parameters.push_back (i->clone ());
+		parameters.push_back (i->clone (generated_a));
 	}
 	for (auto i: other_a.roots)
 	{
-		roots.push_back (i->clone ());
+		roots.push_back (i->clone (generated_a));
 	}
 	for (auto i: other_a.results)
 	{
-		results.push_back (i->clone ());
+		results.push_back (i->clone (generated_a));
 	}
 }
 
-mu::llvmc::ast::asm_c::asm_c (mu::llvmc::ast::asm_c const & other_a) :
-type (other_a.type->clone ()),
+mu::llvmc::ast::asm_c::asm_c (mu::llvmc::ast::asm_c const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+type (other_a.type->clone (generated_a)),
 text (other_a.text),
 constraints (other_a.constraints)
 {
 }
 
-mu::llvmc::ast::module::module (mu::llvmc::ast::module const & other_a)
+mu::llvmc::ast::module::module (mu::llvmc::ast::module const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	for (auto & i: other_a.globals)
 	{
-		globals [i.first] = i.second->clone ();
+		globals [i.first] = i.second->clone (generated_a);
 	}
 }
 
-mu::llvmc::ast::result::result (mu::llvmc::ast::result const & other_a) :
-written_type (other_a.written_type->clone ()),
-value (other_a.value->clone ())
+mu::llvmc::ast::result::result (mu::llvmc::ast::result const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+written_type (other_a.written_type->clone (generated_a)),
+value (other_a.value->clone (generated_a))
 {
 }
 
-mu::llvmc::ast::element::element (mu::llvmc::ast::element const & other_a) :
-node (other_a.node->clone ()),
+mu::llvmc::ast::element::element (mu::llvmc::ast::element const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+node (other_a.node->clone (generated_a)),
 index (other_a.index),
 total (other_a.total),
 name (other_a.name)
 {
 }
 
-mu::llvmc::ast::function::function (mu::llvmc::ast::function const & other_a) :
+mu::llvmc::ast::function::function (mu::llvmc::ast::function const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
 branch_ends (other_a.branch_ends),
 predicate_offsets (other_a.predicate_offsets)
 {
 	for (auto i: other_a.parameters)
 	{
-		parameters.push_back (i->clone ());
+		parameters.push_back (i->clone (generated_a));
 	}
 	for (auto i: other_a.results)
 	{
-		results.push_back (i->clone ());
+		results.push_back (i->clone (generated_a));
 	}
 	for (auto i: other_a.roots)
 	{
-		roots.push_back (i->clone ());
+		roots.push_back (i->clone (generated_a));
 	}
 }
 
-mu::llvmc::ast::parameter::parameter (mu::llvmc::ast::parameter const & other_a) :
-type (other_a.type->clone ()),
+mu::llvmc::ast::parameter::parameter (mu::llvmc::ast::parameter const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+type (other_a.type->clone (generated_a)),
 name (other_a.name)
 {
 }
 
-mu::llvmc::ast::undefined::undefined (mu::llvmc::ast::undefined const & other_a) :
-type (other_a.type->clone ())
+mu::llvmc::ast::undefined::undefined (mu::llvmc::ast::undefined const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+type (other_a.type->clone (generated_a))
 {
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::node::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::node::clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
+{
+	mu::llvmc::ast::node * result;
+	auto existing (generated_a.find (this));
+	if (existing != generated_a.end ())
+	{
+		result = existing->second;
+	}
+	else
+	{
+		result = clone (generated_a);
+		generated_a [this] = result;
+	}
+	return result;
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::node::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::node (*this));
 	return result;
@@ -692,7 +708,7 @@ mu::llvmc::ast::unit_type::unit_type (mu::llvmc::ast::unit_type const & other_a)
 {
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::unit_type::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::unit_type::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::unit_type (*this));
 	return result;
@@ -703,15 +719,15 @@ name (name_a)
 {
 }
 
-mu::llvmc::ast::template_c::template_c (mu::llvmc::ast::template_c const & other_a)
+mu::llvmc::ast::template_c::template_c (mu::llvmc::ast::template_c const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	for (auto i: other_a.parameters)
 	{
-		parameters.push_back (i->clone ());
+		parameters.push_back (i->clone (generated_a));
 	}
 	for (auto i: other_a.body)
 	{
-		body.push_back (i->clone ());
+		body.push_back (i->clone (generated_a));
 	}
 }
 
@@ -741,13 +757,13 @@ void mu::llvmc::ast::visitor::template_parameter (mu::llvmc::ast::template_param
 	node (node_a);
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::template_parameter::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::template_parameter::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::template_parameter (*this));
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::template_c::clone ()
+mu::llvmc::ast::node * mu::llvmc::ast::template_c::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::template_c (*this));
 	return result;

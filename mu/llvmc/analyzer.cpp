@@ -792,7 +792,8 @@ void mu::llvmc::process_node::process_template (mu::llvmc::ast::definite_express
 			auto & target (analyzer.module.already_generated [node_a]);
 			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && analyzer.error == nullptr; ++i)
 			{
-				auto value ((*i)->clone ());
+				mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> generated;
+				auto value ((*i)->clone (generated));
 				analyzer.process_node (value);
 				auto & nodes (analyzer.module.already_generated [value]);
 				target.insert (target.end (), nodes.begin (), nodes.end ());
