@@ -3597,6 +3597,11 @@ TEST (llvmc_analyzer, function_template)
 	parameter2.name = U"parameter2";
 	parameter2.type = &parameter1;
 	function.parameters.push_back (&parameter2);
+	mu::llvmc::ast::result result1 (&parameter1);
+	result1.value = &parameter2;
+	function.results.push_back (&result1);
+	function.predicate_offsets.push_back (function.results.size ());
+	function.branch_ends.push_back (function.results.size ());
 	parameter1.argument = 0;
 	template_l.parameters.push_back (&parameter1);
 	template_l.body.push_back (&function);
