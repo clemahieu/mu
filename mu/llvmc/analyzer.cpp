@@ -474,6 +474,7 @@ void mu::llvmc::process_node::function (mu::llvmc::ast::function * function_node
 {
 	assert (function_node->branch_ends.size () == function_node->predicate_offsets.size ());
 	auto function_s (new (GC) mu::llvmc::skeleton::function (function_node->region, analyzer.module.module->global));
+    auto previous (analyzer.entry);
 	analyzer.entry = function_s->entry;
 	process_parameters (function_node, function_s);
 	process_results (function_node, function_s);
@@ -481,7 +482,7 @@ void mu::llvmc::process_node::function (mu::llvmc::ast::function * function_node
 	{
 		analyzer.module.already_generated [function_node].push_back (function_s);
 	}
-	analyzer.entry = analyzer.module.module->global;
+	analyzer.entry = previous;
 }
 
 void mu::llvmc::process_node::loop (mu::llvmc::ast::loop * loop_a)
