@@ -759,8 +759,8 @@ namespace mu
 			}
 			void template_parameter (mu::llvmc::ast::template_parameter * node_a) override
 			{
-				assert (node_a->argument < template_arguments.size ());
-				module.already_generated [node_a].push_back (template_arguments [node_a->argument]);
+				assert (node_a->argument + 1 < template_arguments.size ());
+				module.already_generated [node_a].push_back (template_arguments [node_a->argument + 1]);
 			}
 			mu::llvmc::ast::visitor * parent;
 			mu::llvmc::analyzer_module & module;
