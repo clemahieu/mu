@@ -2042,3 +2042,11 @@ TEST (llvmc_parser, template_parameter)
 	ASSERT_EQ (1, template1->body.size ());
 	ASSERT_EQ (template1->parameters [0], template1->body [0]);
 }
+
+TEST (llvmc_parser, template_reference_error)
+{
+    test_parser parser ("let test1 template [thing] [let test2 function [] [] [[]]] let test3 function [] [let result [test2]][[;result]]");
+    auto module1 (parser.parser.parse ());
+    ASSERT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+}
