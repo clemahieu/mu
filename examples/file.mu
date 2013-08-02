@@ -305,14 +305,11 @@ let lfree function
 let file-name-osx global ascii /Users/clemahieu/test.txt:a00
 let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
-let string-type struct [ptr int8 int64]
-
-let string-type-size function
-[]
+let sizeof template [sizeof-type]
 [
-	let result [sub [ptrtoint [getelementptr let base null ptr string-type cint32 #1] int64] [ptrtoint [getelementptr base cint32 #0] int64]]
+	[sub [ptrtoint [getelementptr let base null ptr sizeof-type cint32 #1] int64] [ptrtoint [getelementptr base cint32 #0] int64]]
 ]
-[[int64 result]]
+let string-type struct [ptr int8 int64]
 
 let string-size-set function
 [ptr string-type str int64 val]
@@ -352,7 +349,7 @@ let string-new function
 let string-new-set function
 [ptr int8 str-a int64 size-a]
 [
-	let str [bitcast [lalloc [string-type-size]] ptr string-type]
+	let str [bitcast [lalloc [sizeof string-type]] ptr string-type]
 	let data [string-data-set str str-a]
 	let size [string-size-set str size-a]
 ]
@@ -393,6 +390,43 @@ let memcopy function
 	[[[getelementptr source_l cint64 #1] [getelementptr destination_l cint64 #1]; stored][; done]]
 ]
 [[; complete]]
+
+let vector-template template [vector-template-type]
+[
+	let vector-type struct [ptr vector-template-type int64]
+	
+	let vector-data-set function
+	[ptr vector-type vector ptr vector-template-type data-a]
+	[
+		let result [store [getelementptr vector #0 #0] data-a]
+	]
+	[[; result]]
+	
+	let vector-size-set function
+	[ptr vector-type vector int64 size-a]
+	[
+		let result [store [getelementptr vector #0 #1] size-a]
+	]
+	[[; result]]
+	
+	let vector-new-set function
+	[ptr vector-template-type data-a int64 size-a]
+	[
+		let result [lalloc [sizeof vector-type]]
+		let data [vector-data-set result data-a]
+		let size [vector-size-set result size-a]
+	]
+	[[ptr vector-template-type result; data size]]
+	
+	let vector-new function
+	[]
+	[
+		let result [vector-new-set null ptr vector-type cint64 #0]
+	]
+	[[ptr vector-type result]]
+]
+
+[vector-template int64]
 
 let entry function
 []
