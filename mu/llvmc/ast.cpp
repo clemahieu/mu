@@ -700,7 +700,8 @@ mu::llvmc::ast::node * mu::llvmc::ast::node::do_clone (mu::map <mu::llvmc::ast::
 	return result;
 }
 
-mu::llvmc::ast::node::node (mu::llvmc::ast::node const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
+mu::llvmc::ast::node::node (mu::llvmc::ast::node const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+region (other_a.region)
 {
 }
 
@@ -778,6 +779,7 @@ mu::llvmc::ast::unit::unit (mu::llvmc::ast::unit const & other_a, mu::map <mu::l
 {
 }
 
-mu::llvmc::ast::value::value (mu::llvmc::ast::value const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
+mu::llvmc::ast::value::value (mu::llvmc::ast::value const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+node_m (other_a.node_m)
 {
 }

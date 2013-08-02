@@ -636,6 +636,7 @@ void mu::llvmc::process_node::definite_expression (mu::llvmc::ast::definite_expr
 				if (!generated.empty ())
 				{
 					target = generated [0];
+                    assert (target != nullptr);
 				}
 				else
 				{
