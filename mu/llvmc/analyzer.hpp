@@ -64,11 +64,22 @@ namespace mu
             mu::llvmc::skeleton::function * function;
             mu::core::error * error;
         };
-		class analyzer_node;
-        class process_node : public mu::llvmc::ast::visitor
+        class analyzer_node : public mu::llvmc::ast::visitor
         {
         public:
-            process_node (mu::llvmc::analyzer_node & analyzer_a);
+            analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
+            void process_node (mu::llvmc::ast::node * node_a);
+            void process_value_call (mu::llvmc::ast::definite_expression * expression_a);
+            void process_marker (mu::llvmc::ast::definite_expression * expression_a);
+            void process_asm (mu::llvmc::ast::definite_expression * expression_a);
+            void process_identity (mu::llvmc::ast::definite_expression * expression_a);
+            void process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
+			void process_binary_integer_instruction (mu::llvmc::ast::definite_expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch);
+            mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
+            mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
+            mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
+            void process_definite_expression (mu::llvmc::ast::definite_expression * node_a);
+            void process_single_node (mu::llvmc::ast::node * node_a);
             void node (mu::llvmc::ast::node * node_a) override;
 			void value (mu::llvmc::ast::value * value_node) override;
 			void integer_type (mu::llvmc::ast::integer_type * type_a) override;
@@ -94,27 +105,8 @@ namespace mu
 			void process_template (mu::llvmc::ast::definite_expression * node_a);
             void process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
-            mu::llvmc::analyzer_node & analyzer;
-        };
-        class analyzer_node
-        {
-        public:
-            analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
-            void process_node (mu::llvmc::ast::node * node_a);
-            void process_value_call (mu::llvmc::ast::definite_expression * expression_a);
-            void process_marker (mu::llvmc::ast::definite_expression * expression_a);
-            void process_asm (mu::llvmc::ast::definite_expression * expression_a);
-            void process_identity (mu::llvmc::ast::definite_expression * expression_a);
-            void process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
-			void process_binary_integer_instruction (mu::llvmc::ast::definite_expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch);
-            mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
-            mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
-            mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
-            void process_definite_expression (mu::llvmc::ast::definite_expression * node_a);
-            void process_single_node (mu::llvmc::ast::node * node_a);
             mu::llvmc::analyzer_module & module;
             mu::core::error * & error;
-			mu::llvmc::process_node base_processor;
             mu::llvmc::skeleton::branch * entry;
 			mu::llvmc::ast::visitor * current_context;
         };
