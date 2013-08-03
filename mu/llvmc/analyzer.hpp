@@ -54,7 +54,6 @@ namespace mu
             module_result analyze (mu::llvmc::ast::node * module_a);
 			void process_module_node (mu::string const & name_a, mu::llvmc::skeleton::node * node_a);
             mu::set <mu::llvmc::ast::node *> current_expression_generation;
-            mu::map <mu::llvmc::ast::node *, mu::vector <mu::llvmc::skeleton::node *>> already_generated;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::module_result result_m;
         };

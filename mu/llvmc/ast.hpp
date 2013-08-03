@@ -25,13 +25,15 @@ namespace mu
             class node
             {
             public:
-				node () = default;
+				node ();
 				node (mu::llvmc::ast::node const & other_a) = delete;
                 node (mu::llvmc::ast::node const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 virtual ~node ();
 				mu::llvmc::ast::node * clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
 				mu::core::region region;
+				mu::vector <mu::llvmc::skeleton::node *> generated;
+				bool assigned;
 			private:
 				virtual mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
             };

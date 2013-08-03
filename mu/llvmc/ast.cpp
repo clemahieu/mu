@@ -8,6 +8,11 @@ mu::llvmc::ast::module::module ()
 {
 }
 
+mu::llvmc::ast::node::node () :
+assigned (false)
+{
+}
+
 mu::llvmc::ast::node::~node ()
 {
 }
