@@ -407,6 +407,7 @@ namespace mu
 			{
 			public:
 				mu::vector <mu::llvmc::ast::node *> body;
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 			};
             class asm_c : public mu::llvmc::skeleton::node
             {
@@ -497,6 +498,7 @@ namespace mu
                 virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
                 virtual void store (mu::llvmc::skeleton::store * node_a);
 				virtual void undefined (mu::llvmc::skeleton::undefined * node_a);
+                virtual void template_c (mu::llvmc::skeleton::template_c * node_a);
             };
         }
     }

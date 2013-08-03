@@ -1202,6 +1202,16 @@ void mu::llvmc::skeleton::visitor::undefined (mu::llvmc::skeleton::undefined * n
 	value (node_a);
 }
 
+void mu::llvmc::skeleton::template_c::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->template_c (this);
+}
+
+void mu::llvmc::skeleton::visitor::template_c (mu::llvmc::skeleton::template_c * node_a)
+{
+    node (node_a);
+}
+
 mu::llvmc::skeleton::undefined::undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
 value (region_a, branch_a),
 type_m (type_a)
