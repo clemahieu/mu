@@ -783,3 +783,15 @@ mu::llvmc::ast::value::value (mu::llvmc::ast::value const & other_a, mu::map <mu
 node_m (other_a.node_m)
 {
 }
+
+void mu::llvmc::ast::module::dump ()
+{
+	for (auto & i: globals)
+	{
+		std::string name (i.first.begin (), i.first.end ());
+		std::cerr << name << " ";
+		char address [64];
+		sprintf (address, "%p", i.second);
+		std::cerr << address << std::endl;
+	}
+}

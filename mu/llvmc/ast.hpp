@@ -208,6 +208,7 @@ namespace mu
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::map <mu::string, mu::llvmc::ast::node *> globals;
+				void dump ();
             };
             class constant_int : public mu::llvmc::ast::node
             {

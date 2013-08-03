@@ -1032,37 +1032,7 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 				for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
 				{
                     auto value (*k);
-                    auto named (dynamic_cast <mu::llvmc::skeleton::named *> (value));
-                    while (named != nullptr)
-                    {
-                        value = named->value_m;
-                        named = dynamic_cast <mu::llvmc::skeleton::named *> (value);
-                    }
-                    auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (value));
-                    if (constant != nullptr)
-                    {
-						module->globals [i->first] = constant;
-                    }
-                    else
-                    {
-						auto type (dynamic_cast <mu::llvmc::skeleton::type *> (value));
-						if (type != nullptr)
-						{
-							// Types are already generated in to the module
-						}
-						else
-						{
-                            auto template_l (dynamic_cast <mu::llvmc::skeleton::template_c *> (value));
-                            if (template_l != nullptr)
-                            {
-                                // Template float in module
-                            }
-                            else
-                            {
-                                result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
-                            }
-						}
-                    }
+					process_module_node (i->first, value);
 				}
             }
 		}
@@ -1076,6 +1046,43 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 		result_m.error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module, module_a->region);
 	}
 	return result_m;
+}
+
+void mu::llvmc::analyzer_module::process_module_node (mu::string const & name_a, mu::llvmc::skeleton::node * value)
+{
+	auto named (dynamic_cast <mu::llvmc::skeleton::named *> (value));
+	while (named != nullptr)
+	{
+		value = named->value_m;
+		named = dynamic_cast <mu::llvmc::skeleton::named *> (value);
+	}
+	auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (value));
+	if (constant != nullptr)
+	{
+		std::string message (name_a.begin (), name_a.end ());
+		std::cout << message << std::endl;
+		module->globals [name_a] = constant;
+	}
+	else
+	{
+		auto type (dynamic_cast <mu::llvmc::skeleton::type *> (value));
+		if (type != nullptr)
+		{
+			// Types are already generated in to the module
+		}
+		else
+		{
+			auto template_l (dynamic_cast <mu::llvmc::skeleton::template_c *> (value));
+			if (template_l != nullptr)
+			{
+				// Template float in module
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
+			}
+		}
+	}
 }
 
 void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expression * expression_a)

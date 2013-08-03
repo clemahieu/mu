@@ -1207,3 +1207,15 @@ value (region_a, branch_a),
 type_m (type_a)
 {
 }
+
+void mu::llvmc::skeleton::module::dump ()
+{
+	for (auto & i: globals)
+	{
+		std::string name (i.first.begin (), i.first.end ());
+		std::cerr << name << " ";
+		char address [64];
+		sprintf (address, "%p", i.second);
+		std::cerr << address << std::endl;
+	}
+}

@@ -398,21 +398,21 @@ let vector-template template [vector-template-type]
 	let vector-data-set function
 	[ptr vector-type vector ptr vector-template-type data-a]
 	[
-		let result [store [getelementptr vector #0 #0] data-a]
+		let result [store data-a [getelementptr vector cint32 #0 cint32 #0]]
 	]
 	[[; result]]
 	
 	let vector-size-set function
 	[ptr vector-type vector int64 size-a]
 	[
-		let result [store [getelementptr vector #0 #1] size-a]
+		let result [store size-a [getelementptr vector cint32 #0 cint32 #1]]
 	]
 	[[; result]]
 	
 	let vector-new-set function
 	[ptr vector-template-type data-a int64 size-a]
 	[
-		let result [lalloc [sizeof vector-type]]
+		let result [bitcast [lalloc [sizeof vector-type]] ptr vector-type]
 		let data [vector-data-set result data-a]
 		let size [vector-size-set result size-a]
 	]
