@@ -237,7 +237,13 @@ namespace mu
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 mu::llvmc::skeleton::type * pointed_type;
             };
-            class function : public mu::llvmc::skeleton::constant
+            class global_value : public mu::llvmc::skeleton::constant
+            {
+            public:
+                global_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+            };
+            class function : public mu::llvmc::skeleton::global_value
             {
             public:
                 function (mu::core::region const & region_a, mu::llvmc::skeleton::branch * global_a);
@@ -376,7 +382,7 @@ namespace mu
                 mu::llvmc::skeleton::join_value * source;
                 mu::llvmc::skeleton::type * type_m;
             };
-			class global_variable : public mu::llvmc::skeleton::constant
+			class global_variable : public mu::llvmc::skeleton::global_value
 			{
 			public:
 				global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::constant * initializer_a);
@@ -395,7 +401,6 @@ namespace mu
                 mu::llvmc::skeleton::integer_type integer_8_type;
                 mu::llvmc::skeleton::unit_type the_unit_type;
                 mu::llvmc::skeleton::unit_value the_unit_value;
-				void dump ();
             };
             class number
             {
@@ -499,6 +504,7 @@ namespace mu
                 virtual void store (mu::llvmc::skeleton::store * node_a);
 				virtual void undefined (mu::llvmc::skeleton::undefined * node_a);
                 virtual void template_c (mu::llvmc::skeleton::template_c * node_a);
+                virtual void global_value (mu::llvmc::skeleton::global_value * node_a);
             };
         }
     }

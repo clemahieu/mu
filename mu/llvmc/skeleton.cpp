@@ -20,7 +20,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_array::type ()
 }
 
 mu::llvmc::skeleton::global_variable::global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::constant * initializer_a) :
-constant (region_a, branch_a),
+global_value (region_a, branch_a),
 type_m (new (GC) mu::llvmc::skeleton::pointer_type (initializer_a->type ())),
 initializer (initializer_a)
 {	
@@ -97,7 +97,7 @@ mu::llvmc::skeleton::node::~node ()
 }
 
 mu::llvmc::skeleton::function::function (mu::core::region const & region_a, mu::llvmc::skeleton::branch * global_a) :
-constant (region_a, global_a),
+global_value (region_a, global_a),
 type_m (this),
 pointer_type_m (&type_m),
 entry (new (GC) mu::llvmc::skeleton::branch (global_a))
@@ -1014,7 +1014,7 @@ void mu::llvmc::skeleton::visitor::switch_element (mu::llvmc::skeleton::switch_e
 
 void mu::llvmc::skeleton::visitor::global_variable (mu::llvmc::skeleton::global_variable * node_a)
 {
-    constant (node_a);
+    global_value (node_a);
 }
 
 void mu::llvmc::skeleton::visitor::constant_integer (mu::llvmc::skeleton::constant_integer * node_a)
@@ -1069,7 +1069,7 @@ void mu::llvmc::skeleton::visitor::constant (mu::llvmc::skeleton::constant * nod
 
 void mu::llvmc::skeleton::visitor::function (mu::llvmc::skeleton::function * node_a)
 {
-    constant (node_a);
+    global_value (node_a);
 }
 
 void mu::llvmc::skeleton::visitor::identity (mu::llvmc::skeleton::identity * node_a)
@@ -1218,14 +1218,17 @@ type_m (type_a)
 {
 }
 
-void mu::llvmc::skeleton::module::dump ()
+mu::llvmc::skeleton::global_value::global_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
+constant (region_a, branch_a)
 {
-	for (auto & i: globals)
-	{
-		std::string name (i.first.begin (), i.first.end ());
-		std::cerr << name << " ";
-		char address [64];
-		sprintf (address, "%p", i.second);
-		std::cerr << address << std::endl;
-	}
+}
+
+void mu::llvmc::skeleton::global_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->global_value (this);
+}
+
+void mu::llvmc::skeleton::visitor::global_value (mu::llvmc::skeleton::global_value * node_a)
+{
+    constant (node_a);
 }
