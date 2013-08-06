@@ -1232,3 +1232,24 @@ void mu::llvmc::skeleton::visitor::global_value (mu::llvmc::skeleton::global_val
 {
     constant (node_a);
 }
+
+mu::llvmc::skeleton::entry::entry (mu::llvmc::skeleton::function * function_a) :
+constant (function_a->region, function_a->branch),
+function (function_a)
+{
+}
+
+void mu::llvmc::skeleton::entry::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->entry (this);
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::entry::type ()
+{
+    return function->type ();
+}
+
+void mu::llvmc::skeleton::visitor::entry (mu::llvmc::skeleton::entry * node_a)
+{
+    constant (node_a);
+}

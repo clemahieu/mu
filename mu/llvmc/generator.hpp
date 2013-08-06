@@ -49,6 +49,7 @@ namespace mu
         {
         public:
             mu::map <mu::string, llvm::Function *> names;
+            llvm::Function * entry;
             llvm::Module * module;
         };
         class generator

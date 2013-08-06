@@ -1048,7 +1048,7 @@ public:
     }
     void template_c (mu::llvmc::skeleton::template_c * node_a) override
     {
-        // Template float in module
+        // Templates float in module
     }
     mu::string const & name;
     mu::llvmc::skeleton::module * module;
