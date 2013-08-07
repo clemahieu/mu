@@ -161,7 +161,12 @@ namespace mu
 			expecting_one_bit_integer,
 			select_arguments_same_type,
             expecting_a_constant,
-			template_instantiations_cannot_have_predicates
+			template_instantiations_cannot_have_predicates,
+            only_one_entry_point,
+            entry_point_must_be_a_function,
+            entry_point_must_have_no_arguments,
+            entry_point_must_have_one_return_branch,
+            entry_point_cannot_return_values
         };
         class error
         {

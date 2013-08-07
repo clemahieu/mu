@@ -54,6 +54,7 @@ namespace mu
             module_result analyze (mu::llvmc::ast::node * module_a);
 			void process_module_node (mu::string const & name_a, mu::llvmc::skeleton::node * node_a);
             mu::set <mu::llvmc::ast::node *> current_expression_generation;
+            bool entry_defined;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::module_result result_m;
         };
@@ -101,12 +102,13 @@ namespace mu
             void struct_type (mu::llvmc::ast::struct_type * node_a) override;
 			void undefined (mu::llvmc::ast::undefined * node_a) override;
 			void template_c (mu::llvmc::ast::template_c * node_a) override;
+            void entry (mu::llvmc::ast::entry * node_a) override;
 			void process_template (mu::llvmc::ast::definite_expression * node_a);
             void process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             mu::llvmc::analyzer_module & module;
             mu::core::error * & error;
-            mu::llvmc::skeleton::branch * entry;
+            mu::llvmc::skeleton::branch * entry_m;
 			mu::llvmc::ast::visitor * current_context;
         };
 		class branch_analyzer

@@ -82,6 +82,7 @@ mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * mo
 }
 
 mu::llvmc::analyzer_module::analyzer_module () :
+entry_defined (false),
 result_m ({nullptr, nullptr})
 {
 }
@@ -483,8 +484,8 @@ void mu::llvmc::analyzer_node::function (mu::llvmc::ast::function * function_nod
 {
 	assert (function_node->branch_ends.size () == function_node->predicate_offsets.size ());
 	auto function_s (new (GC) mu::llvmc::skeleton::function (function_node->region, module.module->global));
-    auto previous (entry);
-	entry = function_s->entry;
+    auto previous (entry_m);
+	entry_m = function_s->entry;
 	process_parameters (function_node, function_s);
 	process_results (function_node, function_s);
 	if (error == nullptr)
@@ -492,7 +493,62 @@ void mu::llvmc::analyzer_node::function (mu::llvmc::ast::function * function_nod
 		function_node->generated.push_back (function_s);
 		function_node->assigned = true;
 	}
-	entry = previous;
+	entry_m = previous;
+}
+
+void mu::llvmc::analyzer_node::entry (mu::llvmc::ast::entry * node_a)
+{
+    node_a->function->visit (current_context);
+    if (module.result_m.error == nullptr)
+    {
+        assert (node_a->function->assigned);
+        if (node_a->function->generated.size () == 1)
+        {
+            if (!module.entry_defined)
+            {
+                auto function_l (dynamic_cast <mu::llvmc::skeleton::function *> (node_a->function->generated [0]));
+                if (function_l != nullptr)
+                {
+                    if (function_l->parameters.size () == 0)
+                    {
+                        if (function_l->branch_ends.size () == 1)
+                        {
+                            assert (function_l->predicate_offsets.size () == 1);
+                            if (function_l->predicate_offsets [0] == 0)
+                            {
+                                node_a->generated.push_back (new (GC) mu::llvmc::skeleton::entry (function_l));
+                                node_a->assigned = true;
+                            }
+                            else
+                            {
+                                module.result_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
+                            }
+                        }
+                        else
+                        {
+                            module.result_m.error = new (GC) mu::core::error_string (U"Entry point function must have one return branch", mu::core::error_type::entry_point_must_have_one_return_branch);
+                        }
+                    }
+                    else
+                    {
+                        module.result_m.error = new (GC) mu::core::error_string (U"Entry point function must take no arguments", mu::core::error_type::entry_point_must_have_no_arguments);
+                    }
+                }
+                else
+                {
+                    module.result_m.error = new (GC) mu::core::error_string (U"Entry point must be a function", mu::core::error_type::entry_point_must_be_a_function);
+                }
+            }
+            else
+            {
+                module.result_m.error = new (GC) mu::core::error_string (U"Entry point has already been defined", mu::core::error_type::only_one_entry_point);
+            }
+        }
+        else
+        {
+            module.result_m.error = new (GC) mu::core::error_string (U"Only one function can be defined as the entry point", mu::core::error_type::only_one_entry_point);
+        }
+    }
 }
 
 void mu::llvmc::analyzer_node::loop (mu::llvmc::ast::loop * loop_a)
@@ -1137,7 +1193,7 @@ void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expres
 void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
-	mu::llvmc::skeleton::branch * most_specific_branch (entry);
+	mu::llvmc::skeleton::branch * most_specific_branch (entry_m);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
 	auto target (static_cast<mu::llvmc::skeleton::value *> (arguments [0]));
@@ -2157,7 +2213,7 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
 mu::llvmc::analyzer_node::analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a) :
 module (module_a),
 error (error_a),
-entry (entry_a),
+entry_m (entry_a),
 current_context (this)
 {
 }

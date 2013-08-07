@@ -789,6 +789,27 @@ node_m (other_a.node_m)
 {
 }
 
+mu::llvmc::ast::entry::entry (mu::llvmc::ast::entry const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+function (other_a.function->clone (generated_a))
+{    
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::entry::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
+{
+    auto result (new (GC) mu::llvmc::ast::entry (*this, generated_a));
+    return result;
+}
+
+void mu::llvmc::ast::entry::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->entry (this);
+}
+
+void mu::llvmc::ast::visitor::entry (mu::llvmc::ast::entry * node_a)
+{
+    node (node_a);
+}
+
 void mu::llvmc::ast::module::dump ()
 {
 	for (auto & i: globals)

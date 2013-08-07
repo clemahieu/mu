@@ -41,10 +41,9 @@ void mu::llvmc::compiler::compile (mu::string const & name_a, mu::string const &
             std::cout << contents;
             std::string info;
             assert (!llvm::verifyModule (*module.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
-            auto entry (module.names.find (U"entry"));
-            if (entry != module.names.end ())
+            if (module.entry != nullptr)
             {
-                auto entry_function (entry->second);
+                auto entry_function (module.entry);
                 if (entry_function->getReturnType ()->isVoidTy ())
                 {
                     if (entry_function->getArgumentList ().empty ())

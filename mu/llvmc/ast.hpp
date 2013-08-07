@@ -326,6 +326,15 @@ namespace mu
 				mu::vector <mu::llvmc::ast::node *> parameters;
 				mu::vector <mu::llvmc::ast::node *> body;
 			};
+            class entry : public mu::llvmc::ast::node
+            {
+            public:
+                entry () = default;
+				entry (mu::llvmc::ast::entry const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
+                void visit (mu::llvmc::ast::visitor * visitor_a) override;
+                mu::llvmc::ast::node * function;
+            };
             class visitor
             {
             public:
@@ -357,6 +366,7 @@ namespace mu
                 virtual void undefined (mu::llvmc::ast::undefined * node_a);
 				virtual void template_c (mu::llvmc::ast::template_c * node_a);
 				virtual void template_parameter (mu::llvmc::ast::template_parameter * node_a);
+                virtual void entry (mu::llvmc::ast::entry * node_a);
             };
         }
     }
