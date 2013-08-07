@@ -41,6 +41,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"carray", &constant_array);
     assert (!error);
+    error = keywords.insert (U"entrypoint", &entry_hook);
+    assert (!error);
     error = keywords.insert (U"global", &global_variable);
     assert (!error);
     error = keywords.insert (U"function", &function);
@@ -2035,4 +2037,31 @@ static mu::string template_hook_name (U"template_hook");
 mu::string const & mu::llvmc::template_hook::name ()
 {
 	return template_hook_name;
+}
+
+mu::llvmc::node_result mu::llvmc::entry_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    auto entry (new (GC) mu::llvmc::ast::entry);
+    entry->region = region_a;
+    mu::llvmc::node_result result ({entry, nullptr});
+    parser_a.parse_ast_or_refer (
+        [entry]
+        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+        {
+            entry->function = node_a;
+        }
+    );
+    return result;
+}
+
+bool mu::llvmc::entry_hook::covering ()
+{
+    return false;
+}
+
+static mu::string entry_hook_name (U"entry_hook");
+
+mu::string const & mu::llvmc::entry_hook::name ()
+{
+    return entry_hook_name;
 }

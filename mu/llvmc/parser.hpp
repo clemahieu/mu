@@ -300,6 +300,13 @@ namespace mu
             bool covering () override;
             mu::string const & name () override;
 		};
+        class entry_hook : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+            mu::string const & name () override;
+        };
         class parser
         {
         public:
@@ -345,6 +352,7 @@ namespace mu
             mu::io::stream_token & stream;
             mu::llvmc::keywords keywords;
 			mu::llvmc::template_hook template_hook;
+            mu::llvmc::entry_hook entry_hook;
             std::vector <mu::llvmc::parser_frame> parse_stack;
         };
         class parser_error : public mu::core::error
