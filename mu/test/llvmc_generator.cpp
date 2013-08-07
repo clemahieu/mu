@@ -54,7 +54,6 @@ TEST (llvmc_generator, generate_empty)
     module.globals [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_empty", U"", 0));
-    ASSERT_EQ (1, result.names.size ());
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);

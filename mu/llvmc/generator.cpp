@@ -53,22 +53,7 @@ void mu::llvmc::generate_module::generate ()
     for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i)
     {
 		assert (i->second->generated == nullptr);
-		auto function (dynamic_cast <mu::llvmc::skeleton::function *> (i->second));
-        if (function != nullptr)
-        {
-            auto type (&function->type_m);
-            retrieve_type (type);
-            auto function_type (llvm::cast <llvm::FunctionType> (type->generated));
-            auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
-            target.module->getFunctionList ().push_back (function_l);
-            i->second->generated = function_l;
-            i->second->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
-            target.names [i->first] = function_l;
-        }
-        else
-        {
-            generate_value (i->second);
-        }
+        generate_value (i->second);
 	}
 	uint64_t global_id (0);
     for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i, ++global_id)
@@ -1481,6 +1466,16 @@ namespace mu
                 node_a->generated = node_a->function->generated;
                 assert (module.target.entry == nullptr);
                 module.target.entry = llvm::cast <llvm::Function> (node_a->generated);
+            }
+            void function (mu::llvmc::skeleton::function * node_a) override
+            {
+                auto type (&node_a->type_m);
+                module.retrieve_type (type);
+                auto function_type (llvm::cast <llvm::FunctionType> (type->generated));
+                auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
+                module.target.module->getFunctionList ().push_back (function_l);
+                node_a->generated = function_l;
+                node_a->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
             }
             mu::llvmc::generate_module & module;
             T retrieve_value;
