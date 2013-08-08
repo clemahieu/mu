@@ -71,6 +71,8 @@ namespace mu
             mu::llvmc::generator_result & target;
 			llvm::DIFile file;
 			uint64_t module_id;
+            uint64_t global_id;
+            mu::vector <mu::llvmc::skeleton::function *> functions;
         };
         class generate_function
         {
@@ -88,7 +90,6 @@ namespace mu
             llvm::Function * function_m;
             mu::llvmc::skeleton::function * function;
             mu::llvmc::skeleton::function_return_type function_return_type;
-            llvm::DISubprogram function_d;
             llvm::DILexicalBlock block_d;
         };
     }

@@ -1085,8 +1085,7 @@ void mu::llvmc::analyzer_node::process_results (mu::llvmc::ast::function * funct
 class module_body_processor : public mu::llvmc::skeleton::visitor
 {
 public:
-    module_body_processor (mu::string const & name_a, mu::llvmc::skeleton::module * module_a) :
-    name (name_a),
+    module_body_processor (mu::llvmc::skeleton::module * module_a) :
     module (module_a)
     {
     }
@@ -1096,7 +1095,7 @@ public:
     }
     void constant (mu::llvmc::skeleton::constant * node_a) override
     {
-		module->globals [name] = node_a;
+		module->globals.push_back (node_a);
     }
     void type (mu::llvmc::skeleton::type * node_a) override
     {
@@ -1106,7 +1105,6 @@ public:
     {
         // Templates float in module
     }
-    mu::string const & name;
     mu::llvmc::skeleton::module * module;
 };
 
@@ -1126,13 +1124,12 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 			}
             if (result_m.error == nullptr)
             {
-                assert (module->globals.find (i->first) == module->globals.end ());
                 assert (i->second->assigned);
 				auto & values (i->second->generated);
 				for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
 				{
                     auto value (*k);
-                    module_body_processor processor (i->first, module);
+                    module_body_processor processor (module);
                     value->visit (&processor);
 				}
             }

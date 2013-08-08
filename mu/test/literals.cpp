@@ -398,8 +398,10 @@ extern char const * const generate_global_variable_expected = R"%%%(; ModuleID =
 !2 = metadata !{i32 0}
 !3 = metadata !{metadata !4}
 !4 = metadata !{metadata !5}
-!5 = metadata !{i32 786484, i32 0, null, metadata !"0", metadata !"0", metadata !"0", metadata !6, i32 0, null, i32 0, i32 1, i32* @"0000000000000000-0000000000000000-0"} ; [ DW_TAG_variable ] [0] [line 0] [def]
+!5 = metadata !{i32 786484, i32 0, null, metadata !"0", metadata !"0", metadata !"0", metadata !6, i32 0, metadata !7, i32 0, i32 1, i32* @"0000000000000000-0000000000000000-0"} ; [ DW_TAG_variable ] [0] [line 0] [def]
 !6 = metadata !{i32 786473, metadata !"generate_global_variable", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786447, null, metadata !"ptr", null, i32 0, i64 8, i64 0, i64 0, i32 0, metadata !8} ; [ DW_TAG_pointer_type ] [ptr] [line 0, size 8, align 0, offset 0] [from int32]
+!8 = metadata !{i32 786468, null, metadata !"int32", null, i32 0, i64 32, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int32] [line 0, size 32, align 0, offset 0, enc DW_ATE_unsigned]
 )%%%";
 
 extern char const * const generate_icmp1_expected = R"%%%(; ModuleID = '0000000000000000'

@@ -42,7 +42,8 @@ mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * modul
 builder (*target_a.module),
 module (module_a),
 target (target_a),
-module_id (module_id_a)
+module_id (module_id_a),
+global_id (0)
 {
 	builder.createCompileUnit (llvm::dwarf::DW_LANG_C, std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()), "MU 0 (Colin LeMahieu)", false, "", 0);
     file = builder.createFile (std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()));
@@ -52,47 +53,15 @@ void mu::llvmc::generate_module::generate ()
 {
     for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i)
     {
-		assert (i->second->generated == nullptr);
-        generate_value (i->second);
+        generate_value (*i);
 	}
 	uint64_t global_id (0);
-    for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i, ++global_id)
+    for (auto i (functions.begin ()), j (functions.end ()); i != j; ++i, ++global_id)
     {
-        assert (i->second->predicate != nullptr);
-        if (i->second->generated != nullptr)
-        {
-            std::string name;
-            char buffer [32];
-            sprintf (buffer, "%016" PRIx64, module_id);
-            name.append (buffer);
-            name.push_back ('-');
-            sprintf (buffer, "%016" PRIx64, global_id);
-            name.append (buffer);
-            name.push_back ('-');
-            name += std::string (i->first.begin (), i->first.end ());
-            i->second->generated->setName (name);
-        }
-        else
-        {
-            // unit
-        }
-		auto function_l (dynamic_cast <mu::llvmc::skeleton::function *> (i->second));
-        if (function_l != nullptr)
-        {
-            auto function (llvm::cast <llvm::Function> (i->second->generated));
-            assert (function->getBasicBlockList().empty ());
-            mu::llvmc::generate_function generator_l (*this, function_l);
-            generator_l.generate ();
-        }
-        else
-        {
-            auto global_variable (dynamic_cast <mu::llvmc::skeleton::global_variable *> (i->second));
-            if (global_variable != nullptr)
-            {
-                builder.createGlobalVariable (std::string (i->first.begin (), i->first.end ()), file, global_variable->region.first.row, global_variable->type ()->debug, false, global_variable->generated);
-            }
-            // Only generate function bodies second pass
-        }
+        auto function (llvm::cast <llvm::Function> ((*i)->generated));
+        assert (function->getBasicBlockList().empty ());
+        mu::llvmc::generate_function generator_l (*this, *i);
+        generator_l.generate ();
     }
 	builder.finalize ();
 }
@@ -119,8 +88,7 @@ void mu::llvmc::generate_function::generate ()
     auto type (&function->type_m);
     module.retrieve_type (type);
     auto function_type (llvm::cast <llvm::FunctionType> (type->generated));
-	function_d = module.builder.createFunction (module.file, strip_unique (function_l->getName ()), function_l->getName (), module.file, function->region.first.row, type->debug, false, true, function->region.first.row, 0, false, function_l);
-    block_d = module.builder.createLexicalBlock (function_d, module.file, function->region.first.row, function->region.first.column);
+    block_d = module.builder.createLexicalBlock (function->debug, module.file, function->region.first.row, function->region.first.column);
     function_m = function_l;
     auto entry (llvm::BasicBlock::Create (context));
     last = entry;
@@ -142,11 +110,11 @@ void mu::llvmc::generate_function::generate ()
             auto const & name ((*k)->name);
 			auto alloc (new llvm::AllocaInst (parameter->getType ()));
 			entry->getInstList ().push_back (alloc);
-			auto variable_info (module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_d, std::string (name.begin (), name.end ()), module.file, 0, existing->debug));
+			auto variable_info (module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function->debug, std::string (name.begin (), name.end ()), module.file, 0, existing->debug));
 			auto store (new llvm::StoreInst (parameter, alloc));
 			entry->getInstList ().push_back (store);
             auto declaration (module.builder.insertDeclare (alloc, variable_info, entry));
-			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.last.row, value->region.last.column, function_d));
+			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.last.row, value->region.last.column, function->debug));
         }
         assert ((i != j) == (k != l));
     }
@@ -155,7 +123,7 @@ void mu::llvmc::generate_function::generate ()
         case mu::llvmc::skeleton::function_return_type::b0:
         {
             auto ret (new llvm::UnreachableInst (function_l->getContext ()));
-            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
             last->getInstList ().push_back (ret);
             break;
         }
@@ -175,7 +143,7 @@ void mu::llvmc::generate_function::generate ()
                 }
             );
             auto ret (llvm::ReturnInst::Create (function_l->getContext ()));
-            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
             last->getInstList ().push_back (ret);
             break;
         }
@@ -197,7 +165,7 @@ void mu::llvmc::generate_function::generate ()
                 }
             );
             auto ret (llvm::ReturnInst::Create (function_l->getContext (), the_value));            
-            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
             last->getInstList ().push_back (ret);
             break;
         }
@@ -227,7 +195,7 @@ void mu::llvmc::generate_function::generate ()
                 }
             );
             auto ret (llvm::ReturnInst::Create (function_l->getContext (), result));            
-            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
             last->getInstList ().push_back (ret);
             break;
         }
@@ -236,7 +204,7 @@ void mu::llvmc::generate_function::generate ()
             auto results (generate_result_set ());
             assert (results.size () == 1);
             auto ret (llvm::ReturnInst::Create (function_l->getContext (), results [0]));
-            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
             last->getInstList ().push_back (ret);
             break;
         }
@@ -254,7 +222,7 @@ void mu::llvmc::generate_function::generate ()
                 ++index;
             }
             auto ret (llvm::ReturnInst::Create (function_l->getContext (), result));
-            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
             last->getInstList ().push_back (ret);
             break;
         }
@@ -568,8 +536,8 @@ namespace mu
 						auto param (loop_element->source->parameters [position]);
                         param->generated = loop_parameter;
                         param->predicate = predicate;
-						auto declaration (function_m.module.builder.insertDeclare (alloc, function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (param->name.begin (), param->name.end ()), function_m.module.file, 0, param->type ()->debug), function_m.last));
-                        declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function_m.function_d));
+						auto declaration (function_m.module.builder.insertDeclare (alloc, function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function->debug, std::string (param->name.begin (), param->name.end ()), function_m.module.file, 0, param->type ()->debug), function_m.last));
+                        declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function_m.function->debug));
                         parameters.push_back (loop_parameter);
                     }
                     assert (position == loop_element->source->parameters.size ());
@@ -833,11 +801,11 @@ namespace mu
 					function_m.last->getInstList ().push_back (alloc);
                     auto store (new llvm::StoreInst (named->generated, alloc));
                     function_m.last->getInstList().push_back (store);
-					auto variable_info (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug));
+					auto variable_info (function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function->debug, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug));
                     auto declaration (function_m.module.builder.insertDeclare (alloc, variable_info, function_m.last));
-					declaration->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function_d));
+					declaration->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function->debug));
                     auto update (function_m.module.builder.insertDbgValueIntrinsic(named->generated, 0, variable_info, function_m.last));
-					update->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function_d));
+					update->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function_m.function->debug));
                 }
             }
             void instruction (mu::llvmc::skeleton::instruction * instruction) override
@@ -857,7 +825,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateAdd (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -872,7 +840,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateAnd (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -891,7 +859,7 @@ namespace mu
                         function_m.function_m->getBasicBlockList().push_back (new_last);
                         function_m.last->getInstList ().push_back (llvm::BranchInst::Create (predicate_branch, new_last, predicate));
                         auto instruction_l (new llvm::AllocaInst (type->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         predicate_branch->getInstList ().push_back (instruction_l);
                         predicate_branch->getInstList ().push_back (llvm::BranchInst::Create (new_last));
                         value = function_m.generate_rejoin (function_m.last, predicate_branch, new_last, instruction_l);
@@ -908,7 +876,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateAShr (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -923,7 +891,7 @@ namespace mu
                         predicate = value_l->predicate;
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BitCastInst::CreatePointerCast (value_l->generated, type_l->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -946,7 +914,7 @@ namespace mu
                         function_m.function_m->getBasicBlockList().push_back (new_last);
                         function_m.last->getInstList ().push_back (llvm::BranchInst::Create (predicate_branch, new_last, predicate));
                         auto instruction_l (new llvm::AtomicCmpXchgInst (one->generated, two->generated, three->generated, llvm::AtomicOrdering::AcquireRelease, llvm::SynchronizationScope::CrossThread));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         predicate_branch->getInstList ().push_back (instruction_l);
                         predicate_branch->getInstList ().push_back (llvm::BranchInst::Create(new_last));
                         value = function_m.generate_rejoin (function_m.last, predicate_branch, new_last, instruction_l);
@@ -963,7 +931,7 @@ namespace mu
                         predicate = function_m.and_predicates (aggregate->predicate, index->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, instruction->predicate_position);
                         auto instruction_l (llvm::ExtractValueInst::Create (aggregate->generated, llvm::ArrayRef <unsigned> (index->value_m)));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -986,7 +954,7 @@ namespace mu
                         }
                         predicate = function_m.process_predicates (predicate, instruction->arguments, instruction->predicate_position);
                         auto instruction_l (llvm::GetElementPtrInst::CreateInBounds (one->generated, llvm::ArrayRef <llvm::Value *> (indicies)));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1012,7 +980,7 @@ namespace mu
 						predicate = function_m.and_predicates (predicate, value_l->predicate);
 						predicate = function_m.process_predicates (predicate, instruction->arguments, instruction->predicate_position);
 						auto instruction_l (llvm::InsertValueInst::Create (struct_l->generated, value_l->generated, llvm::ArrayRef <unsigned> (indicies)));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
 						break;
@@ -1027,7 +995,7 @@ namespace mu
                         predicate = value_l->predicate;
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (new llvm::IntToPtrInst (value_l->generated, type_l->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1061,7 +1029,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateLShr (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1076,7 +1044,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateMul (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1091,7 +1059,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateOr (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1106,7 +1074,7 @@ namespace mu
                         predicate = value_l->predicate;
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::PtrToIntInst::CreatePointerCast (value_l->generated, type_l->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1121,7 +1089,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateSDiv (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1138,7 +1106,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 4);
                         auto instruction_l (llvm::SelectInst::Create(condition->generated, left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1152,7 +1120,7 @@ namespace mu
                         function_m.module.retrieve_type (type_l);
                         predicate = function_m.process_predicates (left->predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::SExtInst::CreateSExtOrBitCast (left->generated, type_l->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1167,7 +1135,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateShl (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1182,7 +1150,7 @@ namespace mu
                         predicate = function_m.and_predicates (left->predicate, right->predicate);
                         predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::BinaryOperator::CreateSRem (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1260,7 +1228,7 @@ namespace mu
                         function_m.module.retrieve_type (right);
                         predicate = function_m.process_predicates (left->predicate, instruction->arguments, 3);
                         auto instruction_l (llvm::SExtInst::CreateZExtOrBitCast (left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function->debug));
                         function_m.last->getInstList ().push_back (instruction_l);
                         value = instruction_l;
                         break;
@@ -1401,6 +1369,38 @@ llvm::Value * mu::llvmc::generate_function::generate_rejoin (llvm::BasicBlock * 
     return phi;
 }
 
+class generate_debug_name : public mu::llvmc::skeleton::visitor
+{
+public:
+    generate_debug_name (mu::llvmc::generate_module & module_a, mu::string const & name_a) :
+    module (module_a),
+    name (name_a)
+    {
+    }
+    void global_variable (mu::llvmc::skeleton::global_variable * node_a) override
+    {
+        auto type (node_a->type_m);
+        module.retrieve_type (type);
+        if (node_a->debug == nullptr)
+        {            
+            module.builder.createGlobalVariable (std::string (name.begin (), name.end ()), module.file, node_a->region.first.row, type->debug, false, node_a->generated);
+        }
+    }
+    void function (mu::llvmc::skeleton::function * node_a) override
+    {
+        if (node_a->debug == nullptr)
+        {
+            auto type (&node_a->type_m);
+            assert (type->debug != nullptr);
+            std::string name_l (name.begin (), name.end ());
+            auto function_l (llvm::cast <llvm::Function> (node_a->generated));
+            node_a->debug = module.builder.createFunction (module.file, name_l, function_l->getName (), module.file, node_a->region.first.row, type->debug, false, true, node_a->region.first.row, 0, false, function_l);
+        }
+    }
+    mu::llvmc::generate_module & module;
+    mu::string const & name;
+};
+
 namespace mu
 {
     namespace llvmc
@@ -1476,6 +1476,32 @@ namespace mu
                 module.target.module->getFunctionList ().push_back (function_l);
                 node_a->generated = function_l;
                 node_a->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
+                module.functions.push_back (node_a);
+            }
+            void named (mu::llvmc::skeleton::named * node_a) override
+            {
+                retrieve_value (node_a->value_m);
+                if (node_a->value_m->generated != nullptr)
+                {
+                    std::string name;
+                    char buffer [32];
+                    sprintf (buffer, "%016" PRIx64, module.module_id);
+                    name.append (buffer);
+                    name.push_back ('-');
+                    sprintf (buffer, "%016" PRIx64, module.global_id++);
+                    name.append (buffer);
+                    name.push_back ('-');
+                    name += std::string (node_a->name.begin (), node_a->name.end ());
+                    node_a->value_m->generated->setName (name);
+                }
+                else
+                {
+                    assert (node_a->value_m->type()->is_unit_type ());
+                }
+                node_a->predicate = node_a->value_m->predicate;
+                node_a->generated = node_a->value_m->generated;
+                generate_debug_name debug (module, node_a->name);
+                node_a->value_m->visit (&debug);
             }
             mu::llvmc::generate_module & module;
             T retrieve_value;
