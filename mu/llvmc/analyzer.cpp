@@ -150,8 +150,9 @@ void mu::llvmc::analyzer_node::integer_type (mu::llvmc::ast::integer_type * type
 class naming_visitor : public mu::llvmc::skeleton::visitor
 {
 public:
-    naming_visitor (mu::llvmc::ast::element * element_a) :
-    element (element_a)
+    naming_visitor (mu::llvmc::ast::element * element_a, mu::core::error * & error_a) :
+    element (element_a),
+    error (error_a)
     {
     }
     void node (mu::llvmc::skeleton::node * node_a)
@@ -162,11 +163,20 @@ public:
     {
         element->generated.push_back (new (GC) mu::llvmc::skeleton::named (element->region, node_a, element->name));
     }
-    /*void function (mu::llvmc::skeleton::function * node_a)
+    void function (mu::llvmc::skeleton::function * node_a)
     {
-        
-    }*/
+        if (node_a->name.empty ())
+        {
+            node_a->name = element->name;
+            element->generated.push_back (node_a);
+        }
+        else
+        {
+            error = new (GC) mu::core::error_string (U"Function has already been named", mu::core::error_type::function_already_named, node_a->region);
+        }
+    }
     mu::llvmc::ast::element * element;
+    mu::core::error * & error;
 };
 
 void mu::llvmc::analyzer_node::element (mu::llvmc::ast::element * element_a)
@@ -178,7 +188,7 @@ void mu::llvmc::analyzer_node::element (mu::llvmc::ast::element * element_a)
 		if (existing.size () > element_a->index)
 		{
 			auto node (existing [element_a->index]);
-            naming_visitor naming (element_a);
+            naming_visitor naming (element_a, error);
             node->visit (&naming);
 			element_a->assigned = true;
 		}
