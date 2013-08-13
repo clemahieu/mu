@@ -93,7 +93,6 @@ namespace mu
 			void number (mu::llvmc::ast::number * node_a) override;
 			void array_type (mu::llvmc::ast::array_type * type_a) override;
 			void constant_array (mu::llvmc::ast::constant_array * array_a) override;
-			void set_expression (mu::llvmc::ast::set_expression * set) override;
 			void global_variable (mu::llvmc::ast::global_variable * global_variable) override;
 			void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null) override;
 			void unit_type (mu::llvmc::ast::unit_type * unit_type) override;

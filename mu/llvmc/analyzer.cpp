@@ -326,18 +326,6 @@ void mu::llvmc::analyzer_node::constant_array (mu::llvmc::ast::constant_array * 
 	}
 }
 
-void mu::llvmc::analyzer_node::set_expression (mu::llvmc::ast::set_expression * set)
-{				
-	auto & values (set->generated);
-	set->assigned = true;
-	for (auto i : set->items)
-	{
-		process_node (i);
-		auto & values_l (i->generated);
-		values.insert (values.end (), values_l.begin (), values_l.end ());
-	}
-}
-
 void mu::llvmc::analyzer_node::global_variable (mu::llvmc::ast::global_variable * global_variable)
 {
 	process_node (global_variable->initializer);

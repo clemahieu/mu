@@ -151,11 +151,6 @@ void mu::llvmc::ast::visitor::constant_array (mu::llvmc::ast::constant_array * n
     node (node_a);
 }
 
-void mu::llvmc::ast::visitor::set_expression (mu::llvmc::ast::set_expression * node_a)
-{
-    node (node_a);
-}
-
 void mu::llvmc::ast::visitor::global_variable (mu::llvmc::ast::global_variable * node_a)
 {
     node (node_a);
@@ -274,11 +269,6 @@ void mu::llvmc::ast::pointer_type::visit (mu::llvmc::ast::visitor * visitor_a)
 void mu::llvmc::ast::constant_array::visit (mu::llvmc::ast::visitor * visitor_a)
 {
     visitor_a->constant_array (this);
-}
-
-void mu::llvmc::ast::set_expression::visit (mu::llvmc::ast::visitor * visitor_a)
-{
-    visitor_a->set_expression (this);
 }
 
 void mu::llvmc::ast::global_variable::visit (mu::llvmc::ast::visitor * visitor_a)
@@ -442,12 +432,6 @@ mu::llvmc::ast::node * mu::llvmc::ast::constant_array::do_clone (mu::map <mu::ll
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::set_expression::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
-{
-	auto result (new (GC) mu::llvmc::ast::set_expression (*this, generated_a));
-	return result;
-}
-
 mu::llvmc::ast::node * mu::llvmc::ast::global_variable::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
 	auto result (new (GC) mu::llvmc::ast::global_variable (*this, generated_a));
@@ -556,14 +540,6 @@ type (other_a.type->clone (generated_a))
 mu::llvmc::ast::loop_parameter::loop_parameter (mu::llvmc::ast::loop_parameter const & other_a) :
 name (other_a.name)
 {
-}
-
-mu::llvmc::ast::set_expression::set_expression (mu::llvmc::ast::set_expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
-{
-	for (auto i: other_a.items)
-	{
-		items.push_back (i->clone (generated_a));
-	}
 }
 
 mu::llvmc::ast::global_variable::global_variable (mu::llvmc::ast::global_variable const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :

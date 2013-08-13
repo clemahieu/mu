@@ -251,9 +251,7 @@ TEST (llvmc_analyzer, named_function)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.region = mu::core::region (2, 2, 2, 3, 3, 3);
-    mu::llvmc::ast::set_expression set1;
-    set1.items.push_back (&function);
-    mu::llvmc::ast::element element1 (&set1, 0, 1, U"0", mu::empty_region);
+    mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
     module.globals [U"0"] = &element1;
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
@@ -1191,56 +1189,6 @@ TEST (llvmc_analyzer, error_call_wrong_type)
     ASSERT_EQ (nullptr, result.module);
     ASSERT_EQ (mu::core::error_type::argument_type_does_not_match_parameter_type, result.error->type ());
     ASSERT_EQ (expression1.region, result.error->region ());
-}
-
-TEST (llvmc_analyzer, set_expression_empty)
-{
-    mu::llvmc::analyzer analyzer;
-    mu::llvmc::ast::module module1;
-    mu::llvmc::ast::function function1;
-    function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::ast::set_expression set1;
-    function1.results.push_back (&set1);
-    function1.branch_ends.push_back (function1.results.size ());
-    module1.globals [U"0"] = &function1;
-    auto result (analyzer.analyze (&module1));
-    ASSERT_EQ (nullptr, result.error);
-    ASSERT_NE (nullptr, result.module);
-    ASSERT_EQ (1, result.module->globals.size ());
-    auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
-    ASSERT_NE (nullptr, function2);
-    ASSERT_EQ (0, function2->parameters.size ());
-    ASSERT_EQ (0, function2->results.size ());
-    ASSERT_EQ (1, function2->predicate_offsets.size ());
-    ASSERT_EQ (0, function2->predicate_offsets [0]);
-    ASSERT_EQ (1, function2->branch_ends.size ());
-    ASSERT_EQ (0, function2->branch_ends [0]);
-}
-
-TEST (llvmc_analyzer, set_expression_one)
-{
-    mu::llvmc::analyzer analyzer;
-    mu::llvmc::ast::module module1;
-    mu::llvmc::ast::function function1;
-    function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::ast::set_expression set1;
-    mu::llvmc::ast::unit unit1;
-    set1.items.push_back (&unit1);
-    function1.results.push_back (&set1);
-    function1.branch_ends.push_back (function1.results.size ());
-    module1.globals [U"0"] = &function1;
-    auto result (analyzer.analyze (&module1));
-    ASSERT_EQ (nullptr, result.error);
-    ASSERT_NE (nullptr, result.module);
-    ASSERT_EQ (1, result.module->globals.size ());
-    auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
-    ASSERT_NE (nullptr, function2);
-    ASSERT_EQ (0, function2->parameters.size ());
-    ASSERT_EQ (1, function2->results.size ());
-    ASSERT_EQ (1, function2->predicate_offsets.size ());
-    ASSERT_EQ (0, function2->predicate_offsets [0]);
-    ASSERT_EQ (1, function2->branch_ends.size ());
-    ASSERT_EQ (1, function2->branch_ends [0]);
 }
 
 TEST (llvmc_analyzer, int_type1)
