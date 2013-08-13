@@ -44,41 +44,29 @@ void mu::llvmc::compiler::compile (mu::string const & name_a, mu::string const &
             if (module.entry != nullptr)
             {
                 auto entry_function (module.entry);
-                if (entry_function->getReturnType ()->isVoidTy ())
+                assert (entry_function->getReturnType ()->isVoidTy ());
+                assert (entry_function->getArgumentList ().empty ());
+                inject_entry (module.module, entry_function);
+                auto triple (llvm::sys::getDefaultTargetTriple ());
+                std::string error;
+                auto target (llvm::TargetRegistry::lookupTarget (triple, error));
+                if (target != nullptr)
                 {
-                    if (entry_function->getArgumentList ().empty ())
-                    {
-                        inject_entry (module.module, entry_function);
-                        auto triple (llvm::sys::getDefaultTargetTriple ());
-                        std::string error;
-                        auto target (llvm::TargetRegistry::lookupTarget (triple, error));
-                        if (target != nullptr)
-                        {
-                            module.module->setTargetTriple (llvm::sys::getDefaultTargetTriple ());
-                            llvm::TargetOptions options;
-                            auto machine (target->createTargetMachine (triple, "", "", options, llvm::Reloc::Default, llvm::CodeModel::Default, llvm::CodeGenOpt::None));
-                            llvm::PassManager pass_manager;
-                            auto failed (machine->addPassesToEmitFile (pass_manager, output, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile));
-                            pass_manager.run (*module.module);
-                        }
-                        else
-                        {
-                            std::cout << "Unable to lookup target triple: " << error;
-                        }
-                    }
-                    else
-                    {
-                        std::cout << "Entry point must not take any arguments";
-                    }
+                    module.module->setTargetTriple (llvm::sys::getDefaultTargetTriple ());
+                    llvm::TargetOptions options;
+                    auto machine (target->createTargetMachine (triple, "", "", options, llvm::Reloc::Default, llvm::CodeModel::Default, llvm::CodeGenOpt::None));
+                    llvm::PassManager pass_manager;
+                    auto failed (machine->addPassesToEmitFile (pass_manager, output, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile));
+                    pass_manager.run (*module.module);
                 }
                 else
                 {
-                    std::cout << "Entry point must return void";
+                    std::cout << "Unable to lookup target triple: " << error;
                 }
             }
             else
             {
-                std::cout << "Module has no function named \"entry\" to use as entry point";
+                std::cout << "Module has no entry point function specified";
             }
         }
         else

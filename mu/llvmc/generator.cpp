@@ -73,13 +73,6 @@ function_return_type (function_a->get_return_type ())
 {
 }
 
-static std::string strip_unique (std::string const & name_a)
-{
-    assert (name_a.size () >= 34);
-    std::string result (name_a.begin () + 34, name_a.end ());
-    return result;
-}
-
 void mu::llvmc::generate_function::generate ()
 {
     auto & context (module.target.module->getContext ());

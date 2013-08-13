@@ -809,15 +809,3 @@ void mu::llvmc::ast::visitor::entry (mu::llvmc::ast::entry * node_a)
 {
     node (node_a);
 }
-
-void mu::llvmc::ast::module::dump ()
-{
-	for (auto & i: globals)
-	{
-		std::string name (i.first.begin (), i.first.end ());
-		std::cerr << name << " ";
-		char address [64];
-		sprintf (address, "%p", i.second);
-		std::cerr << address << std::endl;
-	}
-}
