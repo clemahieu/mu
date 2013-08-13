@@ -271,6 +271,7 @@ namespace mu
                 template <typename T = decltype (empty_node), typename U = decltype (empty_node), typename V = decltype (empty_node), typename W = decltype (empty_node), typename X = decltype (empty_loop_predicate)>
                 void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate);
                 llvm::DISubprogram debug;
+                mu::string name;
             };
             class switch_element;
             class switch_i

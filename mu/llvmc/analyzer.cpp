@@ -147,6 +147,28 @@ void mu::llvmc::analyzer_node::integer_type (mu::llvmc::ast::integer_type * type
 	}
 }
 
+class naming_visitor : public mu::llvmc::skeleton::visitor
+{
+public:
+    naming_visitor (mu::llvmc::ast::element * element_a) :
+    element (element_a)
+    {
+    }
+    void node (mu::llvmc::skeleton::node * node_a)
+    {
+        element->generated.push_back (node_a);
+    }
+    void value (mu::llvmc::skeleton::value * node_a)
+    {
+        element->generated.push_back (new (GC) mu::llvmc::skeleton::named (element->region, node_a, element->name));
+    }
+    /*void function (mu::llvmc::skeleton::function * node_a)
+    {
+        
+    }*/
+    mu::llvmc::ast::element * element;
+};
+
 void mu::llvmc::analyzer_node::element (mu::llvmc::ast::element * element_a)
 {
 	process_node (element_a->node);
@@ -156,15 +178,8 @@ void mu::llvmc::analyzer_node::element (mu::llvmc::ast::element * element_a)
 		if (existing.size () > element_a->index)
 		{
 			auto node (existing [element_a->index]);
-			auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
-			if (value != nullptr)
-			{
-				element_a->generated.push_back (new (GC) mu::llvmc::skeleton::named (element_a->region, value, element_a->name));
-			}
-			else
-			{
-				element_a->generated.push_back (node);
-			}
+            naming_visitor naming (element_a);
+            node->visit (&naming);
 			element_a->assigned = true;
 		}
 		else
@@ -492,6 +507,8 @@ void mu::llvmc::analyzer_node::function (mu::llvmc::ast::function * function_nod
 	{
 		function_node->generated.push_back (function_s);
 		function_node->assigned = true;
+        assert (module.unnamed_functions.find (function_node) == module.unnamed_functions.end ());
+        module.unnamed_functions.insert (function_node);
 	}
 	entry_m = previous;
 }
