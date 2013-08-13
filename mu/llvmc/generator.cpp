@@ -1369,38 +1369,6 @@ llvm::Value * mu::llvmc::generate_function::generate_rejoin (llvm::BasicBlock * 
     return phi;
 }
 
-class generate_debug_name : public mu::llvmc::skeleton::visitor
-{
-public:
-    generate_debug_name (mu::llvmc::generate_module & module_a, mu::string const & name_a) :
-    module (module_a),
-    name (name_a)
-    {
-    }
-    void global_variable (mu::llvmc::skeleton::global_variable * node_a) override
-    {
-        auto type (node_a->type_m);
-        module.retrieve_type (type);
-        if (node_a->debug == nullptr)
-        {            
-            module.builder.createGlobalVariable (std::string (name.begin (), name.end ()), module.file, node_a->region.first.row, type->debug, false, node_a->generated);
-        }
-    }
-    void function (mu::llvmc::skeleton::function * node_a) override
-    {
-        if (node_a->debug == nullptr)
-        {
-            auto type (&node_a->type_m);
-            assert (type->debug != nullptr);
-            std::string name_l (name.begin (), name.end ());
-            auto function_l (llvm::cast <llvm::Function> (node_a->generated));
-            node_a->debug = module.builder.createFunction (module.file, name_l, function_l->getName (), module.file, node_a->region.first.row, type->debug, false, true, node_a->region.first.row, 0, false, function_l);
-        }
-    }
-    mu::llvmc::generate_module & module;
-    mu::string const & name;
-};
-
 namespace mu
 {
     namespace llvmc
@@ -1447,6 +1415,10 @@ namespace mu
                 auto type (global_variable->initializer->type ());
                 module.retrieve_type (type);
                 auto global (new llvm::GlobalVariable (type->generated, false, llvm::GlobalValue::LinkageTypes::ExternalLinkage, llvm::cast <llvm::Constant> (global_variable->initializer->generated)));
+                global->setName (get_global_name (global_variable->name));
+                auto global_type (global_variable->type ());
+                module.retrieve_type (global_type);
+                global_variable->debug = module.builder.createGlobalVariable (std::string (global_variable->name.begin (), global_variable->name.end ()), module.file, global_variable->region.first.row, global_type->debug, false, global);
                 global_variable->generated = global;
                 global_variable->predicate = global_variable->initializer->predicate;
                 module.target.module->getGlobalList ().push_back (global);
@@ -1473,6 +1445,8 @@ namespace mu
                 module.retrieve_type (type);
                 auto function_type (llvm::cast <llvm::FunctionType> (type->generated));
                 auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
+                function_l->setName (get_global_name (node_a->name));
+                node_a->debug = module.builder.createFunction (module.file, std::string (node_a->name.begin (), node_a->name.end ()), function_l->getName (), module.file, node_a->region.first.row, type->debug, false, true, node_a->region.first.row, 0, false, function_l);
                 module.target.module->getFunctionList ().push_back (function_l);
                 node_a->generated = function_l;
                 node_a->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
@@ -1481,27 +1455,22 @@ namespace mu
             void named (mu::llvmc::skeleton::named * node_a) override
             {
                 retrieve_value (node_a->value_m);
-                if (node_a->value_m->generated != nullptr)
-                {
-                    std::string name;
-                    char buffer [32];
-                    sprintf (buffer, "%016" PRIx64, module.module_id);
-                    name.append (buffer);
-                    name.push_back ('-');
-                    sprintf (buffer, "%016" PRIx64, module.global_id++);
-                    name.append (buffer);
-                    name.push_back ('-');
-                    name += std::string (node_a->name.begin (), node_a->name.end ());
-                    node_a->value_m->generated->setName (name);
-                }
-                else
-                {
-                    assert (node_a->value_m->type()->is_unit_type ());
-                }
+                assert (dynamic_cast <mu::llvmc::skeleton::global_value *> (node_a->value_m) == nullptr && "Global values should have their name members assigned");
                 node_a->predicate = node_a->value_m->predicate;
                 node_a->generated = node_a->value_m->generated;
-                generate_debug_name debug (module, node_a->name);
-                node_a->value_m->visit (&debug);
+            }
+            std::string get_global_name (mu::string const & name_a)
+            {
+                std::string name;
+                char buffer [32];
+                sprintf (buffer, "%016" PRIx64, module.module_id);
+                name.append (buffer);
+                name.push_back ('-');
+                sprintf (buffer, "%016" PRIx64, module.global_id++);
+                name.append (buffer);
+                name.push_back ('-');
+                name += std::string (name_a.begin (), name_a.end ());
+                return name;
             }
             mu::llvmc::generate_module & module;
             T retrieve_value;

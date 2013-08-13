@@ -51,8 +51,8 @@ TEST (llvmc_generator, generate_empty)
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_empty", U"", 0));
     std::string info;
@@ -69,11 +69,11 @@ TEST (llvmc_generator, generate_parameter)
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
+    function1.name = U"0";
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
     function1.parameters.push_back (&parameter1);
-    module.globals.push_back (&named1);
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_parameter", U"", 0));
     std::string info;
@@ -114,8 +114,8 @@ TEST (llvmc_generator, generate_parameter_return)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_parameter_return", U"", 0));
     std::string info;
@@ -156,8 +156,8 @@ TEST (llvmc_generator, generate_add)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_add", U"", 0));
     std::string info;
@@ -195,8 +195,8 @@ TEST (llvmc_generator, generate_alloca)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_alloca", U"", 0));
     std::string info;
@@ -234,8 +234,8 @@ TEST (llvmc_generator, generate_and)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_and", U"", 0));
     std::string info;
@@ -277,8 +277,8 @@ TEST (llvmc_generator, generate_ashr)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_ashr", U"", 0));
     std::string info;
@@ -359,8 +359,8 @@ TEST (llvmc_generator, generate_icmp1)
     function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_icmp1", U"", 0));
     std::string info;
@@ -402,8 +402,8 @@ TEST (llvmc_generator, generate_load)
     function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_load", U"", 0));
     std::string info;
@@ -445,8 +445,8 @@ TEST (llvmc_generator, generate_lshr)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_lshr", U"", 0));
     std::string info;
@@ -488,8 +488,8 @@ TEST (llvmc_generator, generate_mul)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_mul", U"", 0));
     std::string info;
@@ -529,8 +529,8 @@ TEST (llvmc_generator, generate_or)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_or", U"", 0));
     std::string info;
@@ -572,8 +572,8 @@ TEST (llvmc_generator, generate_sdiv)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_sdiv", U"", 0));
     std::string info;
@@ -612,8 +612,8 @@ TEST (llvmc_generator, generate_sext)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_sext", U"", 0));
     std::string info;
@@ -653,8 +653,8 @@ TEST (llvmc_generator, generate_shl)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_shl", U"", 0));
     std::string info;
@@ -692,8 +692,8 @@ TEST (llvmc_generator, generate_srem)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_srem", U"", 0));
     std::string info;
@@ -730,8 +730,8 @@ TEST (llvmc_generator, generate_store)
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&named1);
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_store", U"", 0));
     std::string info;
@@ -771,8 +771,8 @@ TEST (llvmc_generator, generate_sub)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_sub", U"", 0));
     std::string info;
@@ -812,8 +812,8 @@ TEST (llvmc_generator, generate_udiv)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_udiv", U"", 0));
     std::string info;
@@ -853,8 +853,8 @@ TEST (llvmc_generator, generate_urem)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_urem", U"", 0));
     std::string info;
@@ -894,8 +894,8 @@ TEST (llvmc_generator, generate_xor)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_xor", U"", 0));
     std::string info;
@@ -934,8 +934,8 @@ TEST (llvmc_generator, generate_zext)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_zext", U"", 0));
     std::string info;
@@ -967,8 +967,8 @@ TEST (llvmc_generator, generate_two_return)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_two_return", U"", 0));
     std::string info;
@@ -1023,8 +1023,8 @@ TEST (llvmc_generator, generate_if)
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named3 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named3);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_if", U"", 0));
     ASSERT_NE (nullptr, result.module);
@@ -1073,8 +1073,8 @@ TEST (llvmc_generator, generate_if_value)
     function1.results.push_back (&result4);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named3 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named3);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_if_value", U"", 0));
     ASSERT_NE (nullptr, result.module);
@@ -1120,8 +1120,8 @@ TEST (llvmc_generator, generate_if_join)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named4 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named4);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module, U"generate_if_join", U"", 0));
@@ -1185,8 +1185,8 @@ TEST (llvmc_generator, generate_if_join_value)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named6 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named6);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module, U"generate_if_join_value", U"", 0));
@@ -1279,8 +1279,8 @@ TEST (llvmc_generator, generate_if_join_2value)
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
     
-    mu::llvmc::skeleton::named named9 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named9);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module, U"generate_if_join_2value", U"", 0));
@@ -1345,8 +1345,8 @@ TEST (llvmc_generator, generate_if_join_load)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named6 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named6);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module, U"generate_if_join_load", U"", 0));
@@ -1367,8 +1367,8 @@ TEST (llvmc_generator, generate_call_0)
     mu::llvmc::skeleton::unit_type type1;
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -1380,8 +1380,8 @@ TEST (llvmc_generator, generate_call_0)
     function2.results.push_back (&result2);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function2.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function2, U"1");
-    module.globals.push_back (&named2);
+    function2.name = U"1";
+    module.globals.push_back (&function2);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -1407,8 +1407,8 @@ TEST (llvmc_generator, generate_call_1)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function1.entry, &type1, U"parameter2");
@@ -1423,8 +1423,8 @@ TEST (llvmc_generator, generate_call_1)
     function2.results.push_back (&result2);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function2, U"1");
-    module.globals.push_back (&named2);
+    function2.name = U"1";
+    module.globals.push_back (&function2);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -1465,8 +1465,8 @@ TEST (llvmc_generator, generate_call_2)
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function1.entry, &type1, U"parameter2");
@@ -1487,8 +1487,8 @@ TEST (llvmc_generator, generate_call_2)
     function2.results.push_back (&result4);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function2.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function2, U"1");
-    module.globals.push_back (&named2);
+    function2.name = U"1";
+    module.globals.push_back (&function2);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -1536,8 +1536,8 @@ TEST (llvmc_generator, generate_call_3)
     function1.results.push_back (&result6);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function1.entry, &type1, U"parameter2");
@@ -1558,8 +1558,8 @@ TEST (llvmc_generator, generate_call_3)
     function2.results.push_back (&result4);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function2.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function2, U"1");
-    module.globals.push_back (&named2);
+    function2.name = U"1";
+    module.globals.push_back (&function2);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -1582,8 +1582,8 @@ TEST (llvmc_generator, generate_call_predicate_b1v0)
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&module.the_unit_value);
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -1594,8 +1594,8 @@ TEST (llvmc_generator, generate_call_predicate_b1v0)
     function2.predicate_offsets.push_back (function2.results.size ());
     function2.results.push_back (&element1);
     function2.branch_ends.push_back (function2.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function2, U"1");
-    module.globals.push_back (&named2);
+    function2.name = U"1";
+    module.globals.push_back (&function2);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -1618,8 +1618,8 @@ TEST (llvmc_generator, generate_call_predicate_b1v1)
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&module.the_unit_value);
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -1634,8 +1634,8 @@ TEST (llvmc_generator, generate_call_predicate_b1v1)
     function2.predicate_offsets.push_back (function2.results.size ());
     function2.results.push_back (&element1);
     function2.branch_ends.push_back (function2.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function2, U"1");
-    module.globals.push_back (&named2);
+    function2.name = U"1";
+    module.globals.push_back (&function2);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -1697,8 +1697,8 @@ TEST (llvmc_generator, generate_loop1)
 	function1.predicate_offsets.push_back (function1.results.size ());
 	function1.results.push_back (&element3);
 	function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-	module.globals.push_back (&named1);
+    function1.name = U"0";
+	module.globals.push_back (&function1);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -1776,8 +1776,8 @@ TEST (llvmc_generator, generate_loop_count)
 	function1.predicate_offsets.push_back (function1.results.size ());
 	function1.branch_ends.push_back (function1.results.size ());
     
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-	module.globals.push_back (&named1);
+    function1.name = U"0";
+	module.globals.push_back (&function1);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -1811,8 +1811,8 @@ TEST (llvmc_generator, generate_asm)
 	function1.predicate_offsets.push_back (function1.results.size ());
 	function1.results.push_back (&asm2);
 	function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-	module.globals.push_back (&named1);
+    function1.name = U"0";
+	module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module, U"generate_asm", U"", 0));
@@ -1847,8 +1847,8 @@ TEST (llvmc_generator, generate_getelementptr)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_getelementptr", U"", 0));
     std::string info;
@@ -1886,8 +1886,8 @@ TEST (llvmc_generator, generate_identity)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_identity", U"", 0));
     std::string info;
@@ -1924,8 +1924,8 @@ TEST (llvmc_generator, generate_asm2)
 	function1.predicate_offsets.push_back (function1.results.size ());
 	function1.results.push_back (&instruction1);
 	function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-	module.globals.push_back (&named1);
+    function1.name = U"0";
+	module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module, U"generate_asm2", U"", 0));
@@ -1946,8 +1946,8 @@ TEST (llvmc_generator, generate_call_0_predicate)
     mu::llvmc::skeleton::unit_type type1;
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named3 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named3);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function2.entry, &module.integer_1_type, U"p0");
@@ -1981,8 +1981,8 @@ TEST (llvmc_generator, generate_call_0_predicate)
     function2.results.push_back (&result3);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function2.results.size ());
-    mu::llvmc::skeleton::named named4 (mu::empty_region, &function2, U"1");
-    module.globals.push_back (&named4);
+    function2.name = U"1";
+    module.globals.push_back (&function2);
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -2010,8 +2010,8 @@ TEST (llvmc_generator, generate_array)
     function1.results.push_back (&result1);
     function1.add_predicate_offset ();
     function1.add_branch_end ();
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module, U"generate_array", U"", 0));
@@ -2047,8 +2047,8 @@ TEST (llvmc_generator, generate_bitcast)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_bitcast", U"", 0));
     std::string info;
@@ -2087,8 +2087,8 @@ TEST (llvmc_generator, generate_ptrtoint)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_ptrtoint", U"", 0));
     std::string info;
@@ -2127,8 +2127,8 @@ TEST (llvmc_generator, generate_ptrfromint)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_ptrfromint", U"", 0));
     std::string info;
@@ -2151,8 +2151,8 @@ TEST (llvmc_generator, generate_global_variable)
     mu::llvmc::skeleton::module module;
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 32, 42);
     mu::llvmc::skeleton::global_variable global1 (mu::empty_region, module.global, &constant1);
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &global1, U"0");
-	module.globals.push_back (&named1);
+    global1.name = U"0";
+	module.globals.push_back (&global1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_global_variable", U"", 0));
     std::string info;
@@ -2200,8 +2200,8 @@ TEST (llvmc_generator, generate_if_join_value_predicate)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named3 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named3);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module, U"generate_if_join_value_predicate", U"", 0));
@@ -2230,8 +2230,8 @@ TEST (llvmc_generator, generate_struct_type_undefined)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named1 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named1);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_struct_type_undefined", U"", 0));
     std::string info;
@@ -2268,8 +2268,8 @@ TEST (llvmc_generator, generate_insertvalue)
     function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_insertvalue", U"", 0));
     std::string info;
@@ -2303,8 +2303,8 @@ TEST (llvmc_generator, generate_select)
     function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_select_expected", U"", 0));
     std::string info;
@@ -2338,8 +2338,8 @@ TEST (llvmc_generator, generate_extractvalue)
     function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::skeleton::named named2 (mu::empty_region, &function1, U"0");
-    module.globals.push_back (&named2);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_extractvalue", U"", 0));
     std::string info;

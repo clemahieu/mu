@@ -23,6 +23,7 @@ namespace mu
             class type;
             class branch;
             class number;
+            class global_value;
         }
         namespace ast
         {
@@ -53,7 +54,7 @@ namespace mu
             analyzer_module ();
             module_result analyze (mu::llvmc::ast::node * module_a);
 			void process_module_node (mu::string const & name_a, mu::llvmc::skeleton::node * node_a);
-            mu::set <mu::llvmc::ast::function *> unnamed_functions;
+            mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
             mu::set <mu::llvmc::ast::node *> current_expression_generation;
             bool entry_defined;
             mu::llvmc::skeleton::module * module;

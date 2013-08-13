@@ -163,7 +163,7 @@ public:
     {
         element->generated.push_back (new (GC) mu::llvmc::skeleton::named (element->region, node_a, element->name));
     }
-    void function (mu::llvmc::skeleton::function * node_a)
+    void global_value (mu::llvmc::skeleton::global_value * node_a)
     {
         if (node_a->name.empty ())
         {
@@ -172,7 +172,7 @@ public:
         }
         else
         {
-            error = new (GC) mu::core::error_string (U"Function has already been named", mu::core::error_type::function_already_named, node_a->region);
+            error = new (GC) mu::core::error_string (U"Global has already been named", mu::core::error_type::function_already_named, node_a->region);
         }
     }
     mu::llvmc::ast::element * element;
@@ -351,6 +351,8 @@ void mu::llvmc::analyzer_node::global_variable (mu::llvmc::ast::global_variable 
 			auto & targets (global_variable->generated);
 			assert (targets.empty ());
 			auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, module.module->global, constant));
+            assert (module.unnamed_globals.find (skeleton) == module.unnamed_globals.end ());
+            module.unnamed_globals.insert (skeleton);
 			targets.push_back (skeleton);
 		}
 		else
@@ -517,8 +519,8 @@ void mu::llvmc::analyzer_node::function (mu::llvmc::ast::function * function_nod
 	{
 		function_node->generated.push_back (function_s);
 		function_node->assigned = true;
-        assert (module.unnamed_functions.find (function_node) == module.unnamed_functions.end ());
-        module.unnamed_functions.insert (function_node);
+        assert (module.unnamed_globals.find (function_s) == module.unnamed_globals.end ());
+        module.unnamed_globals.insert (function_s);
 	}
 	entry_m = previous;
 }
