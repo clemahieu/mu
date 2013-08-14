@@ -1134,15 +1134,15 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
         module = module_s;
 		for (auto i (module_l->globals.begin ()), j (module_l->globals.end ()); i != j && result_m.error == nullptr; ++i)
 		{
-			if (!i->second->assigned)
+			if (!(*i)->assigned)
 			{
                 mu::llvmc::analyzer_node nodes (*this, result_m.error, module_s->global);
-                nodes.process_node (i->second);
+                nodes.process_node (*i);
 			}
             if (result_m.error == nullptr)
             {
-                assert (i->second->assigned);
-				auto & values (i->second->generated);
+                assert ((*i)->assigned);
+				auto & values ((*i)->generated);
 				for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
 				{
                     auto value (*k);

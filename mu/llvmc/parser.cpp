@@ -209,7 +209,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
         auto item (parser_a.peek ());
         if (item.ast != nullptr)
         {
-            // Parsed correctly
+            module->globals.push_back (item.ast);
         }
         else if (item.token != nullptr)
         {
@@ -243,16 +243,6 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
 			std::string err (error.str ());
             result.error = new (GC) mu::core::error_string (mu::string (err.begin (), err.end ()).c_str (), mu::core::error_type::unresolved_symbols, std::get <0> (parser_a.globals.unresolved.begin ()->second));
             result.node = nullptr;
-        }
-        else
-        {
-            for (auto i: parser_a.globals.mappings)
-            {
-                if (i.second != nullptr)
-                {
-                    module->globals [i.first] = i.second;
-                }
-            }
         }
     }
     return result;

@@ -612,7 +612,7 @@ mu::llvmc::ast::module::module (mu::llvmc::ast::module const & other_a, mu::map 
 {
 	for (auto & i: other_a.globals)
 	{
-		globals [i.first] = i.second->clone (generated_a);
+		globals.push_back (i->clone (generated_a));
 	}
 }
 
