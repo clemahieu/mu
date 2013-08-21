@@ -54,7 +54,19 @@ namespace mu
             mu::llvmc::skeleton::function * function;
             mu::core::error * error;
         };
-		class module_processor;
+		class module_processor : public mu::llvmc::ast::visitor
+		{
+		public:
+			module_processor ();
+			void node (mu::llvmc::ast::node * node_a) override;
+			void module (mu::llvmc::ast::module * node_a) override;
+			mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
+			mu::set <mu::llvmc::skeleton::global_value *> named_globals;
+			mu::set <mu::llvmc::ast::node *> current_expression_generation;
+			bool entry_defined;
+			mu::llvmc::skeleton::module * module_m;
+			mu::llvmc::module_result result_m;
+		};
         class function_processor : public mu::llvmc::ast::visitor
         {
         public:

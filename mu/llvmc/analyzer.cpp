@@ -77,79 +77,79 @@ void mu::llvmc::branch_analyzer::new_set ()
 class module_analyzer : public mu::llvmc::skeleton::visitor
 {
 public:
-    module_analyzer (mu::llvmc::skeleton::module * module_a) :
-    module (module_a)
+    module_analyzer (mu::llvmc::module_processor & module_a, mu::core::error * & error_a) :
+    module (module_a),
+	error (error_a)
     {
     }
+	void node (mu::llvmc::skeleton::node * node_a) override
+	{
+		error = new (GC) mu::core::error_string (U"Unexpected node type in module", mu::core::error_type::unexpected_node_type);
+	}
     void named (mu::llvmc::skeleton::named * node_a) override
     {
         node_a->value_m->visit (this);
+		if (error == nullptr)
+		{
+		}
     }
     void constant (mu::llvmc::skeleton::constant * node_a) override
     {
-		module->globals.push_back (node_a);
+		module.module_m->globals.push_back (node_a);
     }
     void type (mu::llvmc::skeleton::type * node_a) override
     {
-        // Types are already generated in to the module
+		written_but_not_generated (node_a);
     }
     void template_c (mu::llvmc::skeleton::template_c * node_a) override
     {
-        // Templates float in module
+		written_but_not_generated (node_a);
     }
-    mu::llvmc::skeleton::module * module;
-};
-
-namespace mu
-{
-	namespace llvmc
+	void written_but_not_generated (mu::llvmc::skeleton::node * node_a)
 	{
-		class module_processor : public mu::llvmc::ast::visitor
+        // Nodes that can be written at module level but are not generated at the module level
+	}
+    mu::llvmc::module_processor & module;
+	mu::core::error * & error;
+};
+				
+mu::llvmc::module_processor::module_processor () :
+entry_defined (false),
+result_m ({nullptr, nullptr})
+{
+}
+				
+void mu::llvmc::module_processor::node (mu::llvmc::ast::node * node_a)
+{
+	result_m.error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module, node_a->region);
+}
+			
+void mu::llvmc::module_processor::module (mu::llvmc::ast::module * node_a)
+{
+	auto module_s (new (GC) mu::llvmc::skeleton::module);
+	module_m = module_s;
+	mu::llvmc::function_processor nodes (*this, result_m.error, module_s->global);
+	module_analyzer processor (*this, result_m.error);
+	for (auto i (node_a->globals.begin ()), j (node_a->globals.end ()); i != j && result_m.error == nullptr; ++i)
+	{
+		if (!(*i)->assigned)
 		{
-		public:
-			module_processor () :
-			entry_defined (false),
-			result_m ({nullptr, nullptr})
+			nodes.process_node (*i);
+		}
+		if (result_m.error == nullptr)
+		{
+			assert ((*i)->assigned);
+			auto & values ((*i)->generated);
+			for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
 			{
+				auto value (*k);
+				value->visit (&processor);
 			}
-			void node (mu::llvmc::ast::node * node_a)
-			{
-				result_m.error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module, node_a->region);
-			}
-			void module (mu::llvmc::ast::module * node_a)
-			{
-				auto module_s (new (GC) mu::llvmc::skeleton::module);
-				module_m = module_s;
-				for (auto i (node_a->globals.begin ()), j (node_a->globals.end ()); i != j && result_m.error == nullptr; ++i)
-				{
-					if (!(*i)->assigned)
-					{
-						mu::llvmc::function_processor nodes (*this, result_m.error, module_s->global);
-						nodes.process_node (*i);
-					}
-					if (result_m.error == nullptr)
-					{
-						assert ((*i)->assigned);
-						auto & values ((*i)->generated);
-						for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
-						{
-							auto value (*k);
-							module_analyzer processor (module_m);
-							value->visit (&processor);
-						}
-					}
-				}
-				if (result_m.error == nullptr)
-				{
-					result_m.module = module_s;
-				}
-			}
-			mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
-			mu::set <mu::llvmc::ast::node *> current_expression_generation;
-			bool entry_defined;
-			mu::llvmc::skeleton::module * module_m;
-			mu::llvmc::module_result result_m;
-		};
+		}
+	}
+	if (result_m.error == nullptr)
+	{
+		result_m.module = module_s;
 	}
 }
 
