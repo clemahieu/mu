@@ -459,7 +459,7 @@ namespace mu
                 mu::vector <mu::llvmc::skeleton::identity_element *> elements;
                 mu::llvmc::skeleton::type * type_m;
             };
-            class entry : public mu::llvmc::skeleton::constant
+            class entry : public mu::llvmc::skeleton::global_value
             {
             public:
                 entry (mu::llvmc::skeleton::function * function_a);

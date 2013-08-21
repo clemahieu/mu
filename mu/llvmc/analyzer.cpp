@@ -93,9 +93,13 @@ public:
 		{
 		}
     }
+	void global_value (mu::llvmc::skeleton::global_value * node_a) override
+	{
+		module.module_m->globals.push_back (node_a);
+	}
     void constant (mu::llvmc::skeleton::constant * node_a) override
     {
-		module.module_m->globals.push_back (node_a);
+		written_but_not_generated (node_a);
     }
     void type (mu::llvmc::skeleton::type * node_a) override
     {
