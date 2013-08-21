@@ -74,10 +74,10 @@ void mu::llvmc::branch_analyzer::new_set ()
 	}
 }
 
-class module_body_processor : public mu::llvmc::skeleton::visitor
+class module_analyzer : public mu::llvmc::skeleton::visitor
 {
 public:
-    module_body_processor (mu::llvmc::skeleton::module * module_a) :
+    module_analyzer (mu::llvmc::skeleton::module * module_a) :
     module (module_a)
     {
     }
@@ -134,7 +134,7 @@ namespace mu
 						for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
 						{
 							auto value (*k);
-							module_body_processor processor (module_m);
+							module_analyzer processor (module_m);
 							value->visit (&processor);
 						}
 					}
