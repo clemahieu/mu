@@ -48,28 +48,17 @@ namespace mu
             mu::llvmc::skeleton::module * module;
             mu::core::error * error;
         };
-        class analyzer_module
-        {
-        public:
-            analyzer_module ();
-            module_result analyze (mu::llvmc::ast::node * module_a);
-			void process_module_node (mu::string const & name_a, mu::llvmc::skeleton::node * node_a);
-            mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
-            mu::set <mu::llvmc::ast::node *> current_expression_generation;
-            bool entry_defined;
-            mu::llvmc::skeleton::module * module;
-            mu::llvmc::module_result result_m;
-        };
         class function_result
         {
         public:
             mu::llvmc::skeleton::function * function;
             mu::core::error * error;
         };
+		class top_visitor;
         class analyzer_node : public mu::llvmc::ast::visitor
         {
         public:
-            analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
+            analyzer_node (mu::llvmc::top_visitor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
             void process_node (mu::llvmc::ast::node * node_a);
             void process_value_call (mu::llvmc::ast::definite_expression * expression_a);
             void process_marker (mu::llvmc::ast::definite_expression * expression_a);
@@ -107,7 +96,7 @@ namespace mu
 			void process_template (mu::llvmc::ast::definite_expression * node_a);
             void process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
-            mu::llvmc::analyzer_module & module;
+            mu::llvmc::top_visitor & module;
             mu::core::error * & error;
             mu::llvmc::skeleton::branch * entry_m;
 			mu::llvmc::ast::visitor * current_context;
