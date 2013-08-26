@@ -428,7 +428,7 @@ let vector-template template [vector-template-type]
 
 [vector-template int64]
 
-let entry function
+entrypoint let entry function
 []
 [
 	:(let stored [store ascii  let text [alloca array int8 #26]]
