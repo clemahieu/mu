@@ -1160,7 +1160,7 @@ TEST (llvmc_analyzer, call_1_argument)
     mu::llvmc::ast::parameter parameter2 (U"p0", &value1);
     function2.parameters.push_back (&parameter2);
     mu::llvmc::ast::definite_expression expression1;
-    expression1.arguments.push_back (&function1);
+    expression1.arguments.push_back (&element1);
     expression1.arguments.push_back (&parameter2);
     expression1.set_predicate_position ();
     mu::llvmc::ast::result result2 (&value1);

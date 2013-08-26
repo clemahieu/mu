@@ -281,6 +281,7 @@ public:
 	{
 		global_naming naming (module, error, element->name);
 		node_a->visit (&naming);
+		element->generated.push_back (node_a);
 	}
 	mu::llvmc::module_processor & module;
     mu::llvmc::ast::element * element;
@@ -292,6 +293,7 @@ void mu::llvmc::function_processor::element (mu::llvmc::ast::element * element_a
 	process_node (element_a->node);
 	if (error == nullptr)
 	{
+		assert (element_a->node->assigned);
 		auto existing (element_a->node->generated);
 		if (existing.size () > element_a->index)
 		{
