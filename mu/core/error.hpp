@@ -167,7 +167,8 @@ namespace mu
             entry_point_must_have_no_arguments,
             entry_point_must_have_one_return_branch,
             entry_point_cannot_return_values,
-            function_already_named
+            function_already_named,
+			global_already_named
         };
         class error
         {

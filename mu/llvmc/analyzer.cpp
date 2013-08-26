@@ -74,6 +74,41 @@ void mu::llvmc::branch_analyzer::new_set ()
 	}
 }
 
+class global_naming : public mu::llvmc::skeleton::visitor
+{
+public:
+	global_naming (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::string const & name_a) :
+	module (module_a),
+	error (error_a),
+	name (name_a)
+	{
+	}
+	void node (mu::llvmc::skeleton::node * node_a) override
+	{
+		// Non-globals can be named anything
+	}
+	void global_value (mu::llvmc::skeleton::global_value * node_a) override
+	{
+		auto existing (module.named_globals.find (node_a));
+		if (existing == module.named_globals.end ())
+		{
+			auto removed (module.unnamed_globals.erase (node_a));
+			assert (removed == 1);
+			module.named_globals.insert (node_a);
+			module.module_m->globals.push_back (node_a);
+			assert (node_a->name.empty ());
+			node_a->name = name;
+		}
+		else
+		{
+			error = new mu::core::error_string (U"Global already has a name", mu::core::error_type::global_already_named);
+		}
+	}
+    mu::llvmc::module_processor & module;
+	mu::core::error * & error;
+	mu::string const & name;
+};
+
 class module_analyzer : public mu::llvmc::skeleton::visitor
 {
 public:
@@ -91,11 +126,13 @@ public:
         node_a->value_m->visit (this);
 		if (error == nullptr)
 		{
+			global_naming naming (module, error, node_a->name);
+			node_a->value_m->visit (&naming);
 		}
     }
 	void global_value (mu::llvmc::skeleton::global_value * node_a) override
 	{
-		module.module_m->globals.push_back (node_a);
+		written_but_not_generated (node_a);
 	}
     void constant (mu::llvmc::skeleton::constant * node_a) override
     {
@@ -226,7 +263,8 @@ void mu::llvmc::function_processor::integer_type (mu::llvmc::ast::integer_type *
 class naming_visitor : public mu::llvmc::skeleton::visitor
 {
 public:
-    naming_visitor (mu::llvmc::ast::element * element_a, mu::core::error * & error_a) :
+    naming_visitor (mu::llvmc::module_processor & module_a, mu::llvmc::ast::element * element_a, mu::core::error * & error_a) :
+	module (module_a),
     element (element_a),
     error (error_a)
     {
@@ -239,18 +277,12 @@ public:
     {
         element->generated.push_back (new (GC) mu::llvmc::skeleton::named (element->region, node_a, element->name));
     }
-    void global_value (mu::llvmc::skeleton::global_value * node_a)
-    {
-        if (node_a->name.empty ())
-        {
-            node_a->name = element->name;
-            element->generated.push_back (node_a);
-        }
-        else
-        {
-            error = new (GC) mu::core::error_string (U"Global has already been named", mu::core::error_type::function_already_named, node_a->region);
-        }
-    }
+	void global_value (mu::llvmc::skeleton::global_value * node_a)
+	{
+		global_naming naming (module, error, element->name);
+		node_a->visit (&naming);
+	}
+	mu::llvmc::module_processor & module;
     mu::llvmc::ast::element * element;
     mu::core::error * & error;
 };
@@ -264,9 +296,12 @@ void mu::llvmc::function_processor::element (mu::llvmc::ast::element * element_a
 		if (existing.size () > element_a->index)
 		{
 			auto node (existing [element_a->index]);
-            naming_visitor naming (element_a, error);
+            naming_visitor naming (module, element_a, error);
             node->visit (&naming);
-			element_a->assigned = true;
+			if (error == nullptr)
+			{
+				element_a->assigned = true;
+			}
 		}
 		else
 		{

@@ -202,6 +202,22 @@ TEST (llvmc_analyzer, fail_not_module)
     ASSERT_EQ (nullptr, result.module);
 }
 
+TEST (llvmc_analyzer, function_already_named_fail)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    function.region = mu::core::region (2, 2, 2, 3, 3, 3);
+    mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element1);
+    mu::llvmc::ast::element element2 (&function, 0, 1, U"1", mu::empty_region);
+    module.globals.push_back (&element2);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+	ASSERT_EQ (mu::core::error_type::global_already_named, result.error->type ());
+}
+
 TEST (llvmc_analyzer, empty_function)
 {
     mu::llvmc::analyzer analyzer;
