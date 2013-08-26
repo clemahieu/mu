@@ -416,12 +416,12 @@ let vector-template template [vector-template-type]
 		let data [vector-data-set result data-a]
 		let size [vector-size-set result size-a]
 	]
-	[[ptr vector-template-type result; data size]]
+	[[ptr vector-type result; data size]]
 	
 	let vector-new function
 	[]
 	[
-		let result [vector-new-set null ptr vector-type cint64 #0]
+		let result [vector-new-set null ptr vector-template-type cint64 #0]
 	]
 	[[ptr vector-type result]]
 ]
