@@ -400,6 +400,7 @@ namespace mu
                 module ();
                 mu::vector <mu::llvmc::skeleton::value *> globals;
                 mu::llvmc::skeleton::branch * global;
+				mu::llvmc::skeleton::function * entry;
                 mu::llvmc::skeleton::integer_type integer_1_type;
                 mu::llvmc::skeleton::integer_type integer_8_type;
                 mu::llvmc::skeleton::unit_type the_unit_type;
@@ -459,14 +460,6 @@ namespace mu
                 mu::vector <mu::llvmc::skeleton::identity_element *> elements;
                 mu::llvmc::skeleton::type * type_m;
             };
-            class entry : public mu::llvmc::skeleton::global_value
-            {
-            public:
-                entry (mu::llvmc::skeleton::function * function_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-                mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::function * function;
-            };
 			class undefined : public mu::llvmc::skeleton::value
 			{
 			public:
@@ -516,7 +509,6 @@ namespace mu
 				virtual void undefined (mu::llvmc::skeleton::undefined * node_a);
                 virtual void template_c (mu::llvmc::skeleton::template_c * node_a);
                 virtual void global_value (mu::llvmc::skeleton::global_value * node_a);
-                virtual void entry (mu::llvmc::skeleton::entry * node_a);
             };
         }
     }

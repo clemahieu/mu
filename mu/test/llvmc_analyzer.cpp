@@ -239,12 +239,12 @@ TEST (llvmc_analyzer, entry_function)
     ASSERT_EQ (nullptr, result.error);
     ASSERT_NE (nullptr, result.module);
     ASSERT_EQ (1, result.module->globals.size ());
-    auto entry2 (dynamic_cast <mu::llvmc::skeleton::entry *> (result.module->globals [0]));
-    ASSERT_NE (nullptr, entry2);
-    auto function1 (entry2->function);
+    auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
+    ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (1, function1->results.size ());
 	ASSERT_EQ (function.region, function1->region);
+	ASSERT_EQ (function1, result.module->entry);
 }
 
 TEST (llvmc_analyzer, named_function)

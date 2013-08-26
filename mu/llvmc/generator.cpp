@@ -1424,14 +1424,6 @@ namespace mu
                 node_a->generated = generated;
                 node_a->predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
             }
-            void entry (mu::llvmc::skeleton::entry * node_a) override
-            {
-                retrieve_value (node_a->function);
-                node_a->predicate = node_a->function->predicate;
-                node_a->generated = node_a->function->generated;
-                assert (module.target.entry == nullptr);
-                module.target.entry = llvm::cast <llvm::Function> (node_a->generated);
-            }
             void function (mu::llvmc::skeleton::function * node_a) override
             {
                 auto type (&node_a->type_m);

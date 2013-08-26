@@ -654,6 +654,7 @@ type_m (type_a)
 
 mu::llvmc::skeleton::module::module () :
 global (new (GC) mu::llvmc::skeleton::branch (nullptr)),
+entry (nullptr),
 integer_1_type (1),
 integer_8_type (8),
 the_unit_value (global, &the_unit_type)
@@ -1231,25 +1232,4 @@ void mu::llvmc::skeleton::global_value::visit (mu::llvmc::skeleton::visitor * vi
 void mu::llvmc::skeleton::visitor::global_value (mu::llvmc::skeleton::global_value * node_a)
 {
     constant (node_a);
-}
-
-mu::llvmc::skeleton::entry::entry (mu::llvmc::skeleton::function * function_a) :
-global_value (function_a->region, function_a->branch),
-function (function_a)
-{
-}
-
-void mu::llvmc::skeleton::entry::visit (mu::llvmc::skeleton::visitor * visitor_a)
-{
-    visitor_a->entry (this);
-}
-
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::entry::type ()
-{
-    return function->type ();
-}
-
-void mu::llvmc::skeleton::visitor::entry (mu::llvmc::skeleton::entry * node_a)
-{
-    global_value (node_a);
 }

@@ -63,7 +63,6 @@ namespace mu
 			mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
 			mu::set <mu::llvmc::skeleton::global_value *> named_globals;
 			mu::set <mu::llvmc::ast::node *> current_expression_generation;
-			bool entry_defined;
 			mu::llvmc::skeleton::module * module_m;
 			mu::llvmc::module_result result_m;
 		};

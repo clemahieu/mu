@@ -118,7 +118,6 @@ public:
 };
 				
 mu::llvmc::module_processor::module_processor () :
-entry_defined (false),
 result_m ({nullptr, nullptr})
 {
 }
@@ -598,7 +597,7 @@ void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
         assert (node_a->function->assigned);
         if (node_a->function->generated.size () == 1)
         {
-            if (!module.entry_defined)
+            if (module.module_m->entry == nullptr)
             {
                 auto function_l (dynamic_cast <mu::llvmc::skeleton::function *> (node_a->function->generated [0]));
                 if (function_l != nullptr)
@@ -610,7 +609,8 @@ void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
                             assert (function_l->predicate_offsets.size () == 1);
                             if (function_l->predicate_offsets [0] == 0)
                             {
-                                node_a->generated.push_back (new (GC) mu::llvmc::skeleton::entry (function_l));
+								module.module_m->entry = function_l;
+                                node_a->generated.push_back (function_l);
                                 node_a->assigned = true;
                             }
                             else
