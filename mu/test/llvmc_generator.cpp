@@ -2348,3 +2348,20 @@ TEST (llvmc_generator, generate_extractvalue)
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_extractvalue_expected), info);
 }
+
+TEST (llvmc_generator, generate_entry)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
+    function1.name = U"0";
+    module.globals.push_back (&function1);
+	module.entry = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_empty", U"", 0));
+	ASSERT_NE (nullptr, result.entry);
+	ASSERT_EQ (1, result.module->getFunctionList().size ());
+	llvm::Function * function2 (result.module->getFunctionList ().begin ());
+	ASSERT_NE (nullptr, function2);
+	ASSERT_EQ (result.entry, function2);
+}

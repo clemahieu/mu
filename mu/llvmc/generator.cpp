@@ -31,10 +31,15 @@ mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & 
 {
 	char id [32];
 	sprintf (id, "%016" PRIx64 "", module_id_a);
-    mu::llvmc::generator_result result;
+    mu::llvmc::generator_result result {nullptr, nullptr};
     result.module = new llvm::Module (id, context_a);
     mu::llvmc::generate_module generator (module_a, result, name_a, path_a, module_id_a);
     generator.generate ();
+	if (module_a->entry != nullptr)
+	{
+		assert (module_a->entry->generated != nullptr);
+		result.entry = llvm::cast <llvm::Function> (module_a->entry->generated);
+	}
     return result;
 }
 
