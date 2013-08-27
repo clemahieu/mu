@@ -785,3 +785,27 @@ void mu::llvmc::ast::visitor::entry (mu::llvmc::ast::entry * node_a)
 {
     node (node_a);
 }
+
+mu::llvmc::ast::set::set (mu::llvmc::ast::set const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
+{
+	for (auto i: other_a.nodes)
+	{
+		nodes.push_back (i->clone (generated_a));
+	}
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::set::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
+{
+	auto result (new (GC) mu::llvmc::ast::set (*this, generated_a));
+	return result;
+}
+
+void mu::llvmc::ast::set::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+	visitor_a->set (this);
+}
+
+void mu::llvmc::ast::visitor::set (mu::llvmc::ast::set * node_a)
+{
+	node (node_a);
+}

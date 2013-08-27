@@ -891,9 +891,12 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::core::region const & regi
 	{
 		size_t index (0);
 		size_t total (identifiers.size ());
+		auto set (new (GC) mu::llvmc::ast::set);
 		for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j && result.error == nullptr; ++i, ++index)
 		{
-			auto error (parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (expression.ast, index, total, (*i)->string, (*i)->region)));
+			auto element (new (GC) mu::llvmc::ast::element (expression.ast, index, total, (*i)->string, (*i)->region));
+			set->nodes.push_back (element);
+			auto error (parser_a.current_mapping->insert ((*i)->string, element));
             if (error)
             {
                 result.error = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier, (*i)->region);
@@ -901,7 +904,7 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::core::region const & regi
 		}
         if (result.error == nullptr)
         {
-            result.node = expression.ast;
+            result.node = set;
         }
 	}
 	else
