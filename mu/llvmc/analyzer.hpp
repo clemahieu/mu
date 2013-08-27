@@ -104,6 +104,7 @@ namespace mu
 			void undefined (mu::llvmc::ast::undefined * node_a) override;
 			void template_c (mu::llvmc::ast::template_c * node_a) override;
             void entry (mu::llvmc::ast::entry * node_a) override;
+			void set (mu::llvmc::ast::set * node_a) override;
 			void process_template (mu::llvmc::ast::definite_expression * node_a);
             void process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);

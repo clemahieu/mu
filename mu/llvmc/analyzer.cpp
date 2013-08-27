@@ -2284,3 +2284,16 @@ entry_m (entry_a),
 current_context (this)
 {
 }
+
+void mu::llvmc::function_processor::set (mu::llvmc::ast::set * node_a)
+{
+	for (auto i: node_a->nodes)
+	{
+		process_node (i);
+		node_a->generated.insert (node_a->generated.end (), i->generated.begin (), i->generated.end ());
+	}
+	if (error == nullptr)
+	{
+		node_a->assigned = true;
+	}
+}
