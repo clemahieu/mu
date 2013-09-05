@@ -19,6 +19,7 @@ namespace mu
         {
             class node;
         }
+		class template_context;
         namespace ast
         {
             class visitor;
@@ -31,6 +32,7 @@ namespace mu
                 virtual ~node ();
 				mu::llvmc::ast::node * clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
+				mu::llvmc::template_context * template_m;
 				mu::core::region region;
 				mu::vector <mu::llvmc::skeleton::node *> generated;
 				bool assigned;

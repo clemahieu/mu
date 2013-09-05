@@ -2074,3 +2074,27 @@ TEST (llvmc_parser, entrypoint)
     auto entry1 (dynamic_cast <mu::llvmc::ast::entry *> (element1->node));
     ASSERT_NE (nullptr, entry1);
 }
+
+TEST (llvmc_template_context, even_clone)
+{
+	mu::llvmc::template_context root ({nullptr});
+	mu::llvmc::template_context context1 ({&root});
+	auto should (context1.should_clone (&context1));
+	ASSERT_TRUE (should);
+}
+
+TEST (llvmc_template_context, above_clone)
+{
+	mu::llvmc::template_context root ({nullptr});
+	mu::llvmc::template_context context1 ({&root});
+	auto should (root.should_clone (&context1));
+	ASSERT_TRUE (should);
+}
+
+TEST (llvmc_template_Context, dont_clone)
+{
+	mu::llvmc::template_context root ({nullptr});
+	mu::llvmc::template_context context1 ({&root});
+	auto should (context1.should_clone (&root));
+	ASSERT_FALSE (should);
+}

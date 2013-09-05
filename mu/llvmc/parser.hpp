@@ -307,6 +307,12 @@ namespace mu
             bool covering () override;
             mu::string const & name () override;
         };
+		class template_context
+		{
+		public:
+			mu::llvmc::template_context * parent;
+			bool should_clone (mu::llvmc::template_context * node_a);
+		};
         class parser
         {
         public:
@@ -327,6 +333,7 @@ namespace mu
             mu::core::error * parse_ast_or_refer_or_right_square_or_terminator (T node_op, U right_square_op, V terminator_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             mu::core::error * parse_left_square_required (char32_t const * error_message_a, mu::core::error_type error_type_a);
             mu::llvmc::partial_ast_result peek ();
+			mu::llvmc::template_context * current_template;
             mu::llvmc::global builtins;
             mu::llvmc::block globals;
             mu::llvmc::mapping * current_mapping;

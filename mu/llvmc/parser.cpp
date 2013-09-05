@@ -21,6 +21,7 @@ keywords (keywords_a)
 }
 
 mu::llvmc::parser::parser (mu::io::stream_token & stream_a):
+current_template (new (GC) mu::llvmc::template_context ({nullptr})),
 builtins (&keywords),
 globals (&builtins),
 current_mapping (&globals),
@@ -2055,4 +2056,16 @@ static mu::string entry_hook_name (U"entry_hook");
 mu::string const & mu::llvmc::entry_hook::name ()
 {
     return entry_hook_name;
+}
+
+bool mu::llvmc::template_context::should_clone (mu::llvmc::template_context * node_a)
+{
+	bool result (false);
+	auto current (node_a);
+	while (!result && current != nullptr)
+	{
+		result = (current == this);
+		current = current->parent;
+	}
+	return result;
 }
