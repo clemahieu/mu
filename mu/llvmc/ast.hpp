@@ -23,12 +23,15 @@ namespace mu
         namespace ast
         {
             class visitor;
+			class builder;
             class node
             {
-            public:
+				friend mu::llvmc::ast::builder;
+			protected:
 				node ();
 				node (mu::llvmc::ast::node const & other_a) = delete;
                 node (mu::llvmc::ast::node const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+            public:
                 virtual ~node ();
 				mu::llvmc::ast::node * clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
@@ -370,6 +373,11 @@ namespace mu
                 virtual void entry (mu::llvmc::ast::entry * node_a);
 				virtual void set (mu::llvmc::ast::set * node_a);
             };
+			class builder
+			{
+			public:
+				mu::llvmc::ast::node * node ();
+			};
         }
     }
 }

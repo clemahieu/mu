@@ -809,3 +809,8 @@ void mu::llvmc::ast::visitor::set (mu::llvmc::ast::set * node_a)
 {
 	node (node_a);
 }
+
+mu::llvmc::ast::node * mu::llvmc::ast::builder::node ()
+{
+	return new (GC) mu::llvmc::ast::node;
+}
