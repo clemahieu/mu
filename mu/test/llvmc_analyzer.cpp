@@ -3800,10 +3800,14 @@ TEST (llvmc_analyzer, template_shared)
 	ASSERT_EQ (1, function1->results.size ());
 	auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0]));
 	ASSERT_NE (nullptr, result2);
+	auto value1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (result2->value));
+	ASSERT_NE (nullptr, value1);
 	auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [1]));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->results.size ());
 	auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
 	ASSERT_NE (nullptr, result3);
-	ASSERT_EQ (result2->value, result3->value);
+	auto value2 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (result3->value));
+	ASSERT_NE (nullptr, value2);
+	ASSERT_EQ (value1, value2);
 }
