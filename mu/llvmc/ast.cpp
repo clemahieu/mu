@@ -829,3 +829,8 @@ mu::llvmc::ast::result * mu::llvmc::ast::builder::result (mu::llvmc::ast::node *
 {
     return new (GC) mu::llvmc::ast::result (written_type_a, value_a);
 }
+
+mu::llvmc::ast::loop_parameter * mu::llvmc::ast::builder::loop_parameter (mu::string const & name_a)
+{
+    return new (GC) mu::llvmc::ast::loop_parameter (name_a);
+}

@@ -68,9 +68,11 @@ namespace mu
             };
             class loop_parameter : public mu::llvmc::ast::node
             {
-            public:
+                friend mu::llvmc::ast::builder;
+            protected:
 				loop_parameter (mu::llvmc::ast::loop_parameter const & other_a);
 				loop_parameter (mu::string const & name_a);
+            public:
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
 				mu::string name;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
@@ -385,6 +387,7 @@ namespace mu
                 mu::llvmc::ast::value * value (mu::llvmc::skeleton::node * node_a);
                 mu::llvmc::ast::result * result ();
                 mu::llvmc::ast::result * result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a);
+                mu::llvmc::ast::loop_parameter * loop_parameter (mu::string const & name_a);
 			};
         }
     }
