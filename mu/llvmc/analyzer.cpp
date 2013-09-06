@@ -290,11 +290,11 @@ public:
 
 void mu::llvmc::function_processor::element (mu::llvmc::ast::element * element_a)
 {
-	process_node (element_a->node);
+	process_node (element_a->node_m);
 	if (error == nullptr)
 	{
-		assert (element_a->node->assigned);
-		auto existing (element_a->node->generated);
+		assert (element_a->node_m->assigned);
+		auto existing (element_a->node_m->generated);
 		if (existing.size () > element_a->index)
 		{
 			auto node (existing [element_a->index]);

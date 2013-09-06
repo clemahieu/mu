@@ -10,7 +10,7 @@ static mu::core::region empty_region (0, 0, 0, 0, 0, 0);
 
 TEST (llvmc_ast, iteration)
 {
-    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::function function1 (nullptr);
     size_t result_calls (0);
     size_t predicate_calls (0);
     size_t transition_calls (0);
@@ -41,7 +41,7 @@ TEST (llvmc_ast, iteration)
 
 TEST (llvmc_ast, iteration_one_result)
 {
-    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::function function1 (nullptr);
     size_t result_calls (0);
     size_t predicate_calls (0);
     size_t transition_calls (0);
@@ -78,13 +78,13 @@ TEST (llvmc_ast, iteration_one_result)
 
 TEST (llvmc_ast, iteration_one_predicate)
 {
-    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::function function1 (nullptr);
     size_t result_calls (0);
     size_t predicate_calls (0);
     size_t transition_calls (0);
     size_t branch_calls (0);
     size_t loop_calls (0);
-    mu::llvmc::ast::unit unit1;
+    mu::llvmc::ast::unit unit1 (nullptr);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&unit1);
     function1.branch_ends.push_back (function1.results.size ());
@@ -113,13 +113,13 @@ TEST (llvmc_ast, iteration_one_predicate)
 
 TEST (llvmc_ast, iteration_multi_predicate)
 {
-    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::function function1 (nullptr);
     size_t result_calls (0);
     size_t predicate_calls (0);
     size_t transition_calls (0);
     size_t branch_calls (0);
     size_t loop_calls (0);
-    mu::llvmc::ast::unit unit1;
+    mu::llvmc::ast::unit unit1 (nullptr);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&unit1);
     function1.results.push_back (&unit1);
@@ -150,8 +150,8 @@ TEST (llvmc_ast, iteration_multi_predicate)
 
 TEST (llvmc_ast, iterate_function)
 {
-    mu::llvmc::ast::function function1;
-    mu::llvmc::ast::function function2;
+    mu::llvmc::ast::function function1 (nullptr);
+    mu::llvmc::ast::function function2 (nullptr);
     size_t result_calls (0);
     size_t predicate_calls (0);
     size_t transition_calls (0);
@@ -186,7 +186,7 @@ TEST (llvmc_ast, iterate_function)
 TEST (llvmc_analyzer, empty)
 {
     mu::llvmc::analyzer analyzer;
-    mu::llvmc::ast::module module;
+    mu::llvmc::ast::module module (nullptr);
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
     ASSERT_NE (nullptr, result.module);
@@ -196,7 +196,7 @@ TEST (llvmc_analyzer, empty)
 TEST (llvmc_analyzer, fail_not_module)
 {
     mu::llvmc::analyzer analyzer;
-    mu::llvmc::ast::unit node;
+    mu::llvmc::ast::unit node (nullptr);
     auto result (analyzer.analyze (&node));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
