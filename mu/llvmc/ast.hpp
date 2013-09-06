@@ -124,7 +124,7 @@ namespace mu
             class definite_expression : public mu::llvmc::ast::node
             {
             public:
-                definite_expression () = default;
+                definite_expression ();
                 definite_expression (std::initializer_list <mu::llvmc::ast::node *> arguments, std::initializer_list <mu::llvmc::ast::node *> predicates);
 				definite_expression (mu::llvmc::ast::definite_expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
