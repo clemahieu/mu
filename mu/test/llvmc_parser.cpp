@@ -34,15 +34,13 @@ public:
 };
 
 static mu::string test_non_covering_name (U"test_non_covering");
-static mu::llvmc::ast::builder b;
 
 class test_non_covering : public mu::llvmc::hook
 {
 public:    
     mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser) override
     {
-		mu::llvmc::ast::builder b;
-        return mu::llvmc::node_result {b.node (), nullptr};
+        return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
     }
     bool covering () override
     {
@@ -60,8 +58,7 @@ class test_covering : public mu::llvmc::hook
 public:
     mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser) override
     {
-		mu::llvmc::ast::builder b;
-        return mu::llvmc::node_result {b.node (), nullptr};
+        return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
     }
     bool covering () override
     {
@@ -178,8 +175,8 @@ TEST (llvmc_parser, block)
     mu::llvmc::keywords keywords;
     mu::llvmc::global global (&keywords);
     mu::llvmc::block block (&global);
-    auto node (b.node ());
-    auto error (block.insert (mu::string (U"test"), node));
+    mu::llvmc::ast::node node;
+    auto error (block.insert (mu::string (U"test"), &node));
     EXPECT_TRUE (!error);
     auto success (false);
     block.refer (mu::string (U"test"), mu::empty_region,
@@ -196,6 +193,7 @@ TEST (llvmc_parser, block_get)
     mu::llvmc::keywords keywords;
     mu::llvmc::global global (&keywords);
     mu::llvmc::block block (&global);
+    mu::llvmc::ast::node node;
     auto success (false);
     auto val (block.get (mu::string (U"test"), mu::empty_region,
                          [&success]
@@ -212,7 +210,7 @@ TEST (llvmc_parser, block_resolve)
     mu::llvmc::keywords keywords;
     mu::llvmc::global global (&keywords);
     mu::llvmc::block block (&global);
-    auto node (b.node ());
+    mu::llvmc::ast::node node;
     auto success (false);
     block.refer (U"test", mu::empty_region,
                          [&success]
@@ -221,7 +219,7 @@ TEST (llvmc_parser, block_resolve)
                              success = true;
                          });
     EXPECT_FALSE (success);
-    block.insert (U"test", node);
+    block.insert (U"test", &node);
     EXPECT_TRUE (success);
 }
 
@@ -236,14 +234,14 @@ TEST (llvmc_parser, block_reuse_id)
     ASSERT_FALSE (fail2);
     {
         mu::llvmc::block block2 (&block);
-        auto node (b.node ());
-        auto fail (block2.insert (U"test", node));
+        mu::llvmc::ast::node node;
+        auto fail (block2.insert (U"test", &node));
         EXPECT_FALSE (fail);
     }
     {
         mu::llvmc::block block2 (&block);
-        auto node (b.node ());
-        auto fail (block2.insert (U"test", node));
+        mu::llvmc::ast::node node;
+        auto fail (block2.insert (U"test", &node));
         EXPECT_FALSE (fail);
     }
 }
@@ -257,6 +255,7 @@ TEST (llvmc_parser, block_refer_reserved)
     ASSERT_FALSE (fail1);
     {
         mu::llvmc::block block2 (&block);
+        mu::llvmc::ast::node node;
         auto test (false);
         block2.refer (U"test", mu::empty_region,
             [&]

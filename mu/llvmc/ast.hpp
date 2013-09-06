@@ -23,15 +23,12 @@ namespace mu
         namespace ast
         {
             class visitor;
-			class builder;
             class node
             {
-				friend mu::llvmc::ast::builder;
-			protected:
+            public:
 				node ();
 				node (mu::llvmc::ast::node const & other_a) = delete;
                 node (mu::llvmc::ast::node const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
-            public:
                 virtual ~node ();
 				mu::llvmc::ast::node * clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
@@ -44,23 +41,18 @@ namespace mu
             };
             class value : public mu::llvmc::ast::node
             {
-				friend mu::llvmc::ast::builder;
-            protected:
+            public:
 				value (mu::llvmc::ast::value const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 value (mu::llvmc::skeleton::node * node_a);
-            public:
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::skeleton::node * node_m;
             };
             class result : public mu::llvmc::ast::node
             {
-                friend mu::llvmc::ast::builder;
-            protected:
-                result () = default;
-				result (mu::llvmc::ast::result const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
-                result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a);
             public:
+				result (mu::llvmc::ast::result const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+                result (mu::llvmc::ast::node * written_type_a);
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::ast::node * written_type;
@@ -68,11 +60,9 @@ namespace mu
             };
             class loop_parameter : public mu::llvmc::ast::node
             {
-                friend mu::llvmc::ast::builder;
-            protected:
+            public:
 				loop_parameter (mu::llvmc::ast::loop_parameter const & other_a);
 				loop_parameter (mu::string const & name_a);
-            public:
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
 				mu::string name;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
@@ -380,15 +370,6 @@ namespace mu
                 virtual void entry (mu::llvmc::ast::entry * node_a);
 				virtual void set (mu::llvmc::ast::set * node_a);
             };
-			class builder
-			{
-			public:
-				mu::llvmc::ast::node * node ();
-                mu::llvmc::ast::value * value (mu::llvmc::skeleton::node * node_a);
-                mu::llvmc::ast::result * result ();
-                mu::llvmc::ast::result * result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a);
-                mu::llvmc::ast::loop_parameter * loop_parameter (mu::string const & name_a);
-			};
         }
     }
 }

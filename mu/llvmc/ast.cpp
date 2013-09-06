@@ -37,9 +37,9 @@ name (name_a)
 {
 }
 
-mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a):
+mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a):
 written_type (written_type_a),
-value (value_a)
+value (nullptr)
 {
 }
 
@@ -808,29 +808,4 @@ void mu::llvmc::ast::set::visit (mu::llvmc::ast::visitor * visitor_a)
 void mu::llvmc::ast::visitor::set (mu::llvmc::ast::set * node_a)
 {
 	node (node_a);
-}
-
-mu::llvmc::ast::node * mu::llvmc::ast::builder::node ()
-{
-	return new (GC) mu::llvmc::ast::node;
-}
-
-mu::llvmc::ast::value * mu::llvmc::ast::builder::value (mu::llvmc::skeleton::node * node_a)
-{
-    return new (GC) mu::llvmc::ast::value (node_a);
-}
-
-mu::llvmc::ast::result * mu::llvmc::ast::builder::result ()
-{
-    return new (GC) mu::llvmc::ast::result;
-}
-
-mu::llvmc::ast::result * mu::llvmc::ast::builder::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a)
-{
-    return new (GC) mu::llvmc::ast::result (written_type_a, value_a);
-}
-
-mu::llvmc::ast::loop_parameter * mu::llvmc::ast::builder::loop_parameter (mu::string const & name_a)
-{
-    return new (GC) mu::llvmc::ast::loop_parameter (name_a);
 }
