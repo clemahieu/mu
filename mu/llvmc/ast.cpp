@@ -37,9 +37,9 @@ name (name_a)
 {
 }
 
-mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a):
+mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a):
 written_type (written_type_a),
-value (nullptr)
+value (value_a)
 {
 }
 
