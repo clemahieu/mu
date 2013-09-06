@@ -429,7 +429,7 @@ void mu::llvmc::function::parse_result_set ()
 		auto action ([&]
 		(mu::llvmc::ast::node * type)
 		{
-            auto result_l (new (GC) mu::llvmc::ast::result (type));
+            auto result_l (parser.ast.result (type));
             result_l->region.first = type->region.first;
             function_m->results.push_back (result_l);
             result.error = parser.parse_ast_or_refer (
