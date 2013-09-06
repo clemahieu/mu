@@ -121,28 +121,17 @@ namespace mu
 				std::vector <size_t> predicate_offsets;
 				std::vector <size_t> branch_ends;
             };
-            class definite_expression : public mu::llvmc::ast::node
+            class expression : public mu::llvmc::ast::node
             {
             public:
-                definite_expression ();
-                definite_expression (std::initializer_list <mu::llvmc::ast::node *> arguments, std::initializer_list <mu::llvmc::ast::node *> predicates);
-				definite_expression (mu::llvmc::ast::definite_expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
+                expression ();
+                expression (std::initializer_list <mu::llvmc::ast::node *> arguments, std::initializer_list <mu::llvmc::ast::node *> predicates);
+				expression (mu::llvmc::ast::expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 void set_predicate_position ();
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 size_t predicate_position;
-            };
-            class if_expression : public mu::llvmc::ast::node
-            {
-            public:
-				if_expression () = default;
-				if_expression (mu::llvmc::ast::if_expression const & other_a);
-				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
-                void visit (mu::llvmc::ast::visitor * visitor_a) override;
-                mu::llvmc::ast::node * predicate;
-                mu::vector <mu::llvmc::ast::node *> true_roots;
-                mu::vector <mu::llvmc::ast::node *> false_roots;
             };
             class function : public mu::llvmc::ast::node
             {
@@ -350,7 +339,7 @@ namespace mu
                 virtual void pointer_type (mu::llvmc::ast::pointer_type * node_a);
                 virtual void constant_array (mu::llvmc::ast::constant_array * node_a);
                 virtual void global_variable (mu::llvmc::ast::global_variable * node_a);
-                virtual void definite_expression (mu::llvmc::ast::definite_expression * node_a);
+                virtual void expression (mu::llvmc::ast::expression * node_a);
                 virtual void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * node_a);
                 virtual void join (mu::llvmc::ast::join * node_a);
                 virtual void loop (mu::llvmc::ast::loop * node_a);

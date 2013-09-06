@@ -732,7 +732,7 @@ region (region_a)
 
 void mu::llvmc::expression::parse ()
 {
-    auto expression_l (new (GC) mu::llvmc::ast::definite_expression);
+    auto expression_l (new (GC) mu::llvmc::ast::expression);
     auto done (false);
     auto predicates (false);
     while (!done && result.error == nullptr)

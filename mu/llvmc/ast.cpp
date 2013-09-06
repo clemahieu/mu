@@ -37,14 +37,14 @@ name (name_a)
 {
 }
 
-mu::llvmc::ast::definite_expression::definite_expression (std::initializer_list <mu::llvmc::ast::node *> arguments_a, std::initializer_list <mu::llvmc::ast::node *> predicates_a) :
+mu::llvmc::ast::expression::expression (std::initializer_list <mu::llvmc::ast::node *> arguments_a, std::initializer_list <mu::llvmc::ast::node *> predicates_a) :
 predicate_position (arguments_a.size ())
 {
     arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
     arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
 }
 
-mu::llvmc::ast::definite_expression::definite_expression () :
+mu::llvmc::ast::expression::expression () :
 predicate_position (~0)
 {
 }
@@ -55,7 +55,7 @@ value (value_a)
 {
 }
 
-void mu::llvmc::ast::definite_expression::set_predicate_position ()
+void mu::llvmc::ast::expression::set_predicate_position ()
 {
     assert (predicate_position == ~0);
     predicate_position = arguments.size ();
@@ -163,7 +163,7 @@ void mu::llvmc::ast::visitor::global_variable (mu::llvmc::ast::global_variable *
     node (node_a);
 }
 
-void mu::llvmc::ast::visitor::definite_expression (mu::llvmc::ast::definite_expression * node_a)
+void mu::llvmc::ast::visitor::expression (mu::llvmc::ast::expression * node_a)
 {
     node (node_a);
 }
@@ -283,9 +283,9 @@ void mu::llvmc::ast::global_variable::visit (mu::llvmc::ast::visitor * visitor_a
     visitor_a->global_variable (this);
 }
 
-void mu::llvmc::ast::definite_expression::visit (mu::llvmc::ast::visitor * visitor_a)
+void mu::llvmc::ast::expression::visit (mu::llvmc::ast::visitor * visitor_a)
 {
-    visitor_a->definite_expression (this);
+    visitor_a->expression (this);
 }
 
 void mu::llvmc::ast::constant_pointer_null::visit (mu::llvmc::ast::visitor * visitor_a)
@@ -445,9 +445,9 @@ mu::llvmc::ast::node * mu::llvmc::ast::global_variable::do_clone (mu::map <mu::l
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::definite_expression::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
+mu::llvmc::ast::node * mu::llvmc::ast::expression::do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a)
 {
-	auto result (new (GC) mu::llvmc::ast::definite_expression (*this, generated_a));
+	auto result (new (GC) mu::llvmc::ast::expression (*this, generated_a));
 	return result;
 }
 
@@ -554,7 +554,7 @@ initializer (other_a.initializer->clone (generated_a))
 {
 }
 
-mu::llvmc::ast::definite_expression::definite_expression (mu::llvmc::ast::definite_expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
+mu::llvmc::ast::expression::expression (mu::llvmc::ast::expression const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) :
 predicate_position (other_a.predicate_position)
 {
 	for (auto i: other_a.arguments)
