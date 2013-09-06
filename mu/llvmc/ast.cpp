@@ -814,3 +814,8 @@ mu::llvmc::ast::node * mu::llvmc::ast::builder::node ()
 {
 	return new (GC) mu::llvmc::ast::node;
 }
+
+mu::llvmc::ast::value * mu::llvmc::ast::builder::value (mu::llvmc::skeleton::node * node_a)
+{
+    return new (GC) mu::llvmc::ast::value (node_a);
+}

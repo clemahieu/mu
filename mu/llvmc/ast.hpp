@@ -44,9 +44,11 @@ namespace mu
             };
             class value : public mu::llvmc::ast::node
             {
-            public:
+				friend mu::llvmc::ast::builder;
+            protected:
 				value (mu::llvmc::ast::value const & other_a, mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a);
                 value (mu::llvmc::skeleton::node * node_a);
+            public:
 				mu::llvmc::ast::node * do_clone (mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> & generated_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::skeleton::node * node_m;
@@ -377,6 +379,7 @@ namespace mu
 			{
 			public:
 				mu::llvmc::ast::node * node ();
+                mu::llvmc::ast::value * value (mu::llvmc::skeleton::node * node_a);
 			};
         }
     }
