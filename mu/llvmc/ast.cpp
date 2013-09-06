@@ -37,9 +37,9 @@ name (name_a)
 {
 }
 
-mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a):
+mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a):
 written_type (written_type_a),
-value (nullptr)
+value (value_a)
 {
 }
 
@@ -820,7 +820,12 @@ mu::llvmc::ast::value * mu::llvmc::ast::builder::value (mu::llvmc::skeleton::nod
     return new (GC) mu::llvmc::ast::value (node_a);
 }
 
-mu::llvmc::ast::result * mu::llvmc::ast::builder::result (mu::llvmc::ast::node * written_type_a)
+mu::llvmc::ast::result * mu::llvmc::ast::builder::result ()
 {
-    return new (GC) mu::llvmc::ast::result (written_type_a);
+    return new (GC) mu::llvmc::ast::result;
+}
+
+mu::llvmc::ast::result * mu::llvmc::ast::builder::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a)
+{
+    return new (GC) mu::llvmc::ast::result (written_type_a, value_a);
 }
