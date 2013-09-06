@@ -37,14 +37,16 @@ name (name_a)
 {
 }
 
+mu::llvmc::ast::definite_expression::definite_expression (std::initializer_list <mu::llvmc::ast::node *> arguments_a, std::initializer_list <mu::llvmc::ast::node *> predicates_a) :
+predicate_position (arguments_a.size ())
+{
+    arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
+    arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
+}
+
 mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a):
 written_type (written_type_a),
 value (value_a)
-{
-}
-
-mu::llvmc::ast::definite_expression::definite_expression () :
-predicate_position (~0)
 {
 }
 
