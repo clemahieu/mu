@@ -995,11 +995,11 @@ void mu::llvmc::function_processor::process_template (mu::llvmc::ast::expression
 			mu::llvmc::process_template processor (current_context, module, arguments);
 			current_context = &processor;
 			auto & target (node_a->generated);
-            mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> generated;
 			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && error == nullptr; ++i)
 			{
                 auto orig (*i);
-				auto value (orig->clone (generated));
+                mu::llvmc::clone_context context (nullptr);
+				auto value (orig->clone (context));
 				process_node (value);
 				auto & nodes (value->generated);
 				target.insert (target.end (), nodes.begin (), nodes.end ());

@@ -3364,8 +3364,8 @@ TEST (llvmc_analyzer, function_clone)
 {
 	mu::llvmc::ast::function function1;
 	function1.predicate_offsets.push_back (42);
-	mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> generated;
-	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (generated)));
+    mu::llvmc::clone_context context (nullptr);
+	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (context)));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->predicate_offsets.size ());
 	ASSERT_EQ (42, function2->predicate_offsets [0]);
@@ -3381,8 +3381,8 @@ TEST (llvmc_analyzer, function_parameter_clone)
     function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.branch_ends.push_back (function1.results.size ());
-	mu::map <mu::llvmc::ast::node *, mu::llvmc::ast::node *> generated;
-	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (generated)));
+    mu::llvmc::clone_context context (nullptr);
+	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (context)));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->parameters.size ());
 	ASSERT_EQ (1, function2->results.size ());
