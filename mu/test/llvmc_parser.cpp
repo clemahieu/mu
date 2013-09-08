@@ -2046,7 +2046,10 @@ TEST (llvmc_parser, template_parameter)
 	ASSERT_NE (nullptr, template1);
 	ASSERT_EQ (1, template1->parameters.size ());
 	ASSERT_EQ (1, template1->body.size ());
-	ASSERT_EQ (template1->parameters [0], template1->body [0]);
+    auto parameter1 (template1->parameters [0]);
+    ASSERT_NE (nullptr, parameter1->template_m);
+    ASSERT_EQ (nullptr, parameter1->template_m->parent);
+	ASSERT_EQ (parameter1, template1->body [0]);
 }
 
 TEST (llvmc_parser, template_reference_error)

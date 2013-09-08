@@ -1958,6 +1958,7 @@ mu::llvmc::node_result mu::llvmc::template_hook::parse (mu::core::region const &
 {
 	mu::llvmc::block block (parser_a.current_mapping);
     parser_a.current_mapping = &block;
+    parser_a.current_template = new (GC) mu::llvmc::template_context ({parser_a.current_template});
 	mu::llvmc::node_result result ({nullptr, nullptr});
 	result.error = parser_a.parse_left_square_required (U"template parser expecting parameter list", mu::core::error_type::expecting_left_square);
 	auto template_l (new (GC) mu::llvmc::ast::template_c (parser_a.current_template));
@@ -2017,6 +2018,7 @@ mu::llvmc::node_result mu::llvmc::template_hook::parse (mu::core::region const &
 	{
 		result.node = template_l;
 	}
+    parser_a.current_template = parser_a.current_template->parent;
     parser_a.current_mapping = block.parent;
 	return result;
 }

@@ -10,6 +10,7 @@ node (template_a)
 }
 
 mu::llvmc::ast::node::node (mu::llvmc::template_context * template_a) :
+template_m (template_a),
 assigned (false)
 {
 }
