@@ -2082,8 +2082,7 @@ TEST (llvmc_parser, entrypoint)
 TEST (llvmc_template_context, even_clone)
 {
 	mu::llvmc::template_context root ({nullptr});
-	mu::llvmc::template_context context1 ({&root});
-	auto should (context1.should_clone (&context1));
+	auto should (root.should_clone (&root));
 	ASSERT_TRUE (should);
 }
 
@@ -2098,7 +2097,6 @@ TEST (llvmc_template_context, above_clone)
 TEST (llvmc_template_context, dont_clone)
 {
 	mu::llvmc::template_context root ({nullptr});
-	mu::llvmc::template_context context1 ({&root});
-	auto should (context1.should_clone (&root));
+	auto should (root.should_clone (nullptr));
 	ASSERT_FALSE (should);
 }
