@@ -3485,3 +3485,20 @@ TEST (llvmc_analyzer, template_shared)
 	ASSERT_NE (nullptr, value2);
 	ASSERT_EQ (value1, value2);
 }
+
+TEST (llvmc_analyzer, template_naming)
+{
+	mu::llvmc::analyzer analyzer;
+	mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::module module;
+	mu::llvmc::ast::function function1 (&context1);
+	mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region, &context1);
+	mu::llvmc::ast::template_c template1 (&context1);
+	template1.body.push_back (&element1);
+	mu::llvmc::ast::expression expression1 ({&template1}, {});
+	mu::llvmc::ast::element element2 (&expression1, 0, 1, U"1", mu::empty_region);
+	module.globals.push_back (&element2);
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+}
