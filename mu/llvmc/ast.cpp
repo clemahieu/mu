@@ -3,6 +3,7 @@
 #include <gc_cpp.h>
 
 #include <mu/core/error_string.hpp>
+#include <mu/llvmc/parser.hpp>
 
 mu::llvmc::ast::module::module (mu::llvmc::template_context * template_a) :
 node (template_a)
@@ -721,8 +722,16 @@ mu::llvmc::ast::node * mu::llvmc::ast::node::clone (mu::llvmc::clone_context & c
 	}
 	else
 	{
-		result = do_clone (context_a);
-		context_a.generated [this] = result;
+        assert (context_a.template_m != nullptr);
+        if (context_a.template_m->should_clone (template_m))
+        {
+            result = do_clone (context_a);
+            context_a.generated [this] = result;
+        }
+        else
+        {
+            result = this;
+        }
 	}
 	return result;
 }
@@ -882,9 +891,11 @@ node (context_a)
 {
 }
 
-mu::llvmc::ast::template_c::template_c (mu::llvmc::template_context * context_a) :
-node (context_a)
+mu::llvmc::ast::template_c::template_c (mu::llvmc::template_context * base_a, mu::llvmc::template_context * context_a) :
+node (context_a),
+base (base_a)
 {
+    assert (base_a != nullptr);
 }
 
 mu::llvmc::ast::struct_type::struct_type (mu::llvmc::template_context * context_a) :

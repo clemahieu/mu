@@ -2024,6 +2024,7 @@ TEST (llvmc_parser, template_t)
 	ASSERT_NE (nullptr, element1);
 	auto template1 (dynamic_cast <mu::llvmc::ast::template_c *> (element1->node_m));
 	ASSERT_NE (nullptr, template1);
+    ASSERT_EQ (nullptr, template1->template_m);
 	ASSERT_EQ (0, template1->parameters.size ());
 	ASSERT_EQ (0, template1->body.size ());
 }

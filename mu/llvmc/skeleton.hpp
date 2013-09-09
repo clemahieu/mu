@@ -15,7 +15,8 @@ namespace llvm
 namespace mu
 {
     namespace llvmc
-    {        
+    {
+        class template_context;
         class analyzer_function;
         namespace ast
         {
@@ -415,6 +416,8 @@ namespace mu
 			class template_c : public mu::llvmc::skeleton::node
 			{
 			public:
+                template_c (mu::llvmc::template_context * base_a);
+                mu::llvmc::template_context * base;
 				mu::vector <mu::llvmc::ast::node *> body;
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 			};

@@ -5,6 +5,7 @@
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/core/error.hpp>
 #include <mu/llvmc/ast_t.hpp>
+#include <mu/llvmc/parser.hpp>
 
 static mu::core::region empty_region (0, 0, 0, 0, 0, 0);
 
@@ -3341,7 +3342,8 @@ TEST (llvmc_analyzer, empty_template)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.region = mu::core::region (2, 2, 2, 3, 3, 3);
-	mu::llvmc::ast::template_c template_l;
+    mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::template_c template_l (&context1);
 	mu::llvmc::ast::template_parameter parameter1 (U"parameter1");
 	parameter1.argument = 0;
 	template_l.parameters.push_back (&parameter1);
@@ -3364,7 +3366,8 @@ TEST (llvmc_analyzer, function_clone)
 {
 	mu::llvmc::ast::function function1;
 	function1.predicate_offsets.push_back (42);
-    mu::llvmc::clone_context context (nullptr);
+    mu::llvmc::template_context template1;
+    mu::llvmc::clone_context context (&template1);
 	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (context)));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->predicate_offsets.size ());
@@ -3381,7 +3384,8 @@ TEST (llvmc_analyzer, function_parameter_clone)
     function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::clone_context context (nullptr);
+    mu::llvmc::template_context template1 ({nullptr});
+    mu::llvmc::clone_context context (&template1);
 	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (context)));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->parameters.size ());
@@ -3395,7 +3399,8 @@ TEST (llvmc_analyzer, function_template)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
-	mu::llvmc::ast::template_c template_l;
+    mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::template_c template_l (&context1);
 	mu::llvmc::ast::template_parameter parameter1 (U"parameter1");
     mu::llvmc::ast::function function;
     function.region = mu::core::region (2, 2, 2, 3, 3, 3);
@@ -3442,7 +3447,8 @@ TEST (llvmc_analyzer, template_shared)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
-	mu::llvmc::ast::template_c template_l;
+    mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::template_c template_l (&context1);
     mu::llvmc::ast::function function;
     function.region = mu::core::region (2, 2, 2, 3, 3, 3);
 	mu::llvmc::ast::integer_type type2 (U"16");

@@ -940,7 +940,7 @@ void mu::llvmc::function_processor::undefined (mu::llvmc::ast::undefined * node_
 
 void mu::llvmc::function_processor::template_c (mu::llvmc::ast::template_c * node_a)
 {
-	auto node (new (GC) mu::llvmc::skeleton::template_c);
+	auto node (new (GC) mu::llvmc::skeleton::template_c (node_a->base));
 	node->body = node_a->body;
 	node_a->assigned = true;
 	node_a->generated.push_back (node);
@@ -998,7 +998,7 @@ void mu::llvmc::function_processor::process_template (mu::llvmc::ast::expression
 			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && error == nullptr; ++i)
 			{
                 auto orig (*i);
-                mu::llvmc::clone_context context (nullptr);
+                mu::llvmc::clone_context context (template_l->base);
 				auto value (orig->clone (context));
 				process_node (value);
 				auto & nodes (value->generated);

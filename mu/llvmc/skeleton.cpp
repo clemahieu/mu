@@ -1233,3 +1233,9 @@ void mu::llvmc::skeleton::visitor::global_value (mu::llvmc::skeleton::global_val
 {
     constant (node_a);
 }
+
+mu::llvmc::skeleton::template_c::template_c (mu::llvmc::template_context * base_a) :
+base (base_a)
+{
+    assert (base_a != nullptr);
+}

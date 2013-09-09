@@ -310,10 +310,11 @@ namespace mu
 			class template_c : public mu::llvmc::ast::node
 			{
 			public:
-				template_c (mu::llvmc::template_context * context_a = nullptr);
+				template_c (mu::llvmc::template_context * base_a, mu::llvmc::template_context * context_a = nullptr);
 				template_c (mu::llvmc::ast::template_c const & other_a, mu::llvmc::clone_context & context_a);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
+                mu::llvmc::template_context * base;
                 mu::vector <mu::llvmc::ast::node *> parameters;
 				mu::vector <mu::llvmc::ast::node *> body;
 			};
