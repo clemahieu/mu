@@ -30,6 +30,7 @@ namespace mu
         namespace ast
         {
             class visitor;
+			class namespace_visitor;
             class node
             {
             public:
@@ -39,6 +40,7 @@ namespace mu
                 virtual ~node ();
 				mu::llvmc::ast::node * clone (mu::llvmc::clone_context & context_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
+				virtual void named (mu::llvmc::ast::namespace_visitor * naming_a);
 				mu::llvmc::template_context * template_m;
 				mu::core::region region;
 				mu::vector <mu::llvmc::skeleton::node *> generated;
@@ -369,6 +371,17 @@ namespace mu
                 virtual void entry (mu::llvmc::ast::entry * node_a);
 				virtual void set (mu::llvmc::ast::set * node_a);
             };
+			class namespace_container : public mu::llvmc::ast::node
+			{
+			public:
+				virtual mu::llvmc::ast::node * operator [] (mu::string const & name_a) = 0;
+			};
+			class namespace_visitor
+			{
+			public:
+				virtual void named (mu::llvmc::ast::namespace_container * namespace_a) = 0;
+				virtual void unnamed () = 0;
+			};
         }
     }
 }

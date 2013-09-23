@@ -279,6 +279,11 @@ void mu::llvmc::ast::node::visit (mu::llvmc::ast::visitor * visitor_a)
     visitor_a->node (this);
 }
 
+void mu::llvmc::ast::node::named (mu::llvmc::ast::namespace_visitor * naming_a)
+{
+	naming_a->unnamed ();
+}
+
 void mu::llvmc::ast::array_type::visit (mu::llvmc::ast::visitor * visitor_a)
 {
     visitor_a->array_type (this);
