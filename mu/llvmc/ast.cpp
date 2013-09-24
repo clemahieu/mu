@@ -967,3 +967,31 @@ mu::llvmc::clone_context::clone_context (mu::llvmc::template_context * template_
 template_m (template_a)
 {
 }
+
+mu::llvmc::ast::namespace_c::namespace_c (mu::llvmc::template_context * context_a) :
+node (context_a)
+{
+}
+
+mu::llvmc::ast::namespace_c::namespace_c (mu::llvmc::ast::namespace_c const & other_a, mu::llvmc::clone_context & context_a) :
+node (other_a.template_m),
+member (other_a.member),
+node_m (other_a.node_m)
+{
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::namespace_c::do_clone (mu::llvmc::clone_context & context_a)
+{
+    auto result (new (GC) mu::llvmc::ast::namespace_c (*this, context_a));
+    return result;
+}
+
+void mu::llvmc::ast::namespace_c::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->namespace_c (this);
+}
+
+void mu::llvmc::ast::visitor::namespace_c (mu::llvmc::ast::namespace_c * node_a)
+{
+    node (node_a);
+}

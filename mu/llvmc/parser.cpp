@@ -2039,14 +2039,18 @@ mu::llvmc::node_result mu::llvmc::entry_hook::parse (mu::core::region const & re
 {
     auto entry (new (GC) mu::llvmc::ast::entry (parser_a.current_template));
     entry->region = region_a;
-    mu::llvmc::node_result result ({entry, nullptr});
-    parser_a.parse_ast_or_refer (
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    result.error = parser_a.parse_ast_or_refer (
         [entry]
         (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
         {
             entry->function = node_a;
         }
     );
+    if (result.error == nullptr)
+    {
+        result.node = entry;
+    }
     return result;
 }
 
@@ -2072,4 +2076,43 @@ bool mu::llvmc::template_context::should_clone (mu::llvmc::template_context * no
 		current = current->parent;
 	}
 	return result;
+}
+
+mu::llvmc::node_result mu::llvmc::namespace_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    auto namespace_l (new (GC) mu::llvmc::ast::namespace_c);
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    result.error = parser_a.parse_ast_or_refer (
+        [namespace_l]
+        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+        {
+            namespace_l->node_m = node_a;
+        });
+    if (result.error == nullptr)
+    {
+        result.error = parser_a.parse_identifier (
+            [namespace_l]
+            (mu::io::identifier * identifier_a)
+            {
+                namespace_l->member = identifier_a->string;
+                return nullptr;
+            }, U"Expecting a namespace member name", mu::core::error_type::expecting_identifier);
+        if (result.error == nullptr)
+        {
+            result.node = namespace_l;
+        }
+    }
+    return result;
+}
+
+bool mu::llvmc::namespace_hook::covering ()
+{
+    return false;
+}
+
+static mu::string namespace_hook_name (U"namespace_hook");
+
+mu::string const & mu::llvmc::namespace_hook::name ()
+{
+    return namespace_hook_name;
 }

@@ -313,6 +313,13 @@ namespace mu
 			mu::llvmc::template_context * parent;
 			bool should_clone (mu::llvmc::template_context * node_a);
 		};
+        class namespace_hook : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+            mu::string const & name () override;
+        };
         class parser
         {
         public:
