@@ -2100,3 +2100,19 @@ TEST (llvmc_template_context, dont_clone)
 	auto should (root.should_clone (nullptr));
 	ASSERT_FALSE (should);
 }
+
+TEST (llvmc_parser, namespace_hook)
+{
+    test_parser parser ("` #container member");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto namespace_l (dynamic_cast <mu::llvmc::ast::namespace_c *> (module2->globals [0]));
+    ASSERT_NE (nullptr, namespace_l);
+    ASSERT_EQ (U"member", namespace_l->member);
+    auto number (dynamic_cast <mu::llvmc::ast::number *> (namespace_l->node_m));
+    ASSERT_NE (nullptr, number);
+}

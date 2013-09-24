@@ -367,6 +367,7 @@ namespace mu
             mu::llvmc::keywords keywords;
 			mu::llvmc::template_hook template_hook;
             mu::llvmc::entry_hook entry_hook;
+            mu::llvmc::namespace_hook namespace_hook;
             std::vector <mu::llvmc::parser_frame> parse_stack;
         };
         class parser_error : public mu::core::error

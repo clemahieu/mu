@@ -30,6 +30,8 @@ stream (stream_a)
     bool error (false);
     error = builtins.insert  (U"~", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::identity, current_template));
     assert (!error);
+    error = keywords.insert (U"`", &namespace_hook);
+    assert (!error);
     error = keywords.insert (U"#", &number);
     assert (!error);
     error = keywords.insert (U"array", &array_type);
