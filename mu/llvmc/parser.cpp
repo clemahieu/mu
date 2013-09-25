@@ -235,6 +235,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
     }
     if (result.error == nullptr)
     {
+        module->names.swap (parser_a.globals.mappings);
         if (!parser_a.globals.unresolved.empty ())
         {
 			std::stringstream error;

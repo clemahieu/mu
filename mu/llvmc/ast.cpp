@@ -995,3 +995,13 @@ void mu::llvmc::ast::visitor::namespace_c (mu::llvmc::ast::namespace_c * node_a)
 {
     node (node_a);
 }
+
+void mu::llvmc::ast::module::named (mu::llvmc::ast::namespace_visitor * visitor_a)
+{
+    visitor_a->named (this);
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::module::operator [] (mu::string const & name_a)
+{
+    return nullptr;
+}
