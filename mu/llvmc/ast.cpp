@@ -1007,33 +1007,3 @@ mu::llvmc::ast::node * mu::llvmc::ast::module::operator [] (mu::string const & n
 	auto result (existing != names.end () ? existing->second : nullptr);
 	return result;
 }
-
-mu::llvmc::ast::template_i::template_i (mu::llvmc::template_context * context_a) :
-node (context_a)
-{
-}
-
-mu::llvmc::ast::template_i::template_i (mu::llvmc::ast::template_i const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m)
-{
-	for (auto i: other_a.body)
-	{
-		body.push_back (i->clone (context_a));
-	}
-}
-
-mu::llvmc::ast::node * mu::llvmc::ast::template_i::do_clone (mu::llvmc::clone_context & context_a)
-{
-	auto result (new (GC) mu::llvmc::ast::template_i (*this, context_a));
-	return result;
-}
-
-void mu::llvmc::ast::template_i::visit (mu::llvmc::ast::visitor * visitor_a)
-{
-	visitor_a->template_i (this);
-}
-
-void mu::llvmc::ast::visitor::template_i (mu::llvmc::ast::template_i * node_a)
-{
-	node (node_a);
-}
