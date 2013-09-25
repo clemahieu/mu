@@ -1003,5 +1003,7 @@ void mu::llvmc::ast::module::named (mu::llvmc::ast::namespace_visitor * visitor_
 
 mu::llvmc::ast::node * mu::llvmc::ast::module::operator [] (mu::string const & name_a)
 {
-    return nullptr;
+	auto existing (names.find (name_a));
+	auto result (existing != names.end () ? existing->second : nullptr);
+	return result;
 }

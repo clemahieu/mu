@@ -335,6 +335,10 @@ TEST (llvmc_parser, simple)
 	ASSERT_EQ (mu::core::region (9, 1, 10, 25, 1, 26), function1->region);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
+	ASSERT_EQ (1, module2->names.size ());
+	auto element2 ((*module2) [U"test"]);
+	ASSERT_NE (nullptr, element2);
+	ASSERT_EQ (element1, element2);
 }
 
 TEST (llvmc_parser, instructions)
