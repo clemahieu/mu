@@ -227,6 +227,7 @@ TEST (llvmc_analyzer, empty_function)
     function.region = mu::core::region (2, 2, 2, 3, 3, 3);
     mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
     module.globals.push_back (&element1);
+	module.names [U"0"] = &element1;
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
     ASSERT_NE (nullptr, result.module);
@@ -236,6 +237,8 @@ TEST (llvmc_analyzer, empty_function)
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
 	ASSERT_EQ (function.region, function1->region);
+	ASSERT_EQ (1, module.names.size ());
+	ASSERT_NE (module.names.end (), module.names.find (U"0"));
 }
 
 TEST (llvmc_analyzer, name_with_set)

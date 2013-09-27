@@ -187,6 +187,13 @@ void mu::llvmc::module_processor::module (mu::llvmc::ast::module * node_a)
 			}
 		}
 	}
+	for (auto i: node_a->names)
+	{
+		assert (i.second->assigned);
+		assert (module_s->names.find (i.first) == module_s->names.end ());
+		assert (i.second->generated.size () == 1);
+		module_s->names [i.first] = i.second->generated [0];
+	}
 	if (result_m.error == nullptr)
 	{
 		result_m.module = module_s;
