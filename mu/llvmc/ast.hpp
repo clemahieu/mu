@@ -40,7 +40,6 @@ namespace mu
                 virtual ~node ();
 				mu::llvmc::ast::node * clone (mu::llvmc::clone_context & context_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
-				virtual void named (mu::llvmc::ast::namespace_visitor * naming_a);
 				mu::llvmc::template_context * template_m;
 				mu::core::region region;
 				mu::vector <mu::llvmc::skeleton::node *> generated;
@@ -48,11 +47,6 @@ namespace mu
 			private:
 				virtual mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a);
             };
-			class namespace_container
-			{
-			public:
-				virtual mu::llvmc::ast::node * operator [] (mu::string const & name_a) = 0;
-			};
             class value : public mu::llvmc::ast::node
             {
             public:
@@ -200,15 +194,13 @@ namespace mu
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
             };
-            class module : public mu::llvmc::ast::node, public mu::llvmc::ast::namespace_container
+            class module : public mu::llvmc::ast::node
             {
             public:
                 module (mu::llvmc::template_context * template_a = nullptr);
 				module (mu::llvmc::ast::module const & other_a, mu::llvmc::clone_context & context_a);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
-                void named (mu::llvmc::ast::namespace_visitor * visitor_a) override;
-				mu::llvmc::ast::node * operator [] (mu::string const & name_a) override;
                 mu::vector <mu::llvmc::ast::node *> globals;
                 mu::map <mu::string, mu::llvmc::ast::node *> names;
 				void dump ();
@@ -390,12 +382,6 @@ namespace mu
 				virtual void set (mu::llvmc::ast::set * node_a);
                 virtual void namespace_c (mu::llvmc::ast::namespace_c * node_a);
             };
-			class namespace_visitor
-			{
-			public:
-				virtual void named (mu::llvmc::ast::namespace_container * namespace_a) = 0;
-				virtual void unnamed () = 0;
-			};
         }
     }
 }

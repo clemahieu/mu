@@ -279,11 +279,6 @@ void mu::llvmc::ast::node::visit (mu::llvmc::ast::visitor * visitor_a)
     visitor_a->node (this);
 }
 
-void mu::llvmc::ast::node::named (mu::llvmc::ast::namespace_visitor * naming_a)
-{
-	naming_a->unnamed ();
-}
-
 void mu::llvmc::ast::array_type::visit (mu::llvmc::ast::visitor * visitor_a)
 {
     visitor_a->array_type (this);
@@ -994,16 +989,4 @@ void mu::llvmc::ast::namespace_c::visit (mu::llvmc::ast::visitor * visitor_a)
 void mu::llvmc::ast::visitor::namespace_c (mu::llvmc::ast::namespace_c * node_a)
 {
     node (node_a);
-}
-
-void mu::llvmc::ast::module::named (mu::llvmc::ast::namespace_visitor * visitor_a)
-{
-    visitor_a->named (this);
-}
-
-mu::llvmc::ast::node * mu::llvmc::ast::module::operator [] (mu::string const & name_a)
-{
-	auto existing (names.find (name_a));
-	auto result (existing != names.end () ? existing->second : nullptr);
-	return result;
 }

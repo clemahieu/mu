@@ -1239,3 +1239,30 @@ base (base_a)
 {
     assert (base_a != nullptr);
 }
+
+void mu::llvmc::skeleton::node::named (mu::llvmc::skeleton::namespace_visitor * naming_a)
+{
+	naming_a->unnamed ();
+}
+
+void mu::llvmc::skeleton::module::named (mu::llvmc::skeleton::namespace_visitor * visitor_a)
+{
+    visitor_a->named (this);
+}
+
+void mu::llvmc::skeleton::module::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+	visitor_a->module (this);
+}
+
+mu::llvmc::skeleton::node * mu::llvmc::skeleton::module::operator [] (mu::string const & name_a)
+{
+	auto existing (names.find (name_a));
+	auto result (existing != names.end () ? existing->second : nullptr);
+	return result;
+}
+
+void mu::llvmc::skeleton::visitor::module (mu::llvmc::skeleton::module * node_a)
+{
+	node (node_a);
+}

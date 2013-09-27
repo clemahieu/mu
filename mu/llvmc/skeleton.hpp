@@ -29,12 +29,19 @@ namespace mu
         namespace skeleton
         {
             class visitor;
+			class namespace_visitor;
             class node
             {
             public:
                 virtual ~node ();
                 virtual void visit (mu::llvmc::skeleton::visitor * visitor_a);
+				virtual void named (mu::llvmc::skeleton::namespace_visitor * naming_a);
             };
+			class namespace_container
+			{
+			public:
+				virtual mu::llvmc::skeleton::node * operator [] (mu::string const & name_a) = 0;
+			};
             class type : public mu::llvmc::skeleton::node
             {
             public:
@@ -395,10 +402,14 @@ namespace mu
 				mu::llvmc::skeleton::constant * initializer;
                 llvm::DIGlobalVariable debug;
 			};			
-            class module
+            class module : public mu::llvmc::skeleton::node, public mu::llvmc::skeleton::namespace_container
             {
             public:
                 module ();
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+				void named (mu::llvmc::skeleton::namespace_visitor * naming_a) override;
+				mu::llvmc::skeleton::node * operator [] (mu::string const & method_a) override;
+				mu::map <mu::string, mu::llvmc::skeleton::node *> names;
                 mu::vector <mu::llvmc::skeleton::value *> globals;
                 mu::llvmc::skeleton::branch * global;
 				mu::llvmc::skeleton::function * entry;
@@ -512,7 +523,14 @@ namespace mu
 				virtual void undefined (mu::llvmc::skeleton::undefined * node_a);
                 virtual void template_c (mu::llvmc::skeleton::template_c * node_a);
                 virtual void global_value (mu::llvmc::skeleton::global_value * node_a);
+				virtual void module (mu::llvmc::skeleton::module * node_a);
             };
+			class namespace_visitor
+			{
+			public:
+				virtual void named (mu::llvmc::skeleton::namespace_container * namespace_a) = 0;
+				virtual void unnamed () = 0;
+			};
         }
     }
 }

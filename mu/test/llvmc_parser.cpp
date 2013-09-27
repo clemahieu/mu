@@ -336,9 +336,8 @@ TEST (llvmc_parser, simple)
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
 	ASSERT_EQ (1, module2->names.size ());
-	auto element2 ((*module2) [U"test"]);
-	ASSERT_NE (nullptr, element2);
-	ASSERT_EQ (element1, element2);
+	auto existing (module2->names.find (U"test"));
+	ASSERT_NE (module2->names.end (), existing);
 }
 
 TEST (llvmc_parser, instructions)
