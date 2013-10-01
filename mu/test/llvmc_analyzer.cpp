@@ -239,6 +239,8 @@ TEST (llvmc_analyzer, empty_function)
 	ASSERT_EQ (function.region, function1->region);
 	ASSERT_EQ (1, module.names.size ());
 	ASSERT_NE (module.names.end (), module.names.find (U"0"));
+    ASSERT_NE (result.module->names.end (), result.module->names.find (U"0"));
+    ASSERT_NE (nullptr, (*result.module) [U"0"]);
 }
 
 TEST (llvmc_analyzer, name_with_set)
@@ -3504,4 +3506,43 @@ TEST (llvmc_analyzer, template_naming)
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
     ASSERT_NE (nullptr, result.module);
+}
+
+TEST (llvmc_analyzer, namespace_c_module)
+{
+	mu::llvmc::analyzer analyzer;
+	mu::llvmc::ast::module module1;
+	mu::llvmc::ast::function function1;
+    mu::llvmc::ast::unit unit1;
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&unit1);
+    function1.branch_ends.push_back (function1.results.size ());
+	mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
+    module1.names [U"0"] = &element1;
+    module1.globals.push_back (&element1);
+    mu::llvmc::ast::module module2;
+    mu::llvmc::ast::namespace_c namespace1;
+    namespace1.node_m = &module1;
+    namespace1.member = U"0";
+    mu::llvmc::ast::expression expression1 ({&namespace1}, {});
+    mu::llvmc::ast::function function2;
+    function2.predicate_offsets.push_back (function2.results.size ());
+    function2.results.push_back (&expression1);
+    function2.branch_ends.push_back (function2.results.size ());
+    mu::llvmc::ast::element element2 (&function2, 0, 1, U"0", mu::empty_region);
+    module2.names [U"0"] = &element2;
+    module2.globals.push_back (&element2);
+    auto result (analyzer.analyze (&module2));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function3 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
+    ASSERT_NE (nullptr, function3);
+    ASSERT_EQ (1, function3->results.size ());
+    auto element3 (dynamic_cast <mu::llvmc::skeleton::call_element *> (function3->results [0]));
+    ASSERT_NE (nullptr, element3);
+    ASSERT_EQ (1, element3->source->arguments.size ());
+    auto function4 (dynamic_cast <mu::llvmc::skeleton::function *> (element3->source->arguments [0]));
+    ASSERT_NE (nullptr, function4);
+    ASSERT_EQ (0, function4->results.size ());
 }

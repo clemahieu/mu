@@ -168,7 +168,10 @@ namespace mu
             entry_point_must_have_one_return_branch,
             entry_point_cannot_return_values,
             function_already_named,
-			global_already_named
+			global_already_named,
+            not_a_namespace_container,
+            not_a_member,
+            can_only_extract_from_one
         };
         class error
         {
