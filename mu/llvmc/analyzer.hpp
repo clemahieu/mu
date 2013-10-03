@@ -54,10 +54,10 @@ namespace mu
             mu::llvmc::skeleton::function * function;
             mu::core::error * error;
         };
-		class module_processor : public mu::llvmc::ast::visitor
+		class global_processor : public mu::llvmc::ast::visitor
 		{
 		public:
-			module_processor ();
+			global_processor ();
 			void node (mu::llvmc::ast::node * node_a) override;
 			void module (mu::llvmc::ast::module * node_a) override;
 			mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
@@ -69,7 +69,7 @@ namespace mu
         class function_processor : public mu::llvmc::ast::visitor
         {
         public:
-            function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
+            function_processor (mu::llvmc::global_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
             void process_node (mu::llvmc::ast::node * node_a);
             void process_value_call (mu::llvmc::ast::expression * expression_a);
             void process_marker (mu::llvmc::ast::expression * expression_a);
@@ -110,7 +110,7 @@ namespace mu
 			void process_template (mu::llvmc::ast::expression * node_a);
             void process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
-            mu::llvmc::module_processor & module_m;
+            mu::llvmc::global_processor & module_m;
             mu::core::error * & error;
             mu::llvmc::skeleton::branch * entry_m;
 			mu::llvmc::ast::visitor * current_context;

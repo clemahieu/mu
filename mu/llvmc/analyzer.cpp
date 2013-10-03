@@ -77,7 +77,7 @@ void mu::llvmc::branch_analyzer::new_set ()
 class global_naming : public mu::llvmc::skeleton::visitor
 {
 public:
-	global_naming (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::string const & name_a) :
+	global_naming (mu::llvmc::global_processor & module_a, mu::core::error * & error_a, mu::string const & name_a) :
 	module (module_a),
 	error (error_a),
 	name (name_a)
@@ -104,7 +104,7 @@ public:
 			error = new mu::core::error_string (U"Global already has a name", mu::core::error_type::global_already_named);
 		}
 	}
-    mu::llvmc::module_processor & module;
+    mu::llvmc::global_processor & module;
 	mu::core::error * & error;
 	mu::string const & name;
 };
@@ -112,7 +112,7 @@ public:
 class module_analyzer : public mu::llvmc::skeleton::visitor
 {
 public:
-    module_analyzer (mu::llvmc::module_processor & module_a, mu::core::error * & error_a) :
+    module_analyzer (mu::llvmc::global_processor & module_a, mu::core::error * & error_a) :
     module (module_a),
 	error (error_a)
     {
@@ -150,21 +150,21 @@ public:
 	{
         // Nodes that can be written at module level but are not generated at the module level
 	}
-    mu::llvmc::module_processor & module;
+    mu::llvmc::global_processor & module;
 	mu::core::error * & error;
 };
 				
-mu::llvmc::module_processor::module_processor () :
+mu::llvmc::global_processor::global_processor () :
 result_m ({nullptr, nullptr})
 {
 }
 				
-void mu::llvmc::module_processor::node (mu::llvmc::ast::node * node_a)
+void mu::llvmc::global_processor::node (mu::llvmc::ast::node * node_a)
 {
 	result_m.error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module, node_a->region);
 }
 			
-void mu::llvmc::module_processor::module (mu::llvmc::ast::module * node_a)
+void mu::llvmc::global_processor::module (mu::llvmc::ast::module * node_a)
 {
 	auto module_s (new (GC) mu::llvmc::skeleton::module);
 	module_m = module_s;
@@ -205,7 +205,7 @@ void mu::llvmc::module_processor::module (mu::llvmc::ast::module * node_a)
 
 mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * module_a)
 {
-	mu::llvmc::module_processor analyzer_l;
+	mu::llvmc::global_processor analyzer_l;
 	module_a->visit (&analyzer_l);
 	return analyzer_l.result_m;
 }
@@ -273,7 +273,7 @@ void mu::llvmc::function_processor::integer_type (mu::llvmc::ast::integer_type *
 class naming_visitor : public mu::llvmc::skeleton::visitor
 {
 public:
-    naming_visitor (mu::llvmc::module_processor & module_a, mu::llvmc::ast::element * element_a, mu::core::error * & error_a) :
+    naming_visitor (mu::llvmc::global_processor & module_a, mu::llvmc::ast::element * element_a, mu::core::error * & error_a) :
 	module (module_a),
     element (element_a),
     error (error_a)
@@ -293,7 +293,7 @@ public:
 		node_a->visit (&naming);
 		element->generated.push_back (node_a);
 	}
-	mu::llvmc::module_processor & module;
+	mu::llvmc::global_processor & module;
     mu::llvmc::ast::element * element;
     mu::core::error * & error;
 };
@@ -963,7 +963,7 @@ namespace mu
 		class process_template : public mu::llvmc::ast::visitor
 		{
 		public:
-			process_template (mu::llvmc::ast::visitor * parent_a, mu::llvmc::module_processor & module_a, mu::vector <mu::llvmc::skeleton::node *> & template_arguments_a) :
+			process_template (mu::llvmc::ast::visitor * parent_a, mu::llvmc::global_processor & module_a, mu::vector <mu::llvmc::skeleton::node *> & template_arguments_a) :
 			parent (parent_a),
 			module (module_a),
 			template_arguments (template_arguments_a)
@@ -980,7 +980,7 @@ namespace mu
 				node_a->generated.push_back (template_arguments [node_a->argument + 1]);
 			}
 			mu::llvmc::ast::visitor * parent;
-			mu::llvmc::module_processor & module;
+			mu::llvmc::global_processor & module;
 			mu::vector <mu::llvmc::skeleton::node *> & template_arguments;
 		};
     }
@@ -2287,7 +2287,7 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 	assert ((error != nullptr) xor (expression_a->assigned));
 }
 
-mu::llvmc::function_processor::function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a) :
+mu::llvmc::function_processor::function_processor (mu::llvmc::global_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a) :
 module_m (module_a),
 error (error_a),
 entry_m (entry_a),
@@ -2358,7 +2358,7 @@ void mu::llvmc::function_processor::namespace_c (mu::llvmc::ast::namespace_c * n
 
 void mu::llvmc::function_processor::module (mu::llvmc::ast::module * node_a)
 {
-    mu::llvmc::module_processor processor;
+    mu::llvmc::global_processor processor;
     node_a->visit (&processor);
     if (processor.result_m.error != nullptr)
     {
