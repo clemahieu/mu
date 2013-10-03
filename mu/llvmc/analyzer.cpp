@@ -155,7 +155,8 @@ public:
 };
 				
 mu::llvmc::global_processor::global_processor () :
-result_m ({nullptr, nullptr})
+result_m ({nullptr, nullptr}),
+current_context (this)
 {
 }
 				
@@ -638,7 +639,7 @@ void mu::llvmc::function_processor::function (mu::llvmc::ast::function * functio
 
 void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
 {
-    node_a->function->visit (current_context);
+	process_node (node_a->function);
     if (module_m.result_m.error == nullptr)
     {
         assert (node_a->function->assigned);
@@ -963,11 +964,17 @@ namespace mu
 		class process_template : public mu::llvmc::ast::visitor
 		{
 		public:
-			process_template (mu::llvmc::ast::visitor * parent_a, mu::llvmc::global_processor & module_a, mu::vector <mu::llvmc::skeleton::node *> & template_arguments_a) :
-			parent (parent_a),
+			process_template (mu::llvmc::global_processor & module_a, mu::vector <mu::llvmc::skeleton::node *> & template_arguments_a) :
+			parent (module_a.current_context),
 			module (module_a),
 			template_arguments (template_arguments_a)
-			{				
+			{
+				module_a.current_context = this;
+			}
+			~process_template ()
+			{
+				assert (module.current_context == this);
+				module.current_context = parent;
 			}
 			void node (mu::llvmc::ast::node * node_a) override
 			{
@@ -1002,8 +1009,7 @@ void mu::llvmc::function_processor::process_template (mu::llvmc::ast::expression
 		{
 			assert (arguments.size () > 0);
 			auto template_l (mu::cast <mu::llvmc::skeleton::template_c> (arguments [0]));
-			mu::llvmc::process_template processor (current_context, module_m, arguments);
-			current_context = &processor;
+			mu::llvmc::process_template processor (module_m, arguments);
 			auto & target (node_a->generated);
 			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && error == nullptr; ++i)
 			{
@@ -1018,7 +1024,6 @@ void mu::llvmc::function_processor::process_template (mu::llvmc::ast::expression
 			{
 				node_a->assigned = true;
 			}
-			current_context = processor.parent;
 		}
 	}
 	else
@@ -1032,7 +1037,7 @@ void mu::llvmc::function_processor::process_node (mu::llvmc::ast::node * node_a)
 	assert (node_a != nullptr);
 	if (!node_a->assigned)
 	{
-		node_a->visit (current_context);
+		node_a->visit (module_m.current_context);
 	}
 	assert ((error != nullptr) xor (node_a->assigned));
 }
@@ -2291,8 +2296,15 @@ mu::llvmc::function_processor::function_processor (mu::llvmc::global_processor &
 module_m (module_a),
 error (error_a),
 entry_m (entry_a),
-current_context (this)
+parent (module_a.current_context)
 {
+	module_a.current_context = this;
+}
+
+mu::llvmc::function_processor::~function_processor ()
+{
+	assert (module_m.current_context == this);
+	module_m.current_context = parent;
 }
 
 void mu::llvmc::function_processor::set (mu::llvmc::ast::set * node_a)

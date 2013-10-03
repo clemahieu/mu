@@ -65,11 +65,13 @@ namespace mu
 			mu::set <mu::llvmc::ast::node *> current_expression_generation;
 			mu::llvmc::skeleton::module * module_m;
 			mu::llvmc::module_result result_m;
+			mu::llvmc::ast::visitor * current_context;
 		};
         class function_processor : public mu::llvmc::ast::visitor
         {
         public:
             function_processor (mu::llvmc::global_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
+			~function_processor ();
             void process_node (mu::llvmc::ast::node * node_a);
             void process_value_call (mu::llvmc::ast::expression * expression_a);
             void process_marker (mu::llvmc::ast::expression * expression_a);
@@ -113,7 +115,7 @@ namespace mu
             mu::llvmc::global_processor & module_m;
             mu::core::error * & error;
             mu::llvmc::skeleton::branch * entry_m;
-			mu::llvmc::ast::visitor * current_context;
+			mu::llvmc::ast::visitor * parent;
         };
 		class branch_analyzer
 		{
