@@ -68,6 +68,7 @@ namespace mu
 		{
 		public:
 			module_processor (mu::llvmc::global_processor & global_a);
+			~module_processor ();
 			void function (mu::llvmc::ast::function * function_node) override;
 			void node (mu::llvmc::ast::node * node_a) override;
 			mu::llvmc::global_processor & global_m;
@@ -124,7 +125,6 @@ namespace mu
 			mu::llvmc::ast::function * node_m;
             mu::core::error * & error;
             mu::llvmc::skeleton::branch * entry_m;
-			mu::llvmc::ast::visitor * parent;
         };
 		class branch_analyzer
 		{

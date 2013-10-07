@@ -169,6 +169,14 @@ mu::llvmc::module_processor::module_processor (mu::llvmc::global_processor & glo
 global_m (global_a),
 module_m (new (GC) mu::llvmc::skeleton::module)
 {
+	assert (&global_a == global_m.current_context);
+	global_a.current_context = this;
+}
+
+mu::llvmc::module_processor::~module_processor ()
+{
+	assert (global_m.current_context == this);
+	global_m.current_context = &global_m;
 }
 
 void mu::llvmc::global_processor::module (mu::llvmc::ast::module * node_a)
@@ -2338,16 +2346,16 @@ module_m (module_a),
 function_m (new (GC) mu::llvmc::skeleton::function (node_a->region, module_m.module_m->global)),
 node_m (node_a),
 error (error_a),
-entry_m (entry_a),
-parent (module_a.global_m.current_context)
+entry_m (entry_a)
 {
+	assert (&module_m == module_a.global_m.current_context);
 	module_a.global_m.current_context = this;
 }
 
 mu::llvmc::function_processor::~function_processor ()
 {
 	assert (module_m.global_m.current_context == this);
-	module_m.global_m.current_context = parent;
+	module_m.global_m.current_context = &module_m;
 }
 
 void mu::llvmc::function_processor::set (mu::llvmc::ast::set * node_a)
