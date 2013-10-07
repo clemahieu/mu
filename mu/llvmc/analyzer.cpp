@@ -167,16 +167,15 @@ void mu::llvmc::global_processor::node (mu::llvmc::ast::node * node_a)
 
 mu::llvmc::module_processor::module_processor (mu::llvmc::global_processor & global_a) :
 global_m (global_a),
-module_m (new (GC) mu::llvmc::skeleton::module)
+module_m (new (GC) mu::llvmc::skeleton::module),
+parent (global_a.current_context)
 {
-	assert (&global_a == global_m.current_context);
 	global_a.current_context = this;
 }
 
 mu::llvmc::module_processor::~module_processor ()
 {
-	assert (global_m.current_context == this);
-	global_m.current_context = &global_m;
+	global_m.current_context = parent;
 }
 
 void mu::llvmc::global_processor::module (mu::llvmc::ast::module * node_a)
@@ -340,26 +339,26 @@ public:
     mu::core::error * & error;
 };
 
-void mu::llvmc::function_processor::element (mu::llvmc::ast::element * element_a)
+void mu::llvmc::module_processor::element (mu::llvmc::ast::element * element_a)
 {
-	module_m.global_m.process_node (element_a->node_m);
-	if (error == nullptr)
+	global_m.process_node (element_a->node_m);
+	if (global_m.error == nullptr)
 	{
 		assert (element_a->node_m->assigned);
-		auto existing (element_a->node_m->generated);
+		auto & existing (element_a->node_m->generated);
 		if (existing.size () > element_a->index)
 		{
 			auto node (existing [element_a->index]);
-            naming_visitor naming (module_m, element_a, error);
+            naming_visitor naming (*this, element_a, global_m.error);
             node->visit (&naming);
-			if (error == nullptr)
+			if (global_m.error == nullptr)
 			{
 				element_a->assigned = true;
 			}
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index, element_a->region);
+			global_m.error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index, element_a->region);
 		}
 	}
 }
@@ -2346,16 +2345,15 @@ module_m (module_a),
 function_m (new (GC) mu::llvmc::skeleton::function (node_a->region, module_m.module_m->global)),
 node_m (node_a),
 error (error_a),
-entry_m (entry_a)
+entry_m (entry_a),
+parent (module_a.global_m.current_context)
 {
-	assert (&module_m == module_a.global_m.current_context);
 	module_a.global_m.current_context = this;
 }
 
 mu::llvmc::function_processor::~function_processor ()
 {
-	assert (module_m.global_m.current_context == this);
-	module_m.global_m.current_context = &module_m;
+	module_m.global_m.current_context = parent;
 }
 
 void mu::llvmc::function_processor::set (mu::llvmc::ast::set * node_a)

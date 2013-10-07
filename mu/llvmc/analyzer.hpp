@@ -71,11 +71,13 @@ namespace mu
 			~module_processor ();
 			void function (mu::llvmc::ast::function * function_node) override;
 			void node (mu::llvmc::ast::node * node_a) override;
+			void element (mu::llvmc::ast::element * element_a) override;
 			mu::llvmc::global_processor & global_m;
 			mu::llvmc::skeleton::module * module_m;
 			mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
 			mu::set <mu::llvmc::skeleton::global_value *> named_globals;
 			mu::set <mu::llvmc::ast::node *> current_expression_generation;
+			mu::llvmc::ast::visitor * parent;
 		};
         class function_processor : public mu::llvmc::ast::visitor
         {
@@ -97,7 +99,6 @@ namespace mu
             void node (mu::llvmc::ast::node * node_a) override;
 			void value (mu::llvmc::ast::value * value_node) override;
 			void integer_type (mu::llvmc::ast::integer_type * type_a) override;
-			void element (mu::llvmc::ast::element * element_a) override;
 			void unit (mu::llvmc::ast::unit * node_a) override;
 			void constant_int (mu::llvmc::ast::constant_int * constant_a) override;
 			void pointer_type (mu::llvmc::ast::pointer_type * type_a) override;
@@ -125,6 +126,7 @@ namespace mu
 			mu::llvmc::ast::function * node_m;
             mu::core::error * & error;
             mu::llvmc::skeleton::branch * entry_m;
+			mu::llvmc::ast::visitor * parent;
         };
 		class branch_analyzer
 		{
