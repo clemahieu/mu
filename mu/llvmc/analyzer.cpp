@@ -274,7 +274,7 @@ void mu::llvmc::function_processor::process_parameters ()
 
 void mu::llvmc::function_processor::node (mu::llvmc::ast::node * node_a)
 {
-	node_a->visit (&module_m);
+	node_a->visit (parent);
 }
 
 void mu::llvmc::function_processor::value (mu::llvmc::ast::value * value_node)
@@ -661,7 +661,7 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 
 void mu::llvmc::module_processor::node (mu::llvmc::ast::node * node_a)
 {
-	node_a->visit (&global_m);
+	node_a->visit (parent);
 }
 
 void mu::llvmc::module_processor::function (mu::llvmc::ast::function * function_node)
