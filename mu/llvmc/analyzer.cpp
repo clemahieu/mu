@@ -369,7 +369,7 @@ void mu::llvmc::function_processor::unit (mu::llvmc::ast::unit * node_a)
 	node_a->assigned = true;
 }
 
-void mu::llvmc::function_processor::constant_int (mu::llvmc::ast::constant_int * constant_a)
+void mu::llvmc::module_processor::constant_int (mu::llvmc::ast::constant_int * constant_a)
 {
 	try
 	{
@@ -380,26 +380,26 @@ void mu::llvmc::function_processor::constant_int (mu::llvmc::ast::constant_int *
 			auto number (dynamic_cast<mu::llvmc::ast::number *> (constant_a->number));
 			if (number != nullptr)
 			{
-				auto number_l (module_m.process_number (number));
+				auto number_l (process_number (number));
 				if (number_l != nullptr)
 				{
-					constant_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_integer (constant_a->region, module_m.module_m->global, bits, number_l->value));
+					constant_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_integer (constant_a->region, module_m->global, bits, number_l->value));
 					constant_a->assigned = true;
 				}
 			}
 			else
 			{
-				error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number, constant_a->number->region);
+				global_m.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number, constant_a->number->region);
 			}
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, constant_a->region);
+			global_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, constant_a->region);
 		}
 	}
 	catch (boost::bad_lexical_cast)
 	{
-		error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, constant_a->region);
+		global_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, constant_a->region);
 	}
 }
 
@@ -454,17 +454,17 @@ void mu::llvmc::module_processor::array_type (mu::llvmc::ast::array_type * type_
 	}
 }
 
-void mu::llvmc::function_processor::constant_array (mu::llvmc::ast::constant_array * array_a)
+void mu::llvmc::module_processor::constant_array (mu::llvmc::ast::constant_array * array_a)
 {
-	auto type (module_m.process_type (array_a->type));
+	auto type (process_type (array_a->type));
 	if (type != nullptr)
 	{
 		mu::vector <mu::llvmc::skeleton::constant *> initializer;
-		for (auto i (array_a->initializer.begin ()), j (array_a->initializer.end ()); i != j && error == nullptr; ++i)
+		for (auto i (array_a->initializer.begin ()), j (array_a->initializer.end ()); i != j && global_m.error == nullptr; ++i)
 		{
-			module_m.global_m.process_node (*i);
+			global_m.process_node (*i);
 			auto & values ((*i)->generated);
-			for (auto k (values.begin ()), l (values.end ()); k != l && error == nullptr; ++k)
+			for (auto k (values.begin ()), l (values.end ()); k != l && global_m.error == nullptr; ++k)
 			{
 				auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (*k));
 				if (constant != nullptr)
@@ -475,24 +475,24 @@ void mu::llvmc::function_processor::constant_array (mu::llvmc::ast::constant_arr
 					}
 					else
 					{
-						error = new (GC) mu::core::error_string (U"Initializer type doesn't match array element type", mu::core::error_type::initializer_type_doesnt_match, (*i)->region);
+						global_m.error = new (GC) mu::core::error_string (U"Initializer type doesn't match array element type", mu::core::error_type::initializer_type_doesnt_match, (*i)->region);
 					}
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Initializer must be a constant", mu::core::error_type::initializer_must_be_constant, (*i)->region);
+					global_m.error = new (GC) mu::core::error_string (U"Initializer must be a constant", mu::core::error_type::initializer_must_be_constant, (*i)->region);
 				}
 			}
 		}
 		auto array_type (new (GC) mu::llvmc::skeleton::array_type (type, initializer.size ()));
-		array_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_array (array_a->region, module_m.module_m->global, array_type, initializer));
+		array_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_array (array_a->region, module_m->global, array_type, initializer));
 		array_a->assigned = true;
 	}
 }
 
-void mu::llvmc::function_processor::global_variable (mu::llvmc::ast::global_variable * global_variable)
+void mu::llvmc::module_processor::global_variable (mu::llvmc::ast::global_variable * global_variable)
 {
-	module_m.global_m.process_node (global_variable->initializer);
+	global_m.process_node (global_variable->initializer);
 	auto & values (global_variable->initializer->generated);
 	if (values.size () == 1)
 	{
@@ -502,25 +502,25 @@ void mu::llvmc::function_processor::global_variable (mu::llvmc::ast::global_vari
 			global_variable->assigned = true;
 			auto & targets (global_variable->generated);
 			assert (targets.empty ());
-			auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, module_m.module_m->global, constant));
-            assert (module_m.unnamed_globals.find (skeleton) == module_m.unnamed_globals.end ());
-            module_m.unnamed_globals.insert (skeleton);
+			auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, module_m->global, constant));
+            assert (unnamed_globals.find (skeleton) == unnamed_globals.end ());
+            unnamed_globals.insert (skeleton);
 			targets.push_back (skeleton);
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
+			global_m.error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
 		}
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, global_variable->initializer->region);
+		global_m.error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, global_variable->initializer->region);
 	}
 }
 
-void mu::llvmc::function_processor::constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null)
+void mu::llvmc::module_processor::constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null)
 {
-	auto type (module_m.process_type (constant_pointer_null->type));
+	auto type (process_type (constant_pointer_null->type));
 	if (type != nullptr)
 	{
 		auto pointer (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (type));
@@ -528,12 +528,12 @@ void mu::llvmc::function_processor::constant_pointer_null (mu::llvmc::ast::const
 		{
 			constant_pointer_null->assigned = true;
 			auto & values (constant_pointer_null->generated);
-			auto skeleton (new (GC) mu::llvmc::skeleton::constant_pointer_null (constant_pointer_null->region, module_m.module_m->global, type));
+			auto skeleton (new (GC) mu::llvmc::skeleton::constant_pointer_null (constant_pointer_null->region, module_m->global, type));
 			values.push_back (skeleton);
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Type is not a pointer", mu::core::error_type::expecting_a_pointer_type, constant_pointer_null->type->region);
+			global_m.error = new (GC) mu::core::error_string (U"Type is not a pointer", mu::core::error_type::expecting_a_pointer_type, constant_pointer_null->type->region);
 		}
 	}
 }

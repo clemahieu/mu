@@ -80,6 +80,10 @@ namespace mu
 			void unit_type (mu::llvmc::ast::unit_type * unit_type) override;
             void struct_type (mu::llvmc::ast::struct_type * node_a) override;
             void process_single_node (mu::llvmc::ast::node * node_a);
+			void global_variable (mu::llvmc::ast::global_variable * global_variable) override;
+			void constant_int (mu::llvmc::ast::constant_int * constant_a) override;
+			void constant_array (mu::llvmc::ast::constant_array * array_a) override;
+			void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null) override;
             mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
 			mu::llvmc::global_processor & global_m;
@@ -106,12 +110,8 @@ namespace mu
             void node (mu::llvmc::ast::node * node_a) override;
 			void value (mu::llvmc::ast::value * value_node) override;
 			void unit (mu::llvmc::ast::unit * node_a) override;
-			void constant_int (mu::llvmc::ast::constant_int * constant_a) override;
 			void asm_c (mu::llvmc::ast::asm_c * asm_l) override;
 			void number (mu::llvmc::ast::number * node_a) override;
-			void constant_array (mu::llvmc::ast::constant_array * array_a) override;
-			void global_variable (mu::llvmc::ast::global_variable * global_variable) override;
-			void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null) override;
 			void join (mu::llvmc::ast::join * node_a) override;
 			void loop (mu::llvmc::ast::loop * loop_a) override;
 			void expression (mu::llvmc::ast::expression * expression_a) override;
