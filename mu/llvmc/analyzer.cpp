@@ -154,41 +154,41 @@ public:
 	mu::core::error * & error;
 };
 				
-mu::llvmc::global_processor::global_processor () :
-result_m ({nullptr, nullptr}),
-current_context (this)
+mu::llvmc::global_processor::global_processor (mu::core::error * & error_a) :
+current_context (this),
+error (error_a)
 {
 }
 				
 void mu::llvmc::global_processor::node (mu::llvmc::ast::node * node_a)
 {
-	result_m.error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module, node_a->region);
+	error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module, node_a->region);
 }
 			
 void mu::llvmc::global_processor::module (mu::llvmc::ast::module * node_a)
 {
 	auto module_s (new (GC) mu::llvmc::skeleton::module);
 	module_m = module_s;
-	mu::llvmc::function_processor nodes (*this, result_m.error, module_s->global);
-	module_analyzer processor (*this, result_m.error);
-	for (auto i (node_a->globals.begin ()), j (node_a->globals.end ()); i != j && result_m.error == nullptr; ++i)
+	mu::llvmc::function_processor nodes (*this, error, module_s->global);
+	module_analyzer processor (*this, error);
+	for (auto i (node_a->globals.begin ()), j (node_a->globals.end ()); i != j && error == nullptr; ++i)
 	{
 		if (!(*i)->assigned)
 		{
 			nodes.process_node (*i);
 		}
-		if (result_m.error == nullptr)
+		if (error == nullptr)
 		{
 			assert ((*i)->assigned);
 			auto & values ((*i)->generated);
-			for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
+			for (auto k (values.begin ()), l (values.end ()); k != l && error == nullptr; ++k)
 			{
 				auto value (*k);
 				value->visit (&processor);
 			}
 		}
 	}
-    if (result_m.error == nullptr)
+    if (error == nullptr)
     {
         for (auto i: node_a->names)
         {
@@ -197,18 +197,46 @@ void mu::llvmc::global_processor::module (mu::llvmc::ast::module * node_a)
             assert (i.second->generated.size () == 1);
             module_s->names [i.first] = i.second->generated [0];
         }
+		node_a->assigned = true;
+		node_a->generated.push_back (module_s);
     }
-	if (result_m.error == nullptr)
-	{
-		result_m.module = module_s;
-	}
 }
+
+class module_checker : public mu::llvmc::skeleton::visitor
+{
+public:
+	module_checker (mu::core::error * & error_a, mu::core::region & region_a) :
+	error (error_a),
+	region (region_a)
+	{
+	}
+	void node (mu::llvmc::skeleton::node * node_a)
+	{
+		error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module, region);
+	}
+	void module (mu::llvmc::skeleton::module * node_a)
+	{
+		//Expecting a module;
+	}
+	mu::core::error * & error;
+	mu::core::region & region;
+};
 
 mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * module_a)
 {
-	mu::llvmc::global_processor analyzer_l;
+	mu::llvmc::module_result result ({nullptr, nullptr});
+	mu::llvmc::global_processor analyzer_l (result.error);
 	module_a->visit (&analyzer_l);
-	return analyzer_l.result_m;
+	if (result.error == nullptr)
+	{
+		module_checker checker (result.error, module_a->region);
+		assert (module_a->generated.size () == 1);
+		if (result.error == nullptr)
+		{
+			result.module = analyzer_l.module_m;
+		}
+	}
+	return result;
 }
 
 void mu::llvmc::function_processor::process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
@@ -640,7 +668,7 @@ void mu::llvmc::function_processor::function (mu::llvmc::ast::function * functio
 void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
 {
 	process_node (node_a->function);
-    if (module_m.result_m.error == nullptr)
+    if (module_m.error == nullptr)
     {
         assert (node_a->function->assigned);
         if (node_a->function->generated.size () == 1)
@@ -663,32 +691,32 @@ void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
                             }
                             else
                             {
-                                module_m.result_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
+                                module_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
                             }
                         }
                         else
                         {
-                            module_m.result_m.error = new (GC) mu::core::error_string (U"Entry point function must have one return branch", mu::core::error_type::entry_point_must_have_one_return_branch);
+                            module_m.error = new (GC) mu::core::error_string (U"Entry point function must have one return branch", mu::core::error_type::entry_point_must_have_one_return_branch);
                         }
                     }
                     else
                     {
-                        module_m.result_m.error = new (GC) mu::core::error_string (U"Entry point function must take no arguments", mu::core::error_type::entry_point_must_have_no_arguments);
+                        module_m.error = new (GC) mu::core::error_string (U"Entry point function must take no arguments", mu::core::error_type::entry_point_must_have_no_arguments);
                     }
                 }
                 else
                 {
-                    module_m.result_m.error = new (GC) mu::core::error_string (U"Entry point must be a function", mu::core::error_type::entry_point_must_be_a_function);
+                    module_m.error = new (GC) mu::core::error_string (U"Entry point must be a function", mu::core::error_type::entry_point_must_be_a_function);
                 }
             }
             else
             {
-                module_m.result_m.error = new (GC) mu::core::error_string (U"Entry point has already been defined", mu::core::error_type::only_one_entry_point);
+                module_m.error = new (GC) mu::core::error_string (U"Entry point has already been defined", mu::core::error_type::only_one_entry_point);
             }
         }
         else
         {
-            module_m.result_m.error = new (GC) mu::core::error_string (U"Only one function can be defined as the entry point", mu::core::error_type::only_one_entry_point);
+            module_m.error = new (GC) mu::core::error_string (U"Only one function can be defined as the entry point", mu::core::error_type::only_one_entry_point);
         }
     }
 }
@@ -2370,15 +2398,6 @@ void mu::llvmc::function_processor::namespace_c (mu::llvmc::ast::namespace_c * n
 
 void mu::llvmc::function_processor::module (mu::llvmc::ast::module * node_a)
 {
-    mu::llvmc::global_processor processor;
+    mu::llvmc::global_processor processor (module_m.error);
     node_a->visit (&processor);
-    if (processor.result_m.error != nullptr)
-    {
-        error = processor.result_m.error;
-    }
-    else
-    {
-        node_a->assigned = true;
-        node_a->generated.push_back (processor.result_m.module);
-    }
 }

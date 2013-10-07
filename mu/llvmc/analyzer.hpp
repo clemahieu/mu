@@ -57,15 +57,15 @@ namespace mu
 		class global_processor : public mu::llvmc::ast::visitor
 		{
 		public:
-			global_processor ();
+			global_processor (mu::core::error * & error_a);
 			void node (mu::llvmc::ast::node * node_a) override;
 			void module (mu::llvmc::ast::module * node_a) override;
 			mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
 			mu::set <mu::llvmc::skeleton::global_value *> named_globals;
 			mu::set <mu::llvmc::ast::node *> current_expression_generation;
 			mu::llvmc::skeleton::module * module_m;
-			mu::llvmc::module_result result_m;
 			mu::llvmc::ast::visitor * current_context;
+			mu::core::error * & error;
 		};
         class function_processor : public mu::llvmc::ast::visitor
         {
