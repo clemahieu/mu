@@ -2356,14 +2356,14 @@ mu::llvmc::function_processor::~function_processor ()
 	module_m.global_m.current_context = parent;
 }
 
-void mu::llvmc::function_processor::set (mu::llvmc::ast::set * node_a)
+void mu::llvmc::module_processor::set (mu::llvmc::ast::set * node_a)
 {
 	for (auto i: node_a->nodes)
 	{
-		module_m.global_m.process_node (i);
+		global_m.process_node (i);
 		node_a->generated.insert (node_a->generated.end (), i->generated.begin (), i->generated.end ());
 	}
-	if (error == nullptr)
+	if (global_m.error == nullptr)
 	{
 		node_a->assigned = true;
 	}
