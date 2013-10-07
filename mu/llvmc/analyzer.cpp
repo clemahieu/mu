@@ -746,7 +746,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 	auto loop_s (new (GC) mu::llvmc::skeleton::loop (&module_m.module_m->the_unit_type));
 	mu::llvmc::skeleton::branch * loop_branch (module_m.module_m->global);
 	size_t predicate_offset (~0);
-	process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, loop_branch, predicate_offset);
+	module_m.process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, loop_branch, predicate_offset);
 	loop_s->argument_predicate_offset = predicate_offset;
 	if (error == nullptr)
 	{
@@ -879,8 +879,66 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 	}
 }
 
+void mu::llvmc::module_processor::expression (mu::llvmc::ast::expression * expression_a)
+{
+	auto existing (current_expression_generation.find (expression_a));
+	if (existing == current_expression_generation.end ())
+	{
+		current_expression_generation.insert (expression_a);
+		if (!expression_a->arguments.empty ())
+		{
+			global_m.process_node (expression_a->arguments [0]);
+			if (global_m.error == nullptr)
+			{
+				mu::llvmc::skeleton::node * target;
+				auto & generated = expression_a->arguments [0]->generated;
+				if (!generated.empty ())
+				{
+					target = generated [0];
+                    assert (target != nullptr);
+				}
+				else
+				{
+					global_m.error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target, expression_a->arguments [0]->region);
+				}
+				if (global_m.error == nullptr)
+				{
+					auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
+					if (identity != nullptr)
+					{
+						process_identity (expression_a);
+					}
+					else
+					{
+						auto template_l (dynamic_cast <mu::llvmc::skeleton::template_c *> (target));
+						if (template_l != nullptr)
+						{
+							process_template (expression_a);
+						}
+						else
+						{
+							global_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			global_m.error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target, expression_a->region);
+		}
+	}
+	else
+	{
+		global_m.error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions, expression_a->region);
+	}
+	current_expression_generation.erase (expression_a);
+	assert (current_expression_generation.find (expression_a) == current_expression_generation.end ());
+}
+
 void mu::llvmc::function_processor::expression (mu::llvmc::ast::expression * expression_a)
 {
+	auto call_parent (false);
 	auto existing (module_m.current_expression_generation.find (expression_a));
 	if (existing == module_m.current_expression_generation.end ())
 	{
@@ -924,23 +982,7 @@ void mu::llvmc::function_processor::expression (mu::llvmc::ast::expression * exp
 							}
 							else
 							{
-								auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
-								if (identity != nullptr)
-								{
-									process_identity (expression_a);
-								}
-								else
-								{
-									auto template_l (dynamic_cast <mu::llvmc::skeleton::template_c *> (target));
-									if (template_l != nullptr)
-									{
-										process_template (expression_a);
-									}
-									else
-									{
-										error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
-									}
-								}
+								call_parent = true;
 							}
 						}
 					}
@@ -958,6 +1000,11 @@ void mu::llvmc::function_processor::expression (mu::llvmc::ast::expression * exp
 	}
 	module_m.current_expression_generation.erase (expression_a);
 	assert (module_m.current_expression_generation.find (expression_a) == module_m.current_expression_generation.end ());
+	if (call_parent)
+	{
+		assert (!expression_a->assigned);
+		expression_a->visit (&module_m);
+	}
 }
 
 void mu::llvmc::module_processor::struct_type (mu::llvmc::ast::struct_type * node_a)
@@ -997,7 +1044,7 @@ void mu::llvmc::function_processor::undefined (mu::llvmc::ast::undefined * node_
 	}
 }
 
-void mu::llvmc::function_processor::template_c (mu::llvmc::ast::template_c * node_a)
+void mu::llvmc::module_processor::template_c (mu::llvmc::ast::template_c * node_a)
 {
 	auto node (new (GC) mu::llvmc::skeleton::template_c (node_a->base));
 	node->body = node_a->body;
@@ -1041,34 +1088,34 @@ namespace mu
     }
 }
 
-void mu::llvmc::function_processor::process_template (mu::llvmc::ast::expression * node_a)
+void mu::llvmc::module_processor::process_template (mu::llvmc::ast::expression * node_a)
 {
 	if (node_a->predicate_position == node_a->arguments.size ())
 	{
 		mu::vector <mu::llvmc::skeleton::node *> arguments;
-		for (auto i (node_a->arguments.begin ()), j (node_a->arguments.end ()); i != j && error == nullptr; ++i)
+		for (auto i (node_a->arguments.begin ()), j (node_a->arguments.end ()); i != j && global_m.error == nullptr; ++i)
 		{
 			auto value (*i);
-			module_m.global_m.process_node (value);
+			global_m.process_node (value);
 			auto & nodes (value->generated);
 			arguments.insert (arguments.end (), nodes.begin (), nodes.end ());
 		}
-		if (error == nullptr)
+		if (global_m.error == nullptr)
 		{
 			assert (arguments.size () > 0);
 			auto template_l (mu::cast <mu::llvmc::skeleton::template_c> (arguments [0]));
-			mu::llvmc::process_template processor (module_m.global_m, arguments);
+			mu::llvmc::process_template processor (global_m, arguments);
 			auto & target (node_a->generated);
-			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && error == nullptr; ++i)
+			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && global_m.error == nullptr; ++i)
 			{
                 auto orig (*i);
                 mu::llvmc::clone_context context (template_l->base);
 				auto value (orig->clone (context));
-				module_m.global_m.process_node (value);
+				global_m.process_node (value);
 				auto & nodes (value->generated);
 				target.insert (target.end (), nodes.begin (), nodes.end ());
 			}
-			if (error == nullptr)
+			if (global_m.error == nullptr)
 			{
 				node_a->assigned = true;
 			}
@@ -1076,7 +1123,7 @@ void mu::llvmc::function_processor::process_template (mu::llvmc::ast::expression
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Template instantiations cannot have predicates", mu::core::error_type::template_instantiations_cannot_have_predicates, node_a->region);
+		global_m.error = new (GC) mu::core::error_string (U"Template instantiations cannot have predicates", mu::core::error_type::template_instantiations_cannot_have_predicates, node_a->region);
 	}
 }
 
@@ -1095,7 +1142,7 @@ void mu::llvmc::function_processor::process_asm (mu::llvmc::ast::expression * as
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	mu::llvmc::skeleton::branch * most_specific_branch (module_m.module_m->global);
 	size_t predicate_offset (~0);
-    process_call_values (asm_a->arguments, asm_a->predicate_position, arguments, most_specific_branch, predicate_offset);
+    module_m.process_call_values (asm_a->arguments, asm_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [0]) != nullptr);
     auto instruction (new (GC) mu::llvmc::skeleton::inline_asm (asm_a->region, most_specific_branch, arguments, predicate_offset));
 	asm_a->assigned = true;
@@ -1279,13 +1326,13 @@ void mu::llvmc::function_processor::process_results ()
 	);
 }
 
-void mu::llvmc::function_processor::process_identity (mu::llvmc::ast::expression * expression_a)
+void mu::llvmc::module_processor::process_identity (mu::llvmc::ast::expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
-	mu::llvmc::skeleton::branch * most_specific_branch (module_m.module_m->global);
+	mu::llvmc::skeleton::branch * most_specific_branch (module_m->global);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
-    auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, predicate_offset, &module_m.module_m->the_unit_type));
+    auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, predicate_offset, &module_m->the_unit_type));
     switch (predicate_offset)
     {
         case 0:
@@ -1293,7 +1340,7 @@ void mu::llvmc::function_processor::process_identity (mu::llvmc::ast::expression
             break;
         case 1:
         {
-            auto element (new (GC) mu::llvmc::skeleton::identity_element (most_specific_branch, source, &module_m.module_m->the_unit_type));
+            auto element (new (GC) mu::llvmc::skeleton::identity_element (most_specific_branch, source, &module_m->the_unit_type));
             source->elements.push_back (element);
             expression_a->generated.push_back (element);
             break;
@@ -1325,7 +1372,7 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	mu::llvmc::skeleton::branch * most_specific_branch (function_m->entry);
 	size_t predicate_offset (~0);
-	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
+	module_m.process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
 	auto target (static_cast<mu::llvmc::skeleton::value *> (arguments [0]));
 	auto type_l (target->type ());
 	auto pointer_type (dynamic_cast<mu::llvmc::skeleton::pointer_type *> (type_l));
@@ -1441,9 +1488,9 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 	module_m.current_expression_generation.erase (expression_a);
 }
 
-void mu::llvmc::function_processor::process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
+void mu::llvmc::module_processor::process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
 {
-    mu::llvmc::branch_analyzer branches (most_specific_branch, error);
+    mu::llvmc::branch_analyzer branches (most_specific_branch, global_m.error);
 	size_t predicate_position_l (~0);
 	mu::llvmc::ast::for_each_argument (
 		arguments,
@@ -1451,11 +1498,11 @@ void mu::llvmc::function_processor::process_call_values (mu::vector <mu::llvmc::
 		[&]
 		(mu::llvmc::ast::node * node_a, size_t index)
 		{
-			module_m.global_m.process_node (node_a);
-			if (error == nullptr)
+			global_m.process_node (node_a);
+			if (global_m.error == nullptr)
 			{
                 auto & nodes (node_a->generated);
-                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && error == nullptr; ++k)
+                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && global_m.error == nullptr; ++k)
                 {
                     auto node (*k);
                     auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
@@ -1470,11 +1517,11 @@ void mu::llvmc::function_processor::process_call_values (mu::vector <mu::llvmc::
 		[&]
 		(mu::llvmc::ast::node * node_a, size_t index)
 		{
-			module_m.global_m.process_node (node_a);
-			if (error == nullptr)
+			global_m.process_node (node_a);
+			if (global_m.error == nullptr)
 			{
                 auto & nodes (node_a->generated);
-                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && error == nullptr; ++k)
+                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && global_m.error == nullptr; ++k)
                 {
                     auto node (*k);
                     auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
@@ -1495,7 +1542,7 @@ void mu::llvmc::function_processor::process_call_values (mu::vector <mu::llvmc::
 		[&]
 		()
 		{
-			return error == nullptr;
+			return global_m.error == nullptr;
 		}
 	);
 	if (predicate_position_l == ~0)
@@ -1562,7 +1609,7 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	mu::llvmc::skeleton::branch * most_specific_branch (module_m.module_m->global);
 	size_t predicate_offset (~0);
-	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
+	module_m.process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     auto result (false);
     if (error == nullptr)
     {

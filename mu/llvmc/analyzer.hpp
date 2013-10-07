@@ -84,6 +84,11 @@ namespace mu
 			void constant_int (mu::llvmc::ast::constant_int * constant_a) override;
 			void constant_array (mu::llvmc::ast::constant_array * array_a) override;
 			void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null) override;
+			void expression (mu::llvmc::ast::expression * expression_a) override;
+            void process_identity (mu::llvmc::ast::expression * expression_a);
+			void template_c (mu::llvmc::ast::template_c * node_a) override;
+			void process_template (mu::llvmc::ast::expression * node_a);
+            void process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
             mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
 			mu::llvmc::global_processor & global_m;
@@ -102,8 +107,6 @@ namespace mu
             void process_value_call (mu::llvmc::ast::expression * expression_a);
             void process_marker (mu::llvmc::ast::expression * expression_a);
             void process_asm (mu::llvmc::ast::expression * expression_a);
-            void process_identity (mu::llvmc::ast::expression * expression_a);
-            void process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
 			void process_binary_integer_instruction (mu::llvmc::ast::expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
             void process_expression (mu::llvmc::ast::expression * node_a);
@@ -116,9 +119,7 @@ namespace mu
 			void loop (mu::llvmc::ast::loop * loop_a) override;
 			void expression (mu::llvmc::ast::expression * expression_a) override;
 			void undefined (mu::llvmc::ast::undefined * node_a) override;
-			void template_c (mu::llvmc::ast::template_c * node_a) override;
             void namespace_c (mu::llvmc::ast::namespace_c * node_a) override;
-			void process_template (mu::llvmc::ast::expression * node_a);
             void process_parameters ();
             void process_results ();
 			mu::llvmc::module_processor & module_m;
