@@ -3424,14 +3424,10 @@ TEST (llvmc_analyzer, function_template)
 	mu::llvmc::ast::expression expression1 ({&template_l, &type1}, {});
 	mu::llvmc::ast::element element1 (&expression1, 0, 1, U"0", mu::empty_region);
     module.globals.push_back (&element1);
-	mu::llvmc::ast::integer_type type2 (U"16");
-	mu::llvmc::ast::expression expression2 ({&template_l, &type2}, {});
-	mu::llvmc::ast::element element2 (&expression2, 0, 1, U"1", mu::empty_region);
-    module.globals.push_back (&element2);
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
     ASSERT_NE (nullptr, result.module);
-    ASSERT_EQ (2, result.module->globals.size ());
+    ASSERT_EQ (1, result.module->globals.size ());
     auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_NE (nullptr, function1);
     EXPECT_EQ (1, function1->parameters.size ());
@@ -3439,13 +3435,48 @@ TEST (llvmc_analyzer, function_template)
     auto type3 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (function1->parameters [0]->type ()));
     ASSERT_NE (nullptr, type3);
     ASSERT_EQ (8, type3->bits);
-    auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [1]));
-    ASSERT_NE (nullptr, function2);
-    EXPECT_EQ (1, function2->parameters.size ());
-    EXPECT_EQ (1, function2->results.size ());
-    auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (function2->parameters [0]->type ()));
-    ASSERT_NE (nullptr, type4);
-    ASSERT_EQ (16, type4->bits);
+}
+
+TEST (llvmc_analyzer, nested_template)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::template_context context0 ({nullptr});
+	mu::llvmc::ast::template_c template0 (&context0);
+	mu::llvmc::ast::template_parameter parameter1 (U"parameter1", &context0);
+	mu::llvmc::template_context context1 ({&context0});
+	mu::llvmc::ast::template_c template1 (&context1);
+    mu::llvmc::ast::function function (&context1);
+    function.region = mu::core::region (2, 2, 2, 3, 3, 3);
+	mu::llvmc::ast::parameter parameter2 (&context1);
+	parameter2.name = U"parameter2";
+	parameter2.type = &parameter1;
+	function.parameters.push_back (&parameter2);
+	mu::llvmc::ast::result result1 (&parameter1, &parameter2, &context1);
+	function.results.push_back (&result1);
+	function.predicate_offsets.push_back (function.results.size ());
+	function.branch_ends.push_back (function.results.size ());
+	parameter1.argument = 0;
+	template0.parameters.push_back (&parameter1);
+	mu::llvmc::ast::expression expression2 ({&template1}, {});
+	mu::llvmc::ast::element element2 (&expression2, 0, 1, U"0", mu::empty_region);
+	template0.body.push_back (&expression2);
+	template1.body.push_back (&function);
+	mu::llvmc::ast::integer_type type1 (U"8");
+	mu::llvmc::ast::expression expression1 ({&template0, &type1}, {});
+	mu::llvmc::ast::element element1 (&expression1, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
+    ASSERT_NE (nullptr, function1);
+    EXPECT_EQ (1, function1->parameters.size ());
+    EXPECT_EQ (1, function1->results.size ());
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (function1->parameters [0]->type ()));
+    ASSERT_NE (nullptr, type3);
+    ASSERT_EQ (8, type3->bits);
 }
 
 TEST (llvmc_analyzer, template_shared)
