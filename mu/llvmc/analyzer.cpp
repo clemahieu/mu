@@ -685,15 +685,15 @@ void mu::llvmc::function_processor::process ()
 	}
 }
 
-void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
+void mu::llvmc::module_processor::entry (mu::llvmc::ast::entry * node_a)
 {
-	module_m.global_m.process_node (node_a->function);
-    if (module_m.global_m.error == nullptr)
+	global_m.process_node (node_a->function);
+    if (global_m.error == nullptr)
     {
         assert (node_a->function->assigned);
         if (node_a->function->generated.size () == 1)
         {
-            if (module_m.module_m->entry == nullptr)
+            if (module_m->entry == nullptr)
             {
                 auto function_l (dynamic_cast <mu::llvmc::skeleton::function *> (node_a->function->generated [0]));
                 if (function_l != nullptr)
@@ -705,38 +705,38 @@ void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
                             assert (function_l->predicate_offsets.size () == 1);
                             if (function_l->predicate_offsets [0] == 0)
                             {
-								module_m.module_m->entry = function_l;
+								module_m->entry = function_l;
                                 node_a->generated.push_back (function_l);
                                 node_a->assigned = true;
                             }
                             else
                             {
-                                module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
+                                global_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
                             }
                         }
                         else
                         {
-                            module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point function must have one return branch", mu::core::error_type::entry_point_must_have_one_return_branch);
+                            global_m.error = new (GC) mu::core::error_string (U"Entry point function must have one return branch", mu::core::error_type::entry_point_must_have_one_return_branch);
                         }
                     }
                     else
                     {
-                        module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point function must take no arguments", mu::core::error_type::entry_point_must_have_no_arguments);
+                        global_m.error = new (GC) mu::core::error_string (U"Entry point function must take no arguments", mu::core::error_type::entry_point_must_have_no_arguments);
                     }
                 }
                 else
                 {
-                    module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point must be a function", mu::core::error_type::entry_point_must_be_a_function);
+                    global_m.error = new (GC) mu::core::error_string (U"Entry point must be a function", mu::core::error_type::entry_point_must_be_a_function);
                 }
             }
             else
             {
-                module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point has already been defined", mu::core::error_type::only_one_entry_point);
+                global_m.error = new (GC) mu::core::error_string (U"Entry point has already been defined", mu::core::error_type::only_one_entry_point);
             }
         }
         else
         {
-            module_m.global_m.error = new (GC) mu::core::error_string (U"Only one function can be defined as the entry point", mu::core::error_type::only_one_entry_point);
+            global_m.error = new (GC) mu::core::error_string (U"Only one function can be defined as the entry point", mu::core::error_type::only_one_entry_point);
         }
     }
 }
