@@ -96,7 +96,7 @@ namespace mu
         class function_processor : public mu::llvmc::ast::visitor
         {
         public:
-            function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a, mu::llvmc::ast::function * node_a);
+            function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::ast::function * node_a);
 			~function_processor ();
 			void process ();
             void process_value_call (mu::llvmc::ast::expression * expression_a);
@@ -125,7 +125,6 @@ namespace mu
 			mu::llvmc::skeleton::function * function_m;
 			mu::llvmc::ast::function * node_m;
             mu::core::error * & error;
-            mu::llvmc::skeleton::branch * entry_m;
 			mu::llvmc::ast::visitor * parent;
         };
 		class branch_analyzer

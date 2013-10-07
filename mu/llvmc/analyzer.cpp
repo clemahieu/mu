@@ -668,7 +668,7 @@ void mu::llvmc::module_processor::function (mu::llvmc::ast::function * function_
 {
 	assert (function_node->branch_ends.size () == function_node->predicate_offsets.size ());
 	
-	mu::llvmc::function_processor nodes (*this, global_m.error, module_m->global, function_node);
+	mu::llvmc::function_processor nodes (*this, global_m.error, function_node);
 	nodes.process ();
 }
 
@@ -1323,7 +1323,7 @@ void mu::llvmc::function_processor::process_identity (mu::llvmc::ast::expression
 void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
-	mu::llvmc::skeleton::branch * most_specific_branch (entry_m);
+	mu::llvmc::skeleton::branch * most_specific_branch (function_m->entry);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
 	auto target (static_cast<mu::llvmc::skeleton::value *> (arguments [0]));
@@ -2340,12 +2340,11 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 	assert ((error != nullptr) xor (expression_a->assigned));
 }
 
-mu::llvmc::function_processor::function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a, mu::llvmc::ast::function * node_a) :
+mu::llvmc::function_processor::function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::ast::function * node_a) :
 module_m (module_a),
 function_m (new (GC) mu::llvmc::skeleton::function (node_a->region, module_m.module_m->global)),
 node_m (node_a),
 error (error_a),
-entry_m (entry_a),
 parent (module_a.global_m.current_context)
 {
 	module_a.global_m.current_context = this;
