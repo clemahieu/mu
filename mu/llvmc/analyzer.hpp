@@ -61,18 +61,27 @@ namespace mu
             void process_node (mu::llvmc::ast::node * node_a);
 			void node (mu::llvmc::ast::node * node_a) override;
 			void module (mu::llvmc::ast::module * node_a) override;
+			mu::llvmc::ast::visitor * current_context;
+			mu::core::error * & error;
+		};
+		class module_processor : public mu::llvmc::ast::visitor
+		{
+		public:
+			module_processor (mu::llvmc::global_processor & global_a);
+			void function (mu::llvmc::ast::function * function_node) override;
+			void node (mu::llvmc::ast::node * node_a) override;
+			mu::llvmc::global_processor & global_m;
+			mu::llvmc::skeleton::module * module_m;
 			mu::set <mu::llvmc::skeleton::global_value *> unnamed_globals;
 			mu::set <mu::llvmc::skeleton::global_value *> named_globals;
 			mu::set <mu::llvmc::ast::node *> current_expression_generation;
-			mu::llvmc::skeleton::module * module_m;
-			mu::llvmc::ast::visitor * current_context;
-			mu::core::error * & error;
 		};
         class function_processor : public mu::llvmc::ast::visitor
         {
         public:
-            function_processor (mu::llvmc::global_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
+            function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a, mu::llvmc::ast::function * node_a);
 			~function_processor ();
+			void process ();
             void process_value_call (mu::llvmc::ast::expression * expression_a);
             void process_marker (mu::llvmc::ast::expression * expression_a);
             void process_asm (mu::llvmc::ast::expression * expression_a);
@@ -99,7 +108,6 @@ namespace mu
 			void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null) override;
 			void unit_type (mu::llvmc::ast::unit_type * unit_type) override;
 			void join (mu::llvmc::ast::join * node_a) override;
-			void function (mu::llvmc::ast::function * function_node) override;
 			void loop (mu::llvmc::ast::loop * loop_a) override;
 			void expression (mu::llvmc::ast::expression * expression_a) override;
             void struct_type (mu::llvmc::ast::struct_type * node_a) override;
@@ -108,11 +116,12 @@ namespace mu
             void entry (mu::llvmc::ast::entry * node_a) override;
 			void set (mu::llvmc::ast::set * node_a) override;
             void namespace_c (mu::llvmc::ast::namespace_c * node_a) override;
-            void module (mu::llvmc::ast::module * node_a) override;
 			void process_template (mu::llvmc::ast::expression * node_a);
-            void process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
-            void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
-            mu::llvmc::global_processor & module_m;
+            void process_parameters ();
+            void process_results ();
+			mu::llvmc::module_processor & module_m;
+			mu::llvmc::skeleton::function * function_m;
+			mu::llvmc::ast::function * node_m;
             mu::core::error * & error;
             mu::llvmc::skeleton::branch * entry_m;
 			mu::llvmc::ast::visitor * parent;

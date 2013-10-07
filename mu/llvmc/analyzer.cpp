@@ -77,7 +77,7 @@ void mu::llvmc::branch_analyzer::new_set ()
 class global_naming : public mu::llvmc::skeleton::visitor
 {
 public:
-	global_naming (mu::llvmc::global_processor & module_a, mu::core::error * & error_a, mu::string const & name_a) :
+	global_naming (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::string const & name_a) :
 	module (module_a),
 	error (error_a),
 	name (name_a)
@@ -104,7 +104,7 @@ public:
 			error = new mu::core::error_string (U"Global already has a name", mu::core::error_type::global_already_named);
 		}
 	}
-    mu::llvmc::global_processor & module;
+    mu::llvmc::module_processor & module;
 	mu::core::error * & error;
 	mu::string const & name;
 };
@@ -112,7 +112,7 @@ public:
 class module_analyzer : public mu::llvmc::skeleton::visitor
 {
 public:
-    module_analyzer (mu::llvmc::global_processor & module_a, mu::core::error * & error_a) :
+    module_analyzer (mu::llvmc::module_processor & module_a, mu::core::error * & error_a) :
     module (module_a),
 	error (error_a)
     {
@@ -150,7 +150,7 @@ public:
 	{
         // Nodes that can be written at module level but are not generated at the module level
 	}
-    mu::llvmc::global_processor & module;
+    mu::llvmc::module_processor & module;
 	mu::core::error * & error;
 };
 				
@@ -164,13 +164,18 @@ void mu::llvmc::global_processor::node (mu::llvmc::ast::node * node_a)
 {
 	error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module, node_a->region);
 }
-			
+
+mu::llvmc::module_processor::module_processor (mu::llvmc::global_processor & global_a) :
+global_m (global_a),
+module_m (new (GC) mu::llvmc::skeleton::module)
+{
+}
+
 void mu::llvmc::global_processor::module (mu::llvmc::ast::module * node_a)
 {
-	auto module_s (new (GC) mu::llvmc::skeleton::module);
-	module_m = module_s;
-	mu::llvmc::function_processor nodes (*this, error, module_s->global);
-	module_analyzer processor (*this, error);
+	mu::llvmc::module_processor processor (*this);
+	auto module_s (processor.module_m);
+	module_analyzer analyzer (processor, error);
 	for (auto i (node_a->globals.begin ()), j (node_a->globals.end ()); i != j && error == nullptr; ++i)
 	{
 		if (!(*i)->assigned)
@@ -184,7 +189,7 @@ void mu::llvmc::global_processor::module (mu::llvmc::ast::module * node_a)
 			for (auto k (values.begin ()), l (values.end ()); k != l && error == nullptr; ++k)
 			{
 				auto value (*k);
-				value->visit (&processor);
+				value->visit (&analyzer);
 			}
 		}
 	}
@@ -233,25 +238,25 @@ mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * mo
 		assert (module_a->generated.size () == 1);
 		if (result.error == nullptr)
 		{
-			result.module = analyzer_l.module_m;
+			result.module = mu::cast <mu::llvmc::skeleton::module> (module_a->generated [0]);
 		}
 	}
 	return result;
 }
 
-void mu::llvmc::function_processor::process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
+void mu::llvmc::function_processor::process_parameters ()
 {
-	for (auto k (function_a->parameters.begin ()), l (function_a->parameters.end ()); k != l && error == nullptr; ++k)
+	for (auto k (node_m->parameters.begin ()), l (node_m->parameters.end ()); k != l && error == nullptr; ++k)
 	{
 		auto parameter (mu::cast <mu::llvmc::ast::parameter> (*k));
         auto node (parameter->type);
 		auto type_l (process_type (node));
 		if (type_l != nullptr)
 		{
-			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (parameter->region, function_s->entry, type_l, parameter->name));
+			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (parameter->region, function_m->entry, type_l, parameter->name));
 			parameter->generated.push_back (parameter_s);
 			parameter->assigned = true;
-			function_s->parameters.push_back (parameter_s);
+			function_m->parameters.push_back (parameter_s);
 		}
 		else
 		{
@@ -262,7 +267,7 @@ void mu::llvmc::function_processor::process_parameters (mu::llvmc::ast::function
 
 void mu::llvmc::function_processor::node (mu::llvmc::ast::node * node_a)
 {
-	error = new (GC) mu::core::error_string (U"Unexpected node type", mu::core::error_type::unexpected_node_type, node_a->region);
+	node_a->visit (&module_m);
 }
 
 void mu::llvmc::function_processor::value (mu::llvmc::ast::value * value_node)
@@ -302,7 +307,7 @@ void mu::llvmc::function_processor::integer_type (mu::llvmc::ast::integer_type *
 class naming_visitor : public mu::llvmc::skeleton::visitor
 {
 public:
-    naming_visitor (mu::llvmc::global_processor & module_a, mu::llvmc::ast::element * element_a, mu::core::error * & error_a) :
+    naming_visitor (mu::llvmc::module_processor & module_a, mu::llvmc::ast::element * element_a, mu::core::error * & error_a) :
 	module (module_a),
     element (element_a),
     error (error_a)
@@ -322,14 +327,14 @@ public:
 		node_a->visit (&naming);
 		element->generated.push_back (node_a);
 	}
-	mu::llvmc::global_processor & module;
+	mu::llvmc::module_processor & module;
     mu::llvmc::ast::element * element;
     mu::core::error * & error;
 };
 
 void mu::llvmc::function_processor::element (mu::llvmc::ast::element * element_a)
 {
-	module_m.process_node (element_a->node_m);
+	module_m.global_m.process_node (element_a->node_m);
 	if (error == nullptr)
 	{
 		assert (element_a->node_m->assigned);
@@ -450,7 +455,7 @@ void mu::llvmc::function_processor::constant_array (mu::llvmc::ast::constant_arr
 		mu::vector <mu::llvmc::skeleton::constant *> initializer;
 		for (auto i (array_a->initializer.begin ()), j (array_a->initializer.end ()); i != j && error == nullptr; ++i)
 		{
-			module_m.process_node (*i);
+			module_m.global_m.process_node (*i);
 			auto & values ((*i)->generated);
 			for (auto k (values.begin ()), l (values.end ()); k != l && error == nullptr; ++k)
 			{
@@ -480,7 +485,7 @@ void mu::llvmc::function_processor::constant_array (mu::llvmc::ast::constant_arr
 
 void mu::llvmc::function_processor::global_variable (mu::llvmc::ast::global_variable * global_variable)
 {
-	module_m.process_node (global_variable->initializer);
+	module_m.global_m.process_node (global_variable->initializer);
 	auto & values (global_variable->initializer->generated);
 	if (values.size () == 1)
 	{
@@ -542,7 +547,7 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 		auto & target (join->add_branch ());
 		for (auto j: i.arguments)
 		{
-			module_m.process_node (j);
+			module_m.global_m.process_node (j);
 			if (error == nullptr)
 			{
 				auto & values (j->generated);
@@ -563,7 +568,7 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 		}
 		for (auto j: i.predicates)
 		{
-			module_m.process_node (j);
+			module_m.global_m.process_node (j);
 			if (error == nullptr)
 			{
 				auto & values (j->generated);
@@ -647,28 +652,36 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 	}
 }
 
-void mu::llvmc::function_processor::function (mu::llvmc::ast::function * function_node)
+void mu::llvmc::module_processor::node (mu::llvmc::ast::node * node_a)
+{
+	node_a->visit (&global_m);
+}
+
+void mu::llvmc::module_processor::function (mu::llvmc::ast::function * function_node)
 {
 	assert (function_node->branch_ends.size () == function_node->predicate_offsets.size ());
-	auto function_s (new (GC) mu::llvmc::skeleton::function (function_node->region, module_m.module_m->global));
-    auto previous (entry_m);
-	entry_m = function_s->entry;
-	process_parameters (function_node, function_s);
-	process_results (function_node, function_s);
+	
+	mu::llvmc::function_processor nodes (*this, global_m.error, module_m->global, function_node);
+	nodes.process ();
+}
+
+void mu::llvmc::function_processor::process ()
+{
+    process_parameters ();
+	process_results ();
 	if (error == nullptr)
 	{
-		function_node->generated.push_back (function_s);
-		function_node->assigned = true;
-        assert (module_m.unnamed_globals.find (function_s) == module_m.unnamed_globals.end ());
-        module_m.unnamed_globals.insert (function_s);
+		node_m->generated.push_back (function_m);
+		node_m->assigned = true;
+        assert (module_m.unnamed_globals.find (function_m) == module_m.unnamed_globals.end ());
+        module_m.unnamed_globals.insert (function_m);
 	}
-	entry_m = previous;
 }
 
 void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
 {
-	module_m.process_node (node_a->function);
-    if (module_m.error == nullptr)
+	module_m.global_m.process_node (node_a->function);
+    if (module_m.global_m.error == nullptr)
     {
         assert (node_a->function->assigned);
         if (node_a->function->generated.size () == 1)
@@ -691,32 +704,32 @@ void mu::llvmc::function_processor::entry (mu::llvmc::ast::entry * node_a)
                             }
                             else
                             {
-                                module_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
                             }
                         }
                         else
                         {
-                            module_m.error = new (GC) mu::core::error_string (U"Entry point function must have one return branch", mu::core::error_type::entry_point_must_have_one_return_branch);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point function must have one return branch", mu::core::error_type::entry_point_must_have_one_return_branch);
                         }
                     }
                     else
                     {
-                        module_m.error = new (GC) mu::core::error_string (U"Entry point function must take no arguments", mu::core::error_type::entry_point_must_have_no_arguments);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point function must take no arguments", mu::core::error_type::entry_point_must_have_no_arguments);
                     }
                 }
                 else
                 {
-                    module_m.error = new (GC) mu::core::error_string (U"Entry point must be a function", mu::core::error_type::entry_point_must_be_a_function);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point must be a function", mu::core::error_type::entry_point_must_be_a_function);
                 }
             }
             else
             {
-                module_m.error = new (GC) mu::core::error_string (U"Entry point has already been defined", mu::core::error_type::only_one_entry_point);
+                module_m.global_m.error = new (GC) mu::core::error_string (U"Entry point has already been defined", mu::core::error_type::only_one_entry_point);
             }
         }
         else
         {
-            module_m.error = new (GC) mu::core::error_string (U"Only one function can be defined as the entry point", mu::core::error_type::only_one_entry_point);
+            module_m.global_m.error = new (GC) mu::core::error_string (U"Only one function can be defined as the entry point", mu::core::error_type::only_one_entry_point);
         }
     }
 }
@@ -761,7 +774,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 									  [&]
 									  (mu::llvmc::ast::node * expression_a, size_t index_a)
 									  {
-										  module_m.process_node (expression_a);
+										  module_m.global_m.process_node (expression_a);
 										  if (error == nullptr)
 										  {
 											  for (auto i : expression_a->generated)
@@ -785,7 +798,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 									  [&]
 									  (mu::llvmc::ast::node * expression_a, size_t)
 									  {
-										  module_m.process_node (expression_a);
+										  module_m.global_m.process_node (expression_a);
 										  if (error == nullptr)
 										  {
 											  for (auto i : expression_a->generated)
@@ -867,7 +880,7 @@ void mu::llvmc::function_processor::expression (mu::llvmc::ast::expression * exp
 		module_m.current_expression_generation.insert (expression_a);
 		if (!expression_a->arguments.empty ())
 		{
-			module_m.process_node (expression_a->arguments [0]);
+			module_m.global_m.process_node (expression_a->arguments [0]);
 			if (error == nullptr)
 			{
 				mu::llvmc::skeleton::node * target;
@@ -1029,7 +1042,7 @@ void mu::llvmc::function_processor::process_template (mu::llvmc::ast::expression
 		for (auto i (node_a->arguments.begin ()), j (node_a->arguments.end ()); i != j && error == nullptr; ++i)
 		{
 			auto value (*i);
-			module_m.process_node (value);
+			module_m.global_m.process_node (value);
 			auto & nodes (value->generated);
 			arguments.insert (arguments.end (), nodes.begin (), nodes.end ());
 		}
@@ -1037,14 +1050,14 @@ void mu::llvmc::function_processor::process_template (mu::llvmc::ast::expression
 		{
 			assert (arguments.size () > 0);
 			auto template_l (mu::cast <mu::llvmc::skeleton::template_c> (arguments [0]));
-			mu::llvmc::process_template processor (module_m, arguments);
+			mu::llvmc::process_template processor (module_m.global_m, arguments);
 			auto & target (node_a->generated);
 			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && error == nullptr; ++i)
 			{
                 auto orig (*i);
                 mu::llvmc::clone_context context (template_l->base);
 				auto value (orig->clone (context));
-				module_m.process_node (value);
+				module_m.global_m.process_node (value);
 				auto & nodes (value->generated);
 				target.insert (target.end (), nodes.begin (), nodes.end ());
 			}
@@ -1143,7 +1156,7 @@ mu::llvmc::skeleton::number * mu::llvmc::function_processor::process_number (mu:
 void mu::llvmc::function_processor::process_single_node (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
-	module_m.process_node (node_a);
+	module_m.global_m.process_node (node_a);
     auto size (node_a->generated.size ());
 	if (error == nullptr && size != 1)
 	{
@@ -1182,10 +1195,10 @@ mu::llvmc::skeleton::type * mu::llvmc::function_processor::process_type (mu::llv
 	return result;
 }
 
-void mu::llvmc::function_processor::process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
+void mu::llvmc::function_processor::process_results ()
 {
 	mu::llvmc::branch_analyzer branches (module_m.module_m->global, error);
-	function_a->for_each_results (
+	node_m->for_each_results (
         [&]
         (mu::llvmc::ast::node * node_a, size_t index_a)
         {
@@ -1200,7 +1213,7 @@ void mu::llvmc::function_processor::process_results (mu::llvmc::ast::function * 
 					{
                         if (*type == *value->type ())
                         {
-                            function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                            function_m->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
                             branches.add_branch (value->branch, result_a->region);
                         }
                         else
@@ -1222,7 +1235,7 @@ void mu::llvmc::function_processor::process_results (mu::llvmc::ast::function * 
         [&]
         (mu::llvmc::ast::node * node_a, size_t)
         {
-            module_m.process_node (node_a);
+            module_m.global_m.process_node (node_a);
             if (error == nullptr)
             {
                 for (auto i : node_a->generated)
@@ -1230,7 +1243,7 @@ void mu::llvmc::function_processor::process_results (mu::llvmc::ast::function * 
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
                     if (value != nullptr)
                     {
-                        function_s->results.push_back (i);
+                        function_m->results.push_back (i);
                         branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
                     }
                     else
@@ -1243,13 +1256,13 @@ void mu::llvmc::function_processor::process_results (mu::llvmc::ast::function * 
         [&]
         (mu::llvmc::ast::node *, size_t)
         {
-            function_s->predicate_offsets.push_back (function_s->results.size ());
+            function_m->predicate_offsets.push_back (function_m->results.size ());
         },
         [&]
         (mu::llvmc::ast::node *, size_t)
         {
 			branches.new_set ();
-            function_s->branch_ends.push_back (function_s->results.size ());
+            function_m->branch_ends.push_back (function_m->results.size ());
         },
         [&]
         ()
@@ -1431,7 +1444,7 @@ void mu::llvmc::function_processor::process_call_values (mu::vector <mu::llvmc::
 		[&]
 		(mu::llvmc::ast::node * node_a, size_t index)
 		{
-			module_m.process_node (node_a);
+			module_m.global_m.process_node (node_a);
 			if (error == nullptr)
 			{
                 auto & nodes (node_a->generated);
@@ -1450,7 +1463,7 @@ void mu::llvmc::function_processor::process_call_values (mu::vector <mu::llvmc::
 		[&]
 		(mu::llvmc::ast::node * node_a, size_t index)
 		{
-			module_m.process_node (node_a);
+			module_m.global_m.process_node (node_a);
 			if (error == nullptr)
 			{
                 auto & nodes (node_a->generated);
@@ -2320,26 +2333,28 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 	assert ((error != nullptr) xor (expression_a->assigned));
 }
 
-mu::llvmc::function_processor::function_processor (mu::llvmc::global_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a) :
+mu::llvmc::function_processor::function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a, mu::llvmc::ast::function * node_a) :
 module_m (module_a),
+function_m (new (GC) mu::llvmc::skeleton::function (node_a->region, module_m.module_m->global)),
+node_m (node_a),
 error (error_a),
 entry_m (entry_a),
-parent (module_a.current_context)
+parent (module_a.global_m.current_context)
 {
-	module_a.current_context = this;
+	module_a.global_m.current_context = this;
 }
 
 mu::llvmc::function_processor::~function_processor ()
 {
-	assert (module_m.current_context == this);
-	module_m.current_context = parent;
+	assert (module_m.global_m.current_context == this);
+	module_m.global_m.current_context = parent;
 }
 
 void mu::llvmc::function_processor::set (mu::llvmc::ast::set * node_a)
 {
 	for (auto i: node_a->nodes)
 	{
-		module_m.process_node (i);
+		module_m.global_m.process_node (i);
 		node_a->generated.insert (node_a->generated.end (), i->generated.begin (), i->generated.end ());
 	}
 	if (error == nullptr)
@@ -2380,7 +2395,7 @@ public:
 
 void mu::llvmc::function_processor::namespace_c (mu::llvmc::ast::namespace_c * node_a)
 {
-    module_m.process_node (node_a->node_m);
+    module_m.global_m.process_node (node_a->node_m);
     if (error == nullptr)
     {
         assert (node_a->node_m->assigned);
@@ -2394,10 +2409,4 @@ void mu::llvmc::function_processor::namespace_c (mu::llvmc::ast::namespace_c * n
             error = new (GC) mu::core::error_string (U"Can only extract name from one node", mu::core::error_type::can_only_extract_from_one);
         }
     }
-}
-
-void mu::llvmc::function_processor::module (mu::llvmc::ast::module * node_a)
-{
-    mu::llvmc::global_processor processor (module_m.error);
-    node_a->visit (&processor);
 }
