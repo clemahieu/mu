@@ -257,7 +257,7 @@ void mu::llvmc::function_processor::process_parameters ()
 	{
 		auto parameter (mu::cast <mu::llvmc::ast::parameter> (*k));
         auto node (parameter->type);
-		auto type_l (process_type (node));
+		auto type_l (module_m.process_type (node));
 		if (type_l != nullptr)
 		{
 			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (parameter->region, function_m->entry, type_l, parameter->name));
@@ -289,7 +289,7 @@ void mu::llvmc::function_processor::value (mu::llvmc::ast::value * value_node)
 	value_node->assigned = true;
 }
 
-void mu::llvmc::function_processor::integer_type (mu::llvmc::ast::integer_type * type_a)
+void mu::llvmc::module_processor::integer_type (mu::llvmc::ast::integer_type * type_a)
 {
 	try
 	{
@@ -302,12 +302,12 @@ void mu::llvmc::function_processor::integer_type (mu::llvmc::ast::integer_type *
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, type_a->region);
+			global_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, type_a->region);
 		}
 	}
 	catch (boost::bad_lexical_cast)
 	{
-		error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
+		global_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
 	}
 }
 
@@ -380,7 +380,7 @@ void mu::llvmc::function_processor::constant_int (mu::llvmc::ast::constant_int *
 			auto number (dynamic_cast<mu::llvmc::ast::number *> (constant_a->number));
 			if (number != nullptr)
 			{
-				auto number_l (process_number (number));
+				auto number_l (module_m.process_number (number));
 				if (number_l != nullptr)
 				{
 					constant_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_integer (constant_a->region, module_m.module_m->global, bits, number_l->value));
@@ -403,7 +403,7 @@ void mu::llvmc::function_processor::constant_int (mu::llvmc::ast::constant_int *
 	}
 }
 
-void mu::llvmc::function_processor::pointer_type (mu::llvmc::ast::pointer_type * type_a)
+void mu::llvmc::module_processor::pointer_type (mu::llvmc::ast::pointer_type * type_a)
 {
 	auto pointed_type (process_type (type_a->pointed_type));
 	if (pointed_type != nullptr)
@@ -415,7 +415,7 @@ void mu::llvmc::function_processor::pointer_type (mu::llvmc::ast::pointer_type *
 
 void mu::llvmc::function_processor::asm_c (mu::llvmc::ast::asm_c * asm_l)
 {
-	auto type (process_type (asm_l->type));
+	auto type (module_m.process_type (asm_l->type));
 	if (type != nullptr)
 	{
 		asm_l->generated.push_back (new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints));
@@ -432,7 +432,7 @@ void mu::llvmc::function_processor::number (mu::llvmc::ast::number * node_a)
 	error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
 }
 
-void mu::llvmc::function_processor::array_type (mu::llvmc::ast::array_type * type_a)
+void mu::llvmc::module_processor::array_type (mu::llvmc::ast::array_type * type_a)
 {
 	auto element (process_type (type_a->element_type));
 	if (element != nullptr)
@@ -449,14 +449,14 @@ void mu::llvmc::function_processor::array_type (mu::llvmc::ast::array_type * typ
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
+			global_m.error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
 		}
 	}
 }
 
 void mu::llvmc::function_processor::constant_array (mu::llvmc::ast::constant_array * array_a)
 {
-	auto type (process_type (array_a->type));
+	auto type (module_m.process_type (array_a->type));
 	if (type != nullptr)
 	{
 		mu::vector <mu::llvmc::skeleton::constant *> initializer;
@@ -520,7 +520,7 @@ void mu::llvmc::function_processor::global_variable (mu::llvmc::ast::global_vari
 
 void mu::llvmc::function_processor::constant_pointer_null (mu::llvmc::ast::constant_pointer_null * constant_pointer_null)
 {
-	auto type (process_type (constant_pointer_null->type));
+	auto type (module_m.process_type (constant_pointer_null->type));
 	if (type != nullptr)
 	{
 		auto pointer (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (type));
@@ -538,11 +538,11 @@ void mu::llvmc::function_processor::constant_pointer_null (mu::llvmc::ast::const
 	}
 }
 
-void mu::llvmc::function_processor::unit_type (mu::llvmc::ast::unit_type * unit_type)
+void mu::llvmc::module_processor::unit_type (mu::llvmc::ast::unit_type * unit_type)
 {
 	auto & values (unit_type->generated);
 	unit_type->assigned = true;
-	values.push_back (&module_m.module_m->the_unit_type);
+	values.push_back (&module_m->the_unit_type);
 }
 
 void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
@@ -960,7 +960,7 @@ void mu::llvmc::function_processor::expression (mu::llvmc::ast::expression * exp
 	assert (module_m.current_expression_generation.find (expression_a) == module_m.current_expression_generation.end ());
 }
 
-void mu::llvmc::function_processor::struct_type (mu::llvmc::ast::struct_type * node_a)
+void mu::llvmc::module_processor::struct_type (mu::llvmc::ast::struct_type * node_a)
 {
 	auto struct_l (new (GC) mu::llvmc::skeleton::struct_type);
 	for (auto i: node_a->elements)
@@ -972,10 +972,10 @@ void mu::llvmc::function_processor::struct_type (mu::llvmc::ast::struct_type * n
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Struct type definition must list other types", mu::core::error_type::struct_must_contain_types, i->region);
+			global_m.error = new (GC) mu::core::error_string (U"Struct type definition must list other types", mu::core::error_type::struct_must_contain_types, i->region);
 		}
 	}
-	if (error == nullptr)
+	if (global_m.error == nullptr)
 	{
 		node_a->assigned = true;
 		node_a->generated.push_back (struct_l);
@@ -984,7 +984,7 @@ void mu::llvmc::function_processor::struct_type (mu::llvmc::ast::struct_type * n
 
 void mu::llvmc::function_processor::undefined (mu::llvmc::ast::undefined * node_a)
 {
-	auto type (process_type (node_a->type));
+	auto type (module_m.process_type (node_a->type));
 	if (type != nullptr)
 	{
 		auto undefined_l (new (GC) mu::llvmc::skeleton::undefined (node_a->region, module_m.module_m->global, type));
@@ -1107,7 +1107,7 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::number * mu::llvmc::function_processor::process_number (mu::llvmc::ast::number * number_a)
+mu::llvmc::skeleton::number * mu::llvmc::module_processor::process_number (mu::llvmc::ast::number * number_a)
 {
 	mu::llvmc::skeleton::number * result (nullptr);
 	std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
@@ -1150,24 +1150,24 @@ mu::llvmc::skeleton::number * mu::llvmc::function_processor::process_number (mu:
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
+			global_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
 		}
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
+		global_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
 	}
 	return result;
 }
 
-void mu::llvmc::function_processor::process_single_node (mu::llvmc::ast::node * node_a)
+void mu::llvmc::module_processor::process_single_node (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
-	module_m.global_m.process_node (node_a);
+	global_m.process_node (node_a);
     auto size (node_a->generated.size ());
-	if (error == nullptr && size != 1)
+	if (global_m.error == nullptr && size != 1)
 	{
-		error = new (GC) mu::core::error_string (U"Expecting 1 value", mu::core::error_type::expecting_one_value, node_a->region);
+		global_m.error = new (GC) mu::core::error_string (U"Expecting 1 value", mu::core::error_type::expecting_one_value, node_a->region);
 	}
 }
 
@@ -1175,7 +1175,7 @@ mu::llvmc::skeleton::value * mu::llvmc::function_processor::process_value (mu::l
 {
 	assert (node_a != nullptr);
 	mu::llvmc::skeleton::value * result (nullptr);
-	process_single_node (node_a);
+	module_m.process_single_node (node_a);
 	if (error == nullptr)
 	{
         auto & nodes (node_a->generated);
@@ -1189,11 +1189,11 @@ mu::llvmc::skeleton::value * mu::llvmc::function_processor::process_value (mu::l
 	return result;
 }
 
-mu::llvmc::skeleton::type * mu::llvmc::function_processor::process_type (mu::llvmc::ast::node * node_a)
+mu::llvmc::skeleton::type * mu::llvmc::module_processor::process_type (mu::llvmc::ast::node * node_a)
 {
 	mu::llvmc::skeleton::type * result (nullptr);
 	process_single_node (node_a);
-	if (error == nullptr)
+	if (global_m.error == nullptr)
 	{
 		auto & nodes (node_a->generated);
         assert (nodes.size () == 1);
@@ -1212,7 +1212,7 @@ void mu::llvmc::function_processor::process_results ()
             auto result_a (dynamic_cast <mu::llvmc::ast::result *> (node_a));
 			if (result_a != nullptr)
 			{
-				auto type (process_type (result_a->written_type));
+				auto type (module_m.process_type (result_a->written_type));
 				if (type != nullptr)
 				{
 					auto value (process_value (result_a->value));
