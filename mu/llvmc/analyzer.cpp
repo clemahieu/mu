@@ -1048,44 +1048,9 @@ void mu::llvmc::module_processor::template_c (mu::llvmc::ast::template_c * node_
 {
 	auto node (new (GC) mu::llvmc::skeleton::template_c (node_a->base));
 	node->body = node_a->body;
+	node->parameters = node_a->parameters;
 	node_a->assigned = true;
 	node_a->generated.push_back (node);
-}
-
-namespace mu
-{
-    namespace llvmc
-    {
-		class process_template : public mu::llvmc::ast::visitor
-		{
-		public:
-			process_template (mu::llvmc::global_processor & module_a, mu::vector <mu::llvmc::skeleton::node *> & template_arguments_a) :
-			parent (module_a.current_context),
-			module (module_a),
-			template_arguments (template_arguments_a)
-			{
-				module_a.current_context = this;
-			}
-			~process_template ()
-			{
-				assert (module.current_context == this);
-				module.current_context = parent;
-			}
-			void node (mu::llvmc::ast::node * node_a) override
-			{
-				node_a->visit (parent);
-			}
-			void template_parameter (mu::llvmc::ast::template_parameter * node_a) override
-			{
-				assert (node_a->argument + 1 < template_arguments.size ());
-				node_a->assigned = true;
-				node_a->generated.push_back (template_arguments [node_a->argument + 1]);
-			}
-			mu::llvmc::ast::visitor * parent;
-			mu::llvmc::global_processor & module;
-			mu::vector <mu::llvmc::skeleton::node *> & template_arguments;
-		};
-    }
 }
 
 void mu::llvmc::module_processor::process_template (mu::llvmc::ast::expression * node_a)
@@ -1102,22 +1067,41 @@ void mu::llvmc::module_processor::process_template (mu::llvmc::ast::expression *
 		}
 		if (global_m.error == nullptr)
 		{
-			assert (arguments.size () > 0);
 			auto template_l (mu::cast <mu::llvmc::skeleton::template_c> (arguments [0]));
-			mu::llvmc::process_template processor (global_m, arguments);
-			auto & target (node_a->generated);
-			for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && global_m.error == nullptr; ++i)
+			if (arguments.size () - 1 == template_l->parameters.size ())
 			{
-                auto orig (*i);
-                mu::llvmc::clone_context context (template_l->base);
-				auto value (orig->clone (context));
-				global_m.process_node (value);
-				auto & nodes (value->generated);
-				target.insert (target.end (), nodes.begin (), nodes.end ());
+				mu::llvmc::clone_context context (template_l->base);
+				{
+					auto i (template_l->parameters.begin ());
+					auto j (template_l->parameters.end ());
+					auto k (arguments.begin () + 1);
+					while (i != j)
+					{
+						auto value ((*i)->clone (context));
+						value->assigned = true;
+						value->generated.push_back (*k);
+						++i;
+						++k;
+					}
+					assert (k == arguments.end ());
+				}
+				auto & target (node_a->generated);
+				for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && global_m.error == nullptr; ++i)
+				{
+					auto orig (*i);
+					auto value (orig->clone (context));
+					global_m.process_node (value);
+					auto & nodes (value->generated);
+					target.insert (target.end (), nodes.begin (), nodes.end ());
+				}
+				if (global_m.error == nullptr)
+				{
+					node_a->assigned = true;
+				}
 			}
-			if (global_m.error == nullptr)
+			else
 			{
-				node_a->assigned = true;
+				global_m.error = new (GC) mu::core::error_string (U"Number of template arguments doesn't match number of parameters", mu::core::error_type::template_argument_count_mismatch);
 			}
 		}
 	}

@@ -171,7 +171,8 @@ namespace mu
 			global_already_named,
             not_a_namespace_container,
             not_a_member,
-            can_only_extract_from_one
+            can_only_extract_from_one,
+			template_argument_count_mismatch
         };
         class error
         {

@@ -429,6 +429,7 @@ namespace mu
 			public:
                 template_c (mu::llvmc::template_context * base_a);
                 mu::llvmc::template_context * base;
+                mu::vector <mu::llvmc::ast::node *> parameters;
 				mu::vector <mu::llvmc::ast::node *> body;
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 			};
