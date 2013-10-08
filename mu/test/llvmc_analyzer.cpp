@@ -3379,6 +3379,18 @@ TEST (llvmc_analyzer, function_clone)
 	ASSERT_EQ (42, function2->predicate_offsets [0]);
 }
 
+TEST (llvmc_analyzer, template_c_clone)
+{
+    mu::llvmc::template_context template1 ({nullptr});
+	mu::llvmc::template_context template3 ({&template1});
+	mu::llvmc::ast::template_c template0 (&template1, &template3);
+    mu::llvmc::clone_context context (&template1);
+	auto template2 (dynamic_cast <mu::llvmc::ast::template_c *> (template0.clone (context)));
+	ASSERT_NE (&template0, template2);
+	ASSERT_NE (nullptr, template2);
+	ASSERT_EQ (&template1, template2->base);
+}
+
 TEST (llvmc_analyzer, function_parameter_clone)
 {
 	mu::llvmc::ast::function function1;
@@ -3441,27 +3453,26 @@ TEST (llvmc_analyzer, nested_template)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
-    mu::llvmc::template_context context0 ({nullptr});
-	mu::llvmc::ast::template_c template0 (&context0);
-	mu::llvmc::ast::template_parameter parameter1 (U"parameter1", &context0);
-	mu::llvmc::template_context context1 ({&context0});
-	mu::llvmc::ast::template_c template1 (&context1);
-    mu::llvmc::ast::function function (&context1);
-    function.region = mu::core::region (2, 2, 2, 3, 3, 3);
-	mu::llvmc::ast::parameter parameter2 (&context1);
-	parameter2.name = U"parameter2";
-	parameter2.type = &parameter1;
-	function.parameters.push_back (&parameter2);
-	mu::llvmc::ast::result result1 (&parameter1, &parameter2, &context1);
-	function.results.push_back (&result1);
-	function.predicate_offsets.push_back (function.results.size ());
-	function.branch_ends.push_back (function.results.size ());
-	parameter1.argument = 0;
-	template0.parameters.push_back (&parameter1);
-	mu::llvmc::ast::expression expression2 ({&template1}, {});
-	mu::llvmc::ast::element element2 (&expression2, 0, 1, U"0", mu::empty_region);
-	template0.body.push_back (&expression2);
-	template1.body.push_back (&function);
+		mu::llvmc::template_context context0 ({nullptr});
+		mu::llvmc::ast::template_c template0 (&context0);
+		mu::llvmc::ast::template_parameter parameter1 (U"parameter1", &context0);
+		parameter1.argument = 0;
+		template0.parameters.push_back (&parameter1);
+			mu::llvmc::template_context context1 ({&context0});
+			mu::llvmc::ast::template_c template1 (&context1, &context0);
+			mu::llvmc::ast::function function (&context1);
+			function.region = mu::core::region (2, 2, 2, 3, 3, 3);
+			mu::llvmc::ast::parameter parameter2 (&context1);
+			parameter2.name = U"parameter2";
+			parameter2.type = &parameter1;
+			function.parameters.push_back (&parameter2);
+			mu::llvmc::ast::result result1 (&parameter1, &parameter2, &context1);
+			function.results.push_back (&result1);
+			function.predicate_offsets.push_back (function.results.size ());
+			function.branch_ends.push_back (function.results.size ());
+			template1.body.push_back (&function);
+		mu::llvmc::ast::expression expression2 ({&template1}, {}, &context0);
+		template0.body.push_back (&expression2);
 	mu::llvmc::ast::integer_type type1 (U"8");
 	mu::llvmc::ast::expression expression1 ({&template0, &type1}, {});
 	mu::llvmc::ast::element element1 (&expression1, 0, 1, U"0", mu::empty_region);

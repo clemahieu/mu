@@ -771,7 +771,8 @@ name (name_a)
 }
 
 mu::llvmc::ast::template_c::template_c (mu::llvmc::ast::template_c const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m)
+node (other_a.template_m),
+base (other_a.base)
 {
 	for (auto i: other_a.parameters)
 	{
