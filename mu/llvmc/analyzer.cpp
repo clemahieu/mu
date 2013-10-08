@@ -101,7 +101,7 @@ public:
 		}
 		else
 		{
-			error = new mu::core::error_string (U"Global already has a name", mu::core::error_type::global_already_named);
+			// Globals stick with their innermost name which is only used while debugging
 		}
 	}
     mu::llvmc::module_processor & module;

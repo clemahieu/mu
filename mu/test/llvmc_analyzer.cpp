@@ -203,7 +203,7 @@ TEST (llvmc_analyzer, fail_not_module)
     ASSERT_EQ (nullptr, result.module);
 }
 
-TEST (llvmc_analyzer, function_already_named_fail)
+TEST (llvmc_analyzer, function_already_named)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
@@ -214,9 +214,12 @@ TEST (llvmc_analyzer, function_already_named_fail)
     mu::llvmc::ast::element element2 (&function, 0, 1, U"1", mu::empty_region);
     module.globals.push_back (&element2);
     auto result (analyzer.analyze (&module));
-    ASSERT_NE (nullptr, result.error);
-    ASSERT_EQ (nullptr, result.module);
-	ASSERT_EQ (mu::core::error_type::global_already_named, result.error->type ());
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+	ASSERT_EQ (1, result.module->globals.size ());
+	auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
+	ASSERT_NE (nullptr, function1);
+	ASSERT_EQ (U"0", function1->name);
 }
 
 TEST (llvmc_analyzer, empty_function)
