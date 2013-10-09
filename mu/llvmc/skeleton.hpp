@@ -94,13 +94,13 @@ namespace mu
             class constant : public mu::llvmc::skeleton::value
             {
             public:
-                constant (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+                constant (mu::core::region const & region_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
             };
             class constant_integer : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_integer (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, size_t bits_a, uint64_t value_a);
+                constant_integer (mu::core::region const & region_a, size_t bits_a, uint64_t value_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
@@ -109,7 +109,7 @@ namespace mu
             class constant_aggregate_zero : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_aggregate_zero (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+                constant_aggregate_zero (mu::core::region const & region_a, mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
@@ -117,7 +117,7 @@ namespace mu
             class constant_pointer_null : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_pointer_null (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+                constant_pointer_null (mu::core::region const & region_a, mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
@@ -134,7 +134,7 @@ namespace mu
 			class constant_array : public mu::llvmc::skeleton::constant
 			{
 			public:
-				constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a);
+				constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::array_type * type_m;
@@ -249,14 +249,14 @@ namespace mu
             class global_value : public mu::llvmc::skeleton::constant
             {
             public:
-                global_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+                global_value (mu::core::region const & region_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::string name;
             };
             class function : public mu::llvmc::skeleton::global_value
             {
             public:
-                function (mu::core::region const & region_a, mu::llvmc::skeleton::branch * global_a);
+                function (mu::core::region const & region_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 size_t branch_size (size_t index) const;
                 mu::llvmc::skeleton::function_return_type get_return_type ();
@@ -396,7 +396,7 @@ namespace mu
 			class global_variable : public mu::llvmc::skeleton::global_value
 			{
 			public:
-				global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::constant * initializer_a);
+				global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::constant * initializer_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;

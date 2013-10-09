@@ -8,8 +8,8 @@
 
 mu::llvmc::skeleton::branch mu::llvmc::skeleton::branch::global = mu::llvmc::skeleton::branch (nullptr);
 
-mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a) :
-constant (region_a, branch_a),
+mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a) :
+constant (region_a),
 type_m (type_a),
 initializer (initializer_a)
 {
@@ -21,8 +21,8 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_array::type ()
 	return type_m;
 }
 
-mu::llvmc::skeleton::global_variable::global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::constant * initializer_a) :
-global_value (region_a, branch_a),
+mu::llvmc::skeleton::global_variable::global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::constant * initializer_a) :
+global_value (region_a),
 type_m (new (GC) mu::llvmc::skeleton::pointer_type (initializer_a->type ())),
 initializer (initializer_a)
 {	
@@ -98,11 +98,11 @@ mu::llvmc::skeleton::node::~node ()
 {
 }
 
-mu::llvmc::skeleton::function::function (mu::core::region const & region_a, mu::llvmc::skeleton::branch * global_a) :
-global_value (region_a, global_a),
+mu::llvmc::skeleton::function::function (mu::core::region const & region_a) :
+global_value (region_a),
 type_m (this),
 pointer_type_m (&type_m),
-entry (new (GC) mu::llvmc::skeleton::branch (global_a))
+entry (new (GC) mu::llvmc::skeleton::branch (&mu::llvmc::skeleton::branch::global))
 {
 }
 
@@ -319,13 +319,13 @@ value_m (value_a)
     source_a->elements.push_back (this);
 }
 
-mu::llvmc::skeleton::constant::constant (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
-value (region_a, branch_a)
+mu::llvmc::skeleton::constant::constant (mu::core::region const & region_a) :
+value (region_a, &mu::llvmc::skeleton::branch::global)
 {
 }
 
-mu::llvmc::skeleton::constant_integer::constant_integer (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, size_t bits_a, uint64_t value_a) :
-constant (region_a, branch_a),
+mu::llvmc::skeleton::constant_integer::constant_integer (mu::core::region const & region_a, size_t bits_a, uint64_t value_a) :
+constant (region_a),
 type_m (new (GC) mu::llvmc::skeleton::integer_type (bits_a)),
 value_m (value_a)
 {
@@ -341,8 +341,8 @@ type (type_a)
 {
 }
 
-mu::llvmc::skeleton::constant_aggregate_zero::constant_aggregate_zero (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
-constant (region_a, branch_a),
+mu::llvmc::skeleton::constant_aggregate_zero::constant_aggregate_zero (mu::core::region const & region_a, mu::llvmc::skeleton::type * type_a) :
+constant (region_a),
 type_m (type_a)
 {
 }
@@ -363,8 +363,8 @@ bool mu::llvmc::skeleton::pointer_type::operator == (mu::llvmc::skeleton::type c
     return result;
 }
 
-mu::llvmc::skeleton::constant_pointer_null::constant_pointer_null (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
-constant (region_a, branch_a),
+mu::llvmc::skeleton::constant_pointer_null::constant_pointer_null (mu::core::region const & region_a, mu::llvmc::skeleton::type * type_a) :
+constant (region_a),
 type_m (type_a)
 {
 }
@@ -1220,8 +1220,8 @@ type_m (type_a)
 {
 }
 
-mu::llvmc::skeleton::global_value::global_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
-constant (region_a, branch_a)
+mu::llvmc::skeleton::global_value::global_value (mu::core::region const & region_a) :
+constant (region_a)
 {
 }
 

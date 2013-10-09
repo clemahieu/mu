@@ -3168,7 +3168,7 @@ TEST (llvmc_analyzer, value_branch)
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, nullptr, 32, 42);
+    mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, 32, 42);
     mu::llvmc::ast::value value1 (&constant1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.results.push_back (&value1);

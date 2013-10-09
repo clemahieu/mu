@@ -1546,9 +1546,9 @@ mu::llvmc::node_result mu::llvmc::string_hook::parse (mu::core::region const & r
 		mu::vector <mu::llvmc::skeleton::constant *> initializer;
 		for (auto i: identifier_a->string)
 		{
-			initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, nullptr, 32, i));
+			initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, 32, i));
 		}
-		auto value (new (GC) mu::llvmc::skeleton::constant_array (mu::core::region (region_a.first, identifier_a->region.last), nullptr, new (GC) mu::llvmc::skeleton::array_type (int_type, initializer.size ()), initializer));
+		auto value (new (GC) mu::llvmc::skeleton::constant_array (mu::core::region (region_a.first, identifier_a->region.last), new (GC) mu::llvmc::skeleton::array_type (int_type, initializer.size ()), initializer));
 		result.node = new (GC) mu::llvmc::ast::value (value, parser_a.current_template);
 		return nullptr;
 	}, U"String hook is expecting an identifier", mu::core::error_type::expecting_identifier);
@@ -1575,14 +1575,14 @@ mu::llvmc::node_result mu::llvmc::ascii_hook::parse (mu::core::region const & re
 				uint32_t value (*i);
 				if (value < 0x100)
 				{
-					initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, nullptr, 8, value));
+					initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, 8, value));
 				}
 				else
 				{
 					result_l = new (GC) mu::core::error_string (U"Character doesn't fit in to an ASCII character", mu::core::error_type::character_does_not_fit_in_to_an_ascii_character, identifier_a->region);
 				}
 			}
-			auto value (new (GC) mu::llvmc::skeleton::constant_array (mu::core::region (region_a.first, identifier_a->region.last), nullptr, new (GC) mu::llvmc::skeleton::array_type (int_type, initializer.size ()), initializer));
+			auto value (new (GC) mu::llvmc::skeleton::constant_array (mu::core::region (region_a.first, identifier_a->region.last), new (GC) mu::llvmc::skeleton::array_type (int_type, initializer.size ()), initializer));
 			result.node = new (GC) mu::llvmc::ast::value (value, parser_a.current_template);
 			return result_l;
 		}, U"String hook is expecting an identifier", mu::core::error_type::expecting_identifier);
