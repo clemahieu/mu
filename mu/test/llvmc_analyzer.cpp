@@ -3589,5 +3589,7 @@ TEST (llvmc_analyzer, namespace_c_module)
     ASSERT_EQ (1, element3->source->arguments.size ());
     auto function4 (dynamic_cast <mu::llvmc::skeleton::function *> (element3->source->arguments [0]));
     ASSERT_NE (nullptr, function4);
-    ASSERT_EQ (0, function4->results.size ());
+    ASSERT_EQ (1, function4->results.size ());
+	auto unit2 (dynamic_cast <mu::llvmc::skeleton::unit_value *> (function4->results [0]));
+	ASSERT_NE (nullptr, unit2);
 }
