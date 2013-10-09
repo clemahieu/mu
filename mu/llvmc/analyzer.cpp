@@ -168,14 +168,15 @@ void mu::llvmc::global_processor::node (mu::llvmc::ast::node * node_a)
 mu::llvmc::module_processor::module_processor (mu::llvmc::global_processor & global_a) :
 global_m (global_a),
 module_m (new (GC) mu::llvmc::skeleton::module),
-parent (global_a.current_context)
+previous (global_a.current_context)
 {
 	global_a.current_context = this;
 }
 
 mu::llvmc::module_processor::~module_processor ()
 {
-	global_m.current_context = parent;
+	assert (global_m.current_context == this);
+	global_m.current_context = previous;
 }
 
 void mu::llvmc::global_processor::module (mu::llvmc::ast::module * node_a)
@@ -253,7 +254,7 @@ mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * mo
 
 void mu::llvmc::function_processor::process_parameters ()
 {
-	for (auto k (node_m->parameters.begin ()), l (node_m->parameters.end ()); k != l && error == nullptr; ++k)
+	for (auto k (node_m->parameters.begin ()), l (node_m->parameters.end ()); k != l && module_m.global_m.error == nullptr; ++k)
 	{
 		auto parameter (mu::cast <mu::llvmc::ast::parameter> (*k));
         auto node (parameter->type);
@@ -267,14 +268,14 @@ void mu::llvmc::function_processor::process_parameters ()
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_type_in_parameters, node->region);
+			module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_type_in_parameters, node->region);
 		}
 	}
 }
 
 void mu::llvmc::function_processor::node (mu::llvmc::ast::node * node_a)
 {
-	node_a->visit (parent);
+	node_a->visit (previous);
 }
 
 void mu::llvmc::function_processor::value (mu::llvmc::ast::value * value_node)
@@ -423,13 +424,13 @@ void mu::llvmc::function_processor::asm_c (mu::llvmc::ast::asm_c * asm_l)
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
+		module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
 	}
 }
 
 void mu::llvmc::function_processor::number (mu::llvmc::ast::number * node_a)
 {
-	error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
+	module_m.global_m.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
 }
 
 void mu::llvmc::module_processor::array_type (mu::llvmc::ast::array_type * type_a)
@@ -547,7 +548,7 @@ void mu::llvmc::module_processor::unit_type (mu::llvmc::ast::unit_type * unit_ty
 
 void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 {
-	mu::llvmc::branch_analyzer analyzer_l (module_m.module_m->global, error);
+	mu::llvmc::branch_analyzer analyzer_l (module_m.module_m->global, module_m.global_m.error);
 	auto join (new (GC) mu::llvmc::skeleton::join_value);
 	for (auto & i: node_a->branches)
 	{
@@ -555,7 +556,7 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 		for (auto j: i.arguments)
 		{
 			module_m.global_m.process_node (j);
-			if (error == nullptr)
+			if (module_m.global_m.error == nullptr)
 			{
 				auto & values (j->generated);
 				for (auto k: values)
@@ -568,7 +569,7 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 					}
 					else
 					{
-						error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values, j->region);
+						module_m.global_m.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values, j->region);
 					}
 				}
 			}
@@ -576,7 +577,7 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 		for (auto j: i.predicates)
 		{
 			module_m.global_m.process_node (j);
-			if (error == nullptr)
+			if (module_m.global_m.error == nullptr)
 			{
 				auto & values (j->generated);
 				for (auto k: values)
@@ -589,14 +590,14 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 					}
 					else
 					{
-						error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values, j->region);
+						module_m.global_m.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values, j->region);
 					}
 				}
 			}
 		}
 		analyzer_l.new_set ();
 	}
-	if (error == nullptr)
+	if (module_m.global_m.error == nullptr)
 	{
 		if (join->branches.size () > 1)
 		{
@@ -617,17 +618,17 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 						{
 							if (*j->type() != *types [index])
 							{
-								error = new (GC) mu::core::error_string (U"Join argument types must match for each branch", mu::core::error_type::joining_types_are_different, node_a->region);
+								module_m.global_m.error = new (GC) mu::core::error_string (U"Join argument types must match for each branch", mu::core::error_type::joining_types_are_different, node_a->region);
 							}
 							++index;
 						}
 					}
 					else
 					{
-						error = new (GC) mu::core::error_string (U"Join branches must have same cardinality", mu::core::error_type::join_branches_same_cardinality, node_a->region);
+						module_m.global_m.error = new (GC) mu::core::error_string (U"Join branches must have same cardinality", mu::core::error_type::join_branches_same_cardinality, node_a->region);
 					}
 				}
-				if (error == nullptr)
+				if (module_m.global_m.error == nullptr)
 				{
 					assert (!analyzer_l.leaves.empty ());
 					auto least_specific_branch (*analyzer_l.leaves.begin ());
@@ -649,26 +650,26 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 			}
 			else
 			{
-				error = new (GC) mu::core::error_string (U"Joining branches must contain at least one value", mu::core::error_type::must_be_joining_at_least_two_values, node_a->region);
+				module_m.global_m.error = new (GC) mu::core::error_string (U"Joining branches must contain at least one value", mu::core::error_type::must_be_joining_at_least_two_values, node_a->region);
 			}
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Must be joining at least two branches", mu::core::error_type::must_be_joining_at_least_two_branches, node_a->region);
+			module_m.global_m.error = new (GC) mu::core::error_string (U"Must be joining at least two branches", mu::core::error_type::must_be_joining_at_least_two_branches, node_a->region);
 		}
 	}
 }
 
 void mu::llvmc::module_processor::node (mu::llvmc::ast::node * node_a)
 {
-	node_a->visit (parent);
+	node_a->visit (previous);
 }
 
 void mu::llvmc::module_processor::function (mu::llvmc::ast::function * function_node)
 {
 	assert (function_node->branch_ends.size () == function_node->predicate_offsets.size ());
 	
-	mu::llvmc::function_processor nodes (*this, global_m.error, function_node);
+	mu::llvmc::function_processor nodes (*this, function_node);
 	nodes.process ();
 }
 
@@ -676,7 +677,7 @@ void mu::llvmc::function_processor::process ()
 {
     process_parameters ();
 	process_results ();
-	if (error == nullptr)
+	if (module_m.global_m.error == nullptr)
 	{
 		node_m->generated.push_back (function_m);
 		node_m->assigned = true;
@@ -748,7 +749,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 	size_t predicate_offset (~0);
 	module_m.process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, loop_branch, predicate_offset);
 	loop_s->argument_predicate_offset = predicate_offset;
-	if (error == nullptr)
+	if (module_m.global_m.error == nullptr)
 	{
 		if (loop_s->arguments.size () == loop_a->parameters.size ())
 		{
@@ -770,19 +771,19 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
+					module_m.global_m.error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
 				}
 			}
 			auto branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
 			auto empty (true);
 			auto feedback_branch (true);
-			mu::llvmc::branch_analyzer branches (module_m.module_m->global, error);
+			mu::llvmc::branch_analyzer branches (module_m.module_m->global, module_m.global_m.error);
 			loop_a->for_each_results (
 									  [&]
 									  (mu::llvmc::ast::node * expression_a, size_t index_a)
 									  {
 										  module_m.global_m.process_node (expression_a);
-										  if (error == nullptr)
+										  if (module_m.global_m.error == nullptr)
 										  {
 											  for (auto i : expression_a->generated)
 											  {
@@ -796,7 +797,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 												  }
 												  else
 												  {
-													  error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+													  module_m.global_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
 												  }
 											  }
 										  }
@@ -806,7 +807,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 									  (mu::llvmc::ast::node * expression_a, size_t)
 									  {
 										  module_m.global_m.process_node (expression_a);
-										  if (error == nullptr)
+										  if (module_m.global_m.error == nullptr)
 										  {
 											  for (auto i : expression_a->generated)
 											  {
@@ -818,7 +819,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 												  }
 												  else
 												  {
-													  error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+													  module_m.global_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
 												  }
 											  }
 										  }
@@ -845,11 +846,11 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 									  [&]
 									  ()
 									  {
-										  return error == nullptr;
+										  return module_m.global_m.error == nullptr;
 									  }
 									  );
-			assert (error != nullptr || loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
-			if (error == nullptr)
+			assert (module_m.global_m.error != nullptr || loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
+			if (module_m.global_m.error == nullptr)
 			{
 				loop_a->assigned = true;
 				switch (loop_s->elements.size ())
@@ -874,7 +875,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
+			module_m.global_m.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
 		}
 	}
 }
@@ -946,7 +947,7 @@ void mu::llvmc::function_processor::expression (mu::llvmc::ast::expression * exp
 		if (!expression_a->arguments.empty ())
 		{
 			module_m.global_m.process_node (expression_a->arguments [0]);
-			if (error == nullptr)
+			if (module_m.global_m.error == nullptr)
 			{
 				mu::llvmc::skeleton::node * target;
 				auto & generated = expression_a->arguments [0]->generated;
@@ -957,9 +958,9 @@ void mu::llvmc::function_processor::expression (mu::llvmc::ast::expression * exp
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target, expression_a->arguments [0]->region);
+					module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target, expression_a->arguments [0]->region);
 				}
-				if (error == nullptr)
+				if (module_m.global_m.error == nullptr)
 				{
 					auto value (dynamic_cast <mu::llvmc::skeleton::value *> (target));
 					if (value != nullptr)
@@ -991,12 +992,12 @@ void mu::llvmc::function_processor::expression (mu::llvmc::ast::expression * exp
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target, expression_a->region);
+			module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target, expression_a->region);
 		}
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions, expression_a->region);
+		module_m.global_m.error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions, expression_a->region);
 	}
 	module_m.current_expression_generation.erase (expression_a);
 	assert (module_m.current_expression_generation.find (expression_a) == module_m.current_expression_generation.end ());
@@ -1040,7 +1041,7 @@ void mu::llvmc::function_processor::undefined (mu::llvmc::ast::undefined * node_
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, node_a->region);
+		module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, node_a->region);
 	}
 }
 
@@ -1207,14 +1208,14 @@ mu::llvmc::skeleton::value * mu::llvmc::function_processor::process_value (mu::l
 	assert (node_a != nullptr);
 	mu::llvmc::skeleton::value * result (nullptr);
 	module_m.process_single_node (node_a);
-	if (error == nullptr)
+	if (module_m.global_m.error == nullptr)
 	{
         auto & nodes (node_a->generated);
         assert (nodes.size () == 1);
 		result = dynamic_cast <mu::llvmc::skeleton::value *> (nodes [0]);
 		if (result == nullptr)
 		{
-			error = new (GC) mu::core::error_string (U"Node is not value", mu::core::error_type::node_is_not_a_value, node_a->region);
+			module_m.global_m.error = new (GC) mu::core::error_string (U"Node is not value", mu::core::error_type::node_is_not_a_value, node_a->region);
 		}
 	}
 	return result;
@@ -1235,7 +1236,7 @@ mu::llvmc::skeleton::type * mu::llvmc::module_processor::process_type (mu::llvmc
 
 void mu::llvmc::function_processor::process_results ()
 {
-	mu::llvmc::branch_analyzer branches (module_m.module_m->global, error);
+	mu::llvmc::branch_analyzer branches (module_m.module_m->global, module_m.global_m.error);
 	node_m->for_each_results (
         [&]
         (mu::llvmc::ast::node * node_a, size_t index_a)
@@ -1256,25 +1257,25 @@ void mu::llvmc::function_processor::process_results ()
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, result_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, result_a->region);
                         }
 					}
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, result_a->written_type->region);
+					module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, result_a->written_type->region);
 				}
 			}
 			else
 			{
-				error = new (GC) mu::core::error_string (U"Expecting a result", mu::core::error_type::expecting_a_result, node_a->region);
+				module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a result", mu::core::error_type::expecting_a_result, node_a->region);
 			}
         },
         [&]
         (mu::llvmc::ast::node * node_a, size_t)
         {
             module_m.global_m.process_node (node_a);
-            if (error == nullptr)
+            if (module_m.global_m.error == nullptr)
             {
                 for (auto i : node_a->generated)
                 {
@@ -1286,7 +1287,7 @@ void mu::llvmc::function_processor::process_results ()
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value, node_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value, node_a->region);
                     }
                 }
             }
@@ -1305,7 +1306,7 @@ void mu::llvmc::function_processor::process_results ()
         [&]
         ()
         {
-            return error == nullptr;
+            return module_m.global_m.error == nullptr;
         }
 	);
 }
@@ -1370,22 +1371,22 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 			auto l (arguments.begin () + predicate_offset);
 			size_t i (0);
 			size_t j (function_type->function->parameters.size ());
-			for (; i != j && k != l && error == nullptr; ++i, ++k)
+			for (; i != j && k != l && module_m.global_m.error == nullptr; ++i, ++k)
 			{
 				auto argument_value (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
 				if (argument_value != nullptr)
 				{
 					if ((*argument_value->type ()) != *function_type->function->parameters [i]->type ())
 					{
-						error = new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type, expression_a->region);
+						module_m.global_m.error = new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type, expression_a->region);
 					}
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Argument to function is not a value", mu::core::error_type::argument_to_function_is_not_a_value, expression_a->region);
+					module_m.global_m.error = new (GC) mu::core::error_string (U"Argument to function is not a value", mu::core::error_type::argument_to_function_is_not_a_value, expression_a->region);
 				}
 			}
-			if (error == nullptr)
+			if (module_m.global_m.error == nullptr)
 			{
 				if ((i == j) == (k == l))
 				{
@@ -1456,18 +1457,18 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Incorrect number of arguments", mu::core::error_type::incorrect_number_of_arguments, expression_a->region);
+					module_m.global_m.error = new (GC) mu::core::error_string (U"Incorrect number of arguments", mu::core::error_type::incorrect_number_of_arguments, expression_a->region);
 				}
 			}
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Pointer does not point to a function", mu::core::error_type::pointer_does_not_point_to_a_function, expression_a->region);
+			module_m.global_m.error = new (GC) mu::core::error_string (U"Pointer does not point to a function", mu::core::error_type::pointer_does_not_point_to_a_function, expression_a->region);
 		}
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Only function pointers can be the target of a call", mu::core::error_type::only_function_pointers_can_be_target_of_call, expression_a->region);
+		module_m.global_m.error = new (GC) mu::core::error_string (U"Only function pointers can be the target of a call", mu::core::error_type::only_function_pointers_can_be_target_of_call, expression_a->region);
 	}
 	module_m.current_expression_generation.erase (expression_a);
 }
@@ -1559,32 +1560,32 @@ void mu::llvmc::function_processor::process_binary_integer_instruction (mu::llvm
 						}
 						else
 						{
-							error = new (GC) mu::core::error_string (U"Instruction left and right arguments must be same width", mu::core::error_type::instruction_arguments_must_have_same_bit_width, expression_a->region);
+							module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction left and right arguments must be same width", mu::core::error_type::instruction_arguments_must_have_same_bit_width, expression_a->region);
 						}
 					}
 					else
 					{
-						error = new (GC) mu::core::error_string (U"Instruction right argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, expression_a->region);
+						module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction right argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, expression_a->region);
 					}
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Instruction left argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, expression_a->region);
+					module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction left argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, expression_a->region);
 				}
 			}
 			else
 			{
-				error = new (GC) mu::core::error_string (U"Instruction right argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
+				module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction right argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
 			}
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Instruction left argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
+			module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction left argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
 		}
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Instruction expects two arguments", mu::core::error_type::instruction_expects_two_arguments, expression_a->region);
+		module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction expects two arguments", mu::core::error_type::instruction_expects_two_arguments, expression_a->region);
 	}
 }
 
@@ -1595,7 +1596,7 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 	size_t predicate_offset (~0);
 	module_m.process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     auto result (false);
-    if (error == nullptr)
+    if (module_m.global_m.error == nullptr)
     {
         auto marker (static_cast<mu::llvmc::skeleton::marker *> (arguments [0]));
         switch (marker->type)
@@ -1617,12 +1618,12 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Alloca instruction expects its argument to be a type", mu::core::error_type::alloca_argument_type, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Alloca instruction expects its argument to be a type", mu::core::error_type::alloca_argument_type, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Alloca instruction expects one argument", mu::core::error_type::alloca_expects_one_argument, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Alloca instruction expects one argument", mu::core::error_type::alloca_expects_one_argument, expression_a->region);
                 }
                 break;
             }
@@ -1644,12 +1645,12 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                     if (asm_l != nullptr)
                     {
                         size_t end (predicate_offset);
-                        for (size_t i (2); i < end && error == nullptr; ++i)
+                        for (size_t i (2); i < end && module_m.global_m.error == nullptr; ++i)
                         {
                             auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [i]));
                             if (value == nullptr)
                             {
-                                error = new (GC) mu::core::error_string (U"Inline asm requires value arguments", mu::core::error_type::inline_asm_requires_values, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"Inline asm requires value arguments", mu::core::error_type::inline_asm_requires_values, expression_a->region);
                             }
                         }
                     }
@@ -1681,22 +1682,22 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type, expression_a->region);
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type, expression_a->region);
                                 }
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"First argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"First argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a type", mu::core::error_type::expecting_a_type, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a type", mu::core::error_type::expecting_a_type, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"First argument to bitcast must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"First argument to bitcast must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
                     }
                 }
                 break;
@@ -1726,37 +1727,37 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                                         }
                                         else
                                         {
-                                            error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument three", mu::core::error_type::cmpxchg_one_point_three, expression_a->region);
+                                            module_m.global_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument three", mu::core::error_type::cmpxchg_one_point_three, expression_a->region);
                                         }
                                     }
                                     else									
                                     {
-                                        error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument two", mu::core::error_type::cmpxchg_one_point_two, expression_a->region);
+                                        module_m.global_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument two", mu::core::error_type::cmpxchg_one_point_two, expression_a->region);
                                     }
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to be a pointer", mu::core::error_type::cmpxchg_argument_one_pointer, expression_a->region);
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to be a pointer", mu::core::error_type::cmpxchg_argument_one_pointer, expression_a->region);
                                 }
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Cmpxchg requires three arguments", mu::core::error_type::cmpxchg_requires_three_arguments, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires three arguments", mu::core::error_type::cmpxchg_requires_three_arguments, expression_a->region);
                 }
                 break;
             }
@@ -1780,27 +1781,27 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Extractvalue index is out of range", mu::core::error_type::index_out_of_bounds, expression_a->region);
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"Extractvalue index is out of range", mu::core::error_type::index_out_of_bounds, expression_a->region);
                                 }
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"Extractvalue requires second argument to be a constant", mu::core::error_type::expecting_a_constant, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"Extractvalue requires second argument to be a constant", mu::core::error_type::expecting_a_constant, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Exctractvalue requires first argument to be an aggregate type", mu::core::error_type::expecting_an_aggregate, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Exctractvalue requires first argument to be an aggregate type", mu::core::error_type::expecting_an_aggregate, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Exctractvalue requires first arguments to be a values", mu::core::error_type::expecting_a_value, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Exctractvalue requires first arguments to be a values", mu::core::error_type::expecting_a_value, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Extractvalue requires two arguments", mu::core::error_type::incorrect_number_of_arguments, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Extractvalue requires two arguments", mu::core::error_type::incorrect_number_of_arguments, expression_a->region);
                 }
                 break;
             }
@@ -1820,22 +1821,22 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 								auto ptr_index_type (dynamic_cast <mu::llvmc::skeleton::integer_type  *> (ptr_index->type ()));
 								if (ptr_index_type != nullptr)
 								{
-									for (auto i (arguments.begin () + 3), j (arguments.begin () + predicate_offset); i != j && error == nullptr; ++i)
+									for (auto i (arguments.begin () + 3), j (arguments.begin () + predicate_offset); i != j && module_m.global_m.error == nullptr; ++i)
 									{
 										auto index (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i));
 										if (index != nullptr)
 										{
 											if (mu::cast <mu::llvmc::skeleton::integer_type> (index->type ())->bits != 32)
 											{
-												error = new (GC) mu::core::error_string (U"Getelementptr requires trailing index types to be 32bit integers", mu::core::error_type::getelementptr_trailing_32bit, expression_a->region);
+												module_m.global_m.error = new (GC) mu::core::error_string (U"Getelementptr requires trailing index types to be 32bit integers", mu::core::error_type::getelementptr_trailing_32bit, expression_a->region);
 											}
 										}
 										else
 										{
-											error = new (GC) mu::core::error_string (U"Getelementptr requires trailing indicies to be constant integers", mu::core::error_type::getelementptr_trailing_constant, expression_a->region);
+											module_m.global_m.error = new (GC) mu::core::error_string (U"Getelementptr requires trailing indicies to be constant integers", mu::core::error_type::getelementptr_trailing_constant, expression_a->region);
 										}
 									}
-									if (error == nullptr)
+									if (module_m.global_m.error == nullptr)
 									{
 										expression_a->assigned = true;
 										expression_a->generated.push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
@@ -1843,27 +1844,27 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 								}
 								else
 								{
-									error = new (GC) mu::core::error_string (U"Getelementptr requires pointer index to be an integer", mu::core::error_type::getelementptr_first_argument_integer_type, expression_a->region);
+									module_m.global_m.error = new (GC) mu::core::error_string (U"Getelementptr requires pointer index to be an integer", mu::core::error_type::getelementptr_first_argument_integer_type, expression_a->region);
 								}
 							}
 							else
 							{
-								error = new (GC) mu::core::error_string (U"Getelementptr first argument must be a pointer", mu::core::error_type::getelementptr_requires_pointer_type, expression_a->region);
+								module_m.global_m.error = new (GC) mu::core::error_string (U"Getelementptr first argument must be a pointer", mu::core::error_type::getelementptr_requires_pointer_type, expression_a->region);
 							}
 						}
 						else
 						{
-							error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values, expression_a->region);							
+							module_m.global_m.error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values, expression_a->region);
 						}
 					}
 					else
 					{
-						error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values, expression_a->region);
+						module_m.global_m.error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values, expression_a->region);
 					}
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Getelementptr requires at least two arguments", mu::core::error_type::getelementptr_requires_two, expression_a->region);
+					module_m.global_m.error = new (GC) mu::core::error_string (U"Getelementptr requires at least two arguments", mu::core::error_type::getelementptr_requires_two, expression_a->region);
 				}
 				break;
 			}
@@ -1892,32 +1893,32 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                                     }
                                     else
                                     {
-                                        error = new (GC) mu::core::error_string (U"ICMP arguments must be the same type", mu::core::error_type::icmp_arguments_same_type, expression_a->region);
+                                        module_m.global_m.error = new (GC) mu::core::error_string (U"ICMP arguments must be the same type", mu::core::error_type::icmp_arguments_same_type, expression_a->region);
                                     }
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"ICMP arguments must be integers", mu::core::error_type::icmp_arguments_integers, expression_a->region);
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"ICMP arguments must be integers", mu::core::error_type::icmp_arguments_integers, expression_a->region);
                                 }
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"ICMP right argument must be a value", mu::core::error_type::icmp_right_argument_value, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"ICMP right argument must be a value", mu::core::error_type::icmp_right_argument_value, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"ICMP left argument must be a value", mu::core::error_type::icmp_left_argument_value, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"ICMP left argument must be a value", mu::core::error_type::icmp_left_argument_value, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"ICMP first argument must be predicate", mu::core::error_type::icmp_first_argument_predicate, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"ICMP first argument must be predicate", mu::core::error_type::icmp_first_argument_predicate, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"ICMP instruction expects a predicate and two arguments", mu::core::error_type::icmp_expects_predicate_two_arguments, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"ICMP instruction expects a predicate and two arguments", mu::core::error_type::icmp_expects_predicate_two_arguments, expression_a->region);
                 }
                 break;
             }
@@ -1950,22 +1951,22 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"If instruction expects 1 bit integer", mu::core::error_type::if_instruction_expects_one_bit_integer, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"If instruction expects 1 bit integer", mu::core::error_type::if_instruction_expects_one_bit_integer, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"If instruction expects an integer type value", mu::core::error_type::if_instruction_expects_integer_type_value, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"If instruction expects an integer type value", mu::core::error_type::if_instruction_expects_integer_type_value, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"If instruction expects a value argument", mu::core::error_type::if_instruction_expects_a_value_argument, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"If instruction expects a value argument", mu::core::error_type::if_instruction_expects_a_value_argument, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"If instruction expects one argument", mu::core::error_type::if_instruction_expects_one_argument, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"If instruction expects one argument", mu::core::error_type::if_instruction_expects_one_argument, expression_a->region);
                 }
                 break;
             }
@@ -1980,7 +1981,7 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                         if (value != nullptr)
                         {                            
                             auto current_aggregate (struct_l->type ());
-                            for (size_t current_index (3); current_index < predicate_offset && error == nullptr; ++current_index)
+                            for (size_t current_index (3); current_index < predicate_offset && module_m.global_m.error == nullptr; ++current_index)
                             {
                                 auto type (dynamic_cast <mu::llvmc::skeleton::struct_type *> (current_aggregate));
                                 if (type != nullptr)
@@ -1994,20 +1995,20 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                                         }
                                         else
                                         {
-                                            error = new (GC) mu::core::error_string (U"Aggregate has no element at this index", mu::core::error_type::index_out_of_bounds, expression_a->region);
+                                            module_m.global_m.error = new (GC) mu::core::error_string (U"Aggregate has no element at this index", mu::core::error_type::index_out_of_bounds, expression_a->region);
                                         }
                                     }
                                     else
                                     {
-                                        error = new (GC) mu::core::error_string (U"Value is not an aggregate at this index", mu::core::error_type::expecting_an_aggregate, expression_a->region);
+                                        module_m.global_m.error = new (GC) mu::core::error_string (U"Value is not an aggregate at this index", mu::core::error_type::expecting_an_aggregate, expression_a->region);
                                     }
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Insertvalue requires first value to be a struct type", mu::core::error_type::expecting_value_to_be_struct, expression_a->region);
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"Insertvalue requires first value to be a struct type", mu::core::error_type::expecting_value_to_be_struct, expression_a->region);
                                 }
                             }
-                            if (error == nullptr)
+                            if (module_m.global_m.error == nullptr)
                             {
                                 if (*current_aggregate == *value->type ())
                                 {
@@ -2016,23 +2017,23 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Insertvalue value does not match type of aggregate", mu::core::error_type::value_does_not_match_aggregate, expression_a->region);
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"Insertvalue value does not match type of aggregate", mu::core::error_type::value_does_not_match_aggregate, expression_a->region);
                                 }
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Insertvalue second argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Insertvalue second argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Insertvalue instruction requires first argument to be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Insertvalue instruction requires first argument to be a value", mu::core::error_type::expecting_a_value, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Insertvalue instruction requires three arguments", mu::core::error_type::insertvalue_expects_three_arguments, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Insertvalue instruction requires three arguments", mu::core::error_type::insertvalue_expects_three_arguments, expression_a->region);
                 }
                 break;
             }
@@ -2054,22 +2055,22 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires second argument to be a pointer type", mu::core::error_type::expecting_integer_type, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires second argument to be a pointer type", mu::core::error_type::expecting_integer_type, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Ptrfromint source must be an integer", mu::core::error_type::expecting_integer_type, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Ptrfromint source must be an integer", mu::core::error_type::expecting_integer_type, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires first argument to be value", mu::core::error_type::expecting_a_value, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires first argument to be value", mu::core::error_type::expecting_a_value, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two, expression_a->region);
                 }
                 break;
             }
@@ -2088,17 +2089,17 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Load argument must be a pointer type", mu::core::error_type::load_argument_pointer_type, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Load argument must be a pointer type", mu::core::error_type::load_argument_pointer_type, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Load argument must be a value", mu::core::error_type::load_argument_must_be_values, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Load argument must be a value", mu::core::error_type::load_argument_must_be_values, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Load instruction expects two arguments", mu::core::error_type::load_expects_one_argument, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Load instruction expects two arguments", mu::core::error_type::load_expects_one_argument, expression_a->region);
                 }
                 break;
             }
@@ -2135,22 +2136,22 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires second argument to be an integer type", mu::core::error_type::expecting_integer_type, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires second argument to be an integer type", mu::core::error_type::expecting_integer_type, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Ptrtoint source must be a pointer", mu::core::error_type::expecting_pointer_type, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Ptrtoint source must be a pointer", mu::core::error_type::expecting_pointer_type, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires first argument to be value", mu::core::error_type::expecting_a_value, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires first argument to be value", mu::core::error_type::expecting_a_value, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two, expression_a->region);
                 }
                 break;
             }
@@ -2184,37 +2185,37 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 										}
 										else
 										{
-											error = new (GC) mu::core::error_string (U"Select second and third arguments must be the same type", mu::core::error_type::select_arguments_same_type, expression_a->region);
+											module_m.global_m.error = new (GC) mu::core::error_string (U"Select second and third arguments must be the same type", mu::core::error_type::select_arguments_same_type, expression_a->region);
 										}
 									}
 									else
 									{
-										error = new (GC) mu::core::error_string (U"Select third argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+										module_m.global_m.error = new (GC) mu::core::error_string (U"Select third argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
 									}
 								}
 								else
 								{
-									error = new (GC) mu::core::error_string (U"Select second argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+									module_m.global_m.error = new (GC) mu::core::error_string (U"Select second argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
 								}
 							}
 							else
 							{
-								error = new (GC) mu::core::error_string (U"Select first argument must be one bit", mu::core::error_type::expecting_one_bit_integer, expression_a->region);
+								module_m.global_m.error = new (GC) mu::core::error_string (U"Select first argument must be one bit", mu::core::error_type::expecting_one_bit_integer, expression_a->region);
 							}
 						}
 						else
 						{
-							error = new (GC) mu::core::error_string (U"Select first argument must be an integer", mu::core::error_type::expecting_integer_type, expression_a->region);
+							module_m.global_m.error = new (GC) mu::core::error_string (U"Select first argument must be an integer", mu::core::error_type::expecting_integer_type, expression_a->region);
 						}
 					}
 					else
 					{
-						error = new (GC) mu::core::error_string (U"Select first argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+						module_m.global_m.error = new (GC) mu::core::error_string (U"Select first argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
 					}
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Select instruction requires three arguments", mu::core::error_type::select_three_arguments, expression_a->region);
+					module_m.global_m.error = new (GC) mu::core::error_string (U"Select instruction requires three arguments", mu::core::error_type::select_three_arguments, expression_a->region);
 				}
                 break;
             }
@@ -2250,27 +2251,27 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Type pointed to by store right argument does not match type of left argument", mu::core::error_type::store_right_pointed_type_doesnt_match_left, expression_a->region);
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"Type pointed to by store right argument does not match type of left argument", mu::core::error_type::store_right_pointed_type_doesnt_match_left, expression_a->region);
                                 }
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"Store right argument must be a pointer type", mu::core::error_type::store_right_argument_pointer_type, expression_a->region);
+                                module_m.global_m.error = new (GC) mu::core::error_string (U"Store right argument must be a pointer type", mu::core::error_type::store_right_argument_pointer_type, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Store right argument must be a value", mu::core::error_type::store_arguments_must_be_values, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Store right argument must be a value", mu::core::error_type::store_arguments_must_be_values, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Store left argument must be a value", mu::core::error_type::store_arguments_must_be_values, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Store left argument must be a value", mu::core::error_type::store_arguments_must_be_values, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Store instruction expects two arguments", mu::core::error_type::store_expects_two_arguments, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Store instruction expects two arguments", mu::core::error_type::store_expects_two_arguments, expression_a->region);
                 }
                 break;
             }
@@ -2285,28 +2286,28 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                         if (type != nullptr)
                         {
                             std::set <uint64_t> used;
-                            for (auto i (arguments.begin () + 2), j (arguments.begin () + predicate_offset); i != j && error == nullptr; ++i)
+                            for (auto i (arguments.begin () + 2), j (arguments.begin () + predicate_offset); i != j && module_m.global_m.error == nullptr; ++i)
                             {
                                 auto constant (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i));
                                 if (constant != nullptr)
                                 {
                                     if (*constant->type () != *type)
                                     {
-                                        error = new (GC) mu::core::error_string (U"Switch requires case arguments to be same type as input", mu::core::error_type::switch_requires_matching_case_types, expression_a->region);
+                                        module_m.global_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be same type as input", mu::core::error_type::switch_requires_matching_case_types, expression_a->region);
                                     }
                                     auto existing (used.find (constant->value_m));
                                     if (existing != used.end ())
                                     {
-                                        error = new (GC) mu::core::error_string (U"Switch requires case arguments to be unique", mu::core::error_type::switch_requires_unique_case, expression_a->region);
+                                        module_m.global_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be unique", mu::core::error_type::switch_requires_unique_case, expression_a->region);
                                     }
                                     used.insert (constant->value_m);
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Switch requires case arguments to be constant integers", mu::core::error_type::switch_requires_case_constant, expression_a->region);
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be constant integers", mu::core::error_type::switch_requires_case_constant, expression_a->region);
                                 }
                             }
-                            if (error == nullptr)
+                            if (module_m.global_m.error == nullptr)
                             {
                                 result = true;
 								expression_a->assigned = true;
@@ -2323,17 +2324,17 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Switch requires input to be an integer", mu::core::error_type::switch_requires_integer, expression_a->region);
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Switch requires input to be an integer", mu::core::error_type::switch_requires_integer, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Switch requires input to be a value", mu::core::error_type::switch_requires_value, expression_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Switch requires input to be a value", mu::core::error_type::switch_requires_value, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Switch requires an input argument", mu::core::error_type::switch_requires_input, expression_a->region);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Switch requires an input argument", mu::core::error_type::switch_requires_input, expression_a->region);
                 }
                 break;
             }
@@ -2368,22 +2369,22 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                 break;
         }
     }
-	assert ((error != nullptr) xor (expression_a->assigned));
+	assert ((module_m.global_m.error != nullptr) xor (expression_a->assigned));
 }
 
-mu::llvmc::function_processor::function_processor (mu::llvmc::module_processor & module_a, mu::core::error * & error_a, mu::llvmc::ast::function * node_a) :
+mu::llvmc::function_processor::function_processor (mu::llvmc::module_processor & module_a, mu::llvmc::ast::function * node_a) :
 module_m (module_a),
 function_m (new (GC) mu::llvmc::skeleton::function (node_a->region, module_m.module_m->global)),
 node_m (node_a),
-error (error_a),
-parent (module_a.global_m.current_context)
+previous (module_a.global_m.current_context)
 {
 	module_a.global_m.current_context = this;
 }
 
 mu::llvmc::function_processor::~function_processor ()
 {
-	module_m.global_m.current_context = parent;
+	assert (module_m.global_m.current_context == this);
+	module_m.global_m.current_context = previous;
 }
 
 void mu::llvmc::module_processor::set (mu::llvmc::ast::set * node_a)
@@ -2432,17 +2433,17 @@ public:
 void mu::llvmc::function_processor::namespace_c (mu::llvmc::ast::namespace_c * node_a)
 {
     module_m.global_m.process_node (node_a->node_m);
-    if (error == nullptr)
+    if (module_m.global_m.error == nullptr)
     {
         assert (node_a->node_m->assigned);
         if (node_a->node_m->generated.size () == 1)
         {
-            namespace_extractor extractor (error, node_a);
+            namespace_extractor extractor (module_m.global_m.error, node_a);
             node_a->node_m->generated [0]->named (&extractor);
         }
         else
         {
-            error = new (GC) mu::core::error_string (U"Can only extract name from one node", mu::core::error_type::can_only_extract_from_one);
+            module_m.global_m.error = new (GC) mu::core::error_string (U"Can only extract name from one node", mu::core::error_type::can_only_extract_from_one);
         }
     }
 }
