@@ -3190,7 +3190,7 @@ TEST (llvmc_analyzer, value_branch)
     ASSERT_NE (nullptr, predicate1);
     auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (predicate1->type ()));
     ASSERT_NE (nullptr, type1);
-    ASSERT_EQ (predicate1->branch, result.module->global);
+    ASSERT_EQ (&mu::llvmc::skeleton::branch::global, predicate1->branch);
     ASSERT_EQ (32, type1->bits);
     ASSERT_EQ (42, predicate1->value_m);
 }
@@ -3299,7 +3299,7 @@ TEST (llvmc_analyzer, null_pointer)
     ASSERT_NE (nullptr, type3);
     auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type3->pointed_type));
     ASSERT_NE (nullptr, type4);
-    ASSERT_EQ (constant2->branch, result.module->global);
+    ASSERT_EQ (&mu::llvmc::skeleton::branch::global, constant2->branch);
     ASSERT_EQ (8, type4->bits);
 }
 
@@ -3340,7 +3340,7 @@ TEST (llvmc_analyzer, struct_type)
 	ASSERT_EQ (1, type3->elements.size ());
     auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type3->elements [0]));
     ASSERT_NE (nullptr, type4);
-    ASSERT_EQ (undefined2->branch, result.module->global);
+    ASSERT_EQ (&mu::llvmc::skeleton::branch::global, undefined2->branch);
     ASSERT_EQ (8, type4->bits);
 }
 

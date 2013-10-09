@@ -57,6 +57,7 @@ namespace mu
             {
             public:
                 branch (mu::llvmc::skeleton::branch * parent_a);
+				static mu::llvmc::skeleton::branch global;
                 mu::llvmc::skeleton::branch * most_specific (mu::llvmc::skeleton::branch * other_a);
                 mu::llvmc::skeleton::branch * least_specific (mu::llvmc::skeleton::branch * other_a);
                 mu::llvmc::skeleton::branch * parent;
@@ -411,7 +412,6 @@ namespace mu
 				mu::llvmc::skeleton::node * operator [] (mu::string const & method_a) override;
 				mu::map <mu::string, mu::llvmc::skeleton::node *> names;
                 mu::vector <mu::llvmc::skeleton::value *> globals;
-                mu::llvmc::skeleton::branch * global;
 				mu::llvmc::skeleton::function * entry;
                 mu::llvmc::skeleton::integer_type integer_1_type;
                 mu::llvmc::skeleton::integer_type integer_8_type;

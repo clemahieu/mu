@@ -6,6 +6,8 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::skeleton::branch mu::llvmc::skeleton::branch::global = mu::llvmc::skeleton::branch (nullptr);
+
 mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a) :
 constant (region_a, branch_a),
 type_m (type_a),
@@ -653,11 +655,10 @@ type_m (type_a)
 }
 
 mu::llvmc::skeleton::module::module () :
-global (new (GC) mu::llvmc::skeleton::branch (nullptr)),
 entry (nullptr),
 integer_1_type (1),
 integer_8_type (8),
-the_unit_value (global, &the_unit_type)
+the_unit_value (&mu::llvmc::skeleton::branch::global, &the_unit_type)
 {
 }
 
