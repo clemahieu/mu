@@ -391,40 +391,40 @@ let memcopy function
 ]
 [[; complete]]
 
-let vector-template template [vector-template-type]
+let vector-template template [template-type]
 [
 	module [
-		let vector-type struct [ptr vector-template-type int64]
+		let type struct [ptr template-type int64]
 	
-		let vector-data-set function
-		[ptr vector-type vector ptr vector-template-type data-a]
+		let data-set function
+		[ptr type vector ptr template-type data-a]
 		[
 			let result [store data-a [getelementptr vector cint32 #0 cint32 #0]]
 		]
 		[[; result]]
 	
-		let vector-size-set function
-		[ptr vector-type vector int64 size-a]
+		let size-set function
+		[ptr type vector int64 size-a]
 		[
 			let result [store size-a [getelementptr vector cint32 #0 cint32 #1]]
 		]
 		[[; result]]
 	
-		let vector-new-set function
-		[ptr vector-template-type data-a int64 size-a]
+		let new-set function
+		[ptr template-type data-a int64 size-a]
 		[
-			let result [bitcast [lalloc [sizeof vector-type]] ptr vector-type]
-			let data [vector-data-set result data-a]
-			let size [vector-size-set result size-a]
+			let result [bitcast [lalloc [sizeof type]] ptr type]
+			let data [data-set result data-a]
+			let size [size-set result size-a]
 		]
-		[[ptr vector-type result; data size]]
+		[[ptr type result; data size]]
 	
-		let vector-new function
+		let new function
 		[]
 		[
-			let result [vector-new-set null ptr vector-template-type cint64 #0]
+			let result [new-set null ptr template-type cint64 #0]
 		]
-		[[ptr vector-type result]]
+		[[ptr type result]]
 	]
 ]
 
@@ -440,6 +440,7 @@ entrypoint let entry function
 	let fd [open [bitcast file-name-linux ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]:)
+	let vector [` vector<int64> new]
 	let hello [write-test cint64 #1]
 	let alloc1 [lalloc cint64 #100]
 	let alloc2 [lalloc cint64 #1000]
