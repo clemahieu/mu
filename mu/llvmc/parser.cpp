@@ -299,10 +299,7 @@ bool mu::llvmc::module::covering ()
 mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::function parser_l (region_a, data_a, parser_a);
-    auto previous_mapping (parser_a.current_mapping);
-    parser_a.current_mapping = &parser_l.block;
     parser_l.parse ();
-    parser_a.current_mapping = previous_mapping;
     return parser_l.result;
 }
 
@@ -314,10 +311,12 @@ parser (parser_a),
 first (region_a)
 {
     assert (data_a.empty ());
+	parser_a.current_mapping = &block;
 }
 
 mu::llvmc::function::~function ()
 {
+	assert (parser.current_mapping == &block);
     parser.current_mapping = block.parent;
 }
 
