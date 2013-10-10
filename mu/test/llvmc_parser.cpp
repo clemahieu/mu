@@ -299,7 +299,7 @@ TEST (llvmc_parser, empty)
 TEST (llvmc_parser, empty_reserved)
 {
     test_parser parser ("");
-	auto failure (parser.parser.globals.reserve (U"test"));
+	auto failure (parser.parser.builtins.reserve (U"test"));
 	ASSERT_FALSE (failure);
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);

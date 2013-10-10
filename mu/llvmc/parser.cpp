@@ -23,8 +23,7 @@ keywords (keywords_a)
 mu::llvmc::parser::parser (mu::io::stream_token & stream_a):
 current_template (nullptr),
 builtins (&keywords),
-globals (&builtins),
-current_mapping (&globals),
+current_mapping (&builtins),
 stream (stream_a)
 {
     bool error (false);
@@ -283,7 +282,7 @@ void mu::llvmc::module::parse_internal ()
         {
 			std::stringstream error;
 			error << "Unresoled symbols:";
-			for (auto i: parser.globals.unresolved)
+			for (auto i: block.unresolved)
 			{
 				error << " " << std::string (i.first.begin (), i.first.end ());
 			}

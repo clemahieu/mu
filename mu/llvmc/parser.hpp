@@ -354,7 +354,6 @@ namespace mu
             mu::llvmc::partial_ast_result peek ();
 			mu::llvmc::template_context * current_template;
             mu::llvmc::global builtins;
-            mu::llvmc::block globals;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module_hook module_hook;
             mu::llvmc::function_hook function;
