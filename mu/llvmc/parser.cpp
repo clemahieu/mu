@@ -265,7 +265,17 @@ mu::llvmc::node_result mu::llvmc::module::parse_internal (mu::llvmc::parser & pa
     }
     if (result.error == nullptr)
     {
-        module->names.swap (parser_a.globals.mappings);
+		for (auto i: parser_a.globals.mappings)
+		{
+			if (i.second != nullptr)
+			{
+				module->names [i.first] = i.second;
+			}
+			else
+			{
+				// Name reserved by sub-blocks
+			}
+		}
         if (!parser_a.globals.unresolved.empty ())
         {
 			std::stringstream error;
@@ -668,6 +678,7 @@ parent (parent_a)
 
 bool mu::llvmc::block::insert (mu::string const & name_a, mu::llvmc::ast::node * node_a)
 {
+	assert (node_a != nullptr);
     auto result (parent->reserve (name_a));
     if (!result)
     {

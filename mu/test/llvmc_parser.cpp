@@ -296,6 +296,20 @@ TEST (llvmc_parser, empty)
     EXPECT_EQ (0, module2->globals.size ());
 }
 
+TEST (llvmc_parser, empty_reserved)
+{
+    test_parser parser ("");
+	auto failure (parser.parser.globals.reserve (U"test"));
+	ASSERT_FALSE (failure);
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    EXPECT_EQ (0, module2->globals.size ());
+	ASSERT_EQ (0, module2->names.size ());
+}
+
 TEST (llvmc_parser, top_identifier_error)
 {
     test_parser parser ("thing");
