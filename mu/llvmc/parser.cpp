@@ -58,6 +58,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"let", &let_hook);
     assert (!error);
+    error = keywords.insert (U"module", &module);
+    assert (!error);
     error = keywords.insert (U"null", &constant_pointer_null);
     assert (!error);
     error = keywords.insert (U"ptr", &ptr_type);
@@ -204,21 +206,26 @@ stream (stream_a)
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
-	auto result (parse_internal (parser_a));
+	mu::llvmc::node_result result ({nullptr, nullptr});
+	result.error = parser_a.parse_left_square_required (U"Module expecting left square", mu::core::error_type::expecting_left_square);
 	if (result.error == nullptr)
 	{
-		auto next (parser_a.peek ());
-		assert (next.ast == nullptr);
-		assert (next.error == nullptr);
-		auto token (next.token);
-		switch (token->id ())
+		result = parse_internal (parser_a);
+		if (result.error == nullptr)
 		{
-			case mu::io::token_id::right_square:
-				parser_a.consume ();
-				break;
-			default:
-				result.error = new (GC) mu::core::error_string (U"Expecting right square after module", mu::core::error_type::expecting_right_square, token->region);
-				break;
+			auto next (parser_a.peek ());
+			assert (next.ast == nullptr);
+			assert (next.error == nullptr);
+			auto token (next.token);
+			switch (token->id ())
+			{
+				case mu::io::token_id::right_square:
+					parser_a.consume ();
+					break;
+				default:
+					result.error = new (GC) mu::core::error_string (U"Expecting right square after module", mu::core::error_type::expecting_right_square, token->region);
+					break;
+			}
 		}
 	}
 	return result;

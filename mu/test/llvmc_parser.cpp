@@ -2119,3 +2119,17 @@ TEST (llvmc_parser, namespace_hook)
     auto number (dynamic_cast <mu::llvmc::ast::number *> (namespace_l->node_m));
     ASSERT_NE (nullptr, number);
 }
+
+TEST (llvmc_parser, nested_module)
+{
+    test_parser parser ("module []");
+    auto module1 (parser.parser.parse ());
+	ASSERT_EQ (nullptr, module1.error);
+	ASSERT_NE (nullptr, module1.node);
+	auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+	ASSERT_NE (nullptr, module2);
+	ASSERT_EQ (1, module2->globals.size ());
+	auto module3 (dynamic_cast <mu::llvmc::ast::module *> (module2->globals [0]));
+	ASSERT_NE (nullptr, module3);
+	ASSERT_NE (module2, module3);
+}
