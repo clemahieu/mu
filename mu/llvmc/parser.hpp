@@ -106,7 +106,8 @@ namespace mu
         };
         class module : public mu::llvmc::hook
         {
-        public:
+        public:			
+			mu::llvmc::node_result parse_internal (mu::llvmc::parser & parser_a);
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
             mu::string const & name () override;
@@ -324,7 +325,7 @@ namespace mu
         {
         public:
             parser (mu::io::stream_token & stream_a);
-            node_result parse ();
+			mu::llvmc::node_result parse ();
             void consume ();
             template <typename T>
             mu::core::error * parse_ast_or_refer (T op);
