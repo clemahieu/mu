@@ -3195,6 +3195,17 @@ TEST (llvmc_analyzer, value_branch)
     ASSERT_EQ (42, predicate1->value_m);
 }
 
+TEST (llvmc_analyzer, value_in_module)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, 32, 42);
+    mu::llvmc::ast::value value1 (&constant1);
+    module1.globals.push_back (&value1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+}
+
 TEST (llvmc_analyzer, global_constant_int)
 {
     mu::llvmc::analyzer analyzer;

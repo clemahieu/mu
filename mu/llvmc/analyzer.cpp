@@ -278,7 +278,7 @@ void mu::llvmc::function_processor::node (mu::llvmc::ast::node * node_a)
 	node_a->visit (previous);
 }
 
-void mu::llvmc::function_processor::value (mu::llvmc::ast::value * value_node)
+void mu::llvmc::module_processor::value (mu::llvmc::ast::value * value_node)
 {
 	value_node->generated.push_back (value_node->node_m);
 	value_node->assigned = true;

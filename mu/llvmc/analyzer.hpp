@@ -87,6 +87,7 @@ namespace mu
 			void expression (mu::llvmc::ast::expression * expression_a) override;
             void process_identity (mu::llvmc::ast::expression * expression_a);
 			void template_c (mu::llvmc::ast::template_c * node_a) override;
+			void value (mu::llvmc::ast::value * value_node) override;
 			void process_template (mu::llvmc::ast::expression * node_a);
             void process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
             mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
@@ -111,7 +112,6 @@ namespace mu
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
             void process_expression (mu::llvmc::ast::expression * node_a);
             void node (mu::llvmc::ast::node * node_a) override;
-			void value (mu::llvmc::ast::value * value_node) override;
 			void unit (mu::llvmc::ast::unit * node_a) override;
 			void asm_c (mu::llvmc::ast::asm_c * asm_l) override;
 			void number (mu::llvmc::ast::number * node_a) override;
