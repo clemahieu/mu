@@ -58,7 +58,7 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"let", &let_hook);
     assert (!error);
-    error = keywords.insert (U"module", &module);
+    error = keywords.insert (U"module", &module_hook);
     assert (!error);
     error = keywords.insert (U"null", &constant_pointer_null);
     assert (!error);
@@ -204,7 +204,7 @@ stream (stream_a)
     assert (!error);
 }
 
-mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::module_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
 	mu::llvmc::node_result result ({nullptr, nullptr});
 	result.error = parser_a.parse_left_square_required (U"Module expecting left square", mu::core::error_type::expecting_left_square);
@@ -230,7 +230,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
 	return result;
 }
 
-mu::llvmc::node_result mu::llvmc::module::parse_internal (mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::module_hook::parse_internal (mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto module (new (GC) mu::llvmc::ast::module (parser_a.current_template));
@@ -291,7 +291,7 @@ mu::llvmc::node_result mu::llvmc::module::parse_internal (mu::llvmc::parser & pa
     return result;
 }
 
-bool mu::llvmc::module::covering ()
+bool mu::llvmc::module_hook::covering ()
 {
     return false;
 }
@@ -549,7 +549,7 @@ bool mu::llvmc::function_hook::covering ()
 
 mu::llvmc::node_result mu::llvmc::parser::parse ()
 {
-    auto result (module.parse_internal (*this));
+    auto result (module_hook.parse_internal (*this));
 	if (result.error == nullptr)
 	{
 		auto next (peek ());
@@ -1907,7 +1907,7 @@ mu::string const & mu::llvmc::constant_pointer_null::name ()
 
 static mu::string module_name (U"module");
 
-mu::string const & mu::llvmc::module::name ()
+mu::string const & mu::llvmc::module_hook::name ()
 {
     return module_name;
 }

@@ -104,7 +104,7 @@ namespace mu
             }
             T & pointer;
         };
-        class module : public mu::llvmc::hook
+        class module_hook : public mu::llvmc::hook
         {
         public:			
 			mu::llvmc::node_result parse_internal (mu::llvmc::parser & parser_a);
@@ -345,7 +345,7 @@ namespace mu
             mu::llvmc::global builtins;
             mu::llvmc::block globals;
             mu::llvmc::mapping * current_mapping;
-            mu::llvmc::module module;
+            mu::llvmc::module_hook module_hook;
             mu::llvmc::function_hook function;
             mu::llvmc::asm_hook asm_hook;
             mu::llvmc::int_type int_type;
