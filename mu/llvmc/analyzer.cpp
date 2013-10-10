@@ -488,28 +488,32 @@ void mu::llvmc::module_processor::constant_array (mu::llvmc::ast::constant_array
 void mu::llvmc::module_processor::global_variable (mu::llvmc::ast::global_variable * global_variable)
 {
 	global_m.process_node (global_variable->initializer);
-	auto & values (global_variable->initializer->generated);
-	if (values.size () == 1)
+	if (global_m.error == nullptr)
 	{
-		auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (values [0]));
-		if (constant != nullptr)
+		assert (global_variable->initializer->assigned);
+		auto & values (global_variable->initializer->generated);
+		if (values.size () == 1)
 		{
-			global_variable->assigned = true;
-			auto & targets (global_variable->generated);
-			assert (targets.empty ());
-			auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, constant));
-            assert (unnamed_globals.find (skeleton) == unnamed_globals.end ());
-            unnamed_globals.insert (skeleton);
-			targets.push_back (skeleton);
+			auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (values [0]));
+			if (constant != nullptr)
+			{
+				global_variable->assigned = true;
+				auto & targets (global_variable->generated);
+				assert (targets.empty ());
+				auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, constant));
+				assert (unnamed_globals.find (skeleton) == unnamed_globals.end ());
+				unnamed_globals.insert (skeleton);
+				targets.push_back (skeleton);
+			}
+			else
+			{
+				global_m.error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
+			}
 		}
 		else
 		{
-			global_m.error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
+			global_m.error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, mu::core::region (global_variable->region.first, global_variable->initializer->region.last));
 		}
-	}
-	else
-	{
-		global_m.error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, mu::core::region (global_variable->region.first, global_variable->initializer->region.last));
 	}
 }
 
