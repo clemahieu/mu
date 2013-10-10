@@ -446,4 +446,4 @@ entrypoint let entry function
 	let alloc2 [lalloc cint64 #1000]
 	let result [exit cint64 #0; hello alloc1 alloc2]
 ]
-[[; result]]
+[[; result vector]]

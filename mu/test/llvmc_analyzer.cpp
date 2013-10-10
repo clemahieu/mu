@@ -3440,6 +3440,19 @@ TEST (llvmc_analyzer, template_c_clone)
 	ASSERT_EQ (&template1, template2->base);
 }
 
+TEST (llvmc_analyzer, module_clone)
+{
+	mu::llvmc::template_context context2 ({nullptr});
+	mu::llvmc::ast::module module1 (&context2);
+	mu::llvmc::ast::unit unit1;
+	module1.names [U"unit"] = &unit1;
+	mu::llvmc::clone_context context1 (&context2);
+	auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.clone (context1)));
+	ASSERT_NE (nullptr, module2);
+	ASSERT_NE (&module1, module2);
+	ASSERT_EQ (1, module2->names.size ());
+}
+
 TEST (llvmc_analyzer, function_parameter_clone)
 {
 	mu::llvmc::ast::function function1;

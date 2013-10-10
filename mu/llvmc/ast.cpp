@@ -662,6 +662,10 @@ node (other_a.template_m)
 	{
 		globals.push_back (i->clone (context_a));
 	}
+	for (auto & i: other_a.names)
+	{
+		names [i.first] = i.second->clone (context_a);
+	}
 }
 
 mu::llvmc::ast::result::result (mu::llvmc::ast::result const & other_a, mu::llvmc::clone_context & context_a) :
