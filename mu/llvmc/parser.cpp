@@ -206,11 +206,17 @@ stream (stream_a)
 
 mu::llvmc::node_result mu::llvmc::module_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
-	mu::llvmc::node_result result ({nullptr, nullptr});
-	result.error = parser_a.parse_left_square_required (U"Module expecting left square", mu::core::error_type::expecting_left_square);
+	mu::llvmc::module module (region_a, data_a, parser_a);
+	module.parse ();
+	return module.result;
+}
+
+void mu::llvmc::module::parse ()
+{
+	result.error = parser.parse_left_square_required (U"Module expecting left square", mu::core::error_type::expecting_left_square);
 	if (result.error == nullptr)
 	{
-		result = parse_internal (parser_a);
+		parse_internal ();
 		if (result.error == nullptr)
 		{/*
 			auto next (parser_a.peek ());
@@ -227,17 +233,15 @@ mu::llvmc::node_result mu::llvmc::module_hook::parse (mu::core::region const & r
 			}*/
 		}
 	}
-	return result;
 }
 
-mu::llvmc::node_result mu::llvmc::module_hook::parse_internal (mu::llvmc::parser & parser_a)
+void mu::llvmc::module::parse_internal ()
 {
-    mu::llvmc::node_result result ({nullptr, nullptr});
-    auto module (new (GC) mu::llvmc::ast::module (parser_a.current_template));
+    auto module (new (GC) mu::llvmc::ast::module (parser.current_template));
 	module->region.first = mu::core::position (0, 1, 1);
     while ((result.node == nullptr) and (result.error == nullptr))
     {
-        auto item (parser_a.peek ());
+        auto item (parser.peek ());
         if (item.ast != nullptr)
         {
             module->globals.push_back (item.ast);
@@ -264,7 +268,7 @@ mu::llvmc::node_result mu::llvmc::module_hook::parse_internal (mu::llvmc::parser
     }
     if (result.error == nullptr)
     {
-		for (auto i: parser_a.globals.mappings)
+		for (auto i: block.mappings)
 		{
 			if (i.second != nullptr)
 			{
@@ -275,20 +279,19 @@ mu::llvmc::node_result mu::llvmc::module_hook::parse_internal (mu::llvmc::parser
 				// Name reserved by sub-blocks
 			}
 		}
-        if (!parser_a.globals.unresolved.empty ())
+        if (!block.unresolved.empty ())
         {
 			std::stringstream error;
 			error << "Unresoled symbols:";
-			for (auto i: parser_a.globals.unresolved)
+			for (auto i: parser.globals.unresolved)
 			{
 				error << " " << std::string (i.first.begin (), i.first.end ());
 			}
 			std::string err (error.str ());
-            result.error = new (GC) mu::core::error_string (mu::string (err.begin (), err.end ()).c_str (), mu::core::error_type::unresolved_symbols, std::get <0> (parser_a.globals.unresolved.begin ()->second));
+            result.error = new (GC) mu::core::error_string (mu::string (err.begin (), err.end ()).c_str (), mu::core::error_type::unresolved_symbols, std::get <0> (block.unresolved.begin ()->second));
             result.node = nullptr;
         }
     }
-    return result;
 }
 
 bool mu::llvmc::module_hook::covering ()
@@ -549,7 +552,9 @@ bool mu::llvmc::function_hook::covering ()
 
 mu::llvmc::node_result mu::llvmc::parser::parse ()
 {
-    auto result (module_hook.parse_internal (*this));
+	mu::llvmc::module module (mu::empty_region, U"", *this);
+	module.parse_internal ();
+    auto result (module.result);
 	if (result.error == nullptr)
 	{
 		auto next (peek ());
@@ -2173,4 +2178,20 @@ static mu::string namespace_hook_name (U"namespace_hook");
 mu::string const & mu::llvmc::namespace_hook::name ()
 {
     return namespace_hook_name;
+}
+
+mu::llvmc::module::module (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) :
+block (parser_a.current_mapping),
+result ({nullptr, nullptr}),
+parser (parser_a),
+first (region_a)
+{
+	assert (data_a.empty ());
+	parser_a.current_mapping = &block;
+}
+
+mu::llvmc::module::~module ()
+{
+	assert (parser.current_mapping == &block);
+	parser.current_mapping = block.parent;
 }

@@ -106,11 +106,22 @@ namespace mu
         };
         class module_hook : public mu::llvmc::hook
         {
-        public:			
-			mu::llvmc::node_result parse_internal (mu::llvmc::parser & parser_a);
+        public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
             mu::string const & name () override;
+        };
+        class module
+        {
+        public:
+            module (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a);
+            ~module ();
+			void parse ();
+			void parse_internal ();
+            mu::llvmc::block block;
+            mu::llvmc::node_result result;
+            mu::llvmc::parser & parser;
+			mu::core::region first;
         };
         class function_hook : public mu::llvmc::hook
         {
