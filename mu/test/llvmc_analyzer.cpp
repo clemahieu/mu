@@ -3639,3 +3639,15 @@ TEST (llvmc_analyzer, namespace_c_module)
 	auto unit2 (dynamic_cast <mu::llvmc::skeleton::unit_value *> (function4->results [0]));
 	ASSERT_NE (nullptr, unit2);
 }
+
+TEST (llvmc_analyzer, nested_module)
+{
+	mu::llvmc::analyzer analyzer;
+	mu::llvmc::ast::module module1;
+	mu::llvmc::ast::module module2;
+	module1.globals.push_back (&module2);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (0, result.module->globals.size ());
+}

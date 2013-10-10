@@ -113,7 +113,7 @@ class module_analyzer : public mu::llvmc::skeleton::visitor
 {
 public:
     module_analyzer (mu::llvmc::module_processor & module_a, mu::core::error * & error_a) :
-    module (module_a),
+    module_m (module_a),
 	error (error_a)
     {
     }
@@ -126,7 +126,7 @@ public:
         node_a->value_m->visit (this);
 		if (error == nullptr)
 		{
-			global_naming naming (module, error, node_a->name);
+			global_naming naming (module_m, error, node_a->name);
 			node_a->value_m->visit (&naming);
 		}
     }
@@ -146,11 +146,15 @@ public:
     {
 		written_but_not_generated (node_a);
     }
+	void module (mu::llvmc::skeleton::module * node_a) override
+	{
+		written_but_not_generated (node_a);
+	}
 	void written_but_not_generated (mu::llvmc::skeleton::node * node_a)
 	{
         // Nodes that can be written at module level but are not generated at the module level
 	}
-    mu::llvmc::module_processor & module;
+    mu::llvmc::module_processor & module_m;
 	mu::core::error * & error;
 };
 				

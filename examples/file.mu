@@ -393,37 +393,39 @@ let memcopy function
 
 let vector-template template [vector-template-type]
 [
-	let vector-type struct [ptr vector-template-type int64]
+	module [
+		let vector-type struct [ptr vector-template-type int64]
 	
-	let vector-data-set function
-	[ptr vector-type vector ptr vector-template-type data-a]
-	[
-		let result [store data-a [getelementptr vector cint32 #0 cint32 #0]]
-	]
-	[[; result]]
+		let vector-data-set function
+		[ptr vector-type vector ptr vector-template-type data-a]
+		[
+			let result [store data-a [getelementptr vector cint32 #0 cint32 #0]]
+		]
+		[[; result]]
 	
-	let vector-size-set function
-	[ptr vector-type vector int64 size-a]
-	[
-		let result [store size-a [getelementptr vector cint32 #0 cint32 #1]]
-	]
-	[[; result]]
+		let vector-size-set function
+		[ptr vector-type vector int64 size-a]
+		[
+			let result [store size-a [getelementptr vector cint32 #0 cint32 #1]]
+		]
+		[[; result]]
 	
-	let vector-new-set function
-	[ptr vector-template-type data-a int64 size-a]
-	[
-		let result [bitcast [lalloc [sizeof vector-type]] ptr vector-type]
-		let data [vector-data-set result data-a]
-		let size [vector-size-set result size-a]
-	]
-	[[ptr vector-type result; data size]]
+		let vector-new-set function
+		[ptr vector-template-type data-a int64 size-a]
+		[
+			let result [bitcast [lalloc [sizeof vector-type]] ptr vector-type]
+			let data [vector-data-set result data-a]
+			let size [vector-size-set result size-a]
+		]
+		[[ptr vector-type result; data size]]
 	
-	let vector-new function
-	[]
-	[
-		let result [vector-new-set null ptr vector-template-type cint64 #0]
+		let vector-new function
+		[]
+		[
+			let result [vector-new-set null ptr vector-template-type cint64 #0]
+		]
+		[[ptr vector-type result]]
 	]
-	[[ptr vector-type result]]
 ]
 
 [vector-template int64]
