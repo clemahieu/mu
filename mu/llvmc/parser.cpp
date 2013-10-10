@@ -212,7 +212,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
 	{
 		result = parse_internal (parser_a);
 		if (result.error == nullptr)
-		{
+		{/*
 			auto next (parser_a.peek ());
 			assert (next.ast == nullptr);
 			assert (next.error == nullptr);
@@ -220,12 +220,11 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
 			switch (token->id ())
 			{
 				case mu::io::token_id::right_square:
-					parser_a.consume ();
 					break;
 				default:
 					result.error = new (GC) mu::core::error_string (U"Expecting right square after module", mu::core::error_type::expecting_right_square, token->region);
 					break;
-			}
+			}*/
 		}
 	}
 	return result;

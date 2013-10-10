@@ -428,8 +428,8 @@ let vector-template template [vector-template-type]
 	]
 ]
 
-[vector-template int64]
-[vector-template int32]
+let vector<int64> [vector-template int64]
+let vector<int32> [vector-template int32]
 
 entrypoint let entry function
 []

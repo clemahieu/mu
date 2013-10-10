@@ -110,7 +110,7 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U
 			}
 			default:
 			{
-				result = new (GC) mu::core::error_string (error_message_a, error_type_a, item.token->region);				
+				result = new (GC) mu::core::error_string (error_message_a, error_type_a, item.token->region);
 				break;
 			}
 		}
