@@ -3264,6 +3264,24 @@ TEST (llvmc_analyzer, global_variable)
     ASSERT_EQ (type3, type1);
 }
 
+TEST (llvmc_analyzer, global_variable_initializer_fail)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::number number1 (U"42");
+	mu::llvmc::ast::set set1;
+	mu::core::region region2 (5, 5, 5, 6, 6, 6);
+	set1.region = region2;
+    mu::llvmc::ast::global_variable global1 (&set1);
+	mu::core::region region1 (3, 3, 3, 4, 4, 4);
+	global1.region = region1;
+    mu::llvmc::ast::element element1 (&global1, 0, 1, U"0", mu::empty_region);
+    module1.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+	ASSERT_EQ (mu::core::region (region1.first, region2.last), result.error->region ());
+}
+
 TEST (llvmc_analyzer, null_pointer)
 {
     mu::llvmc::analyzer analyzer;

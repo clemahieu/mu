@@ -509,7 +509,7 @@ void mu::llvmc::module_processor::global_variable (mu::llvmc::ast::global_variab
 	}
 	else
 	{
-		global_m.error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, global_variable->initializer->region);
+		global_m.error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, mu::core::region (global_variable->region.first, global_variable->initializer->region.last));
 	}
 }
 
