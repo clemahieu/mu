@@ -60,7 +60,7 @@ namespace mu
 		class generate_system : public mu::llvmc::skeleton::visitor
 		{
 		public:
-			generate_system (mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a);
+			generate_system (llvm::LLVMContext & context_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a);
             void generate_value (mu::llvmc::skeleton::value * node_a);
 			void generate_type (mu::llvmc::skeleton::type * node_a);
 			void module (mu::llvmc::skeleton::module * node_a) override;
@@ -90,6 +90,7 @@ namespace mu
 			void function_type (mu::llvmc::skeleton::function_type * function_type_a) override;
 			void array_type (mu::llvmc::skeleton::array_type * array_type) override;
 			void struct_type (mu::llvmc::skeleton::struct_type * struct_type) override;
+			void node (mu::llvmc::skeleton::node * node_a) override;
 			std::string get_global_name (mu::string const & name_a);
             void generate ();
 			llvm::DIBuilder builder;
@@ -115,6 +116,7 @@ namespace mu
 			void instruction (mu::llvmc::skeleton::instruction * instruction) override;
 			void icmp (mu::llvmc::skeleton::icmp * icmp) override;
 			void store (mu::llvmc::skeleton::store * store) override;
+			void node (mu::llvmc::skeleton::node * node_a) override;
             void generate ();
             llvm::Value * generate_rejoin (llvm::BasicBlock * entry, llvm::BasicBlock * predicate, llvm::BasicBlock * successor, llvm::Value * value_a);
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);

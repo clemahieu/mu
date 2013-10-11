@@ -29,17 +29,15 @@
 
 mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a)
 {
-	char id [32];
-	sprintf (id, "%016" PRIx64 "", module_id_a);
-    mu::llvmc::generator_result result {nullptr, nullptr};
-    result.module = new llvm::Module (id, context_a);
-	mu::llvmc::generate_system generator (name_a, path_a, module_id_a);
-    return result;
+	mu::llvmc::generate_system generator (context_a, name_a, path_a, module_id_a);
+	module_a->visit (&generator);
+    return generator.result;
 }
 
 void mu::llvmc::generate_system::module (mu::llvmc::skeleton::module * node_a)
 {
     mu::llvmc::generate_module generator (*this, node_a);
+	generator.generate ();
 	if (node_a->entry != nullptr)
 	{
 		assert (node_a->entry->generated != nullptr);
@@ -1608,10 +1606,24 @@ void mu::llvmc::generate_module::struct_type (mu::llvmc::skeleton::struct_type *
 	struct_type->debug = debug;
 }
 
-mu::llvmc::generate_system::generate_system (mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a) :
+mu::llvmc::generate_system::generate_system (llvm::LLVMContext & context_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a) :
 current_generator (this),
 name (name_a),
 path (path_a),
-module_id (module_id_a)
+module_id (module_id_a),
+result ({nullptr, nullptr})
 {
+	char id [32];
+	sprintf (id, "%016" PRIx64 "", module_id_a);
+	result.module = new llvm::Module (id, context_a);
+}
+
+void mu::llvmc::generate_function::node (mu::llvmc::skeleton::node * node_a)
+{
+	node_a->visit (&module);
+}
+
+void mu::llvmc::generate_module::node (mu::llvmc::skeleton::node * node_a)
+{
+	node_a->visit (&system);
 }
