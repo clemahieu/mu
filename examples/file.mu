@@ -1,3 +1,5 @@
+let size-t int64
+
 let syscall-0 function
 [int64 id]
 [
@@ -394,7 +396,7 @@ let memcopy function
 let vector-template template [template-type]
 [
 	module [
-		let type struct [ptr template-type int64]
+		let type struct [ptr template-type size-t]
 	
 		let data-set function
 		[ptr type vector ptr template-type data-a]
@@ -402,13 +404,27 @@ let vector-template template [template-type]
 			let result [store data-a [getelementptr vector cint32 #0 cint32 #0]]
 		]
 		[[; result]]
+		
+		let data-get function
+		[ptr type vector]
+		[
+			let result [load [getelementptr vector cint32 #0 cint32 #0]]
+		]
+		[[ptr template-type result]]
 	
 		let size-set function
-		[ptr type vector int64 size-a]
+		[ptr type vector size-t size-a]
 		[
 			let result [store size-a [getelementptr vector cint32 #0 cint32 #1]]
 		]
 		[[; result]]
+		
+		let size-get function
+		[ptr type vector]
+		[
+			let result [load [getelementptr vector cint32 #0 cint32 #1]]
+		]
+		[[size-t result]]
 	
 		let new-set function
 		[ptr template-type data-a int64 size-a]
