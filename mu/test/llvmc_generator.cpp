@@ -2365,3 +2365,39 @@ TEST (llvmc_generator, generate_entry)
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (result.entry, function2);
 }
+
+extern char const * const generate_call_out_of_order_expected;
+
+TEST (llvmc_generator, generate_call_out_of_order)
+{
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (mu::empty_region);
+    mu::llvmc::skeleton::unit_type type1;
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.name = U"0";
+    
+    mu::llvmc::skeleton::function function2 (mu::empty_region);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    arguments1.push_back (&function2);
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size (), &module.the_unit_type);
+    mu::llvmc::skeleton::call_element element1 (mu::empty_region, function2.entry, &call1, &module.the_unit_type);
+    call1.elements.push_back (&element1);
+    mu::llvmc::skeleton::result result2 (&type1, &element1);
+    function2.results.push_back (&result2);
+    function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function2.results.size ());
+    function2.name = U"1";
+    module.globals.push_back (&function2);
+    module.globals.push_back (&function1);
+    
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module, U"generate_call_out_of_order", U"", 0));
+    ASSERT_NE (nullptr, result.module);
+    std::string info;
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_call_out_of_order_expected), info);
+}

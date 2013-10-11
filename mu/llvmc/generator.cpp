@@ -285,9 +285,9 @@ void mu::llvmc::generate_function::call_element (mu::llvmc::skeleton::call_eleme
 	auto & context (module.system.result.module->getContext ());
 	llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
 	assert (call_a->arguments.size () > 0);
-	assert (dynamic_cast <mu::llvmc::skeleton::value *> (call_a->arguments [0]) != nullptr);
-	assert (call_a->target->predicate != nullptr);
+	module.system.generate_value (mu::cast <mu::llvmc::skeleton::value> (call_a->target));
 	auto function (call_a->target->generated);
+	assert (function != nullptr);
 	std::vector <llvm::Value *> arguments;
 	size_t position (1);
 	auto end (call_a->predicate_offset);
