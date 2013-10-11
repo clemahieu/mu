@@ -69,14 +69,6 @@ void mu::llvmc::generate_module::generate ()
     {
         system.generate_value (*i);
 	}
-	uint64_t global_id (0);
-    for (auto i (functions.begin ()), j (functions.end ()); i != j; ++i, ++global_id)
-    {
-        auto function (llvm::cast <llvm::Function> ((*i)->generated));
-        assert (function->getBasicBlockList().empty ());
-        mu::llvmc::generate_function generator_l (*this, *i);
-        generator_l.generate ();
-    }
 	builder.finalize ();
 }
 
@@ -1440,7 +1432,8 @@ void mu::llvmc::generate_module::function (mu::llvmc::skeleton::function * node_
 	system.result.module->getFunctionList ().push_back (function_l);
 	node_a->generated = function_l;
 	node_a->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
-	functions.push_back (node_a);
+	mu::llvmc::generate_function generator_l (*this, node_a);
+	generator_l.generate ();
 }
 
 void mu::llvmc::generate_module::named (mu::llvmc::skeleton::named * node_a)

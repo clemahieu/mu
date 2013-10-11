@@ -97,7 +97,6 @@ namespace mu
             mu::llvmc::skeleton::module * module;
 			llvm::DIFile file;
             uint64_t global_id;
-            mu::vector <mu::llvmc::skeleton::function *> functions;
 			mu::llvmc::skeleton::visitor * previous;
 			mu::llvmc::generate_system & system;
         };

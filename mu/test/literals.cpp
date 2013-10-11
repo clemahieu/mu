@@ -1713,6 +1713,8 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   ret i1 %0, !dbg !12
 }
 
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
 define i1 @"0000000000000000-0000000000000001-1"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
@@ -1728,8 +1730,6 @@ define i1 @"0000000000000000-0000000000000001-1"(i1) {
   %7 = phi i1 [ %5, %4 ], [ undef, %1 ]
   ret i1 %7, !dbg !14
 }
-
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1770,6 +1770,8 @@ define i8 @"0000000000000000-0000000000000000-0"(i1) {
   ret i8 %11, !dbg !12
 }
 
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
 define i8 @"0000000000000000-0000000000000001-1"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
@@ -1793,8 +1795,6 @@ define i8 @"0000000000000000-0000000000000001-1"(i1) {
   %15 = select i1 %14, i8 1, i8 %13
   ret i8 %15, !dbg !14
 }
-
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
@@ -1843,6 +1843,8 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   ret %0 %16, !dbg !22
 }
 
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
 define %1 @"0000000000000000-0000000000000001-1"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
@@ -1873,8 +1875,6 @@ define %1 @"0000000000000000-0000000000000001-1"(i1) {
   %22 = insertvalue %1 %21, i8 %20, 1
   ret %1 %22, !dbg !24
 }
-
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 
 !llvm.dbg.cu = !{!0}
 
