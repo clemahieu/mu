@@ -444,6 +444,17 @@ let vector-template template [template-type]
 	]
 ]
 
+let string module
+[
+	let type struct [ptr int32 size_t]
+	let empty function
+	[type string-a]
+	[
+		let result [icmp eq [load [getelementptr string-a cint32 #0 cint32 #1]] 
+	]
+	[[int1 result]]
+]
+
 let vector<int64> [vector-template int64]
 let vector<int32> [vector-template int32]
 
