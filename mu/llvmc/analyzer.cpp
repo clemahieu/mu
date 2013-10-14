@@ -370,35 +370,43 @@ void mu::llvmc::function_processor::unit (mu::llvmc::ast::unit * node_a)
 
 void mu::llvmc::module_processor::constant_int (mu::llvmc::ast::constant_int * constant_a)
 {
-	try
+	constant_a->assigned = true;
+	constant_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_int_c);
+}
+
+void mu::llvmc::module_processor::process_constant_int (mu::llvmc::ast::expression * expression_a)
+{
+	size_t predicate_position;
+	mu::vector <mu::llvmc::skeleton::node *> arguments;
+	auto most_specific_branch (&mu::llvmc::skeleton::branch::global);
+	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_position);
+	if (global_m.error == nullptr)
 	{
-		std::string data_l (constant_a->bits.begin (), constant_a->bits.end ());
-		unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
-		if (bits <= 1024)
+		if (arguments.size () == 3)
 		{
-			auto number (dynamic_cast<mu::llvmc::ast::number *> (constant_a->number));
-			if (number != nullptr)
+			auto type_l (dynamic_cast <mu::llvmc::skeleton::integer_type *> (arguments [1]));
+			if (type_l != nullptr)
 			{
-				auto number_l (process_number (number));
+				auto number_l (dynamic_cast <mu::llvmc::skeleton::number *> (arguments [2]));
 				if (number_l != nullptr)
 				{
-					constant_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_integer (constant_a->region, bits, number_l->value));
-					constant_a->assigned = true;
+					expression_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_integer (expression_a->region, type_l, number_l->value));
+					expression_a->assigned = true;
+				}
+				else
+				{
+					global_m.error = new (GC) mu::core::error_string (U"Constant function requires second argument to be a number", mu::core::error_type::expecting_a_number, expression_a->region);
 				}
 			}
 			else
 			{
-				global_m.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number, constant_a->number->region);
+				global_m.error = new (GC) mu::core::error_string (U"Constant function requires first argument to be an integer type", mu::core::error_type::expecting_an_integer_type, expression_a->region);
 			}
 		}
 		else
 		{
-			global_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, constant_a->region);
+			global_m.error = new (GC) mu::core::error_string (U"Constant function requires two arguments", mu::core::error_type::incorrect_number_of_arguments, expression_a->region);
 		}
-	}
-	catch (boost::bad_lexical_cast)
-	{
-		global_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, constant_a->region);
 	}
 }
 
@@ -920,7 +928,15 @@ void mu::llvmc::module_processor::expression (mu::llvmc::ast::expression * expre
 						}
 						else
 						{
-							global_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
+							auto constant_int_l (dynamic_cast <mu::llvmc::skeleton::constant_int_c *> (target));
+							if (constant_int_l != nullptr)
+							{
+								process_constant_int (expression_a);
+							}
+							else
+							{
+								global_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
+							}
 						}
 					}
 				}
@@ -1940,8 +1956,8 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
                             if (integer_type->bits == 1)
                             {
                                 result = true;
-                                auto false_const (new (GC) mu::llvmc::skeleton::constant_integer (expression_a->region, 1, 0));
-                                auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (expression_a->region, 1, 1));
+                                auto false_const (new (GC) mu::llvmc::skeleton::constant_integer (expression_a->region, &module_m.module_m->integer_1_type, 0));
+                                auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (expression_a->region, &module_m.module_m->integer_1_type, 1));
                                 arguments.push_back (false_const);
                                 arguments.push_back (true_const);
                                 auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &module_m.module_m->the_unit_type));

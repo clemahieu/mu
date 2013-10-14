@@ -371,7 +371,6 @@ namespace mu
             mu::llvmc::struct_hook struct_hook;
             mu::llvmc::constant_array constant_array;
             mu::llvmc::number number;
-            mu::llvmc::constant_int constant_int;
             mu::llvmc::global_variable global_variable;
             mu::llvmc::constant_pointer_null constant_pointer_null;
             mu::io::stream_token & stream;

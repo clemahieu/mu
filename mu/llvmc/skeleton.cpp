@@ -324,9 +324,9 @@ value (region_a, &mu::llvmc::skeleton::branch::global)
 {
 }
 
-mu::llvmc::skeleton::constant_integer::constant_integer (mu::core::region const & region_a, size_t bits_a, uint64_t value_a) :
+mu::llvmc::skeleton::constant_integer::constant_integer (mu::core::region const & region_a, mu::llvmc::skeleton::integer_type * type_a, uint64_t value_a) :
 constant (region_a),
-type_m (new (GC) mu::llvmc::skeleton::integer_type (bits_a)),
+type_m (type_a),
 value_m (value_a)
 {
 }
@@ -1264,6 +1264,16 @@ mu::llvmc::skeleton::node * mu::llvmc::skeleton::module::operator [] (mu::string
 }
 
 void mu::llvmc::skeleton::visitor::module (mu::llvmc::skeleton::module * node_a)
+{
+	node (node_a);
+}
+
+void mu::llvmc::skeleton::constant_int_c::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+	visitor_a->constant_int_c (this);
+}
+
+void mu::llvmc::skeleton::visitor::constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a)
 {
 	node (node_a);
 }

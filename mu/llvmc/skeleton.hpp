@@ -97,10 +97,18 @@ namespace mu
                 constant (mu::core::region const & region_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
             };
+            class integer_type : public mu::llvmc::skeleton::type
+            {
+            public:
+                integer_type (size_t bits_a);
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+                size_t bits;
+            };
             class constant_integer : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_integer (mu::core::region const & region_a, size_t bits_a, uint64_t value_a);
+                constant_integer (mu::core::region const & region_a, mu::llvmc::skeleton::integer_type * type_a, uint64_t value_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
@@ -189,14 +197,6 @@ namespace mu
                 marker (mu::llvmc::instruction_type type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::instruction_type type;
-            };
-            class integer_type : public mu::llvmc::skeleton::type
-            {
-            public:
-                integer_type (size_t bits_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
-                size_t bits;
             };
             class struct_type : public mu::llvmc::skeleton::type
             {
@@ -483,6 +483,11 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;
 			};
+			class constant_int_c : public mu::llvmc::skeleton::node
+			{
+			public:
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+			};
             class visitor
             {
             public:
@@ -525,6 +530,7 @@ namespace mu
                 virtual void template_c (mu::llvmc::skeleton::template_c * node_a);
                 virtual void global_value (mu::llvmc::skeleton::global_value * node_a);
 				virtual void module (mu::llvmc::skeleton::module * node_a);
+				virtual void constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a);
             };
 			class namespace_visitor
 			{

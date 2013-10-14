@@ -29,6 +29,9 @@ stream (stream_a)
     bool error (false);
     error = builtins.insert  (U"~", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::identity, current_template));
     assert (!error);
+	auto constant_int (new (GC) mu::llvmc::ast::constant_int);
+    error = builtins.insert (U"cint", constant_int);
+    assert (!error);
     error = keywords.insert (U"`", &namespace_hook);
     assert (!error);
     error = keywords.insert (U"#", &number);
@@ -38,8 +41,6 @@ stream (stream_a)
     error = keywords.insert (U"ascii", &ascii_hook);
     assert (!error);
     error = keywords.insert (U"asm", &asm_hook);
-    assert (!error);
-    error = keywords.insert (U"cint", &constant_int);
     assert (!error);
     error = keywords.insert (U"carray", &constant_array);
     assert (!error);
@@ -73,9 +74,9 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"undefined", &undefined_hook);
     assert (!error);
-    error = builtins.insert  (U"false", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0", current_template), current_template));
+    error = builtins.insert  (U"false", new (GC) mu::llvmc::ast::expression ({constant_int, new (GC) mu::llvmc::ast::integer_type (U"1"), new (GC) mu::llvmc::ast::number (U"0")}, {}));
     assert (!error);
-    error = builtins.insert  (U"true", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"1", current_template), current_template));
+    error = builtins.insert  (U"true", new (GC) mu::llvmc::ast::expression ({constant_int, new (GC) mu::llvmc::ast::integer_type (U"1"), new (GC) mu::llvmc::ast::number (U"1")}, {}));
     assert (!error);
     error = builtins.insert (U"unit_v", new (GC) mu::llvmc::ast::unit (current_template));
     assert (!error);
@@ -1337,27 +1338,6 @@ number_m (number_a)
 {
 }
 
-mu::llvmc::node_result mu::llvmc::constant_int::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
-{
-    mu::llvmc::node_result result ({nullptr, nullptr});
-    auto item (parser_a.peek ());
-    if (item.ast != nullptr)
-    {
-        result.node = new (GC) mu::llvmc::ast::constant_int (data_a, item.ast, parser_a.current_template);
-        result.node->region = mu::core::region (region_a.first, item.ast->region.last);
-    }
-    else
-    {
-        result.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number);
-    }
-    return result;
-}
-
-bool mu::llvmc::constant_int::covering ()
-{
-    return true;
-}
-
 mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     assert (data_a.empty ());
@@ -1605,7 +1585,7 @@ mu::llvmc::node_result mu::llvmc::string_hook::parse (mu::core::region const & r
 		mu::vector <mu::llvmc::skeleton::constant *> initializer;
 		for (auto i: identifier_a->string)
 		{
-			initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, 32, i));
+			initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, new (GC) mu::llvmc::skeleton::integer_type (32), i));
 		}
 		auto value (new (GC) mu::llvmc::skeleton::constant_array (mu::core::region (region_a.first, identifier_a->region.last), new (GC) mu::llvmc::skeleton::array_type (int_type, initializer.size ()), initializer));
 		result.node = new (GC) mu::llvmc::ast::value (value, parser_a.current_template);
@@ -1634,7 +1614,7 @@ mu::llvmc::node_result mu::llvmc::ascii_hook::parse (mu::core::region const & re
 				uint32_t value (*i);
 				if (value < 0x100)
 				{
-					initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, 8, value));
+					initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, new (GC) mu::llvmc::skeleton::integer_type (8), value));
 				}
 				else
 				{

@@ -172,7 +172,8 @@ namespace mu
             not_a_namespace_container,
             not_a_member,
             can_only_extract_from_one,
-			template_argument_count_mismatch
+			template_argument_count_mismatch,
+			expecting_an_integer_type
         };
         class error
         {

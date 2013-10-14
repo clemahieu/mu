@@ -90,6 +90,7 @@ namespace mu
 			void value (mu::llvmc::ast::value * value_node) override;
 			void process_template (mu::llvmc::ast::expression * node_a);
             void process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
+			void process_constant_int (mu::llvmc::ast::expression * expression_a);
             mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
 			mu::llvmc::global_processor & global_m;

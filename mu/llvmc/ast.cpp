@@ -81,10 +81,8 @@ pointed_type (pointed_type_a)
 {
 }
 
-mu::llvmc::ast::constant_int::constant_int (mu::string const & bits_a, mu::llvmc::ast::node * number_a, mu::llvmc::template_context * template_a) :
-node (template_a),
-bits (bits_a),
-number (number_a)
+mu::llvmc::ast::constant_int::constant_int (mu::llvmc::template_context * template_a) :
+node (template_a)
 {
 }
 
@@ -549,9 +547,7 @@ node (other_a.template_m)
 }
 
 mu::llvmc::ast::constant_int::constant_int (mu::llvmc::ast::constant_int const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m),
-bits (other_a.bits),
-number (other_a.number->clone (context_a))
+node (other_a.template_m)
 {
 }
 
