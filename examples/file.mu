@@ -70,29 +70,29 @@ let syscall-6-linux function
 ]
 [[int64 result]]
 
-let exit-osx-system-code cint64 #h2000001
-let write-osx-system-code cint64 #h2000004
-let open-osx-system-code cint64 #h2000005
-let close-osx-system-code cint64 #h2000006
-let mmap-osx-system-code cint64 #h20000c5
+let exit-osx-system-code [cint int64 #h2000001]
+let write-osx-system-code [cint int64 #h2000004]
+let open-osx-system-code [cint int64 #h2000005]
+let close-osx-system-code [cint int64 #h2000006]
+let mmap-osx-system-code [cint int64 #h20000c5]
 
-let write-linux-system-code cint64 #h1
-let open-linux-system-code cint64 #h2
-let mmap-linux-system-code cint64 #h9
-let exit-linux-system-code cint64 #h3c
+let write-linux-system-code [cint int64 #h1]
+let open-linux-system-code [cint int64 #h2]
+let mmap-linux-system-code [cint int64 #h9]
+let exit-linux-system-code [cint int64 #h3c]
 
-let O_RDWR-linux cint64 #o2
-let O_CREAT-linux cint64 #o100
+let O_RDWR-linux [cint int64 #o2]
+let O_CREAT-linux [cint int64 #o100]
 
-let PROT_READ-linux cint64 #h1
-let PROT_WRITE-linux cint64 #h2
-let PROT_EXEC-linux cint64 #h4
-let PROT_NONE-linux cint64 #h0
+let PROT_READ-linux [cint int64 #h1]
+let PROT_WRITE-linux [cint int64 #h2]
+let PROT_EXEC-linux [cint int64 #h4]
+let PROT_NONE-linux [cint int64 #h0]
 
-let MAP_SHARED-linux cint64 #h1
-let MAP_PRIVATE-linux cint64 #h2
-let MAP_ANONYMOUS-linux cint64 #h20
-let no-fd-linux cint64 #hffffffffffffffff
+let MAP_SHARED-linux [cint int64 #h1]
+let MAP_PRIVATE-linux [cint int64 #h2]
+let MAP_ANONYMOUS-linux [cint int64 #h20]
+let no-fd-linux [cint int64 #hffffffffffffffff]
 
 let exit_linux function
 [int64 code]
@@ -111,7 +111,7 @@ let exit_osx function
 let platform function
 []
 [
-	let linux osx [if cint1 #0]
+	let linux osx [if [cint int1 #0]]
 ]
 [[unit linux][unit osx]]
 
@@ -162,7 +162,7 @@ let write-string function
 let write-test function
 [int64 fd]
 [
-	let initial [string-new-set [bitcast write-test-string ptr int8] cint64 #13]
+	let initial [string-new-set [bitcast write-test-string ptr int8] [cint int64 #13]]
 	let full [string-concatenate initial initial]
 	let result [write-string fd full]
 ]
@@ -268,20 +268,20 @@ let umin function
 [[int64 result]]
 
 let lalloc-base global null ptr int8
-let lalloc-available global cint64 #h0
+let lalloc-available global [cint int64 #h0]
 
-let lalloc-slab-size cint64 #h100000
+let lalloc-slab-size [cint int64 #h100000]
 
 let lalloc-slab function
 []
 [
 	let mem [mmap 
-		[ptrfromint cint64 #0 ptr int8] 
+		[ptrfromint [cint int64 #0] ptr int8] 
 		lalloc-slab-size
 		[or PROT_READ-linux PROT_WRITE-linux] 
 		[or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] 
 		no-fd-linux 
-		cint64 #0]
+		[cint int64 #0]]
 ]
 [[ptr int8 mem]]
 
@@ -309,42 +309,42 @@ let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
 let sizeof template [sizeof-type]
 [
-	[sub [ptrtoint [getelementptr let base null ptr sizeof-type cint32 #1] int64] [ptrtoint [getelementptr base cint32 #0] int64]]
+	[sub [ptrtoint [getelementptr let base null ptr sizeof-type [cint int32 #1]] int64] [ptrtoint [getelementptr base [cint int32 #0]] int64]]
 ]
 let string-type struct [ptr int8 int64]
 
 let string-size-set function
 [ptr string-type str int64 val]
 [
-	let result [store val [getelementptr str cint32 #0 cint32 #1]]
+	let result [store val [getelementptr str [cint int32 #0] [cint int32 #1]]]
 ]
 [[; result]]
 
 let string-size-get function
 [ptr string-type str]
 [
-	let result [load [getelementptr str cint32 #0 cint32 #1]]
+	let result [load [getelementptr str [cint int32 #0] [cint int32 #1]]]
 ]
 [[int64 result]]
 
 let string-data-set function
 [ptr string-type str ptr int8 val]
 [
-	let result [store val [getelementptr str cint32 #0 cint32 #0]]
+	let result [store val [getelementptr str [cint int32 #0] [cint int32 #0]]]
 ]
 [[; result]]
 
 let string-data-get function
 [ptr string-type str]
 [
-	let result [load [getelementptr str cint32 #0 cint32 #0]]
+	let result [load [getelementptr str [cint int32 #0] [cint int32 #0]]]
 ]
 [[ptr int8 result]]
 
 let string-new function
 []
 [
-	let str [string-new-set null ptr int8 cint64 #0]
+	let str [string-new-set null ptr int8 [cint int64 #0]]
 ]
 [[ptr string-type str]]
 
@@ -389,7 +389,7 @@ let memcopy function
 		let done not-done [if [icmp ieq [ptrtoint source_l int64] end]]
 		let stored [store [load source_l; not-done] destination_l]
 	]
-	[[[getelementptr source_l cint64 #1] [getelementptr destination_l cint64 #1]; stored][; done]]
+	[[[getelementptr source_l [cint int64 #1]] [getelementptr destination_l [cint int64 #1]]; stored][; done]]
 ]
 [[; complete]]
 
@@ -401,28 +401,28 @@ let vector-template template [template-type]
 		let data-set function
 		[ptr type vector ptr template-type data-a]
 		[
-			let result [store data-a [getelementptr vector cint32 #0 cint32 #0]]
+			let result [store data-a [getelementptr vector [cint int32 #0] [cint int32 #0]]]
 		]
 		[[; result]]
 		
 		let data-get function
 		[ptr type vector]
 		[
-			let result [load [getelementptr vector cint32 #0 cint32 #0]]
+			let result [load [getelementptr vector [cint int32 #0] [cint int32 #0]]]
 		]
 		[[ptr template-type result]]
 	
 		let size-set function
 		[ptr type vector size-t size-a]
 		[
-			let result [store size-a [getelementptr vector cint32 #0 cint32 #1]]
+			let result [store size-a [getelementptr vector [cint int32 #0] [cint int32 #1]]]
 		]
 		[[; result]]
 		
 		let size-get function
 		[ptr type vector]
 		[
-			let result [load [getelementptr vector cint32 #0 cint32 #1]]
+			let result [load [getelementptr vector [cint int32 #0] [cint int32 #1]]]
 		]
 		[[size-t result]]
 	
@@ -438,7 +438,7 @@ let vector-template template [template-type]
 		let new function
 		[]
 		[
-			let result [new-set null ptr template-type cint64 #0]
+			let result [new-set null ptr template-type [cint int64 #0]]
 		]
 		[[ptr type result]]
 	]
@@ -446,11 +446,11 @@ let vector-template template [template-type]
 
 let string module
 [
-	let type struct [ptr int32 size_t]
+	let type struct [ptr int32 size-t]
 	let empty function
-	[type string-a]
+	[ptr type string-a]
 	[
-		let result [icmp eq [load [getelementptr string-a cint32 #0 cint32 #1]] 
+		let result [icmp ieq [load [getelementptr string-a [cint int32 #0] [cint int32 #1]]] [cint size-t #0]] 
 	]
 	[[int1 result]]
 ]
@@ -463,14 +463,14 @@ entrypoint let entry function
 [
 	:(let stored [store ascii  let text [alloca array int8 #26]]
 	let stored [store ascii  let text [alloca array int8 #30]]
-	let fd [open [bitcast file-name-osx ptr int8] cint64 #h602 cint64 #o600]
-	let fd [open [bitcast file-name-linux ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600]
+	let fd [open [bitcast file-name-osx ptr int8] [cint int64 #h602] [cint int64 #o600]]
+	let fd [open [bitcast file-name-linux ptr int8] [or O_RDWR-linux O_CREAT-linux] [cint int64 #o600]]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]:)
 	let vector [` vector<int64> new]
-	let hello [write-test cint64 #1]
-	let alloc1 [lalloc cint64 #100]
-	let alloc2 [lalloc cint64 #1000]
-	let result [exit cint64 #0; hello alloc1 alloc2]
+	let hello [write-test [cint int64 #1]]
+	let alloc1 [lalloc [cint int64 #100]]
+	let alloc2 [lalloc [cint int64 #1000]]
+	let result [exit [cint int64 #0]; hello alloc1 alloc2]
 ]
 [[; result vector]]
