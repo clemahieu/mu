@@ -476,6 +476,12 @@ let string module
 		let freed [lfree string-data; copied1]
 	]
 	[[; copied2 assigned freed]]
+	let new function
+	[]
+	[
+		let result [insertvalue [insertvalue undefined type [bitcast [lalloc [cint size-t #0]] ptr int32] [cint int32 #0]] [cint size-t #0] [cint int32 #1]]
+	]
+	[[type result]]
 ]
 
 let vector<int64> [vector-template int64]
