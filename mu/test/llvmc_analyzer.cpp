@@ -2341,7 +2341,7 @@ TEST (llvmc_analyzer, number_number)
     mu::llvmc::ast::number number1 (U"42");
     mu::llvmc::ast::constant_int constant1;
 	mu::llvmc::ast::expression expression2 ({&constant1, &type1, &number1}, {});
-    mu::llvmc::ast::expression expression1 ({&value1, &constant1, &constant1}, {});
+    mu::llvmc::ast::expression expression1 ({&value1, &expression2, &expression2}, {});
     mu::llvmc::ast::result result1 (&type1, &expression1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
@@ -2449,7 +2449,7 @@ TEST (llvmc_analyzer, number_oct)
     mu::llvmc::ast::number number1 (U"o42");
     mu::llvmc::ast::constant_int constant1;
 	mu::llvmc::ast::expression expression2 ({&constant1, &type1, &number1}, {});
-    mu::llvmc::ast::expression expression1 ({&value1, &constant1, &constant1}, {});
+    mu::llvmc::ast::expression expression1 ({&value1, &expression2, &expression2}, {});
     mu::llvmc::ast::result result1 (&type1, &expression1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());

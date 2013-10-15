@@ -434,29 +434,32 @@ void mu::llvmc::function_processor::asm_c (mu::llvmc::ast::asm_c * asm_l)
 	}
 }
 
-void mu::llvmc::function_processor::number (mu::llvmc::ast::number * node_a)
-{
-	module_m.global_m.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
-}
-
 void mu::llvmc::module_processor::array_type (mu::llvmc::ast::array_type * type_a)
 {
 	auto element (process_type (type_a->element_type));
 	if (element != nullptr)
 	{
-		auto number (dynamic_cast <mu::llvmc::ast::number *> (type_a->size));
-		if (number != nullptr)
+		global_m.process_node (type_a->size);
+		if (global_m.error == nullptr)
 		{
-			auto number_l (process_number (number));
-			if (number_l != nullptr)
+			assert (type_a->size->assigned);
+			if (type_a->size->generated.size () == 1)
 			{
-				type_a->generated.push_back (new (GC) mu::llvmc::skeleton::array_type (element, number_l->value));
-				type_a->assigned = true;
+				auto number_l (dynamic_cast <mu::llvmc::skeleton::number *> (type_a->size->generated [0]));
+				if (number_l != nullptr)
+				{
+					type_a->generated.push_back (new (GC) mu::llvmc::skeleton::array_type (element, number_l->value));
+					type_a->assigned = true;
+				}
+				else
+				{
+					global_m.error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
+				}
 			}
-		}
-		else
-		{
-			global_m.error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
+			else
+			{
+				global_m.error = new (GC) mu::core::error_string (U"Array size expects one value", mu::core::error_type::expecting_one_value, type_a->size->region);
+			}
 		}
 	}
 }
@@ -1160,9 +1163,8 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::number * mu::llvmc::module_processor::process_number (mu::llvmc::ast::number * number_a)
+void mu::llvmc::global_processor::number (mu::llvmc::ast::number * number_a)
 {
-	mu::llvmc::skeleton::number * result (nullptr);
 	std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
 	if (data_l.size () > 0)
 	{
@@ -1199,18 +1201,19 @@ mu::llvmc::skeleton::number * mu::llvmc::module_processor::process_number (mu::l
 		}
 		if (parsed == 1)
 		{
-			result = new (GC) mu::llvmc::skeleton::number (value);
+			auto result (new (GC) mu::llvmc::skeleton::number (value));
+			number_a->assigned = true;
+			number_a->generated.push_back (result);
 		}
 		else
 		{
-			global_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
+			error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
 		}
 	}
 	else
 	{
-		global_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
+		error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
 	}
-	return result;
 }
 
 void mu::llvmc::module_processor::process_single_node (mu::llvmc::ast::node * node_a)

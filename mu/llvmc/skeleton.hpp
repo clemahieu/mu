@@ -418,7 +418,7 @@ namespace mu
                 mu::llvmc::skeleton::unit_type the_unit_type;
                 mu::llvmc::skeleton::unit_value the_unit_value;
             };
-            class number
+            class number : public mu::llvmc::skeleton::node
             {
             public:
                 number (uint64_t value_a);
