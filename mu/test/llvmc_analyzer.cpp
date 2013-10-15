@@ -3596,7 +3596,7 @@ TEST (llvmc_analyzer, template_shared)
 	mu::llvmc::ast::number number1 (U"0");
 	mu::llvmc::ast::constant_int constant1;
 	mu::llvmc::ast::expression expression3 ({&constant1, &type2, &number1}, {});
-	mu::llvmc::ast::result result1 (&type2, &constant1, &context1);
+	mu::llvmc::ast::result result1 (&type2, &expression3, &context1);
 	function.results.push_back (&result1);
 	function.predicate_offsets.push_back (function.results.size ());
 	function.branch_ends.push_back (function.results.size ());
