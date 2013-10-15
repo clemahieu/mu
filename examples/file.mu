@@ -1,4 +1,5 @@
 let size-t int64
+let iptr int64
 
 let syscall-0 function
 [int64 id]
@@ -459,6 +460,22 @@ let string module
 		let result [load [getelementptr string-a [cint int32 #0] [cint int32 #1]]]
 	]
 	[[size-t result]]
+	let data function
+	[ptr type string-a]
+	[
+		let result [load [getelementptr string-a [cint int32 #0] [cint int32 #0]]]
+	]
+	[[ptr int32 result]]
+	let append function
+	[ptr type string-a ptr type other-a]
+	[
+		let new-data [lalloc let new-size [add let string-size [size string-a] let other-size [size other-a]]]
+		let copied1 [memcopy let string-data [bitcast [data string-a] ptr int8] new-data string-size]
+		let copied2 [memcopy [bitcast [data other-a] ptr int8] [ptrfromint [ptrtoint new-data iptr] ptr int8] other-size]
+		let assigned [store [bitcast new-data ptr int32] [getelementptr string-a [cint int32 #0] [cint int32 #0]]]
+		let freed [lfree string-data; copied1]
+	]
+	[[; copied2 assigned freed]]
 ]
 
 let vector<int64> [vector-template int64]
