@@ -1830,25 +1830,6 @@ TEST (llvm_analyzer, error_non_expression)
 	ASSERT_EQ (mu::core::error_type::expecting_a_result, result.error->type ());
 }
 
-TEST (llvm_analyzer, error_ast_number)
-{
-    mu::llvmc::analyzer analyzer;
-    mu::llvmc::ast::module module1;
-    mu::llvmc::ast::function function1;
-	mu::llvmc::ast::number number1 (U"0");
-    function1.predicate_offsets.push_back (function1.results.size ());
-	mu::llvmc::ast::expression expression1;
-	expression1.arguments.push_back (&number1);
-	function1.results.push_back (&expression1);
-    function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
-    module1.globals.push_back (&element1);
-    auto result (analyzer.analyze (&module1));
-    ASSERT_NE (nullptr, result.error);
-    ASSERT_EQ (nullptr, result.module);
-	ASSERT_EQ (mu::core::error_type::numbers_parsed_by_keyword, result.error->type ());
-}
-
 TEST (llvmc_analyzer, instruction_load)
 {
     mu::llvmc::analyzer analyzer;

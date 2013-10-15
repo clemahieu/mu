@@ -678,7 +678,7 @@ TEST (llvmc_parser, rational)
 
 TEST (llvmc_parser, constant_int)
 {
-    test_parser parser ("let test function [] [[cint32 #42]] []");
+    test_parser parser ("let test function [] [[cint int32 #42]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -697,16 +697,13 @@ TEST (llvmc_parser, constant_int)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (1, expression1->arguments.size ());
-    auto expression2 (dynamic_cast <mu::llvmc::ast::expression *> (expression1->arguments [0]));
-    ASSERT_NE (nullptr, expression2);
-    ASSERT_EQ (mu::core::region (23, 1, 24, 32, 1, 33), expression2->region);
-	ASSERT_EQ (3, expression2->arguments.size ());
-	auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (expression2->arguments [0]));
+    ASSERT_EQ (mu::core::region (22, 1, 23, 37, 1, 38), expression1->region);
+	ASSERT_EQ (3, expression1->arguments.size ());
+	auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (expression1->arguments [0]));
 	ASSERT_NE (nullptr, constant_int);
-	auto type (dynamic_cast <mu::llvmc::ast::integer_type *> (expression2->arguments [1]));
+	auto type (dynamic_cast <mu::llvmc::ast::integer_type *> (expression1->arguments [1]));
 	ASSERT_NE (nullptr, type);
-	auto number (dynamic_cast <mu::llvmc::ast::number *> (expression2->arguments [2]));
+	auto number (dynamic_cast <mu::llvmc::ast::number *> (expression1->arguments [2]));
 	ASSERT_NE (nullptr, number);
     ASSERT_EQ (U"32", type->bits);
     ASSERT_EQ (U"42", number->number_m);
@@ -1725,7 +1722,7 @@ TEST (llvmc_parser, array_type)
 
 TEST (llvmc_parser, constant_array)
 {
-    test_parser parser ("let test1 function [] [[carray int8 [cint8 #h08 cint8 #h09 cint8 #h0a cint8 #h0b]]] []");
+    test_parser parser ("let test1 function [] [[carray int8 [[cint int8 #h08] [cint int8 #h09] [cint int8 #h0a] [cint int8 #h0b]]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1928,7 +1925,7 @@ TEST (llvmc_parser, unit_result)
 
 TEST (llvmc_parser, global_variable)
 {
-    test_parser parser ("let test1 global cint64 #42");
+    test_parser parser ("let test1 global [cint int64 #42]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
