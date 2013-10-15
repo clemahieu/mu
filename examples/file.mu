@@ -453,6 +453,12 @@ let string module
 		let result [icmp ieq [load [getelementptr string-a [cint int32 #0] [cint int32 #1]]] [cint size-t #0]] 
 	]
 	[[int1 result]]
+	let size function
+	[ptr type string-a]
+	[
+		let result [load [getelementptr string-a [cint int32 #0] [cint int32 #1]]]
+	]
+	[[size-t result]]
 ]
 
 let vector<int64> [vector-template int64]
