@@ -2975,7 +2975,7 @@ TEST (llvmc_analyzer, fail_asm_not_type)
 	mu::llvmc::ast::integer_type type1 (U"1");
     mu::llvmc::ast::constant_int constant1;
 	mu::llvmc::ast::expression expression2 ({&constant1, &type1, &number1}, {});
-	constant1.region = mu::core::region (4, 4, 4, 7, 7, 7);
+	expression2.region = mu::core::region (4, 4, 4, 7, 7, 7);
     mu::llvmc::ast::asm_c asm1 (&expression2, U"text", U"constraint");
 	asm1.region = mu::core::region (3, 3, 3, 8, 8, 8);
     mu::llvmc::ast::expression expression1 ({&asm1}, {});
@@ -2988,8 +2988,8 @@ TEST (llvmc_analyzer, fail_asm_not_type)
     auto result (analyzer.analyze (&module1));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
-	ASSERT_EQ (result.error->type (), mu::core::error_type::expecting_a_type);
-	ASSERT_EQ (result.error->region (), constant1.region);
+	ASSERT_EQ (mu::core::error_type::expecting_a_type, result.error->type ());
+	ASSERT_EQ (expression2.region, result.error->region ());
 }
 
 TEST (llvmc_analyzer, element_not_enough_fail)
