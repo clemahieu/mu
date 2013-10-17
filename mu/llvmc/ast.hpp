@@ -340,6 +340,7 @@ namespace mu
             class namespace_c : public mu::llvmc::ast::node
             {
             public:
+				namespace_c (mu::string const & member_a, mu::llvmc::ast::node * node_a, mu::llvmc::template_context * context_a = nullptr);
 				namespace_c (mu::llvmc::template_context * context_a = nullptr);
 				namespace_c (mu::llvmc::ast::namespace_c const & other_a, mu::llvmc::clone_context & context_a);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;

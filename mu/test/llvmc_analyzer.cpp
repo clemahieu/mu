@@ -3684,3 +3684,16 @@ TEST (llvmc_analyzer, nested_module)
     ASSERT_NE (nullptr, result.module);
     ASSERT_EQ (0, result.module->globals.size ());
 }
+
+TEST (llvmc_analyzer, namespace_clone)
+{
+	mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::unit unit1 (&context1);
+	mu::llvmc::ast::namespace_c namespace1 (U"name1", &unit1, &context1);
+	mu::llvmc::clone_context context2 (&context1);
+	auto namespace2 (dynamic_cast <mu::llvmc::ast::namespace_c *> (namespace1.clone (context2)));
+	ASSERT_NE (nullptr, namespace2);
+	ASSERT_NE (&namespace1, namespace2);
+	auto unit2 (dynamic_cast <mu::llvmc::ast::unit *> (namespace2->node_m));
+	ASSERT_NE (&unit1, unit2);
+}

@@ -972,7 +972,7 @@ node (context_a)
 mu::llvmc::ast::namespace_c::namespace_c (mu::llvmc::ast::namespace_c const & other_a, mu::llvmc::clone_context & context_a) :
 node (other_a.template_m),
 member (other_a.member),
-node_m (other_a.node_m)
+node_m (other_a.node_m->clone (context_a))
 {
 }
 
@@ -990,4 +990,11 @@ void mu::llvmc::ast::namespace_c::visit (mu::llvmc::ast::visitor * visitor_a)
 void mu::llvmc::ast::visitor::namespace_c (mu::llvmc::ast::namespace_c * node_a)
 {
     node (node_a);
+}
+
+mu::llvmc::ast::namespace_c::namespace_c (mu::string const & member_a, mu::llvmc::ast::node * node_a, mu::llvmc::template_context * context_a) :
+node (context_a),
+member (member_a),
+node_m (node_a)
+{
 }
