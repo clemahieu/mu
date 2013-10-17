@@ -2476,3 +2476,8 @@ void mu::llvmc::function_processor::namespace_c (mu::llvmc::ast::namespace_c * n
         }
     }
 }
+
+void mu::llvmc::global_processor::template_parameter (mu::llvmc::ast::template_parameter * node_a)
+{
+	assert (false && "Template parameter was not replaced");
+}

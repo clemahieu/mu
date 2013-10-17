@@ -405,28 +405,28 @@ let vector-template template [template-type]
 		let data-set function
 		[ptr type vector ptr template-type data-a]
 		[
-			let result [store data-a [getelementptr vector [cint int32 #0] [cint int32 #0]]]
+			let result [store data-a [getelementptr vector [cint int32 #0] ` type data]]
 		]
 		[[; result]]
 		
 		let data-get function
 		[ptr type vector]
 		[
-			let result [load [getelementptr vector [cint int32 #0] [cint int32 #0]]]
+			let result [load [getelementptr vector [cint int32 #0] ` type data]]
 		]
 		[[ptr template-type result]]
 	
 		let size-set function
 		[ptr type vector size-t size-a]
 		[
-			let result [store size-a [getelementptr vector [cint int32 #0] [cint int32 #1]]]
+			let result [store size-a [getelementptr vector [cint int32 #0] ` type size]]
 		]
 		[[; result]]
 		
 		let size-get function
 		[ptr type vector]
 		[
-			let result [load [getelementptr vector [cint int32 #0] [cint int32 #1]]]
+			let result [load [getelementptr vector [cint int32 #0] ` type size]]
 		]
 		[[size-t result]]
 	
@@ -455,19 +455,19 @@ let string module
 	let empty function
 	[ptr type string-a]
 	[
-		let result [icmp ieq [load [getelementptr string-a [cint int32 #0] [cint int32 #1]]] [cint size-t #0]] 
+		let result [icmp ieq [load [getelementptr string-a [cint int32 #0] ` type size]] [cint size-t #0]] 
 	]
 	[[int1 result]]
 	let size function
 	[ptr type string-a]
 	[
-		let result [load [getelementptr string-a [cint int32 #0] [cint int32 #1]]]
+		let result [load [getelementptr string-a [cint int32 #0] ` type size]]
 	]
 	[[size-t result]]
 	let data function
 	[ptr type string-a]
 	[
-		let result [load [getelementptr string-a [cint int32 #0] [cint int32 #0]]]
+		let result [load [getelementptr string-a [cint int32 #0] ` type data]]
 	]
 	[[ptr int32 result]]
 	let append function
@@ -476,7 +476,7 @@ let string module
 		let new-data [lalloc let new-size [add let string-size [size string-a] let other-size [size other-a]]]
 		let copied1 [memcopy let string-data [bitcast [data string-a] ptr int8] new-data string-size]
 		let copied2 [memcopy [bitcast [data other-a] ptr int8] [ptrfromint [ptrtoint new-data iptr] ptr int8] other-size]
-		let assigned [store [bitcast new-data ptr int32] [getelementptr string-a [cint int32 #0] [cint int32 #0]]]
+		let assigned [store [bitcast new-data ptr int32] [getelementptr string-a [cint int32 #0] ` type data]]
 		let freed [lfree string-data; copied1]
 	]
 	[[; copied2 assigned freed]]

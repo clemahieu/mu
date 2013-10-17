@@ -62,6 +62,7 @@ namespace mu
 			void node (mu::llvmc::ast::node * node_a) override;
 			void module (mu::llvmc::ast::module * node_a) override;
 			void number (mu::llvmc::ast::number * node_a) override;
+			void template_parameter (mu::llvmc::ast::template_parameter * node_a) override;
 			mu::llvmc::ast::visitor * current_context;
 			mu::core::error * & error;
 		};
