@@ -2450,7 +2450,7 @@ public:
         }
         else
         {
-            error = new (GC) mu::core::error_string (U"Namespace container does not have member with stated name", mu::core::error_type::not_a_member);
+            error = new (GC) mu::core::error_string (U"Namespace container does not have member with stated name", mu::core::error_type::not_a_member, node->region);
         }
     }
     void unnamed () override

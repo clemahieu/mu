@@ -538,7 +538,8 @@ size (other_a.size->clone (context_a))
 }
 
 mu::llvmc::ast::struct_type::struct_type (mu::llvmc::ast::struct_type const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m)
+node (other_a.template_m),
+names (other_a.names)
 {
 	for (auto i: other_a.elements)
 	{

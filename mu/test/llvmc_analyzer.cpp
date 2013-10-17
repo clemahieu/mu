@@ -3697,3 +3697,18 @@ TEST (llvmc_analyzer, namespace_clone)
 	auto unit2 (dynamic_cast <mu::llvmc::ast::unit *> (namespace2->node_m));
 	ASSERT_NE (&unit1, unit2);
 }
+
+TEST (llvmc_analyzer, struct_clone)
+{
+	mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::unit_type unit1 (&context1);
+	mu::llvmc::ast::struct_type struct1 (&context1);
+	struct1.elements.push_back (&unit1);
+	struct1.names [U"name1"] = 0;
+	mu::llvmc::clone_context context2 (&context1);
+	auto struct2 (dynamic_cast <mu::llvmc::ast::struct_type *> (struct1.clone (context2)));
+	ASSERT_NE (nullptr, struct2);
+	ASSERT_NE (&struct1, struct2);
+	ASSERT_EQ (1, struct2->names.size ());
+	ASSERT_NE (struct2->names.end (), struct2->names.find (U"name1"));
+}

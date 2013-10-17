@@ -2146,6 +2146,7 @@ mu::llvmc::node_result mu::llvmc::namespace_hook::parse (mu::core::region const 
 {
     auto namespace_l (new (GC) mu::llvmc::ast::namespace_c (parser_a.current_template));
     mu::llvmc::node_result result ({nullptr, nullptr});
+	namespace_l->region.first = region_a.first;
     result.error = parser_a.parse_ast_or_refer (
         [namespace_l]
         (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
@@ -2159,6 +2160,7 @@ mu::llvmc::node_result mu::llvmc::namespace_hook::parse (mu::core::region const 
             (mu::io::identifier * identifier_a)
             {
                 namespace_l->member = identifier_a->string;
+				namespace_l->region.last = identifier_a->region.last;
                 return nullptr;
             }, U"Expecting a namespace member name", mu::core::error_type::expecting_identifier);
         if (result.error == nullptr)
