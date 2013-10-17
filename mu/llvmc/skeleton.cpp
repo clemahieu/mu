@@ -1277,3 +1277,23 @@ void mu::llvmc::skeleton::visitor::constant_int_c (mu::llvmc::skeleton::constant
 {
 	node (node_a);
 }
+
+mu::llvmc::skeleton::node * mu::llvmc::skeleton::struct_type::operator [] (mu::string const & name_a)
+{
+	mu::llvmc::skeleton::node * result;
+	auto existing (names.find (name_a));
+	if (existing != names.end ())
+	{
+		result = existing->second;
+	}
+	else
+	{
+		result = nullptr;
+	}
+	return result;
+}
+
+void mu::llvmc::skeleton::struct_type::named (mu::llvmc::skeleton::namespace_visitor * naming_a)
+{
+	naming_a->named (this);
+}

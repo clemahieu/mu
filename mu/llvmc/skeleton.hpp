@@ -198,11 +198,14 @@ namespace mu
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::instruction_type type;
             };
-            class struct_type : public mu::llvmc::skeleton::type
+            class struct_type : public mu::llvmc::skeleton::type, public mu::llvmc::skeleton::namespace_container
             {
             public:
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+				mu::llvmc::skeleton::node * operator [] (mu::string const & name_a) override;
+				void named (mu::llvmc::skeleton::namespace_visitor * naming_a) override;
+				mu::map <mu::string, mu::llvmc::skeleton::constant_integer *> names;
                 mu::vector <mu::llvmc::skeleton::type *> elements;
             };
             class unit_type : public mu::llvmc::skeleton::type
