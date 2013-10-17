@@ -2157,6 +2157,26 @@ TEST (llvmc_parser, namespace_hook)
     ASSERT_NE (nullptr, number);
 }
 
+TEST (llvmc_parser, namespace_template)
+{
+    test_parser parser ("template [] [` #container member]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+	auto template1 (dynamic_cast <mu::llvmc::ast::template_c *> (module2->globals [0]));
+	ASSERT_NE (nullptr, template1);
+	ASSERT_EQ (1, template1->body.size ());
+    auto namespace_l (dynamic_cast <mu::llvmc::ast::namespace_c *> (template1->body [0]));
+    ASSERT_NE (nullptr, namespace_l);
+	ASSERT_NE (nullptr, namespace_l->template_m);
+    ASSERT_EQ (U"member", namespace_l->member);
+    auto number (dynamic_cast <mu::llvmc::ast::number *> (namespace_l->node_m));
+    ASSERT_NE (nullptr, number);
+}
+
 TEST (llvmc_parser, nested_module)
 {
     test_parser parser ("module []");

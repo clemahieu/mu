@@ -2144,7 +2144,7 @@ bool mu::llvmc::template_context::should_clone (mu::llvmc::template_context * no
 
 mu::llvmc::node_result mu::llvmc::namespace_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
-    auto namespace_l (new (GC) mu::llvmc::ast::namespace_c);
+    auto namespace_l (new (GC) mu::llvmc::ast::namespace_c (parser_a.current_template));
     mu::llvmc::node_result result ({nullptr, nullptr});
     result.error = parser_a.parse_ast_or_refer (
         [namespace_l]
