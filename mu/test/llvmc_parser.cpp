@@ -2003,7 +2003,7 @@ TEST (llvmc_parser, undefined)
 
 TEST (llvmc_parser, struct_type)
 {
-    test_parser parser ("let test1 function [] [] [[struct [int8] undefined struct [int8]]]");
+    test_parser parser ("let test1 function [] [] [[struct [name1 int8] undefined struct [name1 int8]]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2023,10 +2023,21 @@ TEST (llvmc_parser, struct_type)
 	ASSERT_NE (nullptr, result1);
 	auto type1 (dynamic_cast <mu::llvmc::ast::struct_type *> (result1->written_type));
 	ASSERT_NE (nullptr, type1);
+	ASSERT_EQ (1, type1->names.size ());
+	ASSERT_NE (type1->names.end (), type1->names.find (U"name1"));
     auto undefined1 (dynamic_cast <mu::llvmc::ast::undefined *> (result1->value));
     ASSERT_NE (nullptr, undefined1);
     auto type2 (dynamic_cast <mu::llvmc::ast::struct_type *> (undefined1->type));
     ASSERT_NE (nullptr, type2);
+}
+
+TEST (llvmc_parser, struct_type_duplicate_name_fail)
+{
+    test_parser parser ("let test1 function [] [] [[struct [name1 int8 name1 int8]]]");
+    auto module1 (parser.parser.parse ());
+    ASSERT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+	ASSERT_EQ (mu::core::error_type::unable_to_use_identifier, module1.error->type ());
 }
 
 TEST (llvmc_parser, local_covering_parameter_error)

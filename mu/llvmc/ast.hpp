@@ -286,6 +286,7 @@ namespace mu
 				struct_type (mu::llvmc::ast::struct_type const & other_a, mu::llvmc::clone_context & context_a);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
+				mu::map <mu::string, size_t> names;
                 mu::vector <mu::llvmc::ast::node *> elements;
             };
             class undefined : public mu::llvmc::ast::node

@@ -1792,19 +1792,41 @@ mu::llvmc::node_result mu::llvmc::struct_hook::parse (mu::core::region const & r
     if (result.error == nullptr)
     {
         auto done (false);
+		size_t index (0);
         while (!done && result.error == nullptr)
         {
-            parser_a.parse_ast_or_refer_or_right_square (
-                [&]
-                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-                {
-                    struct_l->elements.push_back (node_a);
-                },
-                [&]
-                (mu::io::right_square * token_a)
-                {
-                    done = true;
-                }, U"Struct parser is expecting types or right square", mu::core::error_type::expecting_ast_or_reference);
+			result.error = parser_a.parse_identifier_or_right_square (
+				   [&]
+				   (mu::io::identifier * identifier_a)
+					{
+						mu::core::error * result (nullptr);
+						auto existing (struct_l->names.find (identifier_a->string));
+						if (existing == struct_l->names.end ())
+						{
+							struct_l->names [identifier_a->string] = index;
+							++index;
+						}
+						else
+						{
+							result = new (GC) mu::core::error_string (U"Element name has already been used", mu::core::error_type::unable_to_use_identifier, identifier_a->region);
+						}
+						return result;
+					},
+					[&]
+					(mu::io::right_square * right_square_a)
+					{
+						done = true;
+						return nullptr;
+					},U"Expecting identifier or right square", mu::core::error_type::expecting_identifier_or_right_square);
+			if (result.error == nullptr && !done)
+			{
+				result.error = parser_a.parse_ast_or_refer (
+					[struct_l]
+					(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+					{
+						struct_l->elements.push_back (node_a);
+					});
+			}
         }
     }
     if (result.error == nullptr)
