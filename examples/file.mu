@@ -312,7 +312,9 @@ let sizeof template [sizeof-type]
 [
 	[sub [ptrtoint [getelementptr let base null ptr sizeof-type [cint int32 #1]] int64] [ptrtoint [getelementptr base [cint int32 #0]] int64]]
 ]
-let string-type struct [ptr int8 int64]
+let string-type struct [
+	data ptr int8 
+	size int64]
 
 let string-size-set function
 [ptr string-type str int64 val]
@@ -397,7 +399,8 @@ let memcopy function
 let vector-template template [template-type]
 [
 	module [
-		let type struct [ptr template-type size-t]
+		let type struct [data ptr template-type
+			size size-t]
 	
 		let data-set function
 		[ptr type vector ptr template-type data-a]
@@ -447,7 +450,8 @@ let vector-template template [template-type]
 
 let string module
 [
-	let type struct [ptr int32 size-t]
+	let type struct [data ptr int32 
+		size size-t]
 	let empty function
 	[ptr type string-a]
 	[

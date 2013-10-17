@@ -3370,6 +3370,7 @@ TEST (llvmc_analyzer, struct_type)
     mu::llvmc::ast::integer_type type1 (U"8");
     mu::llvmc::ast::struct_type type2;
 	type2.elements.push_back (&type1);
+	type2.names [U"name1"] = 0;
     mu::llvmc::ast::undefined undefined1;
     undefined1.type = &type2;
     mu::llvmc::ast::result result1 (&type2, &undefined1);
@@ -3397,6 +3398,11 @@ TEST (llvmc_analyzer, struct_type)
     auto type3 (dynamic_cast <mu::llvmc::skeleton::struct_type *> (undefined2->type ()));
     ASSERT_NE (nullptr, type3);
 	ASSERT_EQ (1, type3->elements.size ());
+	ASSERT_EQ (1, type3->names.size ());
+	ASSERT_NE (type3->names.end (), type3->names.find (U"name1"));
+	auto constant1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (type3->names [U"name1"]));
+	ASSERT_NE (nullptr, constant1);
+	ASSERT_EQ (0, constant1->value_m);
     auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type3->elements [0]));
     ASSERT_NE (nullptr, type4);
     ASSERT_EQ (&mu::llvmc::skeleton::branch::global, undefined2->branch);

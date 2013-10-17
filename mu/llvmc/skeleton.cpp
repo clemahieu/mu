@@ -658,6 +658,7 @@ mu::llvmc::skeleton::module::module () :
 entry (nullptr),
 integer_1_type (1),
 integer_8_type (8),
+integer_32_type (32),
 the_unit_value (&mu::llvmc::skeleton::branch::global, &the_unit_type)
 {
 }

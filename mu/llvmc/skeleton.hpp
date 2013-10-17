@@ -418,6 +418,7 @@ namespace mu
 				mu::llvmc::skeleton::function * entry;
                 mu::llvmc::skeleton::integer_type integer_1_type;
                 mu::llvmc::skeleton::integer_type integer_8_type;
+                mu::llvmc::skeleton::integer_type integer_32_type;
                 mu::llvmc::skeleton::unit_type the_unit_type;
                 mu::llvmc::skeleton::unit_value the_unit_value;
             };

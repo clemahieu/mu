@@ -1044,6 +1044,11 @@ void mu::llvmc::module_processor::struct_type (mu::llvmc::ast::struct_type * nod
 			global_m.error = new (GC) mu::core::error_string (U"Struct type definition must list other types", mu::core::error_type::struct_must_contain_types, i->region);
 		}
 	}
+	for (auto i: node_a->names)
+	{
+		assert (struct_l->names.find (i.first) == struct_l->names.end ());
+		struct_l->names [i.first] = new (GC) mu::llvmc::skeleton::constant_integer (node_a->region, &module_m->integer_32_type, i.second);
+	}
 	if (global_m.error == nullptr)
 	{
 		node_a->assigned = true;
