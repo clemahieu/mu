@@ -452,24 +452,28 @@ let string module
 [
 	let type struct [data ptr int32 
 		size size-t]
+		
 	let empty function
 	[ptr type string-a]
 	[
 		let result [icmp ieq [load [getelementptr string-a [cint int32 #0] ` type size]] [cint size-t #0]] 
 	]
 	[[int1 result]]
+	
 	let size function
 	[ptr type string-a]
 	[
 		let result [load [getelementptr string-a [cint int32 #0] ` type size]]
 	]
 	[[size-t result]]
+	
 	let data function
 	[ptr type string-a]
 	[
 		let result [load [getelementptr string-a [cint int32 #0] ` type data]]
 	]
 	[[ptr int32 result]]
+	
 	let append function
 	[ptr type string-a ptr type other-a]
 	[
@@ -480,6 +484,7 @@ let string module
 		let freed [lfree string-data; copied1]
 	]
 	[[; copied2 assigned freed]]
+	
 	let new function
 	[]
 	[
