@@ -454,27 +454,27 @@ let string module
 		size size-t]
 		
 	let empty function
-	[ptr type string-a]
+	[type string-a]
 	[
-		let result [icmp ieq [load [getelementptr string-a [cint int32 #0] ` type size]] [cint size-t #0]] 
+		let result [icmp ieq [extractvalue string-a ` type size] [cint size-t #0]] 
 	]
 	[[int1 result]]
 	
 	let size function
-	[ptr type string-a]
+	[type string-a]
 	[
-		let result [load [getelementptr string-a [cint int32 #0] ` type size]]
+		let result [extractvalue string-a ` type size]
 	]
 	[[size-t result]]
 	
 	let data function
-	[ptr type string-a]
+	[type string-a]
 	[
-		let result [load [getelementptr string-a [cint int32 #0] ` type data]]
+		let result [extractvalue string-a ` type data]
 	]
 	[[ptr int32 result]]
 	
-	let append function
+	:(let append function
 	[ptr type string-a ptr type other-a]
 	[
 		let new-data [lalloc let new-size [add let string-size [size string-a] let other-size [size other-a]]]
@@ -483,12 +483,19 @@ let string module
 		let assigned [store [bitcast new-data ptr int32] [getelementptr string-a [cint int32 #0] ` type data]]
 		let freed [lfree string-data; copied1]
 	]
-	[[; copied2 assigned freed]]
+	[[; copied2 assigned freed]]:)
+	
+	let new-set function
+	[ptr int32 data-a size-t size-a]
+	[
+		let result [insertvalue [insertvalue undefined type data-a [cint int32 #0]] size-a [cint int32 #1]]
+	]
+	[[type result]]
 	
 	let new function
 	[]
 	[
-		let result [insertvalue [insertvalue undefined type [bitcast [lalloc [cint size-t #0]] ptr int32] [cint int32 #0]] [cint size-t #0] [cint int32 #1]]
+		let result [new-set [bitcast [lalloc [cint size-t #0]] ptr int32] [cint size-t #0]]
 	]
 	[[type result]]
 ]
