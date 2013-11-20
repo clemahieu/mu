@@ -14,6 +14,10 @@ namespace llvm
 }
 namespace mu
 {
+	namespace core
+	{
+		class error;
+	}
     namespace llvmc
     {
         class template_context;
@@ -67,7 +71,8 @@ namespace mu
             public:
                 value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-                virtual mu::llvmc::skeleton::type * type () = 0;
+				virtual mu::llvmc::skeleton::value * adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a);
+				virtual mu::llvmc::skeleton::type * type () = 0;
                 mu::llvmc::skeleton::branch * branch;
 				mu::core::region region;
                 llvm::Value * predicate;

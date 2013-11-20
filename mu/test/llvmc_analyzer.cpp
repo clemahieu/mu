@@ -1145,9 +1145,9 @@ TEST (llvmc_analyzer, error_call_wrong_type)
     mu::llvmc::skeleton::integer_type type2 (8);
     mu::llvmc::ast::value value2 (&type2);
     mu::llvmc::ast::parameter parameter2 (U"p0", &value2);
+    parameter2.region = mu::core::region (8, 8, 8, 9, 9, 9);
     function2.parameters.push_back (&parameter2);
     mu::llvmc::ast::expression expression1 ({&function1, &parameter2}, {});
-    expression1.region = mu::core::region (8, 8, 8, 9, 9, 9);
     mu::llvmc::ast::result result2 (&value1, &expression1);
     function2.results.push_back (&result2);
     function2.predicate_offsets.push_back (function2.results.size ());
@@ -1158,7 +1158,7 @@ TEST (llvmc_analyzer, error_call_wrong_type)
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
     ASSERT_EQ (mu::core::error_type::argument_type_does_not_match_parameter_type, result.error->type ());
-    ASSERT_EQ (expression1.region, result.error->region ());
+    ASSERT_EQ (parameter2.region, result.error->region ());
 }
 
 TEST (llvmc_analyzer, int_type1)

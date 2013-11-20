@@ -1298,3 +1298,18 @@ void mu::llvmc::skeleton::struct_type::named (mu::llvmc::skeleton::namespace_vis
 {
 	naming_a->named (this);
 }
+
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a)
+{
+	mu::llvmc::skeleton::value * result;
+	if (*type () == *type_a)
+	{
+		result = this;
+	}
+	else
+	{
+		error_a = new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type, region);
+		result = nullptr;
+	}
+	return result;
+}
