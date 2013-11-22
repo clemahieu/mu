@@ -470,7 +470,7 @@ TEST (llvmc_analyzer, error_wrong_result_type)
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
     ASSERT_EQ (mu::core::error_type::actual_formal_result_type_mismatch, result.error->type ());
-    ASSERT_EQ (result1.region, result.error->region ());
+    ASSERT_EQ (parameter1.region, result.error->region ());
 }
 
 TEST (llvmc_analyzer, error_indistinct_result_branches1)

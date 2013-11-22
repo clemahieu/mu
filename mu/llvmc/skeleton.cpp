@@ -1299,7 +1299,7 @@ void mu::llvmc::skeleton::struct_type::named (mu::llvmc::skeleton::namespace_vis
 	naming_a->named (this);
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
 	mu::llvmc::skeleton::value * result;
 	if (*type () == *type_a)
@@ -1308,8 +1308,13 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
 	}
 	else
 	{
-		error_a = new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type, region);
+		error_a = new (GC) mu::core::error_string (message_a, error_type_a, region);
 		result = nullptr;
 	}
 	return result;
+}
+
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt_result (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a)
+{
+    return adapt (type_a, error_a, message_a, error_type_a);
 }

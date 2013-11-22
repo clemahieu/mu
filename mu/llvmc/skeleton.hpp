@@ -17,6 +17,7 @@ namespace mu
 	namespace core
 	{
 		class error;
+        enum class error_type;
 	}
     namespace llvmc
     {
@@ -71,7 +72,8 @@ namespace mu
             public:
                 value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-				virtual mu::llvmc::skeleton::value * adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a);
+				virtual mu::llvmc::skeleton::value * adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a);
+                virtual mu::llvmc::skeleton::value * adapt_result (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a);
 				virtual mu::llvmc::skeleton::type * type () = 0;
                 mu::llvmc::skeleton::branch * branch;
 				mu::core::region region;
