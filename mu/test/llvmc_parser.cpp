@@ -1693,7 +1693,7 @@ TEST (llvmc_parser, asm_constraint_error)
 
 TEST (llvmc_parser, array_type)
 {
-    test_parser parser ("let test1 function [array int8 #4 p0] [] []");
+    test_parser parser ("let test1 function [farray int8 #4 p0] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1784,7 +1784,7 @@ TEST (llvmc_parser, constant_string)
 	auto array1 (dynamic_cast <mu::llvmc::skeleton::constant_array *> (value1->node_m));
 	ASSERT_NE (nullptr, array1);
 	ASSERT_EQ (5, array1->initializer.size ());
-	auto type1 (dynamic_cast <mu::llvmc::skeleton::array_type *> (array1->type ()));
+	auto type1 (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (array1->type ()));
 	ASSERT_NE (nullptr, type1);
 	auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type1->element));
 	ASSERT_NE (nullptr, type2);
@@ -1821,7 +1821,7 @@ TEST (llvmc_parser, constant_string_keyword)
 	auto array1 (dynamic_cast <mu::llvmc::skeleton::constant_array *> (value1->node_m));
 	ASSERT_NE (nullptr, array1);
 	ASSERT_EQ (5, array1->initializer.size ());
-	auto type1 (dynamic_cast <mu::llvmc::skeleton::array_type *> (array1->type ()));
+	auto type1 (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (array1->type ()));
 	ASSERT_NE (nullptr, type1);
 	auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type1->element));
 	ASSERT_NE (nullptr, type2);
@@ -1858,7 +1858,7 @@ TEST (llvmc_parser, constant_ascii)
 	auto array1 (dynamic_cast <mu::llvmc::skeleton::constant_array *> (value1->node_m));
 	ASSERT_NE (nullptr, array1);
 	ASSERT_EQ (6, array1->initializer.size ());
-	auto type1 (dynamic_cast <mu::llvmc::skeleton::array_type *> (array1->type ()));
+	auto type1 (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (array1->type ()));
 	ASSERT_NE (nullptr, type1);
 	auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type1->element));
 	ASSERT_NE (nullptr, type2);

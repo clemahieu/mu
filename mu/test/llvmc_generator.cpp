@@ -2001,7 +2001,7 @@ extern char const * const generate_array_expected;
 TEST (llvmc_generator, generate_array)
 {
     mu::llvmc::skeleton::module module;
-	mu::llvmc::skeleton::array_type array1 (&module.integer_8_type, 16);
+	mu::llvmc::skeleton::fixed_array_type array1 (&module.integer_8_type, 16);
     mu::vector <mu::llvmc::skeleton::constant *> initializer1;
 	mu::llvmc::skeleton::integer_type type1 (8);
     mu::llvmc::skeleton::constant_integer constant2 (mu::empty_region, &type1, 0xcd);

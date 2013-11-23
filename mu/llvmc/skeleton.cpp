@@ -8,7 +8,7 @@
 
 mu::llvmc::skeleton::branch mu::llvmc::skeleton::branch::global = mu::llvmc::skeleton::branch (nullptr);
 
-mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a) :
+mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::fixed_array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a) :
 constant (region_a),
 type_m (type_a),
 initializer (initializer_a)
@@ -758,16 +758,16 @@ type_m (type_a)
 {
 }
 
-mu::llvmc::skeleton::array_type::array_type (mu::llvmc::skeleton::type * element_a, size_t size_a) :
+mu::llvmc::skeleton::fixed_array_type::fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a) :
 element (element_a),
 size (size_a)
 {
 }
 
-bool mu::llvmc::skeleton::array_type::operator == (mu::llvmc::skeleton::type const & other_a) const
+bool mu::llvmc::skeleton::fixed_array_type::operator == (mu::llvmc::skeleton::type const & other_a) const
 {
     auto result (false);
-    auto array_type_l (dynamic_cast <mu::llvmc::skeleton::array_type const *> (&other_a));
+    auto array_type_l (dynamic_cast <mu::llvmc::skeleton::fixed_array_type const *> (&other_a));
     if (array_type_l != nullptr)
     {
         result = *element == *array_type_l->element && size == array_type_l->size;
@@ -780,9 +780,9 @@ void mu::llvmc::skeleton::node::visit (mu::llvmc::skeleton::visitor * visitor_a)
     visitor_a->node (this);
 }
 
-void mu::llvmc::skeleton::array_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+void mu::llvmc::skeleton::fixed_array_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
 {
-    visitor_a->array_type (this);
+    visitor_a->fixed_array_type (this);
 }
 
 void mu::llvmc::skeleton::inline_asm::visit (mu::llvmc::skeleton::visitor * visitor_a)
@@ -945,7 +945,7 @@ void mu::llvmc::skeleton::visitor::node (mu::llvmc::skeleton::node * node_a)
     unexpected (node_a);
 }
 
-void mu::llvmc::skeleton::visitor::array_type (mu::llvmc::skeleton::array_type * node_a)
+void mu::llvmc::skeleton::visitor::fixed_array_type (mu::llvmc::skeleton::fixed_array_type * node_a)
 {
     type (node_a);
 }

@@ -3074,7 +3074,7 @@ TEST (llvmc_analyzer, array_type)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
-    auto type3 (dynamic_cast <mu::llvmc::skeleton::array_type *> (function2->parameters [0]->type ()));
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (function2->parameters [0]->type ()));
     ASSERT_NE (nullptr, type3);
     ASSERT_EQ (4, type3->size);
     auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type3->element));
@@ -3112,7 +3112,7 @@ TEST (llvmc_analyzer, constant_array)
     ASSERT_EQ (1, function2->results.size ());
     auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
     ASSERT_NE (nullptr, result2);
-    auto array_type (dynamic_cast <mu::llvmc::skeleton::array_type *> (result2->type));
+    auto array_type (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (result2->type));
     ASSERT_NE (nullptr, array_type);
     ASSERT_EQ (4, array_type->size);
     auto element_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (array_type->element));
@@ -3154,7 +3154,7 @@ TEST (llvmc_analyzer, DISABLED_typeof_single)
     ASSERT_EQ (1, function2->results.size ());
     auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
     ASSERT_NE (nullptr, result2);
-    auto array_type (dynamic_cast <mu::llvmc::skeleton::array_type *> (result2->type));
+    auto array_type (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (result2->type));
     ASSERT_NE (nullptr, array_type);
     ASSERT_EQ (4, array_type->size);
     auto element_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (array_type->element));

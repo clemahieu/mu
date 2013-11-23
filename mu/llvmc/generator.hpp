@@ -88,7 +88,7 @@ namespace mu
 			void pointer_type (mu::llvmc::skeleton::pointer_type * pointer_type) override;
 			void unit_type (mu::llvmc::skeleton::unit_type * unit_type) override;
 			void function_type (mu::llvmc::skeleton::function_type * function_type_a) override;
-			void array_type (mu::llvmc::skeleton::array_type * array_type) override;
+			void fixed_array_type (mu::llvmc::skeleton::fixed_array_type * array_type) override;
 			void struct_type (mu::llvmc::skeleton::struct_type * struct_type) override;
 			void node (mu::llvmc::skeleton::node * node_a) override;
 			std::string get_global_name (mu::string const & name_a);

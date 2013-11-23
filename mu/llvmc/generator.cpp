@@ -1568,7 +1568,7 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
 	function_type_a->debug = function_type_d;
 }
 
-void mu::llvmc::generate_module::array_type (mu::llvmc::skeleton::array_type * array_type)
+void mu::llvmc::generate_module::fixed_array_type (mu::llvmc::skeleton::fixed_array_type * array_type)
 {
 	auto & context (system.result.module->getContext ());
 	auto type (array_type->element);

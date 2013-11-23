@@ -448,7 +448,7 @@ void mu::llvmc::module_processor::array_type (mu::llvmc::ast::array_type * type_
 				auto number_l (dynamic_cast <mu::llvmc::skeleton::number *> (type_a->size->generated [0]));
 				if (number_l != nullptr)
 				{
-					type_a->generated.push_back (new (GC) mu::llvmc::skeleton::array_type (element, number_l->value));
+					type_a->generated.push_back (new (GC) mu::llvmc::skeleton::fixed_array_type (element, number_l->value));
 					type_a->assigned = true;
 				}
 				else
@@ -494,7 +494,7 @@ void mu::llvmc::module_processor::constant_array (mu::llvmc::ast::constant_array
 				}
 			}
 		}
-		auto array_type (new (GC) mu::llvmc::skeleton::array_type (type, initializer.size ()));
+		auto array_type (new (GC) mu::llvmc::skeleton::fixed_array_type (type, initializer.size ()));
 		array_a->generated.push_back (new (GC) mu::llvmc::skeleton::constant_array (array_a->region, array_type, initializer));
 		array_a->assigned = true;
 	}
