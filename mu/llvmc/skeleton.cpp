@@ -1318,3 +1318,173 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt_result (mu::llvmc
 {
     return adapt (type_a, error_a, message_a, error_type_a);
 }
+
+mu::llvmc::skeleton::fixed_array_type * mu::llvmc::skeleton::factory::fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a)
+{
+	return new (GC) mu::llvmc::skeleton::fixed_array_type (element_a, size_a);
+}
+
+mu::llvmc::skeleton::inline_asm * mu::llvmc::skeleton::factory::inline_asm (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a)
+{
+	return new (GC) mu::llvmc::skeleton::inline_asm (region_a, branch_a, arguments_a, predicate_position_a);
+}
+
+mu::llvmc::skeleton::join_element * mu::llvmc::skeleton::factory::join_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::join_value * source_a, mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::join_element (region_a, branch_a, source_a, type_a);
+}
+
+mu::llvmc::skeleton::unit_value * mu::llvmc::skeleton::factory::unit_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::unit_value (branch_a, type_a);
+}
+
+mu::llvmc::skeleton::instruction * mu::llvmc::skeleton::factory::instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a)
+{
+	return new (GC) mu::llvmc::skeleton::instruction (region_a, branch_a, arguments_a, predicate_position_a);
+}
+
+mu::llvmc::skeleton::struct_type * mu::llvmc::skeleton::factory::struct_type ()
+{
+	return new (GC) mu::llvmc::skeleton::struct_type;
+}
+
+mu::llvmc::skeleton::call_element * mu::llvmc::skeleton::factory::call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::call_element (region_a, branch_a, source_a, type_a);
+}
+
+mu::llvmc::skeleton::integer_type * mu::llvmc::skeleton::factory::integer_type (size_t bits_a)
+{
+	return new (GC) mu::llvmc::skeleton::integer_type (bits_a);
+}
+
+mu::llvmc::skeleton::loop_element * mu::llvmc::skeleton::factory::loop_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::loop_element (region_a, branch_a, source_a, type_a);
+}
+
+mu::llvmc::skeleton::pointer_type * mu::llvmc::skeleton::factory::pointer_type (mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::pointer_type (type_a);
+}
+
+mu::llvmc::skeleton::function_type * mu::llvmc::skeleton::factory::function_type (mu::llvmc::skeleton::function * function_a)
+{
+	return new (GC) mu::llvmc::skeleton::function_type (function_a);
+}
+
+mu::llvmc::skeleton::constant_array * mu::llvmc::skeleton::factory::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::fixed_array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a)
+{
+	return new (GC) mu::llvmc::skeleton::constant_array (region_a, type_a, initializer_a);
+}
+
+mu::llvmc::skeleton::loop_parameter * mu::llvmc::skeleton::factory::loop_parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a)
+{
+	return new (GC) mu::llvmc::skeleton::loop_parameter (region_a, branch_a, type_a, name_a);
+}
+
+mu::llvmc::skeleton::switch_element * mu::llvmc::skeleton::factory::switch_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a)
+{
+	return new (GC) mu::llvmc::skeleton::switch_element (region_a, branch_a, source_a, value_a);
+}
+
+mu::llvmc::skeleton::global_variable * mu::llvmc::skeleton::factory::global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::constant * initializer_a)
+{
+	return new (GC) mu::llvmc::skeleton::global_variable (region_a, initializer_a);
+}
+
+mu::llvmc::skeleton::constant_integer * mu::llvmc::skeleton::factory::constant_integer (mu::core::region const & region_a, mu::llvmc::skeleton::integer_type * type_a, uint64_t value_a)
+{
+	return new (GC) mu::llvmc::skeleton::constant_integer (region_a, type_a, value_a);
+}
+
+mu::llvmc::skeleton::constant_pointer_null * mu::llvmc::skeleton::factory::constant_pointer_null (mu::core::region const & region_a, mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::constant_pointer_null (region_a, type_a);
+}
+
+mu::llvmc::skeleton::constant_aggregate_zero * mu::llvmc::skeleton::factory::constant_aggregate_zero (mu::core::region const & region_a, mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::constant_aggregate_zero (region_a, type_a);
+}
+
+mu::llvmc::skeleton::asm_c * mu::llvmc::skeleton::factory::asm_c (mu::llvmc::skeleton::type * type_a, mu::string const & text_a, mu::string const & constraint_a)
+{
+	return new (GC) mu::llvmc::skeleton::asm_c (type_a, text_a, constraint_a);
+}
+
+mu::llvmc::skeleton::named * mu::llvmc::skeleton::factory::named (mu::core::region const & region_a, mu::llvmc::skeleton::value * value_a, mu::string const & name_a)
+{
+	return new (GC) mu::llvmc::skeleton::named (region_a, value_a, name_a);
+}
+
+mu::llvmc::skeleton::marker * mu::llvmc::skeleton::factory::marker (mu::llvmc::instruction_type type_a)
+{
+	return new (GC) mu::llvmc::skeleton::marker (type_a);
+}
+
+mu::llvmc::skeleton::result * mu::llvmc::skeleton::factory::result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a)
+{
+	return new (GC) mu::llvmc::skeleton::result (type_a, value_a);
+}
+
+mu::llvmc::skeleton::function * mu::llvmc::skeleton::factory::function (mu::core::region const & region_a)
+{
+	return new (GC) mu::llvmc::skeleton::function (region_a);
+}
+
+mu::llvmc::skeleton::identity * mu::llvmc::skeleton::factory::identity ()
+{
+	return new (GC) mu::llvmc::skeleton::identity;
+}
+
+mu::llvmc::skeleton::parameter * mu::llvmc::skeleton::factory::parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a)
+{
+	return new (GC) mu::llvmc::skeleton::parameter (region_a, branch_a, type_a, name_a);
+}
+
+mu::llvmc::skeleton::predicate * mu::llvmc::skeleton::factory::predicate (mu::llvmc::predicates type_a)
+{
+	return new (GC) mu::llvmc::skeleton::predicate (type_a);
+}
+
+mu::llvmc::skeleton::unit_type * mu::llvmc::skeleton::factory::unit_type ()
+{
+	return new (GC) mu::llvmc::skeleton::unit_type;
+}
+
+mu::llvmc::skeleton::identity_element * mu::llvmc::skeleton::factory::identity_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a, mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::identity_element (branch_a, source_a, type_a);
+}
+
+mu::llvmc::skeleton::icmp * mu::llvmc::skeleton::factory::icmp (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::predicate * predicate_a, mu::llvmc::skeleton::value * left_a, mu::llvmc::skeleton::value * right_a)
+{
+	return new (GC) mu::llvmc::skeleton::icmp (region_a, branch_a, type_a, predicate_a, left_a, right_a);
+}
+
+mu::llvmc::skeleton::store * mu::llvmc::skeleton::factory::store (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * source_a, mu::llvmc::skeleton::value * destination_a)
+{
+	return new (GC) mu::llvmc::skeleton::store (region_a, branch_a, type_a, source_a, destination_a);
+}
+
+mu::llvmc::skeleton::undefined * mu::llvmc::skeleton::factory::undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a)
+{
+	return new (GC) mu::llvmc::skeleton::undefined (region_a, branch_a, type_a);
+}
+
+mu::llvmc::skeleton::template_c * mu::llvmc::skeleton::factory::template_c (mu::llvmc::template_context * base_a)
+{
+	return new (GC) mu::llvmc::skeleton::template_c (base_a);
+}
+
+mu::llvmc::skeleton::module * mu::llvmc::skeleton::factory::module ()
+{
+	return new (GC) mu::llvmc::skeleton::module;
+}
+
+mu::llvmc::skeleton::constant_int_c * mu::llvmc::skeleton::factory::constant_int_c ()
+{
+	return new (GC) mu::llvmc::skeleton::constant_int_c;
+}

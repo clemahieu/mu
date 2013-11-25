@@ -14,6 +14,8 @@
 
 #include <inttypes.h>
 
+mu::llvmc::skeleton::factory b;
+
 mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * global_a, mu::core::error * & result_a) :
 global (global_a),
 most_specific (global_a),

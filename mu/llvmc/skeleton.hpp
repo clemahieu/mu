@@ -543,11 +543,9 @@ namespace mu
 				virtual void module (mu::llvmc::skeleton::module * node_a);
 				virtual void constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a);
             };
-            template <class G>
             class factory
             {
             public:
-                factory (G placement_a);
                 mu::llvmc::skeleton::fixed_array_type * fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a);
                 mu::llvmc::skeleton::inline_asm * inline_asm (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::join_element * join_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::join_value * source_a, mu::llvmc::skeleton::type * type_a);
@@ -557,36 +555,31 @@ namespace mu
                 mu::llvmc::skeleton::call_element * call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::integer_type * integer_type (size_t bits_a);
                 mu::llvmc::skeleton::loop_element * loop_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, mu::llvmc::skeleton::type * type_a);
-                virtual void pointer_type (mu::llvmc::skeleton::pointer_type * node_a);
-                virtual void function_type (mu::llvmc::skeleton::function_type * node_a);
-                virtual void constant_array (mu::llvmc::skeleton::constant_array * node_a);
-                virtual void loop_parameter (mu::llvmc::skeleton::loop_parameter * node_a);
-                virtual void switch_element (mu::llvmc::skeleton::switch_element * node_a);
-                virtual void global_variable (mu::llvmc::skeleton::global_variable * node_a);
-                virtual void constant_integer (mu::llvmc::skeleton::constant_integer * node_a);
-                virtual void constant_pointer_null (mu::llvmc::skeleton::constant_pointer_null * node_a);
-                virtual void constant_aggregate_zero (mu::llvmc::skeleton::constant_aggregate_zero * node_a);
-                virtual void type (mu::llvmc::skeleton::type * node_a);
-                virtual void asm_c (mu::llvmc::skeleton::asm_c * node_a);
-                virtual void named (mu::llvmc::skeleton::named * node_a);
-                virtual void value (mu::llvmc::skeleton::value * node_a);
-                virtual void marker (mu::llvmc::skeleton::marker * node_a);
-                virtual void result (mu::llvmc::skeleton::result * node_a);
-                virtual void constant (mu::llvmc::skeleton::constant * node_a);
-                virtual void function (mu::llvmc::skeleton::function * node_a);
-                virtual void identity (mu::llvmc::skeleton::identity * node_a);
-                virtual void parameter (mu::llvmc::skeleton::parameter * node_a);
-                virtual void predicate (mu::llvmc::skeleton::predicate * node_a);
-                virtual void unit_type (mu::llvmc::skeleton::unit_type * node_a);
-                virtual void identity_element (mu::llvmc::skeleton::identity_element * node_a);
-                virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
-                virtual void store (mu::llvmc::skeleton::store * node_a);
-				virtual void undefined (mu::llvmc::skeleton::undefined * node_a);
-                virtual void template_c (mu::llvmc::skeleton::template_c * node_a);
-                virtual void global_value (mu::llvmc::skeleton::global_value * node_a);
-				virtual void module (mu::llvmc::skeleton::module * node_a);
-				virtual void constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a);
-                G placement;
+                mu::llvmc::skeleton::pointer_type * pointer_type (mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::function_type * function_type (mu::llvmc::skeleton::function * function_a);
+                mu::llvmc::skeleton::constant_array * constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::fixed_array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a);
+                mu::llvmc::skeleton::loop_parameter * loop_parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a);
+                mu::llvmc::skeleton::switch_element * switch_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a);
+                mu::llvmc::skeleton::global_variable * global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::constant * initializer_a);
+                mu::llvmc::skeleton::constant_integer * constant_integer (mu::core::region const & region_a, mu::llvmc::skeleton::integer_type * type_a, uint64_t value_a);
+                mu::llvmc::skeleton::constant_pointer_null * constant_pointer_null (mu::core::region const & region_a, mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::constant_aggregate_zero * constant_aggregate_zero (mu::core::region const & region_a, mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::asm_c * asm_c (mu::llvmc::skeleton::type * type_a, mu::string const & text_a, mu::string const & constraint_a);
+                mu::llvmc::skeleton::named * named (mu::core::region const & region_a, mu::llvmc::skeleton::value * value_a, mu::string const & name_a);
+                mu::llvmc::skeleton::marker * marker (mu::llvmc::instruction_type type_a);
+                mu::llvmc::skeleton::result * result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a);
+                mu::llvmc::skeleton::function * function (mu::core::region const & region_a);
+                mu::llvmc::skeleton::identity * identity ();
+                mu::llvmc::skeleton::parameter * parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a);
+                mu::llvmc::skeleton::predicate * predicate (mu::llvmc::predicates type_a);
+                mu::llvmc::skeleton::unit_type * unit_type ();
+                mu::llvmc::skeleton::identity_element * identity_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a, mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::icmp * icmp (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::predicate * predicate_a, mu::llvmc::skeleton::value * left_a, mu::llvmc::skeleton::value * right_a);
+                mu::llvmc::skeleton::store * store (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * source_a, mu::llvmc::skeleton::value * destination_a);
+				mu::llvmc::skeleton::undefined * undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::template_c * template_c (mu::llvmc::template_context * base_a);
+				mu::llvmc::skeleton::module * module ();
+				mu::llvmc::skeleton::constant_int_c * constant_int_c ();
             };
 			class namespace_visitor
 			{
