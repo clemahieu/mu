@@ -1314,7 +1314,7 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
 	return result;
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt_result (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt_result (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
     return adapt (type_a, error_a, message_a, error_type_a);
 }
@@ -1495,4 +1495,10 @@ predicate_position (arguments_a.size ())
 {
     arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
     arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
+}
+
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a)
+{
+    error_a = new (GC) mu::core::error_string (message_a, error_type_a, mu::empty_region);
+    return nullptr;
 }
