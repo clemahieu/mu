@@ -1488,3 +1488,11 @@ mu::llvmc::skeleton::constant_int_c * mu::llvmc::skeleton::factory::constant_int
 {
 	return new (GC) mu::llvmc::skeleton::constant_int_c;
 }
+
+mu::llvmc::skeleton::instruction::instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, std::initializer_list <mu::llvmc::skeleton::node *> arguments_a, std::initializer_list <mu::llvmc::skeleton::node *> predicates_a) :
+value (region_a, branch_a),
+predicate_position (arguments_a.size ())
+{
+    arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
+    arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
+}

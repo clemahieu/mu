@@ -158,6 +158,7 @@ namespace mu
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
+                instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, std::initializer_list <mu::llvmc::skeleton::node *> arguments, std::initializer_list <mu::llvmc::skeleton::node *> predicates);
                 instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * binary_integer_type ();
