@@ -6,6 +6,7 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::skeleton::factory b;
 mu::llvmc::skeleton::branch mu::llvmc::skeleton::branch::global = mu::llvmc::skeleton::branch (nullptr);
 
 mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::fixed_array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a) :
@@ -1308,8 +1309,29 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
 	}
 	else
 	{
-		error_a = new (GC) mu::core::error_string (message_a, error_type_a, region);
-		result = nullptr;
+        auto array (dynamic_cast <mu::llvmc::skeleton::array_type *> (type_a));
+        if (array != nullptr)
+        {
+            auto fixed_array (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (type ()));
+            if (fixed_array != nullptr)
+            {
+                auto storage (b.instruction (region, branch,
+                    {
+                        b.marker (mu::llvmc::instruction_type::alloca),
+                        type ()
+                    }, {}));
+            }
+            else
+            {
+                error_a = new (GC) mu::core::error_string (message_a, error_type_a, region);
+                result = nullptr;
+            }
+        }
+        else
+        {
+            error_a = new (GC) mu::core::error_string (message_a, error_type_a, region);
+            result = nullptr;
+        }
 	}
 	return result;
 }
@@ -1342,6 +1364,11 @@ mu::llvmc::skeleton::unit_value * mu::llvmc::skeleton::factory::unit_value (mu::
 mu::llvmc::skeleton::instruction * mu::llvmc::skeleton::factory::instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a)
 {
 	return new (GC) mu::llvmc::skeleton::instruction (region_a, branch_a, arguments_a, predicate_position_a);
+}
+
+mu::llvmc::skeleton::instruction * mu::llvmc::skeleton::factory::instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, std::initializer_list <mu::llvmc::skeleton::node *> arguments, std::initializer_list <mu::llvmc::skeleton::node *> predicates)
+{
+	return new (GC) mu::llvmc::skeleton::instruction (region_a, branch_a, arguments, predicates);
 }
 
 mu::llvmc::skeleton::struct_type * mu::llvmc::skeleton::factory::struct_type ()
@@ -1501,4 +1528,30 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skelet
 {
     error_a = new (GC) mu::core::error_string (message_a, error_type_a, mu::empty_region);
     return nullptr;
+}
+
+mu::llvmc::skeleton::array_type::array_type (mu::llvmc::skeleton::type * element_a) :
+element (element_a)
+{
+}
+
+void mu::llvmc::skeleton::array_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->array_type (this);
+}
+
+bool mu::llvmc::skeleton::array_type::operator == (mu::llvmc::skeleton::type const & other_a) const
+{
+    auto result (false);
+    auto array_type_l (dynamic_cast <mu::llvmc::skeleton::array_type const *> (&other_a));
+    if (array_type_l != nullptr)
+    {
+        result = *element == *array_type_l->element;
+    }
+    return result;
+}
+
+void mu::llvmc::skeleton::visitor::array_type (mu::llvmc::skeleton::array_type * node_a)
+{
+    type (node_a);
 }

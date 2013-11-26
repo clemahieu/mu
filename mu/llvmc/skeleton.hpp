@@ -149,6 +149,14 @@ namespace mu
                 mu::llvmc::skeleton::type * element;
                 size_t size;
             };
+            class array_type : public mu::llvmc::skeleton::type
+            {
+            public:
+                array_type (mu::llvmc::skeleton::type * element_a);
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+                mu::llvmc::skeleton::type * element;
+            };
 			class constant_array : public mu::llvmc::skeleton::constant
 			{
 			public:
@@ -508,6 +516,7 @@ namespace mu
             public:
                 void unexpected (mu::llvmc::skeleton::node * node_a);
                 virtual void node (mu::llvmc::skeleton::node * node_a);
+                virtual void array_type (mu::llvmc::skeleton::array_type * node_a);
                 virtual void fixed_array_type (mu::llvmc::skeleton::fixed_array_type * node_a);
                 virtual void inline_asm (mu::llvmc::skeleton::inline_asm * node_a);
                 virtual void join_element (mu::llvmc::skeleton::join_element * node_a);
@@ -555,6 +564,7 @@ namespace mu
                 mu::llvmc::skeleton::join_element * join_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::join_value * source_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::unit_value *  unit_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::instruction * instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
+                mu::llvmc::skeleton::instruction * instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, std::initializer_list <mu::llvmc::skeleton::node *> arguments, std::initializer_list <mu::llvmc::skeleton::node *> predicates);
                 mu::llvmc::skeleton::struct_type * struct_type ();
                 mu::llvmc::skeleton::call_element * call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::integer_type * integer_type (size_t bits_a);
