@@ -77,6 +77,7 @@ namespace mu
 			void set (mu::llvmc::ast::set * node_a) override;
             void entry (mu::llvmc::ast::entry * node_a) override;
 			void fixed_array_type (mu::llvmc::ast::fixed_array_type * type_a) override;
+			void array_type (mu::llvmc::ast::array_type * type_a) override;
 			void integer_type (mu::llvmc::ast::integer_type * type_a) override;
 			void pointer_type (mu::llvmc::ast::pointer_type * type_a) override;
 			void unit_type (mu::llvmc::ast::unit_type * unit_type) override;

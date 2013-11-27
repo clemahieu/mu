@@ -564,6 +564,7 @@ namespace mu
             class factory
             {
             public:
+                mu::llvmc::skeleton::array_type * array_type (mu::llvmc::skeleton::type * element_a);
                 mu::llvmc::skeleton::fixed_array_type * fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a);
                 mu::llvmc::skeleton::inline_asm * inline_asm (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::join_element * join_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::join_value * source_a, mu::llvmc::skeleton::type * type_a);

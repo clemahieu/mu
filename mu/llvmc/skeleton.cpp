@@ -1604,3 +1604,8 @@ mu::llvmc::skeleton::struct_type::struct_type (std::initializer_list <mu::llvmc:
 elements (types_a)
 {
 }
+
+mu::llvmc::skeleton::array_type * mu::llvmc::skeleton::factory::array_type (mu::llvmc::skeleton::type * element_a)
+{
+    return new (GC) mu::llvmc::skeleton::array_type (element_a);
+}

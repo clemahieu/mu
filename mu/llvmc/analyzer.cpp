@@ -436,6 +436,16 @@ void mu::llvmc::function_processor::asm_c (mu::llvmc::ast::asm_c * asm_l)
 	}
 }
 
+void mu::llvmc::module_processor::array_type (mu::llvmc::ast::array_type * type_a)
+{
+	auto element (process_type (type_a->element_type));
+	if (element != nullptr)
+	{
+        type_a->generated.push_back (b.array_type (element));
+        type_a->assigned = true;
+	}
+}
+
 void mu::llvmc::module_processor::fixed_array_type (mu::llvmc::ast::fixed_array_type * type_a)
 {
 	auto element (process_type (type_a->element_type));

@@ -3713,6 +3713,25 @@ TEST (llvmc_analyzer, struct_clone)
 	ASSERT_NE (struct2->names.end (), struct2->names.find (U"name1"));
 }
 
-TEST (llvmc_skeleton, array_adaption)
+TEST (llvmc_skeleton, array_type)
 {
+	mu::llvmc::analyzer analyzer;
+	mu::llvmc::ast::module module1;
+	mu::llvmc::ast::function function1;
+    mu::llvmc::ast::integer_type type1 (U"8");
+    mu::llvmc::ast::array_type type2 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
+    function1.parameters.push_back (&parameter1);
+	mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
+    module1.names [U"0"] = &element1;
+    module1.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
+    ASSERT_NE (nullptr, function2);
+    ASSERT_EQ (1, function2->parameters.size ());
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::array_type *> (function2->parameters [0]->type ()));
+    ASSERT_NE (nullptr, type3);
 }
