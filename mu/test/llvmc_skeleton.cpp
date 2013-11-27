@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <mu/llvmc/skeleton.hpp>
+#include <mu/core/error.hpp>
 
 TEST (llvmc_skeleton, most_specific_branch1)
 {

@@ -3062,7 +3062,7 @@ TEST (llvmc_analyzer, array_type)
     mu::llvmc::ast::function function1;
     mu::llvmc::ast::integer_type type1 (U"8");
     mu::llvmc::ast::number number1 (U"4");
-    mu::llvmc::ast::array_type type2 (&type1, &number1);
+    mu::llvmc::ast::fixed_array_type type2 (&type1, &number1);
     mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
@@ -3095,7 +3095,7 @@ TEST (llvmc_analyzer, constant_array)
     constant2.type = &type1;
     constant2.initializer.assign (4, &expression1);
     mu::llvmc::ast::number number1 (U"4");
-    mu::llvmc::ast::array_type type2 (&type1, &number1);
+    mu::llvmc::ast::fixed_array_type type2 (&type1, &number1);
     mu::llvmc::ast::result result1 (&type2, &constant2);
     function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
@@ -3711,4 +3711,8 @@ TEST (llvmc_analyzer, struct_clone)
 	ASSERT_NE (&struct1, struct2);
 	ASSERT_EQ (1, struct2->names.size ());
 	ASSERT_NE (struct2->names.end (), struct2->names.find (U"name1"));
+}
+
+TEST (llvmc_skeleton, array_adaption)
+{
 }

@@ -1329,19 +1329,29 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
 					{
 						b.marker (mu::llvmc::instruction_type::insertvalue),
 						b.undefined (region, branch, &function_a.module_m.module_m->double_reference),
-						b.instruction (region, branch,
-						{
-							b.marker (mu::llvmc::instruction_type::getelementptr),
-							storage,
-							b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 1)
-						}, {}),
+                        b.instruction (region, branch,
+                        {
+                            b.marker (mu::llvmc::instruction_type::bitcast),
+                            b.instruction (region, branch,
+                            {
+                                b.marker (mu::llvmc::instruction_type::getelementptr),
+                                storage,
+                                b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 1)
+                            }, {}),
+                            &function_a.module_m.module_m->single_reference
+                        }, {}),
 						b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 1)
 					}, {}),
 					b.instruction (region, branch,
 					{
-						b.marker (mu::llvmc::instruction_type::getelementptr),
-						storage,
-						b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 0)
+                        b.marker (mu::llvmc::instruction_type::bitcast),
+                        b.instruction (region, branch,
+                        {
+                            b.marker (mu::llvmc::instruction_type::getelementptr),
+                            storage,
+                            b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 0)
+                        }, {}),
+                        &function_a.module_m.module_m->single_reference
 					}, {}),
 					b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 0)
 				},

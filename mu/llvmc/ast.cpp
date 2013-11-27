@@ -127,7 +127,7 @@ constraints (constraints_a)
 {
 }
 
-mu::llvmc::ast::array_type::array_type (mu::llvmc::ast::node * element_type_a, mu::llvmc::ast::node * size_a, mu::llvmc::template_context * template_a) :
+mu::llvmc::ast::fixed_array_type::fixed_array_type (mu::llvmc::ast::node * element_type_a, mu::llvmc::ast::node * size_a, mu::llvmc::template_context * template_a) :
 node (template_a),
 element_type (element_type_a),
 size (size_a)
@@ -157,7 +157,7 @@ void mu::llvmc::ast::visitor::node (mu::llvmc::ast::node * node_a)
     unexpected (node_a);
 }
 
-void mu::llvmc::ast::visitor::array_type (mu::llvmc::ast::array_type * node_a)
+void mu::llvmc::ast::visitor::fixed_array_type (mu::llvmc::ast::fixed_array_type * node_a)
 {
     node (node_a);
 }
@@ -277,9 +277,9 @@ void mu::llvmc::ast::node::visit (mu::llvmc::ast::visitor * visitor_a)
     visitor_a->node (this);
 }
 
-void mu::llvmc::ast::array_type::visit (mu::llvmc::ast::visitor * visitor_a)
+void mu::llvmc::ast::fixed_array_type::visit (mu::llvmc::ast::visitor * visitor_a)
 {
-    visitor_a->array_type (this);
+    visitor_a->fixed_array_type (this);
 }
 
 void mu::llvmc::ast::constant_int::visit (mu::llvmc::ast::visitor * visitor_a)
@@ -428,9 +428,9 @@ mu::llvmc::ast::node * mu::llvmc::ast::function::do_clone (mu::llvmc::clone_cont
 	return result;
 }
 
-mu::llvmc::ast::node * mu::llvmc::ast::array_type::do_clone (mu::llvmc::clone_context & context_a)
+mu::llvmc::ast::node * mu::llvmc::ast::fixed_array_type::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::array_type (*this, context_a));
+	auto result (new (GC) mu::llvmc::ast::fixed_array_type (*this, context_a));
 	return result;
 }
 
@@ -530,7 +530,7 @@ mu::llvmc::ast::node * mu::llvmc::ast::undefined::do_clone (mu::llvmc::clone_con
 	return result;
 }
 
-mu::llvmc::ast::array_type::array_type (mu::llvmc::ast::array_type const & other_a, mu::llvmc::clone_context & context_a) :
+mu::llvmc::ast::fixed_array_type::fixed_array_type (mu::llvmc::ast::fixed_array_type const & other_a, mu::llvmc::clone_context & context_a) :
 node (other_a.template_m),
 element_type (other_a.element_type->clone (context_a)),
 size (other_a.size->clone (context_a))
@@ -888,7 +888,7 @@ void mu::llvmc::ast::visitor::set (mu::llvmc::ast::set * node_a)
 	node (node_a);
 }
 
-mu::llvmc::ast::array_type::array_type (mu::llvmc::template_context * context_a) :
+mu::llvmc::ast::fixed_array_type::fixed_array_type (mu::llvmc::template_context * context_a) :
 node (context_a)
 {
 }

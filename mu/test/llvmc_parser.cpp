@@ -1710,7 +1710,7 @@ TEST (llvmc_parser, array_type)
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     ASSERT_NE (nullptr, parameter1);
-    auto array_type1 (dynamic_cast <mu::llvmc::ast::array_type *> (parameter1->type));
+    auto array_type1 (dynamic_cast <mu::llvmc::ast::fixed_array_type *> (parameter1->type));
     ASSERT_NE (nullptr, array_type1);
     auto integer_type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (array_type1->element_type));
     ASSERT_NE (nullptr, integer_type1);

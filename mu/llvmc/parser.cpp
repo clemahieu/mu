@@ -1494,7 +1494,7 @@ mu::core::error * mu::llvmc::parser::parse_left_square_required (char32_t const 
 mu::llvmc::node_result mu::llvmc::array_type::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     assert (data_a.empty ());
-    auto node (new (GC) mu::llvmc::ast::array_type (parser_a.current_template));
+    auto node (new (GC) mu::llvmc::ast::fixed_array_type (parser_a.current_template));
     node->region.first = region_a.first;
     mu::llvmc::node_result result ({nullptr, nullptr});
     result.error = parser_a.parse_ast_or_refer (
