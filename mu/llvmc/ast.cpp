@@ -999,3 +999,37 @@ member (member_a),
 node_m (node_a)
 {
 }
+
+mu::llvmc::ast::array_type::array_type (mu::llvmc::template_context * template_a) :
+node (template_a)
+{
+}
+
+mu::llvmc::ast::array_type::array_type (mu::llvmc::ast::array_type const & other_a, mu::llvmc::clone_context & context_a) :
+node (other_a.template_m),
+element_type (other_a.element_type->clone (context_a))
+{
+}
+
+mu::llvmc::ast::array_type::array_type (mu::llvmc::ast::node * element_type_a, mu::llvmc::template_context * template_a) :
+node (template_a),
+element_type (element_type_a)
+{
+    
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::array_type::do_clone (mu::llvmc::clone_context & context_a)
+{
+    auto result (new (GC) mu::llvmc::ast::array_type (*this, context_a));
+    return result;
+}
+
+void mu::llvmc::ast::array_type::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->array_type (this);
+}
+
+void mu::llvmc::ast::visitor::array_type (mu::llvmc::ast::array_type * node_a)
+{
+    node (node_a);
+}

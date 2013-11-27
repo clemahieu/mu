@@ -186,6 +186,16 @@ namespace mu
                 mu::llvmc::ast::node * element_type;
                 mu::llvmc::ast::node * size;
             };
+            class array_type : public mu::llvmc::ast::node
+            {
+            public:
+                array_type (mu::llvmc::template_context * template_a = nullptr);
+                array_type (mu::llvmc::ast::array_type const & other_a, mu::llvmc::clone_context & context_a);
+                array_type (mu::llvmc::ast::node * element_type_a, mu::llvmc::template_context * template_a = nullptr);
+                mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
+                void visit (mu::llvmc::ast::visitor * visitor_a) override;
+                mu::llvmc::ast::node * element_type;
+            };
             class unit_type : public mu::llvmc::ast::node
             {
             public:
@@ -354,6 +364,7 @@ namespace mu
                 void unexpected (mu::llvmc::ast::node * node_a);
                 virtual void node (mu::llvmc::ast::node * node_a);
                 virtual void fixed_array_type (mu::llvmc::ast::fixed_array_type * node_a);
+                virtual void array_type (mu::llvmc::ast::array_type * node_a);
                 virtual void constant_int (mu::llvmc::ast::constant_int * node_a);
                 virtual void integer_type (mu::llvmc::ast::integer_type * node_a);
                 virtual void pointer_type (mu::llvmc::ast::pointer_type * node_a);
