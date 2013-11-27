@@ -1281,7 +1281,7 @@ void mu::llvmc::function_processor::process_results ()
 					auto value (process_value (result_a->value));
 					if (value != nullptr)
 					{
-                        auto new_value (value->adapt_result (type, module_m, U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch));
+                        auto new_value (value->adapt_result (type, *this, U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch));
                         if (new_value != nullptr)
                         {
                             function_m->results.push_back (b.result (type, new_value));
@@ -1404,7 +1404,7 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 				auto argument_value (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
 				if (argument_value != nullptr)
 				{
-					auto new_value (argument_value->adapt (function_type->function->parameters [i]->type (), module_m, U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type));
+					auto new_value (argument_value->adapt (function_type->function->parameters [i]->type (), *this, U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type));
 					*k = new_value;
 				}
 				else

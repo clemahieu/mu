@@ -660,7 +660,9 @@ entry (nullptr),
 integer_1_type (1),
 integer_8_type (8),
 integer_32_type (32),
-the_unit_value (&mu::llvmc::skeleton::branch::global, &the_unit_type)
+the_unit_value (&mu::llvmc::skeleton::branch::global, &the_unit_type),
+single_reference (&integer_8_type),
+double_reference ({&single_reference, &single_reference})
 {
 }
 
@@ -1300,7 +1302,7 @@ void mu::llvmc::skeleton::struct_type::named (mu::llvmc::skeleton::namespace_vis
 	naming_a->named (this);
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * type_a, mu::llvmc::module_processor & module_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
 	mu::llvmc::skeleton::value * result;
 	if (*type () == *type_a)
@@ -1316,29 +1318,61 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
             if (fixed_array != nullptr)
             {
                 auto storage (b.instruction (region, branch,
-                    {
-                        b.marker (mu::llvmc::instruction_type::alloca),
-                        type ()
-                    }, {}));
+				{
+					b.marker (mu::llvmc::instruction_type::alloca),
+					type ()
+				}, {}));
+				auto reference (b.instruction (region, branch,
+				{
+					b.marker (mu::llvmc::instruction_type::insertvalue),
+					b.instruction (region, branch,
+					{
+						b.marker (mu::llvmc::instruction_type::insertvalue),
+						b.undefined (region, branch, &function_a.module_m.module_m->double_reference),
+						b.instruction (region, branch,
+						{
+							b.marker (mu::llvmc::instruction_type::getelementptr),
+							storage,
+							b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 1)
+						}, {}),
+						b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 1)
+					}, {}),
+					b.instruction (region, branch,
+					{
+						b.marker (mu::llvmc::instruction_type::getelementptr),
+						storage,
+						b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 0)
+					}, {}),
+					b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 0)
+				},
+				{
+					b.instruction (region, branch,
+					{
+						b.marker (mu::llvmc::instruction_type::store),
+						this,
+						storage
+					}, {})
+				}));
+				result = reference;
             }
             else
             {
-                module_a.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
+                function_a.module_m.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
                 result = nullptr;
             }
         }
         else
         {
-            module_a.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
+            function_a.module_m.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
             result = nullptr;
         }
 	}
 	return result;
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt_result (mu::llvmc::skeleton::type * type_a, mu::llvmc::module_processor & module_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt_result (mu::llvmc::skeleton::type * type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
-    return adapt (type_a, module_a, message_a, error_type_a);
+    return adapt (type_a, function_a, message_a, error_type_a);
 }
 
 mu::llvmc::skeleton::fixed_array_type * mu::llvmc::skeleton::factory::fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a)
@@ -1524,9 +1558,9 @@ predicate_position (arguments_a.size ())
     arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skeleton::type * type_a, mu::llvmc::module_processor & module_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skeleton::type * type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
-    module_a.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, mu::empty_region);
+    function_a.module_m.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, mu::empty_region);
     return nullptr;
 }
 
@@ -1554,4 +1588,9 @@ bool mu::llvmc::skeleton::array_type::operator == (mu::llvmc::skeleton::type con
 void mu::llvmc::skeleton::visitor::array_type (mu::llvmc::skeleton::array_type * node_a)
 {
     type (node_a);
+}
+
+mu::llvmc::skeleton::struct_type::struct_type (std::initializer_list <mu::llvmc::skeleton::type *> types_a) :
+elements (types_a)
+{
 }
