@@ -6,7 +6,7 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::skeleton::factory b;
+static mu::llvmc::skeleton::factory b;
 mu::llvmc::skeleton::branch mu::llvmc::skeleton::branch::global = mu::llvmc::skeleton::branch (nullptr);
 
 mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::fixed_array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a) :
@@ -1300,7 +1300,7 @@ void mu::llvmc::skeleton::struct_type::named (mu::llvmc::skeleton::namespace_vis
 	naming_a->named (this);
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * type_a, mu::llvmc::module_processor & module_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
 	mu::llvmc::skeleton::value * result;
 	if (*type () == *type_a)
@@ -1323,22 +1323,22 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
             }
             else
             {
-                error_a = new (GC) mu::core::error_string (message_a, error_type_a, region);
+                module_a.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
                 result = nullptr;
             }
         }
         else
         {
-            error_a = new (GC) mu::core::error_string (message_a, error_type_a, region);
+            module_a.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
             result = nullptr;
         }
 	}
 	return result;
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt_result (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt_result (mu::llvmc::skeleton::type * type_a, mu::llvmc::module_processor & module_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
-    return adapt (type_a, error_a, message_a, error_type_a);
+    return adapt (type_a, module_a, message_a, error_type_a);
 }
 
 mu::llvmc::skeleton::fixed_array_type * mu::llvmc::skeleton::factory::fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a)
@@ -1524,9 +1524,9 @@ predicate_position (arguments_a.size ())
     arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skeleton::type * type_a, mu::core::error * & error_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skeleton::type * type_a, mu::llvmc::module_processor & module_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
-    error_a = new (GC) mu::core::error_string (message_a, error_type_a, mu::empty_region);
+    module_a.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, mu::empty_region);
     return nullptr;
 }
 
