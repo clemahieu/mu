@@ -3736,7 +3736,7 @@ TEST (llvmc_skeleton, array_type)
     ASSERT_NE (nullptr, type3);
 }
 
-TEST (llvmc_skeleton, array_adaption)
+/*TEST (llvmc_skeleton, array_adaption)
 {
 	mu::llvmc::analyzer analyzer;
 	mu::llvmc::ast::module module1;
@@ -3750,7 +3750,7 @@ TEST (llvmc_skeleton, array_adaption)
     module1.globals.push_back (&element1);
     
     mu::llvmc::ast::function function2;
-    mu::llvmc::ast::expression expression1
+    mu::llvmc::ast::expression expression1;
     
     auto result (analyzer.analyze (&module1));
     ASSERT_EQ (nullptr, result.error);
@@ -3761,4 +3761,4 @@ TEST (llvmc_skeleton, array_adaption)
     ASSERT_EQ (1, function2->parameters.size ());
     auto type3 (dynamic_cast <mu::llvmc::skeleton::array_type *> (function2->parameters [0]->type ()));
     ASSERT_NE (nullptr, type3);
-}
+}*/

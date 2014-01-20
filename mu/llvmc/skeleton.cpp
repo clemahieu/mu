@@ -1302,16 +1302,16 @@ void mu::llvmc::skeleton::struct_type::named (mu::llvmc::skeleton::namespace_vis
 	naming_a->named (this);
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
 	mu::llvmc::skeleton::value * result;
-	if (*type () == *type_a)
+	if (*type () == *target_type_a)
 	{
 		result = this;
 	}
 	else
 	{
-        auto array (dynamic_cast <mu::llvmc::skeleton::array_type *> (type_a));
+        auto array (dynamic_cast <mu::llvmc::skeleton::array_type *> (target_type_a));
         if (array != nullptr)
         {
             auto fixed_array (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (type ()));
@@ -1380,9 +1380,9 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
 	return result;
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt_result (mu::llvmc::skeleton::type * type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt_result (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
-    return adapt (type_a, function_a, message_a, error_type_a);
+    return adapt (target_type_a, function_a, message_a, error_type_a);
 }
 
 mu::llvmc::skeleton::fixed_array_type * mu::llvmc::skeleton::factory::fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a)
@@ -1568,7 +1568,7 @@ predicate_position (arguments_a.size ())
     arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skeleton::type * type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, char32_t const * message_a, mu::core::error_type error_type_a)
 {
     function_a.module_m.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, mu::empty_region);
     return nullptr;
