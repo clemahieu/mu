@@ -1311,71 +1311,8 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
 	}
 	else
 	{
-        auto array (dynamic_cast <mu::llvmc::skeleton::array_type *> (target_type_a));
-        if (array != nullptr)
-        {
-            auto fixed_array (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (type ()));
-            if (fixed_array != nullptr)
-            {
-                auto storage (b.instruction (region, branch,
-				{
-					b.marker (mu::llvmc::instruction_type::alloca),
-					type ()
-				}, {}));
-				auto reference (b.instruction (region, branch,
-				{
-					b.marker (mu::llvmc::instruction_type::insertvalue),
-					b.instruction (region, branch,
-					{
-						b.marker (mu::llvmc::instruction_type::insertvalue),
-						b.undefined (region, branch, &function_a.module_m.module_m->double_reference),
-                        b.instruction (region, branch,
-                        {
-                            b.marker (mu::llvmc::instruction_type::bitcast),
-                            b.instruction (region, branch,
-                            {
-                                b.marker (mu::llvmc::instruction_type::getelementptr),
-                                storage,
-                                b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 1)
-                            }, {}),
-                            &function_a.module_m.module_m->single_reference
-                        }, {}),
-						b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 1)
-					}, {}),
-					b.instruction (region, branch,
-					{
-                        b.marker (mu::llvmc::instruction_type::bitcast),
-                        b.instruction (region, branch,
-                        {
-                            b.marker (mu::llvmc::instruction_type::getelementptr),
-                            storage,
-                            b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 0)
-                        }, {}),
-                        &function_a.module_m.module_m->single_reference
-					}, {}),
-					b.constant_integer (region, &function_a.module_m.module_m->integer_32_type, 0)
-				},
-				{
-					b.instruction (region, branch,
-					{
-						b.marker (mu::llvmc::instruction_type::store),
-						this,
-						storage
-					}, {})
-				}));
-				result = reference;
-            }
-            else
-            {
-                function_a.module_m.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
-                result = nullptr;
-            }
-        }
-        else
-        {
-            function_a.module_m.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
-            result = nullptr;
-        }
+        function_a.module_m.global_m.error = new (GC) mu::core::error_string (message_a, error_type_a, region);
+        result = nullptr;
 	}
 	return result;
 }
@@ -1574,38 +1511,7 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::node::adapt (mu::llvmc::skelet
     return nullptr;
 }
 
-mu::llvmc::skeleton::array_type::array_type (mu::llvmc::skeleton::type * element_a) :
-element (element_a)
-{
-}
-
-void mu::llvmc::skeleton::array_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
-{
-    visitor_a->array_type (this);
-}
-
-bool mu::llvmc::skeleton::array_type::operator == (mu::llvmc::skeleton::type const & other_a) const
-{
-    auto result (false);
-    auto array_type_l (dynamic_cast <mu::llvmc::skeleton::array_type const *> (&other_a));
-    if (array_type_l != nullptr)
-    {
-        result = *element == *array_type_l->element;
-    }
-    return result;
-}
-
-void mu::llvmc::skeleton::visitor::array_type (mu::llvmc::skeleton::array_type * node_a)
-{
-    type (node_a);
-}
-
 mu::llvmc::skeleton::struct_type::struct_type (std::initializer_list <mu::llvmc::skeleton::type *> types_a) :
 elements (types_a)
 {
-}
-
-mu::llvmc::skeleton::array_type * mu::llvmc::skeleton::factory::array_type (mu::llvmc::skeleton::type * element_a)
-{
-    return new (GC) mu::llvmc::skeleton::array_type (element_a);
 }
