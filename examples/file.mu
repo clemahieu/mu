@@ -154,17 +154,17 @@ let write-test-string global ascii {%}Hello world!
 %
 
 let write-string function
-[int64 fd ptr string-type str]
+[int64 fd ptr ` astring type str]
 [
-	let result [write fd [string-data-get str] [string-size-get str]]
+	let result [write fd [` astring data [load str]] [` astring size [load str]]]
 ]
 [[;result]]
 
 let write-test function
 [int64 fd]
 [
-	let initial [string-new-set [bitcast write-test-string ptr int8] [cint int64 #13]]
-	let full [string-concatenate initial initial]
+	let initial [` string new-set [bitcast write-test-string ptr int8] [cint int64 #13]]
+	let full [` string concatenate initial initial]
 	let result [write-string fd full]
 ]
 [[;result]]
@@ -312,74 +312,6 @@ let sizeof template [sizeof-type]
 [
 	[sub [ptrtoint [getelementptr let base null ptr sizeof-type [cint int32 #1]] int64] [ptrtoint [getelementptr base [cint int32 #0]] int64]]
 ]
-let string-type struct [
-	data ptr int8 
-	size int64]
-
-let string-size-set function
-[ptr string-type str int64 val]
-[
-	let result [store val [getelementptr str [cint int32 #0] [cint int32 #1]]]
-]
-[[; result]]
-
-let string-size-get function
-[ptr string-type str]
-[
-	let result [load [getelementptr str [cint int32 #0] [cint int32 #1]]]
-]
-[[int64 result]]
-
-let string-data-set function
-[ptr string-type str ptr int8 val]
-[
-	let result [store val [getelementptr str [cint int32 #0] [cint int32 #0]]]
-]
-[[; result]]
-
-let string-data-get function
-[ptr string-type str]
-[
-	let result [load [getelementptr str [cint int32 #0] [cint int32 #0]]]
-]
-[[ptr int8 result]]
-
-let string-new function
-[]
-[
-	let str [string-new-set null ptr int8 [cint int64 #0]]
-]
-[[ptr string-type str]]
-
-let string-new-set function
-[ptr int8 str-a int64 size-a]
-[
-	let str [bitcast [lalloc [sizeof string-type]] ptr string-type]
-	let data [string-data-set str str-a]
-	let size [string-size-set str size-a]
-]
-[[ptr string-type str; data size]]
-
-let string-resize function
-[ptr string-type str int64 size]
-[
-	let new-buffer [lalloc size]
-	let old-buffer [string-data-get str]
-	let copied [memcopy old-buffer new-buffer [umin size let old-size [string-size-get str]]]
-	let data [string-data-set str new-buffer; old-buffer]
-	let size-l [string-size-set str size; old-size]
-	let freed [lfree old-buffer; copied]
-]
-[[; data size-l freed]]
-
-let string-concatenate function
-[ptr string-type left ptr string-type right]
-[
-	let resized [string-resize let result [string-new] [add let left-size [string-size-get left] let right-size [string-size-get right]]]
-	let copied1 [memcopy [string-data-get left] [string-data-get result; resized] left-size]
-	let copied2 [memcopy [string-data-get right] [getelementptr [string-data-get result; resized] left-size] right-size]
-]
-[[ptr string-type result; copied1 copied2]]
 
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
@@ -448,57 +380,63 @@ let vector-template template [template-type]
 	]
 ]
 
-let string module
+let string-template template [element_type]
 [
-	let type struct [data ptr int32 
-		size size-t]
-		
-	let empty function
-	[type string-a]
+	module
 	[
-		let result [icmp ieq [extractvalue string-a ` type size] [cint size-t #0]] 
+		let type struct [data ptr int32 
+			size size-t]
+			
+		let empty function
+		[type string-a]
+		[
+			let result [icmp ieq [extractvalue string-a ` type size] [cint size-t #0]] 
+		]
+		[[int1 result]]
+
+		let size function
+		[type string-a]
+		[
+			let result [extractvalue string-a ` type size]
+		]
+		[[size-t result]]
+
+		let data function
+		[type string-a]
+		[
+			let result [extractvalue string-a ` type data]
+		]
+		[[ptr int32 result]]
+
+		:(let append function
+		[ptr type string-a ptr type other-a]
+		[
+			let new-data [lalloc let new-size [add let string-size [size string-a] let other-size [size other-a]]]
+			let copied1 [memcopy let string-data [bitcast [data string-a] ptr int8] new-data string-size]
+			let copied2 [memcopy [bitcast [data other-a] ptr int8] [ptrfromint [ptrtoint new-data iptr] ptr int8] other-size]
+			let assigned [store [bitcast new-data ptr int32] [getelementptr string-a [cint int32 #0] ` type data]]
+			let freed [lfree string-data; copied1]
+		]
+		[[; copied2 assigned freed]]:)
+
+		let new-set function
+		[ptr int32 data-a size-t size-a]
+		[
+			let result [insertvalue [insertvalue undefined type data-a [cint int32 #0]] size-a [cint int32 #1]]
+		]
+		[[type result]]
+
+		let new function
+		[]
+		[
+			let result [new-set [bitcast [lalloc [cint size-t #0]] ptr int32] [cint size-t #0]]
+		]
+		[[type result]]
 	]
-	[[int1 result]]
-	
-	let size function
-	[type string-a]
-	[
-		let result [extractvalue string-a ` type size]
-	]
-	[[size-t result]]
-	
-	let data function
-	[type string-a]
-	[
-		let result [extractvalue string-a ` type data]
-	]
-	[[ptr int32 result]]
-	
-	:(let append function
-	[ptr type string-a ptr type other-a]
-	[
-		let new-data [lalloc let new-size [add let string-size [size string-a] let other-size [size other-a]]]
-		let copied1 [memcopy let string-data [bitcast [data string-a] ptr int8] new-data string-size]
-		let copied2 [memcopy [bitcast [data other-a] ptr int8] [ptrfromint [ptrtoint new-data iptr] ptr int8] other-size]
-		let assigned [store [bitcast new-data ptr int32] [getelementptr string-a [cint int32 #0] ` type data]]
-		let freed [lfree string-data; copied1]
-	]
-	[[; copied2 assigned freed]]:)
-	
-	let new-set function
-	[ptr int32 data-a size-t size-a]
-	[
-		let result [insertvalue [insertvalue undefined type data-a [cint int32 #0]] size-a [cint int32 #1]]
-	]
-	[[type result]]
-	
-	let new function
-	[]
-	[
-		let result [new-set [bitcast [lalloc [cint size-t #0]] ptr int32] [cint size-t #0]]
-	]
-	[[type result]]
 ]
+
+let string [string-template int32]
+let astring [string-template int8]
 
 let vector<int64> [vector-template int64]
 let vector<int32> [vector-template int32]

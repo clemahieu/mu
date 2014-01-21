@@ -3712,3 +3712,23 @@ TEST (llvmc_analyzer, struct_clone)
 	ASSERT_EQ (1, struct2->names.size ());
 	ASSERT_NE (struct2->names.end (), struct2->names.find (U"name1"));
 }
+
+TEST (llvmc_analyzer, function_prototype_error_overwrite)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    function.region = mu::core::region (2, 2, 2, 5, 5, 5);
+	mu::llvmc::ast::unit unit1;
+    mu::llvmc::ast::expression expression1 ({&unit1}, {});
+    mu::llvmc::ast::parameter parameter1 (U"p0", &expression1);
+    parameter1.region = mu::core::region (3, 3, 3, 4, 4, 4);
+    function.parameters.push_back (&parameter1);
+    mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+	auto error (result.error);
+	ASSERT_EQ (mu::core::error_type::only_function_pointers_can_be_target_of_call, error->type ());
+}

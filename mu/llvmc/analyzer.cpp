@@ -265,16 +265,19 @@ void mu::llvmc::function_processor::process_parameters ()
 		auto parameter (mu::cast <mu::llvmc::ast::parameter> (*k));
         auto node (parameter->type);
 		auto type_l (module_m.process_type (node));
-		if (type_l != nullptr)
+		if (module_m.global_m.error == nullptr)
 		{
-			auto parameter_s (b.parameter (parameter->region, function_m->entry, type_l, parameter->name));
-			parameter->generated.push_back (parameter_s);
-			parameter->assigned = true;
-			function_m->parameters.push_back (parameter_s);
-		}
-		else
-		{
-			module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_type_in_parameters, node->region);
+			if (type_l != nullptr)
+			{
+				auto parameter_s (b.parameter (parameter->region, function_m->entry, type_l, parameter->name));
+				parameter->generated.push_back (parameter_s);
+				parameter->assigned = true;
+				function_m->parameters.push_back (parameter_s);
+			}
+			else
+			{
+				module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_type_in_parameters, node->region);
+			}
 		}
 	}
 }
