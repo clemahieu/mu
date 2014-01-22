@@ -380,11 +380,11 @@ let vector-template template [template-type]
 	]
 ]
 
-let string-template template [element_type]
+let string-template template [element-type]
 [
 	module
 	[
-		let type struct [data ptr int32 
+		let type struct [data ptr element-type 
 			size size-t]
 			
 		let empty function
@@ -406,7 +406,7 @@ let string-template template [element_type]
 		[
 			let result [extractvalue string-a ` type data]
 		]
-		[[ptr int32 result]]
+		[[ptr element-type result]]
 
 		:(let append function
 		[ptr type string-a ptr type other-a]
@@ -420,7 +420,7 @@ let string-template template [element_type]
 		[[; copied2 assigned freed]]:)
 
 		let new-set function
-		[ptr int32 data-a size-t size-a]
+		[ptr element-type data-a size-t size-a]
 		[
 			let result [insertvalue [insertvalue undefined type data-a [cint int32 #0]] size-a [cint int32 #1]]
 		]
@@ -429,7 +429,7 @@ let string-template template [element_type]
 		let new function
 		[]
 		[
-			let result [new-set [bitcast [lalloc [cint size-t #0]] ptr int32] [cint size-t #0]]
+			let result [new-set [bitcast [lalloc [cint size-t #0]] ptr element-type] [cint size-t #0]]
 		]
 		[[type result]]
 	]
