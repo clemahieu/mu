@@ -408,16 +408,20 @@ let string-template template [element-type]
 		]
 		[[ptr element-type result]]
 
-		:(let append function
-		[ptr type string-a ptr type other-a]
+		let append function
+		[type string-a type other-a]
 		[
-			let new-data [lalloc let new-size [add let string-size [size string-a] let other-size [size other-a]]]
-			let copied1 [memcopy let string-data [bitcast [data string-a] ptr int8] new-data string-size]
-			let copied2 [memcopy [bitcast [data other-a] ptr int8] [ptrfromint [ptrtoint new-data iptr] ptr int8] other-size]
-			let assigned [store [bitcast new-data ptr int32] [getelementptr string-a [cint int32 #0] ` type data]]
+			let string-size [size string-a]
+			let other-size [size other-a]
+			let new-size [add string-size other-size]
+			let new-data [lalloc new-size]
+			let string-data [bitcast [data string-a] ptr int8]
+			let copied1 [memcopy string-data new-data string-size]
+			let copied2 [memcopy [bitcast [data other-a] ptr int8] [bitcast [getelementptr new-data string-size] ptr int8] other-size]
+			let result [new-set new-data new-size]
 			let freed [lfree string-data; copied1]
 		]
-		[[; copied2 assigned freed]]:)
+		[[type result; copied2 freed]]
 
 		let new-set function
 		[ptr element-type data-a size-t size-a]
