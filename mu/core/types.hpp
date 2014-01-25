@@ -8,12 +8,14 @@
 
 #include <boost/circular_buffer.hpp>
 #include <boost/cast.hpp>
+#include <boost/format.hpp>
 
 #include <gc_allocator.h>
 
 namespace mu
 {
-    typedef std::basic_string <char32_t> string;
+    using string = std::basic_string <char32_t>;
+	using format = boost::basic_format <char32_t>;
     template <typename T>
     using vector = std::vector <T, gc_allocator <T>>;
     template <typename T>

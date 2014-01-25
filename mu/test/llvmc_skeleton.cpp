@@ -52,3 +52,73 @@ TEST (llvmc_analyzer, error_integer_type_match_pointer)
     mu::llvmc::skeleton::pointer_type type4 (&type3);
     ASSERT_NE (type1, type4);
 }
+
+TEST (llvmc_analyzer, function_type_name)
+{
+	mu::llvmc::skeleton::function function (mu::empty_region);
+	mu::llvmc::skeleton::function_type function_type (&function);
+	auto name (function_type.name ());
+	ASSERT_EQ (U"function [][]", name);
+}
+
+TEST (llvmc_analyzer, function_type_name2)
+{
+	mu::llvmc::skeleton::function function (mu::empty_region);
+	mu::llvmc::skeleton::function_type function_type (&function);
+	mu::llvmc::skeleton::integer_type type1 (8);
+	mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function.entry, &type1, U"p0");
+	function.parameters.push_back (&parameter1);
+	mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function.entry, &type1, U"p1");
+	function.parameters.push_back (&parameter2);
+	auto name (function_type.name ());
+	ASSERT_EQ (U"function [int8 int8][]", name);
+}
+
+TEST (llvmc_analyzer, function_type_name3)
+{
+	mu::llvmc::skeleton::function function (mu::empty_region);
+	mu::llvmc::skeleton::function_type function_type (&function);
+	mu::llvmc::skeleton::integer_type type1 (8);
+	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
+	mu::llvmc::skeleton::result result1 (&type1, &constant1);
+	function.results.push_back (&result1);
+	mu::llvmc::skeleton::result result2 (&type1, &constant1);
+	function.results.push_back (&result2);
+	function.add_predicate_offset ();
+	function.add_branch_end ();
+	auto name (function_type.name ());
+	ASSERT_EQ (U"function [][[int8 int8]]", name);
+}
+
+TEST (llvmc_analyzer, function_type_name4)
+{
+	mu::llvmc::skeleton::function function (mu::empty_region);
+	mu::llvmc::skeleton::function_type function_type (&function);
+	mu::llvmc::skeleton::integer_type type1 (8);
+	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
+	mu::llvmc::skeleton::result result1 (&type1, &constant1);
+	function.results.push_back (&result1);
+	function.add_predicate_offset ();
+	function.results.push_back (&constant1);
+	function.add_branch_end ();
+	auto name (function_type.name ());
+	ASSERT_EQ (U"function [][[int8]]", name);
+}
+
+TEST (llvmc_analyzer, function_type_name5)
+{
+	mu::llvmc::skeleton::function function (mu::empty_region);
+	mu::llvmc::skeleton::function_type function_type (&function);
+	mu::llvmc::skeleton::integer_type type1 (8);
+	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
+	mu::llvmc::skeleton::result result1 (&type1, &constant1);
+	function.results.push_back (&result1);
+	mu::llvmc::skeleton::result result2 (&type1, &constant1);
+	function.add_predicate_offset ();
+	function.add_branch_end ();
+	function.results.push_back (&result2);
+	function.add_predicate_offset ();
+	function.add_branch_end ();
+	auto name (function_type.name ());
+	ASSERT_EQ (U"function [][[int8][int8]]", name);
+}

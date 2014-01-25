@@ -62,6 +62,7 @@ namespace mu
                 virtual bool operator == (mu::llvmc::skeleton::type const & other_a) const = 0;
                 bool operator != (mu::llvmc::skeleton::type const & other_a) const;
                 virtual bool is_unit_type () const;
+				virtual mu::string name ();
             };
             class branch
             {
@@ -114,6 +115,7 @@ namespace mu
                 integer_type (size_t bits_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+				mu::string name () override;
                 size_t bits;
             };
             class constant_integer : public mu::llvmc::skeleton::constant
@@ -244,6 +246,7 @@ namespace mu
                 function_type (mu::llvmc::skeleton::function * function_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+				mu::string name () override;
                 mu::llvmc::skeleton::function * function;
             };
             enum class function_return_type

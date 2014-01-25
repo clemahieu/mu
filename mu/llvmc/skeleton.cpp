@@ -1515,3 +1515,73 @@ mu::llvmc::skeleton::struct_type::struct_type (std::initializer_list <mu::llvmc:
 elements (types_a)
 {
 }
+
+mu::string mu::llvmc::skeleton::type::name ()
+{
+	return U"type";
+}
+
+mu::string mu::llvmc::skeleton::function_type::name ()
+{
+	mu::string result;
+	auto first (true);
+	result.append (U"function [");
+	for (auto i: function->parameters)
+	{
+		if (!first)
+		{
+			result.push_back (U' ');
+		}
+		first = false;
+		result.append (i->type ()->name ());
+	}
+	result.push_back (U']');
+	result.push_back (U'[');
+	first = true;
+	function->for_each_results (
+		[&]
+		(mu::llvmc::skeleton::result * result_a, size_t index)
+		{
+			if (!first)
+			{
+				result.push_back (U' ');
+			}
+			else
+			{
+				result.push_back (U'[');
+			}
+			first = false;
+			result.append (result_a->type->name ());
+		},
+		[&]
+		(mu::llvmc::skeleton::value * value_a, size_t index)
+		{
+			// Predicates are not part of signature
+		},
+		[&]
+		(mu::llvmc::skeleton::node * node_a, size_t index)
+		{
+		},
+		[&]
+		(mu::llvmc::skeleton::node * node_a, size_t index)
+		{
+			result.push_back (']');
+			first = true;
+		},
+		[]
+		()
+		{
+			return true;
+		});
+	result.push_back (U']');
+	return result;
+}
+
+mu::string mu::llvmc::skeleton::integer_type::name ()
+{
+	boost::format formatter ("int%1%");
+	formatter % bits;
+	std::string astring (formatter.str ().c_str ());
+	mu::string result (astring.begin (), astring.end ());
+	return result;
+}

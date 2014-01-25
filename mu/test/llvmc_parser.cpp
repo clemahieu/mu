@@ -2190,3 +2190,11 @@ TEST (llvmc_parser, nested_module)
 	ASSERT_NE (nullptr, module3);
 	ASSERT_NE (module2, module3);
 }
+
+TEST (llvmc_parser, nested_reference)
+{
+    test_parser parser ("module [let t template [] [module [let caller [] [let result [callee]][[;result]] let callee [] [] [[]]]] [t]]");
+    auto module1 (parser.parser.parse ());
+	ASSERT_EQ (nullptr, module1.error);
+	ASSERT_NE (nullptr, module1.node);
+}
