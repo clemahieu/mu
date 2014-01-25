@@ -149,6 +149,7 @@ namespace mu
                 fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+				mu::string name () override;
                 mu::llvmc::skeleton::type * element;
                 size_t size;
             };

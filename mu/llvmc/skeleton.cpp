@@ -1536,6 +1536,7 @@ mu::string mu::llvmc::skeleton::function_type::name ()
 		result.append (i->type ()->name ());
 	}
 	result.push_back (U']');
+	result.push_back (U' ');
 	result.push_back (U'[');
 	first = true;
 	function->for_each_results (
@@ -1583,5 +1584,18 @@ mu::string mu::llvmc::skeleton::integer_type::name ()
 	formatter % bits;
 	std::string astring (formatter.str ().c_str ());
 	mu::string result (astring.begin (), astring.end ());
+	return result;
+}
+
+mu::string mu::llvmc::skeleton::fixed_array_type::name ()
+{
+	boost::format formatter ("%1%");
+	formatter % size;
+	std::string astring (formatter.str ().c_str ());
+	mu::string result (U"farray ");
+	result.append (element->name ());
+	result.push_back (U' ');
+	result.push_back (U'#');
+	result.append (astring.begin (), astring.end ());
 	return result;
 }

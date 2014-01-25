@@ -58,7 +58,7 @@ TEST (llvmc_analyzer, function_type_name)
 	mu::llvmc::skeleton::function function (mu::empty_region);
 	mu::llvmc::skeleton::function_type function_type (&function);
 	auto name (function_type.name ());
-	ASSERT_EQ (U"function [][]", name);
+	ASSERT_EQ (U"function [] []", name);
 }
 
 TEST (llvmc_analyzer, function_type_name2)
@@ -71,7 +71,7 @@ TEST (llvmc_analyzer, function_type_name2)
 	mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function.entry, &type1, U"p1");
 	function.parameters.push_back (&parameter2);
 	auto name (function_type.name ());
-	ASSERT_EQ (U"function [int8 int8][]", name);
+	ASSERT_EQ (U"function [int8 int8] []", name);
 }
 
 TEST (llvmc_analyzer, function_type_name3)
@@ -87,7 +87,7 @@ TEST (llvmc_analyzer, function_type_name3)
 	function.add_predicate_offset ();
 	function.add_branch_end ();
 	auto name (function_type.name ());
-	ASSERT_EQ (U"function [][[int8 int8]]", name);
+	ASSERT_EQ (U"function [] [[int8 int8]]", name);
 }
 
 TEST (llvmc_analyzer, function_type_name4)
@@ -102,7 +102,7 @@ TEST (llvmc_analyzer, function_type_name4)
 	function.results.push_back (&constant1);
 	function.add_branch_end ();
 	auto name (function_type.name ());
-	ASSERT_EQ (U"function [][[int8]]", name);
+	ASSERT_EQ (U"function [] [[int8]]", name);
 }
 
 TEST (llvmc_analyzer, function_type_name5)
@@ -120,5 +120,13 @@ TEST (llvmc_analyzer, function_type_name5)
 	function.add_predicate_offset ();
 	function.add_branch_end ();
 	auto name (function_type.name ());
-	ASSERT_EQ (U"function [][[int8][int8]]", name);
+	ASSERT_EQ (U"function [] [[int8][int8]]", name);
+}
+
+TEST (llvmc_analyzer, fixed_array_type)
+{
+	mu::llvmc::skeleton::integer_type type1 (8);
+	mu::llvmc::skeleton::fixed_array_type farray (&type1, 4);
+	auto name (farray.name ());
+	ASSERT_EQ (U"farray int8 #4", name);
 }
