@@ -62,7 +62,7 @@ namespace mu
                 virtual bool operator == (mu::llvmc::skeleton::type const & other_a) const = 0;
                 bool operator != (mu::llvmc::skeleton::type const & other_a) const;
                 virtual bool is_unit_type () const;
-				virtual mu::string name ();
+				virtual mu::string name () = 0;
             };
             class branch
             {
@@ -222,6 +222,7 @@ namespace mu
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
 				mu::llvmc::skeleton::node * operator [] (mu::string const & name_a) override;
 				void named (mu::llvmc::skeleton::namespace_visitor * naming_a) override;
+				mu::string name () override;
 				mu::map <mu::string, mu::llvmc::skeleton::constant_integer *> names;
                 mu::vector <mu::llvmc::skeleton::type *> elements;
             };
@@ -231,6 +232,7 @@ namespace mu
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 bool is_unit_type () const override;
+				mu::string name () override;
             };
             class result : public mu::llvmc::skeleton::node
             {
@@ -265,6 +267,7 @@ namespace mu
                 pointer_type (mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+				mu::string name () override;
                 mu::llvmc::skeleton::type * pointed_type;
             };
             class global_value : public mu::llvmc::skeleton::constant

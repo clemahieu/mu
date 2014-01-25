@@ -130,3 +130,18 @@ TEST (llvmc_analyzer, fixed_array_type)
 	auto name (farray.name ());
 	ASSERT_EQ (U"farray int8 #4", name);
 }
+
+TEST (llvmc_analyzer, unit_type)
+{
+	mu::llvmc::skeleton::unit_type type1;
+	auto name (type1.name ());
+	ASSERT_EQ (U"unit", name);
+}
+
+TEST (llvmc_analyzer, pointer_type)
+{
+	mu::llvmc::skeleton::integer_type type1 (8);
+	mu::llvmc::skeleton::pointer_type type2 (&type1);
+	auto name (type2.name ());
+	ASSERT_EQ (U"ptr int8", name);
+}

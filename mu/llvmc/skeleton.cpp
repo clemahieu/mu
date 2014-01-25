@@ -1599,3 +1599,27 @@ mu::string mu::llvmc::skeleton::fixed_array_type::name ()
 	result.append (astring.begin (), astring.end ());
 	return result;
 }
+
+mu::string mu::llvmc::skeleton::struct_type::name ()
+{
+	mu::string result (U"struct [");
+	for (auto i: elements)
+	{
+		result.append (i->name ());
+	}
+	result.push_back (']');
+	return result;
+}
+
+mu::string mu::llvmc::skeleton::unit_type::name ()
+{
+	mu::string result (U"unit");
+	return result;
+}
+
+mu::string mu::llvmc::skeleton::pointer_type::name ()
+{
+	mu::string result (U"ptr ");
+	result.append (pointed_type->name ());
+	return result;
+}
