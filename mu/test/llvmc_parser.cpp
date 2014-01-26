@@ -268,6 +268,33 @@ TEST (llvmc_parser, block_refer_reserved)
     }
 }
 
+TEST (llvmc_parser, block_parallel_out_of_order_resolve)
+{
+    mu::llvmc::keywords keywords;
+    mu::llvmc::global global (&keywords);
+    mu::llvmc::block block (&global);
+    {
+        mu::llvmc::block block2 (&block);
+        mu::llvmc::ast::node node;
+		auto fail2 (block2.insert (U"test", &node));
+		ASSERT_FALSE (fail2);
+    }
+	{
+		mu::llvmc::block block3 (&block);
+        mu::llvmc::ast::node node;
+		auto test (false);
+		block3.refer (U"test", mu::empty_region,
+					 [&]
+					 (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+					 {
+						 test = true;
+					 });
+		ASSERT_FALSE (test);
+		block3.insert (U"test", &node);
+		ASSERT_TRUE (test);
+	}
+}
+
 TEST (llvmc_parser, global_refer_reserved)
 {
     mu::llvmc::keywords keywords;
