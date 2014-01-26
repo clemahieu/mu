@@ -732,7 +732,7 @@ bool mu::llvmc::block::get (mu::string const & name_a, mu::core::region const & 
         }
         else
         {
-            unresolved.insert (decltype (unresolved)::value_type (name_a, unresolved_type (region_a, action_a)));
+			result = true;
         }
     }
     return result;
