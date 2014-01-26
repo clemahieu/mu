@@ -154,7 +154,7 @@ public:
 	}
 	void written_but_not_generated (mu::llvmc::skeleton::node * node_a)
 	{
-        // Nodes that can be written at module level but are not generated at the module level
+        // Nodes that can be written in module context but are not by themselves generated as part of the module
 	}
     mu::llvmc::module_processor & module_m;
 	mu::core::error * & error;
