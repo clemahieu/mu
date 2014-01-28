@@ -367,6 +367,7 @@ TEST (llvmc_parser, simple)
     ASSERT_EQ (1, module2->globals.size ());
 	auto set1 (dynamic_cast <mu::llvmc::ast::set *> (module2->globals [0]));
 	ASSERT_NE (nullptr, set1);
+	ASSERT_EQ (mu::core::region (4, 1, 5, 25, 1, 26), set1->region);
 	ASSERT_EQ (1, set1->nodes.size ());
 	auto element1 (dynamic_cast <mu::llvmc::ast::element *> (set1->nodes [0]));
 	ASSERT_NE (nullptr, element1);

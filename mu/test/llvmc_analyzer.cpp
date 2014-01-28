@@ -3437,13 +3437,14 @@ TEST (llvmc_analyzer, empty_template)
 
 TEST (llvmc_analyzer, function_clone)
 {
-	mu::llvmc::ast::function function1;
+    mu::llvmc::template_context template1;
+	mu::llvmc::ast::function function1 (&template1);
 	function1.predicate_offsets.push_back (42);
 	function1.region = mu::core::region (1, 1, 1, 2, 2, 2);
-    mu::llvmc::template_context template1;
     mu::llvmc::clone_context context (&template1);
 	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (context)));
 	ASSERT_NE (nullptr, function2);
+	ASSERT_NE (&function1, function2);
 	ASSERT_EQ (1, function2->predicate_offsets.size ());
 	ASSERT_EQ (42, function2->predicate_offsets [0]);
 	ASSERT_EQ (function1.region, function2->region);
@@ -3745,4 +3746,25 @@ TEST (llvmc_analyzer, expression_clone)
 	mu::llvmc::clone_context context2 (&context1);
 	auto expression2 (dynamic_cast <mu::llvmc::ast::expression *> (expression1.clone (context2)));
 	ASSERT_EQ (expression1.region, expression2->region);
+}
+
+TEST (llvmc_analyzer, element_clone)
+{
+	mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::node node1;
+	mu::llvmc::ast::element element1 (&node1, 1, 2, U"thing", mu::core::region (1, 1, 1, 2, 2, 2), &context1);
+	mu::llvmc::clone_context context2 (&context1);
+	auto element2 (dynamic_cast <mu::llvmc::ast::element *> (element1.clone (context2)));
+	ASSERT_EQ (element1.region, element2->region);
+}
+
+TEST (llvmc_analyzer, set_clone)
+{
+	mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::node node1;
+	mu::llvmc::ast::set set1 (&context1);
+	set1.region = mu::core::region (1, 1, 1, 2, 2, 2);
+	mu::llvmc::clone_context context2 (&context1);
+	auto set2 (dynamic_cast <mu::llvmc::ast::set *> (set1.clone (context2)));
+	ASSERT_EQ (set1.region, set2->region);
 }

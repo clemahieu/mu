@@ -673,7 +673,7 @@ value (other_a.value->clone (context_a))
 }
 
 mu::llvmc::ast::element::element (mu::llvmc::ast::element const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m),
+node (other_a, context_a),
 node_m (other_a.node_m->clone (context_a)),
 index (other_a.index),
 total (other_a.total),
@@ -682,7 +682,7 @@ name (other_a.name)
 }
 
 mu::llvmc::ast::function::function (mu::llvmc::ast::function const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m),
+node (other_a, context_a),
 branch_ends (other_a.branch_ends),
 predicate_offsets (other_a.predicate_offsets)
 {
@@ -864,7 +864,7 @@ void mu::llvmc::ast::visitor::entry (mu::llvmc::ast::entry * node_a)
 }
 
 mu::llvmc::ast::set::set (mu::llvmc::ast::set const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m)
+node (other_a, context_a)
 {
 	for (auto i: other_a.nodes)
 	{

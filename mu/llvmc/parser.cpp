@@ -957,6 +957,8 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::core::region const & regi
 		size_t index (0);
 		size_t total (identifiers.size ());
 		auto set (new (GC) mu::llvmc::ast::set (parser_a.current_template));
+		set->region.first = identifiers.empty () ? expression.ast->region.first : identifiers [0]->region.first;
+		set->region.last = expression.ast->region.last;
 		for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j && result.error == nullptr; ++i, ++index)
 		{
 			auto element (new (GC) mu::llvmc::ast::element (expression.ast, index, total, (*i)->string, (*i)->region, parser_a.current_template));
