@@ -3736,3 +3736,13 @@ TEST (llvmc_analyzer, function_prototype_error_overwrite)
 	auto error (result.error);
 	ASSERT_EQ (mu::core::error_type::only_function_pointers_can_be_target_of_call, error->type ());
 }
+
+TEST (llvmc_analyzer, expression_clone)
+{
+	mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::expression expression1 (&context1);
+	expression1.region = mu::core::region (1, 1, 1, 2, 2, 2);
+	mu::llvmc::clone_context context2 (&context1);
+	auto expression2 (dynamic_cast <mu::llvmc::ast::expression *> (expression1.clone (context2)));
+	ASSERT_EQ (expression1.region, expression2->region);
+}

@@ -587,7 +587,7 @@ initializer (other_a.initializer->clone (context_a))
 }
 
 mu::llvmc::ast::expression::expression (mu::llvmc::ast::expression const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m),
+node (other_a, context_a),
 predicate_position (other_a.predicate_position)
 {
 	for (auto i: other_a.arguments)
