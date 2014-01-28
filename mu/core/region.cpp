@@ -23,6 +23,12 @@ bool mu::core::position::operator == (mu::core::position const & other_a) const
     return result;
 }
 
+bool mu::core::region::operator != (mu::core::region const & other_a) const
+{
+	auto result (!(*this == other_a));
+	return result;
+}
+
 void mu::core::position::character ()
 {
     ++offset;

@@ -3439,12 +3439,14 @@ TEST (llvmc_analyzer, function_clone)
 {
 	mu::llvmc::ast::function function1;
 	function1.predicate_offsets.push_back (42);
+	function1.region = mu::core::region (1, 1, 1, 2, 2, 2);
     mu::llvmc::template_context template1;
     mu::llvmc::clone_context context (&template1);
 	auto function2 (dynamic_cast <mu::llvmc::ast::function *> (function1.clone (context)));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->predicate_offsets.size ());
 	ASSERT_EQ (42, function2->predicate_offsets [0]);
+	ASSERT_EQ (function1.region, function2->region);
 }
 
 TEST (llvmc_analyzer, template_c_clone)
@@ -3465,11 +3467,13 @@ TEST (llvmc_analyzer, module_clone)
 	mu::llvmc::ast::module module1 (&context2);
 	mu::llvmc::ast::unit unit1;
 	module1.names [U"unit"] = &unit1;
+	module1.region = mu::core::region (1, 1, 1, 2, 2, 2);
 	mu::llvmc::clone_context context1 (&context2);
 	auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.clone (context1)));
 	ASSERT_NE (nullptr, module2);
 	ASSERT_NE (&module1, module2);
 	ASSERT_EQ (1, module2->names.size ());
+	ASSERT_EQ (module1.region, module2->region);
 }
 
 TEST (llvmc_analyzer, function_parameter_clone)

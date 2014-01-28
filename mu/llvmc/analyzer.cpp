@@ -1148,9 +1148,23 @@ void mu::llvmc::global_processor::process_node (mu::llvmc::ast::node * node_a)
 	assert (node_a != nullptr);
 	if (!node_a->assigned)
 	{
+		analysis_stack.push_back (node_a);
 		node_a->visit (current_context);
+		analysis_stack.pop_back ();
 	}
 	assert ((error != nullptr) xor (node_a->assigned));
+}
+
+std::string mu::llvmc::global_processor::print_analysis_stack ()
+{
+	std::string result;
+	for (auto i: analysis_stack)
+	{
+		mu::string string (i->region.string ());
+		result.append (string.begin (), string.end ());
+		result.push_back (U'\n');
+	}
+	return result;
 }
 
 void mu::llvmc::function_processor::process_asm (mu::llvmc::ast::expression * asm_a)

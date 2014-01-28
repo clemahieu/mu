@@ -653,7 +653,7 @@ constraints (other_a.constraints)
 }
 
 mu::llvmc::ast::module::module (mu::llvmc::ast::module const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m)
+node (other_a, context_a)
 {
 	for (auto & i: other_a.globals)
 	{

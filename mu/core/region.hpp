@@ -26,6 +26,7 @@ namespace mu
             region (uint64_t offset1_a, uint64_t row1_a, uint64_t column1_a, uint64_t offset2_a, uint64_t row2_a, uint64_t column2_a);
             region (mu::core::position const & first_a, mu::core::position const & last_a);
             bool operator == (mu::core::region const & other_a) const;
+			bool operator != (mu::core::region const & other_a) const;
             mu::string string ();
             mu::core::position first;
             mu::core::position last;
