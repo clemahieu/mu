@@ -154,16 +154,16 @@ let write-test-string global ascii {%}Hello world!
 %
 
 let write-string function
-[int64 fd ptr ` astring type str]
+[int64 fd ` astring type str]
 [
-	let result [write fd [` astring data [load str]] [` astring size [load str]]]
+	let result [write fd [` astring data str] [` astring size str]]
 ]
 [[;result]]
 
 let write-test function
 [int64 fd]
 [
-	let initial [` astring new-set [bitcast write-test-string ptr ` astring type] [cint int64 #13]]
+	let initial [` astring new-set [bitcast write-test-string ptr int8] [cint int64 #13]]
 	let full [` astring append initial initial]
 	let result [write-string fd full]
 ]

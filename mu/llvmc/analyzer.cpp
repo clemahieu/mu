@@ -1426,11 +1426,16 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 				auto argument_value (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
 				if (argument_value != nullptr)
 				{
-					auto new_value (argument_value->adapt (function_type->function->parameters [i]->type (), *this,
-						[]
+					auto parameter_type (function_type->function->parameters [i]->type ());
+					auto new_value (argument_value->adapt (parameter_type, *this,
+						[argument_value, parameter_type]
 						(mu::core::region const & region_a)
 						{
-							return new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type, region_a);
+							mu::string message (U"Argument type does not match parameter type: ");
+							message.append (argument_value->type ()->name ());
+							message.push_back (U' ');
+							message.append (parameter_type->name ());
+							return new (GC) mu::core::error_string (message, mu::core::error_type::argument_type_does_not_match_parameter_type, region_a);
 						}));
 					*k = new_value;
 				}
