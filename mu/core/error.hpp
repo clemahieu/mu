@@ -173,7 +173,9 @@ namespace mu
             not_a_member,
             can_only_extract_from_one,
 			template_argument_count_mismatch,
-			expecting_an_integer_type
+			expecting_an_integer_type,
+			expecting_type_or_right_square_or_terminator,
+			expecting_left_square_or_right_square
         };
         class error
         {

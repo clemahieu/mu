@@ -456,7 +456,7 @@ void mu::llvmc::function::parse_results ()
                     done = true;
                     break;
                 default:
-                    result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square", mu::core::error_type::expecting_identifier_or_right_square, next->region);
+                    result.error = new (GC) mu::core::error_string (U"Expecting left square or right square", mu::core::error_type::expecting_left_square_or_right_square, next->region);
                     break;
             }
         }
@@ -469,58 +469,38 @@ void mu::llvmc::function::parse_result_set ()
     auto predicates (false);
     while (result.error == nullptr && !done && !predicates)
     {
-        auto node (parser.peek ());
-		auto action ([&]
-		(mu::llvmc::ast::node * type)
+		auto result_l (new (GC) mu::llvmc::ast::result (parser.current_template));
+		function_m->results.push_back (result_l);
+		result.error = parser.parse_ast_or_refer_or_right_square_or_terminator (
+			[result_l]
+			(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+			{
+				result_l->written_type = node_a;
+				result_l->region.first = region_a.first;
+			},
+			[&]
+			(mu::core::region const & region_a)
+			{
+				done = true;
+				function_m->results.pop_back ();
+			},
+			[&]
+			(mu::core::region const & region_a)
+			{
+				predicates = true;
+				function_m->results.pop_back ();
+				function_m->predicate_offsets.push_back (function_m->results.size ());
+			}, U"Expecting a type or right square or terminator", mu::core::error_type::expecting_type_or_right_square_or_terminator);
+		if (!result.error && !done && !predicates)
 		{
-            auto result_l (new (GC) mu::llvmc::ast::result (parser.current_template));
-            result_l->written_type = type;
-            result_l->region.first = type->region.first;
-            function_m->results.push_back (result_l);
-            result.error = parser.parse_ast_or_refer (
-                [result_l]
-                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-                {
-                    result_l->region.last = region_a.last;
-                    result_l->value = node_a;
-                });			
-		});
-        if (node.ast != nullptr)
-        {
-			action (node.ast);
-        }
-        else if (node.token != nullptr)
-        {
-            auto node_id (node.token->id ());
-            switch (node_id)
-            {
-                case mu::io::token_id::right_square:
-                    done = true;
-                    break;
-                case mu::io::token_id::terminator:
-                    predicates = true;
-                    function_m->predicate_offsets.push_back (function_m->results.size ());
-                    break;
-				case mu::io::token_id::identifier:
+			result.error = parser.parse_ast_or_refer (
+				[result_l]
+				(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
 				{
-					auto identifier (static_cast <mu::io::identifier *> (node.token));
-					parser.current_mapping->refer (identifier->string, identifier->region, 
-							[&]
-							(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-							{
-								action (node_a);
-							});
-					break;
-				}
-                default:
-                    result.error = new (GC) mu::core::error_string (U"Expecting right_square", mu::core::error_type::expecting_right_square, node.token->region);
-                    break;
-            }
-        }
-        else
-        {
-            result.error = node.error;
-        }
+					result_l->region.last = region_a.last;
+					result_l->value = node_a;
+				});
+		}
     }
     while (result.error == nullptr && !done)
     {
