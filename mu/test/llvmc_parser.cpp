@@ -382,6 +382,15 @@ TEST (llvmc_parser, simple)
 	ASSERT_NE (module2->names.end (), existing);
 }
 
+TEST (llvmc_parser, let_error)
+{
+    test_parser parser ("let");
+    auto module1 (parser.parser.parse ());
+    ASSERT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+	ASSERT_EQ (mu::core::error_type::expecting_identifier_or_left_square, module1.error->type ());
+}
+
 TEST (llvmc_parser, instructions)
 {
     test_parser parser ("let test function [] [[add alloca and ashr atomicrmw bitcast call cmpxchg extractelement extractvalue fadd fcmp fdiv fence fmul fpext fptoi fptosi fptoui fptrunc frem fsub getelementptr icmp insertelement insertvalue load lshr mul or ptrfromint ptrtoint sdiv select sext shl shufflevector sitofp srem store switch sub trunc udiv uitofp urem xor zext]] []");

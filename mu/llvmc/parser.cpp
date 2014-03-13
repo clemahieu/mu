@@ -931,33 +931,36 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::core::region const & regi
                 break;
         }
     }
-	auto expression (parser_a.peek ());
-	if (expression.ast != nullptr)
+	if (result.error == nullptr)
 	{
-		size_t index (0);
-		size_t total (identifiers.size ());
-		auto set (new (GC) mu::llvmc::ast::set (parser_a.current_template));
-		set->region.first = identifiers.empty () ? expression.ast->region.first : identifiers [0]->region.first;
-		set->region.last = expression.ast->region.last;
-		for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j && result.error == nullptr; ++i, ++index)
+		auto expression (parser_a.peek ());
+		if (expression.ast != nullptr)
 		{
-			auto element (new (GC) mu::llvmc::ast::element (expression.ast, index, total, (*i)->string, (*i)->region, parser_a.current_template));
-			set->nodes.push_back (element);
-			auto error (parser_a.current_mapping->insert ((*i)->string, element));
-            if (error)
-            {
-                result.error = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier, (*i)->region);
-            }
+			size_t index (0);
+			size_t total (identifiers.size ());
+			auto set (new (GC) mu::llvmc::ast::set (parser_a.current_template));
+			set->region.first = identifiers.empty () ? expression.ast->region.first : identifiers [0]->region.first;
+			set->region.last = expression.ast->region.last;
+			for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j && result.error == nullptr; ++i, ++index)
+			{
+				auto element (new (GC) mu::llvmc::ast::element (expression.ast, index, total, (*i)->string, (*i)->region, parser_a.current_template));
+				set->nodes.push_back (element);
+				auto error (parser_a.current_mapping->insert ((*i)->string, element));
+				if (error)
+				{
+					result.error = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier, (*i)->region);
+				}
+			}
+			if (result.error == nullptr)
+			{
+				result.node = set;
+			}
 		}
-        if (result.error == nullptr)
-        {
-            result.node = set;
-        }
-	}
-	else
-	{
-		assert (expression.token == nullptr);
-		result.error = expression.error;
+		else
+		{
+			assert (expression.token == nullptr);
+			result.error = expression.error;
+		}
 	}
     return result;
 }
