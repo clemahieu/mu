@@ -5,6 +5,7 @@
 #include <map>
 #include <set>
 #include <stack>
+#include <unordered_map>
 
 #include <boost/circular_buffer.hpp>
 #include <boost/cast.hpp>
@@ -22,6 +23,8 @@ namespace mu
     using circular_buffer = boost::circular_buffer <T, gc_allocator <T>>;
     template <typename T, typename U>
     using map = std::map <T, U, std::less <T>, gc_allocator <std::pair <T, U>>>;
+	template <typename T, typename U>
+	using unordered_map = std::unordered_map <T, U, std::hash <T>, std::equal_to <T>, gc_allocator <std::pair <T const, U>>>;
     template <typename T, typename U>
     using multimap = std::multimap <T, U, std::less <T>, gc_allocator <std::pair <T, U>>>;
     template <typename T>

@@ -50,8 +50,7 @@ mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t
 	{
 		case mu::io::token_id::identifier:
 			stream.consume (1);
-			assert (dynamic_cast <mu::io::identifier *> (item) != nullptr);
-			result = identifier_op (static_cast <mu::io::identifier *> (item));
+			result = identifier_op (mu::cast <mu::io::identifier> (item));
 			break;
 		default:
 			result = new (GC) mu::core::error_string (error_message_a, error_type_a, item->region);

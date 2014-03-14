@@ -33,40 +33,18 @@ public:
     mu::llvmc::parser parser;
 };
 
-static mu::string test_non_covering_name (U"test_non_covering");
+static mu::string test_non_covering_name (U"test_hook");
 
-class test_non_covering : public mu::llvmc::hook
+class test_hook : public mu::llvmc::hook
 {
 public:    
-    mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser) override
+    mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser) override
     {
         return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
-    }
-    bool covering () override
-    {
-        return false;
     }
     mu::string const & name () override
     {
         return test_non_covering_name;
-    }
-};
-
-static mu::string test_covering_name (U"test_covering");
-class test_covering : public mu::llvmc::hook
-{
-public:
-    mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser) override
-    {
-        return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
-    }
-    bool covering () override
-    {
-        return true;
-    }
-    mu::string const & name () override
-    {
-        return test_covering_name;
     }
 };
 
@@ -77,61 +55,19 @@ TEST (llvmc_parser, mapping_get_hook)
     EXPECT_EQ (nullptr, keyword1.hook);
 }
 
-TEST (llvmc_parser, mapping_get_covered)
+TEST (llvmc_parser, mapping_get)
 {
-    test_non_covering keyword1;
-    mu::llvmc::keywords mapping;
-    auto error (mapping.insert (mu::string (U"non-covered"), &keyword1));
-    EXPECT_EQ (false, error);
-    auto keyword2 (mapping.get_hook (mu::string (U"non-covered")));
-    EXPECT_EQ (&keyword1, keyword2.hook);
-    auto keyword3 (mapping.get_hook (mu::string (U"non-covered1")));
-    EXPECT_EQ (nullptr, keyword3.hook);
-    auto keyword4 (mapping.get_hook (mu::string (U"non-covere")));
-    EXPECT_EQ (nullptr, keyword4.hook);
-}
-
-TEST (llvmc_parser, mapping_get_non_covered)
-{
-    test_covering keyword1;
+    test_hook keyword1;
     mu::llvmc::keywords mapping;
     auto error (mapping.insert (mu::string (U"covered"), &keyword1));
     EXPECT_EQ (false, error);
     auto keyword2 (mapping.get_hook (mu::string (U"covered")));
     EXPECT_EQ (&keyword1, keyword2.hook);
-    EXPECT_EQ (mu::string (U""), keyword2.data);
-    auto keyword3 (mapping.get_hook (mu::string (U"covered1")));
-    EXPECT_EQ (&keyword1, keyword3.hook);
-    EXPECT_EQ (mu::string (U"1"), keyword3.data);
-    auto keyword4 (mapping.get_hook (mu::string (U"covere")));
-    EXPECT_EQ (nullptr, keyword4.hook);
 }
 
-TEST (llvmc_parser, mapping_insert_under_covered)
+TEST (llvmc_parser, global_check)
 {
-    test_covering keyword1;
-    mu::llvmc::keywords mapping;
-    auto error1 (mapping.insert (mu::string (U"covered"), &keyword1));
-    EXPECT_EQ (false, error1);
-    test_non_covering keyword2;
-    auto error2 (mapping.insert (mu::string (U"covered1"), &keyword2));
-    EXPECT_EQ (true, error2);
-}
-
-TEST (llvmc_parser, mapping_insert_covering_existing)
-{
-    test_non_covering keyword1;
-    mu::llvmc::keywords mapping;
-    auto error1 (mapping.insert (mu::string (U"covered1"), &keyword1));
-    EXPECT_EQ (false, error1);
-    test_covering keyword2;
-    auto error2 (mapping.insert (mu::string (U"covered"), &keyword2));
-    EXPECT_EQ (true, error2);
-}
-
-TEST (llvmc_parser, global_check_non_covering)
-{
-    test_non_covering keyword1;
+    test_hook keyword1;
     mu::llvmc::keywords mapping;
     auto error1 (mapping.insert (mu::string (U"covered"), &keyword1));
     EXPECT_EQ (false, error1);
@@ -141,21 +77,9 @@ TEST (llvmc_parser, global_check_non_covering)
     EXPECT_EQ (true, error2);
 }
 
-TEST (llvmc_parser, global_check_covering)
-{
-    test_covering keyword1;
-    mu::llvmc::keywords mapping;
-    auto error1 (mapping.insert (mu::string (U"covered"), &keyword1));
-    EXPECT_EQ (false, error1);
-    mu::llvmc::global global (&mapping);
-    mu::llvmc::ast::unit unit1;
-    auto error2 (global.insert (mu::string (U"covered1"), &unit1));
-    EXPECT_EQ (true, error2);
-}
-
 TEST (llvmc_parser, unresolved_passing)
 {
-    test_covering keyword1;
+    test_hook keyword1;
     mu::llvmc::keywords mapping;
     auto called (false);
     mu::llvmc::global global (&mapping);
@@ -659,7 +583,7 @@ TEST (llvmc_parser, instructions)
 
 TEST (llvmc_parser, number)
 {
-    test_parser parser ("let test function [] [[#100]] []");
+    test_parser parser ("let test function [] [[# 100]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -678,17 +602,17 @@ TEST (llvmc_parser, number)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (mu::core::region (22, 1, 23, 27, 1, 28), expression1->region);
+    ASSERT_EQ (mu::core::region (22, 1, 23, 28, 1, 29), expression1->region);
     ASSERT_EQ (1, expression1->arguments.size ());
     auto argument1 (dynamic_cast <mu::llvmc::ast::number *> (expression1->arguments [0]));
-    ASSERT_EQ (mu::core::region (23, 1, 24, 26, 1, 27), argument1->region);
+    ASSERT_EQ (mu::core::region (23, 1, 24, 27, 1, 28), argument1->region);
     ASSERT_NE (nullptr, argument1);
     ASSERT_EQ (U"100", argument1->number_m);
 }
 
 TEST (llvmc_parser, rational)
 {
-    test_parser parser ("let test function [] [[#100/1000]] []");
+    test_parser parser ("let test function [] [[# 100/1000]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -715,7 +639,7 @@ TEST (llvmc_parser, rational)
 
 TEST (llvmc_parser, constant_int)
 {
-    test_parser parser ("let test function [] [[cint int32 #42]] []");
+    test_parser parser ("let test function [] [[cint int 32 # 42]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -734,7 +658,7 @@ TEST (llvmc_parser, constant_int)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (mu::core::region (22, 1, 23, 37, 1, 38), expression1->region);
+    ASSERT_EQ (mu::core::region (22, 1, 23, 39, 1, 40), expression1->region);
 	ASSERT_EQ (3, expression1->arguments.size ());
 	auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (expression1->arguments [0]));
 	ASSERT_NE (nullptr, constant_int);
@@ -829,7 +753,7 @@ TEST (llvmc_parser, two_functions)
 
 TEST (llvmc_parser, int_type42)
 {
-    test_parser parser ("let test1 function [int42 val] [] []");
+    test_parser parser ("let test1 function [int 42 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -847,9 +771,10 @@ TEST (llvmc_parser, int_type42)
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     ASSERT_NE (nullptr, parameter1);
-    ASSERT_EQ (mu::core::region (20, 1, 21, 28, 1, 29), parameter1->region);
+    ASSERT_EQ (mu::core::region (20, 1, 21, 29, 1, 30), parameter1->region);
     auto type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (parameter1->type));
     ASSERT_NE (nullptr, type1);
+	ASSERT_EQ (mu::core::region (20, 1, 21, 25, 1, 26), type1->region);
     EXPECT_EQ (U"42", type1->bits);
 }
 
@@ -906,7 +831,7 @@ TEST (llvmc_parser, join_single)
 
 TEST (llvmc_parser, join_item)
 {
-    test_parser parser ("let test1 function [int32 i] [join [[i]]] []");
+    test_parser parser ("let test1 function [int 32 i] [join [[i]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -934,7 +859,7 @@ TEST (llvmc_parser, join_item)
 
 TEST (llvmc_parser, join_predicate)
 {
-    test_parser parser ("let test1 function [int32 i] [join [[; i]]] []");
+    test_parser parser ("let test1 function [int 32 i] [join [[; i]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -962,7 +887,7 @@ TEST (llvmc_parser, join_predicate)
 
 TEST (llvmc_parser, join_2branches)
 {
-    test_parser parser ("let test1 function [int32 i] [join [[][]]] []");
+    test_parser parser ("let test1 function [int 32 i] [join [[][]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1010,7 +935,7 @@ TEST (llvmc_parser, join_branch_error)
 
 TEST (llvmc_parser, ptr_int_type42)
 {
-    test_parser parser ("let test1 function [ptr int42 val] [] []");
+    test_parser parser ("let test1 function [ptr int 42 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1027,10 +952,10 @@ TEST (llvmc_parser, ptr_int_type42)
     ASSERT_EQ (1, function1->parameters.size ());
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
-    ASSERT_EQ (mu::core::region (20, 1, 21, 32, 1, 33), parameter1->region);
+    ASSERT_EQ (mu::core::region (20, 1, 21, 33, 1, 34), parameter1->region);
     ASSERT_NE (nullptr, parameter1);
     auto type1 (dynamic_cast <mu::llvmc::ast::pointer_type *> (parameter1->type));
-    ASSERT_EQ (mu::core::region (20, 1, 21, 28, 1, 29), type1->region);
+    ASSERT_EQ (mu::core::region (20, 1, 21, 29, 1, 30), type1->region);
     ASSERT_NE (nullptr, type1);
     auto type2 (dynamic_cast <mu::llvmc::ast::integer_type *> (type1->pointed_type));
     ASSERT_NE (nullptr, type2);
@@ -1039,7 +964,7 @@ TEST (llvmc_parser, ptr_int_type42)
 
 TEST (llvmc_parser, ptr_reference)
 {
-    test_parser parser ("let i8 int8 let test1 function [ptr i8 val] [] []");
+    test_parser parser ("let i8 int 8 let test1 function [ptr i8 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1056,10 +981,10 @@ TEST (llvmc_parser, ptr_reference)
     ASSERT_EQ (1, function1->parameters.size ());
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
-    ASSERT_EQ (mu::core::region (32, 1, 33, 41, 1, 42), parameter1->region);
+    ASSERT_EQ (mu::core::region (33, 1, 34, 42, 1, 43), parameter1->region);
     ASSERT_NE (nullptr, parameter1);
     auto type1 (dynamic_cast <mu::llvmc::ast::pointer_type *> (parameter1->type));
-    ASSERT_EQ (mu::core::region (32, 1, 33, 37, 1, 38), type1->region);
+    ASSERT_EQ (mu::core::region (33, 1, 34, 38, 1, 39), type1->region);
     ASSERT_NE (nullptr, type1);
     auto element2 (dynamic_cast <mu::llvmc::ast::element *> (type1->pointed_type));
     ASSERT_NE (nullptr, element2);
@@ -1090,7 +1015,7 @@ TEST (llvmc_parser, result_no_close_error)
 
 TEST (llvmc_parser, results1)
 {
-    test_parser parser ("let test1 function [int1 val] [] [[int1 val]]");
+    test_parser parser ("let test1 function [int 1 val] [] [[int 1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1112,7 +1037,7 @@ TEST (llvmc_parser, results1)
     ASSERT_EQ (1, function1->predicate_offsets.size ());
     ASSERT_EQ (1, function1->predicate_offsets [0]);
     auto result1 (function1->results [0]);
-    ASSERT_EQ (mu::core::region (35, 1, 36, 42, 1, 43), result1->region);
+    ASSERT_EQ (mu::core::region (36, 1, 37, 44, 1, 45), result1->region);
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
     ASSERT_NE (nullptr, value1);
     EXPECT_EQ (parameter1, value1->value);
@@ -1120,7 +1045,7 @@ TEST (llvmc_parser, results1)
 
 TEST (llvmc_parser, results1_empty_predicate)
 {
-    test_parser parser ("let test1 function [int1 val] [] [[int1 val;]]");
+    test_parser parser ("let test1 function [int 1 val] [] [[int 1 val;]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1149,7 +1074,7 @@ TEST (llvmc_parser, results1_empty_predicate)
 
 TEST (llvmc_parser, results1_one_predicate)
 {
-    test_parser parser ("let test1 function [int1 val] [] [[int1 val; val]]");
+    test_parser parser ("let test1 function [int 1 val] [] [[int 1 val; val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1178,7 +1103,7 @@ TEST (llvmc_parser, results1_one_predicate)
 
 TEST (llvmc_parser, results1_expression_predicate)
 {
-    test_parser parser ("let test1 function [int1 val] [] [[; [val]]]");
+    test_parser parser ("let test1 function [int 1 val] [] [[; [val]]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1194,6 +1119,7 @@ TEST (llvmc_parser, results1_expression_predicate)
     ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
+	ASSERT_NE (nullptr, parameter1);
     ASSERT_EQ (1, function1->results.size ());
     ASSERT_EQ (1, function1->branch_ends.size ());
     ASSERT_EQ (1, function1->branch_ends [0]);
@@ -1206,7 +1132,7 @@ TEST (llvmc_parser, results1_expression_predicate)
 
 TEST (llvmc_parser, results1_multi_predicate)
 {
-    test_parser parser ("let test1 function [int1 val] [] [[int1 val; val val val]]");
+    test_parser parser ("let test1 function [int 1 val] [] [[int 1 val; val val val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1235,7 +1161,7 @@ TEST (llvmc_parser, results1_multi_predicate)
 
 TEST (llvmc_parser, results2)
 {
-    test_parser parser ("let test1 function [int1 val] [] [[int1 val] [int1 val]]");
+    test_parser parser ("let test1 function [int 1 val] [] [[int 1 val] [int 1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1270,7 +1196,7 @@ TEST (llvmc_parser, results2)
 
 TEST (llvmc_parser, results2_predicates)
 {
-    test_parser parser ("let test1 function [int1 val] [] [[int1 val; val] [int1 val; val]]");
+    test_parser parser ("let test1 function [int 1 val] [] [[int 1 val; val] [int 1 val; val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1307,7 +1233,7 @@ TEST (llvmc_parser, results2_predicates)
 
 TEST (llvmc_parser, results_unresolved_type)
 {
-    test_parser parser ("let test1 function [] [] [[thing1 test2 thing2 test3]] let thing1 int1 let test2 function [] [] [] let thing2 int1 let test3 function [] [] []");
+    test_parser parser ("let test1 function [] [] [[thing1 test2 thing2 test3]] let thing1 int 1 let test2 function [] [] [] let thing2 int 1 let test3 function [] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1381,7 +1307,7 @@ TEST (llvmc_parser, results_unresolved_type)
 
 TEST (llvmc_parser, results_resolved_predicates)
 {
-    test_parser parser ("let test1 function [] [] [[int1 test2]] let test2 function [] [] []");
+    test_parser parser ("let test1 function [] [] [[int 1 test2]] let test2 function [] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1418,7 +1344,7 @@ TEST (llvmc_parser, results_resolved_predicates)
 
 TEST (llvmc_parser, body1)
 {
-    test_parser parser ("let test1 function [int1 val] [[]] []");
+    test_parser parser ("let test1 function [int 1 val] [[]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1441,7 +1367,7 @@ TEST (llvmc_parser, body1)
 
 TEST (llvmc_parser, body2)
 {
-    test_parser parser ("let test1 function [int1 val] [[val]] []");
+    test_parser parser ("let test1 function [int 1 val] [[val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1469,7 +1395,7 @@ TEST (llvmc_parser, body2)
 
 TEST (llvmc_parser, body3)
 {
-    test_parser parser ("let test1 function [int1 val] [[val] [val]] []");
+    test_parser parser ("let test1 function [int 1 val] [[val] [val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1502,7 +1428,7 @@ TEST (llvmc_parser, body3)
 
 TEST (llvmc_parser, body4)
 {
-    test_parser parser ("let test1 function [int1 val] [[val;val]] []");
+    test_parser parser ("let test1 function [int 1 val] [[val;val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1530,11 +1456,11 @@ TEST (llvmc_parser, body4)
 
 TEST (llvmc_parser, body_not_expression_fail)
 {
-    test_parser parser ("let test1 function [int1 val] [");
+    test_parser parser ("let test1 function [int 1 val] [");
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
-    ASSERT_EQ (mu::core::region (31, 1, 32, 31, 1, 32), module1.error->region ());
+    ASSERT_EQ (mu::core::region (32, 1, 33, 32, 1, 33), module1.error->region ());
 }
 
 TEST (llvmc_parser, expression_already_parsing_predicates_error)
@@ -1548,7 +1474,7 @@ TEST (llvmc_parser, expression_already_parsing_predicates_error)
 
 TEST (llvmc_parser, set1)
 {
-    test_parser parser ("let test1 function [int1 val] [set val1 [val]] [[int1 val1]]");
+    test_parser parser ("let test1 function [int 1 val] [set val1 [val]] [[int 1 val1]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1608,7 +1534,7 @@ TEST (llvmc_parser, loop1)
 
 TEST (llvmc_parser, loop2)
 {
-    test_parser parser ("let test1 function [int1 val] [loop [val; val] [val1] [[val1]] [[val val1]]] []");
+    test_parser parser ("let test1 function [int 1 val] [loop [val; val] [val1] [[val1]] [[val val1]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1648,7 +1574,7 @@ TEST (llvmc_parser, loop2)
 
 TEST (llvmc_parser, loop3)
 {
-    test_parser parser ("let test1 function [int1 val] [loop [] [] [] [[;][;]]] []");
+    test_parser parser ("let test1 function [int 1 val] [loop [] [] [] [[;][;]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1673,7 +1599,7 @@ TEST (llvmc_parser, loop3)
 
 TEST (llvmc_parser, loop_result_expression)
 {
-    test_parser parser ("let test1 function [int1 val] [loop [val] [val1] [] [[[val1]]]] []");
+    test_parser parser ("let test1 function [int 1 val] [loop [val] [val1] [] [[[val1]]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1697,6 +1623,7 @@ TEST (llvmc_parser, loop_result_expression)
     EXPECT_EQ (parameter1, loop1->arguments [0]);
     ASSERT_EQ (1, loop1->parameters.size ());
     auto parameter2 (loop1->parameters [0]);
+	ASSERT_NE (nullptr, parameter2);
     ASSERT_EQ (0, loop1->roots.size ());
     ASSERT_EQ (1, loop1->results.size ());
     ASSERT_EQ (1, loop1->predicate_offsets.size ());
@@ -1709,7 +1636,7 @@ TEST (llvmc_parser, loop_result_expression)
 
 TEST (llvmc_parser, let1)
 {
-    test_parser parser ("let test1 function [int1 val] [let val1 [val]] [[int1 val1]]");
+    test_parser parser ("let test1 function [int 1 val] [let val1 [val]] [[int 1 val1]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1750,7 +1677,7 @@ TEST (llvmc_parser, let1)
 
 TEST (llvmc_parser, asm1)
 {
-    test_parser parser ("let test1 function [] [asm int1 text constraints] []");
+    test_parser parser ("let test1 function [] [asm int 1 text constraints] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1766,7 +1693,7 @@ TEST (llvmc_parser, asm1)
     ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
     auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (function1->roots [0]));
-    ASSERT_EQ (mu::core::region (23, 1, 24, 47, 1, 48), asm_l->region);
+    ASSERT_EQ (mu::core::region (23, 1, 24, 48, 1, 49), asm_l->region);
     ASSERT_NE (nullptr, asm_l);
     ASSERT_EQ (mu::string (U"text"), asm_l->text);
     ASSERT_EQ (mu::string (U"constraints"), asm_l->constraints);
@@ -1784,27 +1711,27 @@ TEST (llvmc_parser, asm_type_error)
 
 TEST (llvmc_parser, asm_text_error)
 {
-    test_parser parser ("let test1 function [] [asm int1] []");
+    test_parser parser ("let test1 function [] [asm int 1] []");
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
     ASSERT_EQ (mu::core::error_type::asm_hook_expecting_identifier, module1.error->type ());
-    ASSERT_EQ (mu::core::region (31, 1, 32, 31, 1, 32), module1.error->region ());
+    ASSERT_EQ (mu::core::region (32, 1, 33, 32, 1, 33), module1.error->region ());
 }
 
 TEST (llvmc_parser, asm_constraint_error)
 {
-    test_parser parser ("let test1 function [] [asm int1 text] []");
+    test_parser parser ("let test1 function [] [asm int 1 text] []");
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
     ASSERT_EQ (mu::core::error_type::asm_hook_expecting_constraints, module1.error->type ());
-    ASSERT_EQ (mu::core::region (36, 1, 37, 36, 1, 37), module1.error->region ());
+    ASSERT_EQ (mu::core::region (37, 1, 38, 37, 1, 38), module1.error->region ());
 }
 
 TEST (llvmc_parser, array_type)
 {
-    test_parser parser ("let test1 function [farray int8 #4 p0] [] []");
+    test_parser parser ("let test1 function [farray int 8 # 4 p0] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1833,7 +1760,7 @@ TEST (llvmc_parser, array_type)
 
 TEST (llvmc_parser, constant_array)
 {
-    test_parser parser ("let test1 function [] [[carray int8 [[cint int8 #h08] [cint int8 #h09] [cint int8 #h0a] [cint int8 #h0b]]]] []");
+    test_parser parser ("let test1 function [] [[carray int 8 [[cint int 8 # h08] [cint int 8 # h09] [cint int 8 # h0a] [cint int 8 # h0b]]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2036,7 +1963,7 @@ TEST (llvmc_parser, unit_result)
 
 TEST (llvmc_parser, global_variable)
 {
-    test_parser parser ("let test1 global [cint int64 #42]");
+    test_parser parser ("let test1 global [cint int 64 # 42]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2065,7 +1992,7 @@ TEST (llvmc_parser, global_variable)
 
 TEST (llvmc_parser, constant_pointer_null)
 {
-    test_parser parser ("let test1 null int8");
+    test_parser parser ("let test1 null int 8");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2086,7 +2013,7 @@ TEST (llvmc_parser, constant_pointer_null)
 
 TEST (llvmc_parser, undefined)
 {
-    test_parser parser ("let test1 function [] [] [[int8 undefined int8]]");
+    test_parser parser ("let test1 function [] [] [[int 8 undefined int 8]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2114,7 +2041,7 @@ TEST (llvmc_parser, undefined)
 
 TEST (llvmc_parser, struct_type)
 {
-    test_parser parser ("let test1 function [] [] [[struct [name1 int8] undefined struct [name1 int8]]]");
+    test_parser parser ("let test1 function [] [] [[struct [name1 int 8] undefined struct [name1 int 8]]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2144,7 +2071,7 @@ TEST (llvmc_parser, struct_type)
 
 TEST (llvmc_parser, struct_type_duplicate_name_fail)
 {
-    test_parser parser ("let test1 function [] [] [[struct [name1 int8 name1 int8]]]");
+    test_parser parser ("let test1 function [] [] [[struct [name1 int 8 name1 int 8]]]");
     auto module1 (parser.parser.parse ());
     ASSERT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
@@ -2153,7 +2080,7 @@ TEST (llvmc_parser, struct_type_duplicate_name_fail)
 
 TEST (llvmc_parser, local_covering_parameter_error)
 {
-    test_parser parser ("let test1 function [int64 a] [let a int32] []");
+    test_parser parser ("let test1 function [int 64 a] [let a int 32] []");
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
@@ -2254,7 +2181,7 @@ TEST (llvmc_template_context, dont_clone)
 
 TEST (llvmc_parser, namespace_hook)
 {
-    test_parser parser ("` #container member");
+    test_parser parser ("` # container member");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2270,7 +2197,7 @@ TEST (llvmc_parser, namespace_hook)
 
 TEST (llvmc_parser, namespace_template)
 {
-    test_parser parser ("template [] [` #container member]");
+    test_parser parser ("template [] [` # container member]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);

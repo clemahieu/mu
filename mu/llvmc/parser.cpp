@@ -204,9 +204,9 @@ stream (stream_a)
     assert (!error);
 }
 
-mu::llvmc::node_result mu::llvmc::module_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::module_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-	mu::llvmc::module module (region_a, data_a, parser_a);
+	mu::llvmc::module module (region_a, parser_a);
 	module.parse ();
 	return module.result;
 }
@@ -294,26 +294,20 @@ void mu::llvmc::module::parse_internal ()
     }
 }
 
-bool mu::llvmc::module_hook::covering ()
+mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
-{
-    mu::llvmc::function parser_l (region_a, data_a, parser_a);
+    mu::llvmc::function parser_l (region_a, parser_a);
     parser_l.parse ();
     return parser_l.result;
 }
 
-mu::llvmc::function::function (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a):
+mu::llvmc::function::function (mu::core::region const & region_a, mu::llvmc::parser & parser_a):
 block (parser_a.current_mapping),
 result ({nullptr, nullptr}),
 function_m (new (GC) mu::llvmc::ast::function (parser_a.current_template)),
 parser (parser_a),
 first (region_a)
 {
-    assert (data_a.empty ());
 	parser_a.current_mapping = &block;
 }
 
@@ -525,14 +519,9 @@ void mu::llvmc::function::parse_result_set ()
     }
 }
 
-bool mu::llvmc::function_hook::covering ()
-{
-    return false;
-}
-
 mu::llvmc::node_result mu::llvmc::parser::parse ()
 {
-	mu::llvmc::module module (mu::empty_region, U"", *this);
+	mu::llvmc::module module (mu::empty_region, *this);
 	module.parse_internal ();
     auto result (module.result);
 	if (result.error == nullptr)
@@ -556,22 +545,8 @@ mu::llvmc::node_result mu::llvmc::parser::parse ()
 
 bool mu::llvmc::keywords::insert (mu::string const & identifier_a, mu::llvmc::hook * hook_a)
 {
-    auto result (false);
-    auto existing (mappings.lower_bound (identifier_a));
-    if (hook_a->covering () && existing != mappings.end ())
-    {
-        auto size (identifier_a.length ());
-        result = existing->first.compare (0, size, identifier_a, 0, size) == 0;
-    }
-    if (existing != mappings.begin ())
-    {
-        --existing;
-        if (existing->second->covering ())
-        {
-            auto size (existing->first.length ());
-            result = result || existing->first.compare (0, size, identifier_a, 0, size) == 0;
-        }
-    }
+    auto existing (mappings.find (identifier_a));
+    auto result (existing != mappings.end ());
     if (!result)
     {
         mappings.insert (existing, decltype (mappings)::value_type (identifier_a, hook_a));
@@ -581,44 +556,12 @@ bool mu::llvmc::keywords::insert (mu::string const & identifier_a, mu::llvmc::ho
 
 mu::llvmc::hook_result mu::llvmc::keywords::get_hook (mu::string const & identifier_a)
 {
-    hook_result result ({nullptr, mu::string ()});
-    auto existing (mappings.lower_bound (identifier_a));
-    mu::llvmc::hook * candidate (nullptr);
-    mu::string data;
-    bool need_covering (false);
-    if (existing != mappings.end () && existing->first == identifier_a)
-    {
-        candidate = existing->second;
-    }
-    else
-    {
-        need_covering = true;
-        if (existing != mappings.begin ())
-        {
-            --existing;
-            auto data_position (existing->first.length ());
-            if (identifier_a.compare (0, data_position, existing->first) == 0)
-            {
-                data.append (identifier_a.begin () + data_position, identifier_a.end ());
-                candidate = existing->second;
-            }
-        }
-    }
-    if (candidate != nullptr)        
-    {
-        if (need_covering)
-        {
-            if (candidate->covering ())
-            {
-                result.data.swap (data);
-                result.hook = candidate;
-            }
-        }
-        else
-        {
-            result.hook = candidate;
-        }
-    }
+    hook_result result ({nullptr});
+    auto existing (mappings.find (identifier_a));
+	if (existing != mappings.end ())
+	{
+		result.hook = existing->second;
+	}
     return result;
 }
 
@@ -665,15 +608,11 @@ bool mu::llvmc::block::insert (mu::string const & name_a, mu::llvmc::ast::node *
     auto result (parent->reserve (name_a));
     if (!result)
     {
-        auto existing (mappings.lower_bound (name_a));
-        result = (existing != mappings.end ()) && (existing->first == name_a);
+        auto existing (mappings.find (name_a));
+        result = existing != mappings.end ();
         if (!result)
         {
-            if (existing != mappings.begin())
-            {
-                --existing;
-            }
-            mappings.insert (existing, decltype (mappings)::value_type (name_a, node_a));
+            mappings.insert (decltype (mappings)::value_type (name_a, node_a));
             for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
             {
                 std::get <1> (i->second) (node_a, std::get <0> (i->second));
@@ -753,17 +692,18 @@ void mu::llvmc::global::accept (mu::multimap <mu::string, unresolved_type> unres
     unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
 }
 
-mu::llvmc::node_result mu::llvmc::int_type::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::int_type::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-    result.node = new (GC) mu::llvmc::ast::integer_type (data_a, parser_a.current_template);
-    result.node->region = region_a;
+	result.error = parser_a.parse_identifier (
+		[&] (mu::io::identifier * identifier_a)
+		{
+			result.node = new (GC) mu::llvmc::ast::integer_type (identifier_a->string, parser_a.current_template);
+			result.node->region.first = region_a.first;
+			result.node->region.last = identifier_a->region.last;
+			return nullptr;
+		}, U"Expecting an identifier", mu::core::error_type::expecting_identifier);
     return result;
-}
-
-bool mu::llvmc::int_type::covering ()
-{
-    return true;
 }
 
 mu::llvmc::expression::expression (mu::core::region const & region_a, mu::llvmc::parser & parser_a):
@@ -840,9 +780,8 @@ void mu::llvmc::expression::parse ()
     }
 }
 
-mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto name (parser_a.peek ());
     if (name.token != nullptr)
@@ -891,14 +830,8 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::core::region const & regi
     return result;
 }
 
-bool mu::llvmc::set_hook::covering ()
+mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
-{
-    assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto done (false);
     auto next (parser_a.stream [0]);
@@ -965,26 +898,17 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::core::region const & regi
     return result;
 }
 
-bool mu::llvmc::let_hook::covering ()
-{
-    return false;
-}
-
 bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a)
 {
     auto hook (keywords->get_hook (identifier_a));
     auto result (hook.hook != nullptr);
     if (!result)
     {
-        auto existing (mappings.lower_bound (identifier_a));
-        result = (existing != mappings.end ()) && (existing->first == identifier_a);
+        auto existing (mappings.find (identifier_a));
+        result = existing != mappings.end ();
         if (!result)
         {
-            if (existing != mappings.begin())
-            {
-                --existing;
-            }
-            mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
+            mappings.insert (decltype (mappings)::value_type (identifier_a, node_a));
             for (auto i (unresolved.find (identifier_a)), j (unresolved.end ()); i != j && i->first == identifier_a; ++i)
             {
                 std::get <1> (i->second) (node_a, std::get <0> (i->second));
@@ -1264,17 +1188,11 @@ void mu::llvmc::loop::parse_results ()
     }
 }
 
-mu::llvmc::node_result mu::llvmc::loop_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::loop_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    assert (data_a.empty ());
     mu::llvmc::loop loop (parser_a);
     loop.parse ();
     return loop.result;
-}
-
-bool mu::llvmc::loop_hook::covering ()
-{
-    return false;
 }
 
 mu::llvmc::block::~block ()
@@ -1282,9 +1200,8 @@ mu::llvmc::block::~block ()
     parent->accept (unresolved);
 }
 
-mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    assert (data_a == U"");
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto type (new (GC) mu::llvmc::ast::pointer_type (parser_a.current_template));
     result.node = type;
@@ -1299,22 +1216,18 @@ mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::core::region const & regi
     return result;
 }
 
-bool mu::llvmc::ptr_type::covering ()
-{
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::number::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::number::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-    result.node = new (GC) mu::llvmc::ast::number (data_a, parser_a.current_template);
-    result.node->region = region_a;
+	result.error = parser_a.parse_identifier (
+		[&] (mu::io::identifier * identifier_a)
+		{
+			result.node = new (GC) mu::llvmc::ast::number (identifier_a->string, parser_a.current_template);
+			result.node->region.first = region_a.first;
+			result.node->region.last = identifier_a->region.last;
+			return nullptr;
+		}, U"Expecting an identifier", mu::core::error_type::expecting_identifier);
     return result;
-}
-
-bool mu::llvmc::number::covering ()
-{
-    return true;
 }
 
 mu::llvmc::ast::number::number (mu::string const & number_a, mu::llvmc::template_context * context_a) :
@@ -1323,9 +1236,8 @@ number_m (number_a)
 {
 }
 
-mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto asm_l (new (GC) mu::llvmc::ast::asm_c (parser_a.current_template));
     asm_l->region.first = region_a.first;
@@ -1364,11 +1276,6 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & regi
         }
     }
     return result;
-}
-
-bool mu::llvmc::asm_hook::covering ()
-{
-    return false;
 }
 
 mu::llvmc::partial_ast_result::partial_ast_result (mu::io::token * token_a, mu::llvmc::ast::node * ast_a, mu::core::error * error_a):
@@ -1422,7 +1329,7 @@ mu::llvmc::partial_ast_result mu::llvmc::parser::peek ()
             if (hook.hook != nullptr)
             {
                 mu::llvmc::parser_context context (*this, &hook.hook->name ());
-                auto ast (hook.hook->parse (token->region, hook.data, *this));
+                auto ast (hook.hook->parse (token->region, *this));
                 if (ast.node != nullptr)
                 {
                     result = {nullptr, ast.node, nullptr};
@@ -1476,9 +1383,8 @@ mu::core::error * mu::llvmc::parser::parse_left_square_required (char32_t const 
     return result;
 }
 
-mu::llvmc::node_result mu::llvmc::array_type::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::array_type::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    assert (data_a.empty ());
     auto node (new (GC) mu::llvmc::ast::fixed_array_type (parser_a.current_template));
     node->region.first = region_a.first;
     mu::llvmc::node_result result ({nullptr, nullptr});
@@ -1507,12 +1413,7 @@ mu::llvmc::node_result mu::llvmc::array_type::parse (mu::core::region const & re
     return result;
 }
 
-bool mu::llvmc::array_type::covering ()
-{
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::constant_array::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::constant_array::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto node (new (GC) mu::llvmc::ast::constant_array (parser_a.current_template));
@@ -1554,12 +1455,7 @@ mu::llvmc::node_result mu::llvmc::constant_array::parse (mu::core::region const 
     return result;
 }
 
-bool mu::llvmc::constant_array::covering ()
-{
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::string_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::string_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
 	mu::llvmc::node_result result ({nullptr, nullptr});
 	result.error = parser_a.parse_identifier (
@@ -1579,12 +1475,7 @@ mu::llvmc::node_result mu::llvmc::string_hook::parse (mu::core::region const & r
 	return result;
 }
 
-bool mu::llvmc::string_hook::covering ()
-{
-	return false;
-}
-
-mu::llvmc::node_result mu::llvmc::ascii_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::ascii_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
 	mu::llvmc::node_result result ({nullptr, nullptr});
 	result.error = parser_a.parse_identifier (
@@ -1613,14 +1504,8 @@ mu::llvmc::node_result mu::llvmc::ascii_hook::parse (mu::core::region const & re
 	return result;
 }
 
-bool mu::llvmc::ascii_hook::covering ()
+mu::llvmc::node_result mu::llvmc::global_variable::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-	return false;
-}
-
-mu::llvmc::node_result mu::llvmc::global_variable::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
-{
-    assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto global (new (GC) mu::llvmc::ast::global_variable (parser_a.current_template));
     global->region.first = region_a.first;
@@ -1639,14 +1524,8 @@ mu::llvmc::node_result mu::llvmc::global_variable::parse (mu::core::region const
     return result;
 }
 
-bool mu::llvmc::global_variable::covering ()
+mu::llvmc::node_result mu::llvmc::constant_pointer_null::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::constant_pointer_null::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
-{
-    assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto constant (new (GC) mu::llvmc::ast::constant_pointer_null (parser_a.current_template));
     constant->region.first = region_a.first;
@@ -1665,14 +1544,8 @@ mu::llvmc::node_result mu::llvmc::constant_pointer_null::parse (mu::core::region
     return result;
 }
 
-bool mu::llvmc::constant_pointer_null::covering ()
+mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
-{
-    assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto join (new (GC) mu::llvmc::ast::join (parser_a.current_template));
     result.error = parser_a.parse_left_square_required (U"Join must start with a left square", mu::core::error_type::expecting_left_square);
@@ -1740,14 +1613,8 @@ mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & reg
     return result;
 }
 
-bool mu::llvmc::join_hook::covering ()
+mu::llvmc::node_result mu::llvmc::undefined_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::undefined_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
-{
-    assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto undefined (new (GC) mu::llvmc::ast::undefined (parser_a.current_template));
     result.error = parser_a.parse_ast_or_refer (
@@ -1764,12 +1631,7 @@ mu::llvmc::node_result mu::llvmc::undefined_hook::parse (mu::core::region const 
     return result;
 }
 
-bool mu::llvmc::undefined_hook::covering ()
-{
-    return false;
-}
-
-mu::llvmc::node_result mu::llvmc::struct_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::struct_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     result.error = parser_a.parse_left_square_required (U"Struct definition must beging with a left square", mu::core::error_type::expecting_left_square);
@@ -1819,11 +1681,6 @@ mu::llvmc::node_result mu::llvmc::struct_hook::parse (mu::core::region const & r
         result.node = struct_l;
     }
     return result;
-}
-
-bool mu::llvmc::struct_hook::covering ()
-{
-    return false;
 }
 
 static mu::string array_type_name (U"array_type");
@@ -2003,7 +1860,7 @@ mu::core::region mu::llvmc::parser_error::region ()
     return region_m;
 }
 
-mu::llvmc::node_result mu::llvmc::template_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::template_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
 	mu::llvmc::block block (parser_a.current_mapping);
     parser_a.current_mapping = &block;
@@ -2072,11 +1929,6 @@ mu::llvmc::node_result mu::llvmc::template_hook::parse (mu::core::region const &
 	return result;
 }
 
-bool mu::llvmc::template_hook::covering ()
-{
-	return false;
-}
-
 static mu::string template_hook_name (U"template_hook");
 
 mu::string const & mu::llvmc::template_hook::name ()
@@ -2084,7 +1936,7 @@ mu::string const & mu::llvmc::template_hook::name ()
 	return template_hook_name;
 }
 
-mu::llvmc::node_result mu::llvmc::entry_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::entry_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
     auto entry (new (GC) mu::llvmc::ast::entry (parser_a.current_template));
     entry->region = region_a;
@@ -2101,11 +1953,6 @@ mu::llvmc::node_result mu::llvmc::entry_hook::parse (mu::core::region const & re
         result.node = entry;
     }
     return result;
-}
-
-bool mu::llvmc::entry_hook::covering ()
-{
-    return false;
 }
 
 static mu::string entry_hook_name (U"entry_hook");
@@ -2127,7 +1974,7 @@ bool mu::llvmc::template_context::should_clone (mu::llvmc::template_context * no
 	return result;
 }
 
-mu::llvmc::node_result mu::llvmc::namespace_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::namespace_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
     auto namespace_l (new (GC) mu::llvmc::ast::namespace_c (parser_a.current_template));
     mu::llvmc::node_result result ({nullptr, nullptr});
@@ -2156,11 +2003,6 @@ mu::llvmc::node_result mu::llvmc::namespace_hook::parse (mu::core::region const 
     return result;
 }
 
-bool mu::llvmc::namespace_hook::covering ()
-{
-    return false;
-}
-
 static mu::string namespace_hook_name (U"namespace_hook");
 
 mu::string const & mu::llvmc::namespace_hook::name ()
@@ -2168,13 +2010,12 @@ mu::string const & mu::llvmc::namespace_hook::name ()
     return namespace_hook_name;
 }
 
-mu::llvmc::module::module (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) :
+mu::llvmc::module::module (mu::core::region const & region_a, mu::llvmc::parser & parser_a) :
 block (parser_a.current_mapping),
 result ({nullptr, nullptr}),
 parser (parser_a),
 first (region_a)
 {
-	assert (data_a.empty ());
 	parser_a.current_mapping = &block;
 }
 
