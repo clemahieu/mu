@@ -1729,6 +1729,41 @@ TEST (llvmc_parser, asm_constraint_error)
     ASSERT_EQ (mu::core::region (37, 1, 38, 37, 1, 38), module1.error->region ());
 }
 
+TEST (llvmc_parser, asm_type_resolution)
+{
+    test_parser parser ("let test1 function [] [asm int1 text constraints asm int2 text constraints][] let int1 int 1 let int2 int 2");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (3, module2->globals.size ());
+	auto set1 (dynamic_cast <mu::llvmc::ast::set *> (module2->globals [0]));
+	ASSERT_NE (nullptr, set1);
+	ASSERT_EQ (1, set1->nodes.size ());
+	auto element1 (dynamic_cast <mu::llvmc::ast::element *> (set1->nodes [0]));
+	ASSERT_NE (nullptr, element1);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (element1->node_m));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (2, function1->roots.size ());
+    auto asm1 (dynamic_cast <mu::llvmc::ast::asm_c *> (function1->roots [0]));
+    ASSERT_NE (nullptr, asm1);
+    auto asm2 (dynamic_cast <mu::llvmc::ast::asm_c *> (function1->roots [1]));
+    ASSERT_NE (nullptr, asm2);
+	auto set2 (dynamic_cast <mu::llvmc::ast::set *> (module2->globals [1]));
+	ASSERT_NE (nullptr, set2);
+	ASSERT_EQ (1, set2->nodes.size ());
+	auto element2 (dynamic_cast <mu::llvmc::ast::element *> (set2->nodes [0]));
+	ASSERT_NE (nullptr, element2);
+	ASSERT_EQ (element2, asm1->type);
+	auto set3 (dynamic_cast <mu::llvmc::ast::set *> (module2->globals [2]));
+	ASSERT_NE (nullptr, set3);
+	ASSERT_EQ (1, set3->nodes.size ());
+	auto element3 (dynamic_cast <mu::llvmc::ast::element *> (set3->nodes [0]));
+	ASSERT_NE (nullptr, element3);
+	ASSERT_EQ (element3, asm2->type);
+}
+
 TEST (llvmc_parser, array_type)
 {
     test_parser parser ("let test1 function [farray int 8 # 4 p0] [] []");

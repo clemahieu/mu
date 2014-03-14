@@ -1242,7 +1242,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & regi
     auto asm_l (new (GC) mu::llvmc::ast::asm_c (parser_a.current_template));
     asm_l->region.first = region_a.first;
     result.error = parser_a.parse_ast_or_refer (
-       [&]
+       [asm_l]
        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
        {
            asm_l->type = node_a;
