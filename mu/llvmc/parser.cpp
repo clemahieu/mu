@@ -50,7 +50,7 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"function", &function);
     assert (!error);
-    error = keywords.insert (U"int", &int_type);
+    error = keywords.insert (U"int-t", &int_type);
     assert (!error);
     error = keywords.insert (U"join", &join_hook);
     assert (!error);
