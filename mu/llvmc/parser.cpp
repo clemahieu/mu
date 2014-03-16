@@ -30,7 +30,7 @@ stream (stream_a)
     error = builtins.insert  (U"~", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::identity, current_template));
     assert (!error);
 	auto constant_int (new (GC) mu::llvmc::ast::constant_int);
-    error = builtins.insert (U"cint", constant_int);
+    error = builtins.insert (U"int-c", constant_int);
     assert (!error);
     error = keywords.insert (U"`", &namespace_hook);
     assert (!error);

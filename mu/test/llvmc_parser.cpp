@@ -639,7 +639,7 @@ TEST (llvmc_parser, rational)
 
 TEST (llvmc_parser, constant_int)
 {
-    test_parser parser ("let test function [] [[cint int 32 # 42]] []");
+    test_parser parser ("let test function [] [[int-c int 32 # 42]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -658,7 +658,7 @@ TEST (llvmc_parser, constant_int)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (mu::core::region (22, 1, 23, 39, 1, 40), expression1->region);
+    ASSERT_EQ (mu::core::region (22, 1, 23, 40, 1, 41), expression1->region);
 	ASSERT_EQ (3, expression1->arguments.size ());
 	auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (expression1->arguments [0]));
 	ASSERT_NE (nullptr, constant_int);
@@ -1795,7 +1795,7 @@ TEST (llvmc_parser, array_type)
 
 TEST (llvmc_parser, constant_array)
 {
-    test_parser parser ("let test1 function [] [[carray int 8 [[cint int 8 # h08] [cint int 8 # h09] [cint int 8 # h0a] [cint int 8 # h0b]]]] []");
+    test_parser parser ("let test1 function [] [[carray int 8 [[int-c int 8 # h08] [int-c int 8 # h09] [int-c int 8 # h0a] [int-c int 8 # h0b]]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1998,7 +1998,7 @@ TEST (llvmc_parser, unit_result)
 
 TEST (llvmc_parser, global_variable)
 {
-    test_parser parser ("let test1 global [cint int 64 # 42]");
+    test_parser parser ("let test1 global [int-c int 64 # 42]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
