@@ -222,6 +222,8 @@ namespace mu
                 constant_int (mu::llvmc::template_context * template_a = nullptr);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
+				mu::string bits;
+				mu::string number;
             };
             class constant_array : public mu::llvmc::ast::node
             {
