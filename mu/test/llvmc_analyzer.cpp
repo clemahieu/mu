@@ -3055,6 +3055,30 @@ TEST (llvmc_analyzer, global_argument_call_in_function_branch)
     ASSERT_EQ (function4->entry, expression2->branch);
 }
 
+TEST (llvmc_analyzer, fail_constant_array_bad_initializer)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::integer_type type1 (U"8");
+    mu::llvmc::ast::number number1 (U"4");
+    mu::llvmc::ast::constant_int constant1;
+    mu::llvmc::ast::constant_array constant2;
+	mu::llvmc::ast::expression expression1 ({&type1}, {});
+    constant2.type = &type1;
+	constant2.initializer.push_back (&expression1);
+    mu::llvmc::ast::fixed_array_type type2 (&type1, &number1);
+    mu::llvmc::ast::result result1 (&type2, &constant2);
+    function1.results.push_back (&result1);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.branch_ends.push_back (function1.results.size ());
+    mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
+    module1.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+}
+
 TEST (llvmc_analyzer, array_type)
 {
     mu::llvmc::analyzer analyzer;

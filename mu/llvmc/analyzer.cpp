@@ -499,9 +499,12 @@ void mu::llvmc::module_processor::constant_array (mu::llvmc::ast::constant_array
 				}
 			}
 		}
-		auto array_type (b.fixed_array_type (type, initializer.size ()));
-		array_a->generated.push_back (b.constant_array (array_a->region, array_type, initializer));
-		array_a->assigned = true;
+		if (global_m.error == nullptr)
+		{
+			auto array_type (b.fixed_array_type (type, initializer.size ()));
+			array_a->generated.push_back (b.constant_array (array_a->region, array_type, initializer));
+			array_a->assigned = true;
+		}
 	}
 }
 
