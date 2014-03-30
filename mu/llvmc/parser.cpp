@@ -29,7 +29,8 @@ stream (stream_a)
     bool error (false);
     error = builtins.insert  (U"~", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::identity, current_template));
     assert (!error);
-    error = keywords.insert (U"int-c", &int_constant);
+	auto constant_int (new (GC) mu::llvmc::ast::constant_int);
+    error = builtins.insert (U"int-c", constant_int);
     assert (!error);
     error = keywords.insert (U"`", &namespace_hook);
     assert (!error);
@@ -41,7 +42,7 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"asm", &asm_hook);
     assert (!error);
-    error = keywords.insert (U"array-c", &constant_array);
+    error = keywords.insert (U"carray", &constant_array);
     assert (!error);
     error = keywords.insert (U"entrypoint", &entry_hook);
     assert (!error);
@@ -73,7 +74,6 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"undefined", &undefined_hook);
     assert (!error);
-	auto constant_int (new (GC) mu::llvmc::ast::constant_int);
     error = builtins.insert  (U"false", new (GC) mu::llvmc::ast::expression ({constant_int, new (GC) mu::llvmc::ast::integer_type (U"1"), new (GC) mu::llvmc::ast::number (U"0")}, {}));
     assert (!error);
     error = builtins.insert  (U"true", new (GC) mu::llvmc::ast::expression ({constant_int, new (GC) mu::llvmc::ast::integer_type (U"1"), new (GC) mu::llvmc::ast::number (U"1")}, {}));
@@ -2023,29 +2023,4 @@ mu::llvmc::module::~module ()
 {
 	assert (parser.current_mapping == &block);
 	parser.current_mapping = block.parent;
-}
-
-mu::llvmc::node_result mu::llvmc::constant_int::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
-{
-    mu::llvmc::node_result result ({nullptr, nullptr});
-	auto constant_int (new (GC) mu::llvmc::ast::constant_int);
-	result.error = parser_a.parse_identifier (
-		[&]
-		(mu::io::identifier * identifier_a)
-		{
-			constant_int->bits = identifier_a->string;
-			return nullptr;
-		}, U"Expecting bits identifier", mu::core::error_type::expecting_identifier);
-	if (result.error == nullptr)
-	{
-		result.error = parser_a.parse_identifier (
-			 [&]
-			 (mu::io::identifier * identifier_a)
-			 {
-				 constant_int->number = identifier_a->string;
-				 result.node = constant_int;
-				 return nullptr;
-			 }, U"Expecting number identifier", mu::core::error_type::expecting_identifier);
-	}
-	return result;
 }

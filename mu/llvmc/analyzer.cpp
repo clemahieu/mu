@@ -293,94 +293,25 @@ void mu::llvmc::module_processor::value (mu::llvmc::ast::value * value_node)
 	value_node->assigned = true;
 }
 
-static mu::core::error * string_to_bits (mu::string const & bits_a, mu::core::region const & region_a, unsigned int & target)
+void mu::llvmc::module_processor::integer_type (mu::llvmc::ast::integer_type * type_a)
 {
-	mu::core::error * result (nullptr);
 	try
 	{
-		std::string data_l (bits_a.begin (), bits_a.end ());
+		std::string data_l (type_a->bits.begin (), type_a->bits.end ());
 		unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
 		if (bits <= 1024)
 		{
-			target = bits;
+			type_a->generated.push_back (b.integer_type (bits));
+			type_a->assigned = true;
 		}
 		else
 		{
-			result = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, region_a);
+			global_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, type_a->region);
 		}
 	}
 	catch (boost::bad_lexical_cast)
 	{
-		result = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, region_a);
-	}
-	return result;
-}
-
-static mu::core::error * string_to_rational (mu::string const & string, mu::core::region const & region_a, unsigned int & target)
-{
-	mu::core::error * result (nullptr);
-	std::string data_l (string.begin (), string.end ());
-	if (data_l.size () > 0)
-	{
-		auto prefix (data_l [0]);
-		std::unique_ptr <uint8_t> remaining (new uint8_t [data_l.size () + 1]);
-		uint64_t value;
-		int parsed;
-		switch (prefix)
-		{
-			case 'h':
-				parsed = sscanf (&data_l.c_str () [1], "%" PRIx64 " %s", &value, remaining.get ());
-				break;
-			case 'd':
-				parsed = sscanf (&data_l.c_str () [1], "%" PRIu64 " %s", &value, remaining.get ());
-				break;
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-				parsed = sscanf (&data_l.c_str () [0], "%" PRIu64 " %s", &value, remaining.get ());
-				break;
-			case 'o':
-				parsed = sscanf (&data_l.c_str () [1], "%" PRIo64 " %s", &value, remaining.get ());
-				break;
-			default:
-				parsed = 0;
-				break;
-		}
-		if (parsed == 1)
-		{
-			target = value;
-		}
-		else
-		{
-			result = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, region_a);
-		}
-	}
-	else
-	{
-		result = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, region_a);
-	}
-	return result;
-}
-
-void mu::llvmc::module_processor::integer_type (mu::llvmc::ast::integer_type * type_a)
-{
-	unsigned int number;
-	auto result (string_to_bits (type_a->bits, type_a->region, number));
-	if (result == nullptr)
-	{
-		type_a->generated.push_back (b.integer_type (number));
-		type_a->assigned = true;
-	}
-	else
-	{
-		global_m.error = result;
+		global_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
 	}
 }
 
@@ -444,26 +375,8 @@ void mu::llvmc::function_processor::unit (mu::llvmc::ast::unit * node_a)
 
 void mu::llvmc::module_processor::constant_int (mu::llvmc::ast::constant_int * constant_a)
 {
-	unsigned int bits;
-	auto error (string_to_bits (constant_a->bits, constant_a->region, bits));
-	if (error == nullptr)
-	{
-		unsigned int number;
-		error = string_to_rational(constant_a->number, constant_a->region, number);
-		if (error == nullptr)
-		{
-			constant_a->assigned = true;
-			constant_a->generated.push_back (b.constant_integer (constant_a->region, b.integer_type (bits), number));
-		}
-		else
-		{
-			global_m.error = error;
-		}
-	}
-	else
-	{
-		global_m.error = error;
-	}
+	constant_a->assigned = true;
+	constant_a->generated.push_back (b.constant_int_c ());
 }
 
 void mu::llvmc::module_processor::process_constant_int (mu::llvmc::ast::expression * expression_a)
@@ -1026,7 +939,15 @@ void mu::llvmc::module_processor::expression (mu::llvmc::ast::expression * expre
 						}
 						else
 						{
-							global_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
+							auto constant_int_l (dynamic_cast <mu::llvmc::skeleton::constant_int_c *> (target));
+							if (constant_int_l != nullptr)
+							{
+								process_constant_int (expression_a);
+							}
+							else
+							{
+								global_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
+							}
 						}
 					}
 				}
@@ -1271,13 +1192,54 @@ value (value_a)
 
 void mu::llvmc::global_processor::number (mu::llvmc::ast::number * number_a)
 {
-	unsigned int number;
-	error = string_to_rational (number_a->number_m, number_a->region, number);
-	if (error == nullptr)
+	std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
+	if (data_l.size () > 0)
 	{
-		auto result (new (GC) mu::llvmc::skeleton::number (number));
-		number_a->assigned = true;
-		number_a->generated.push_back (result);
+		auto prefix (data_l [0]);
+		std::unique_ptr <uint8_t> remaining (new uint8_t [data_l.size () + 1]);
+		uint64_t value;
+		int parsed;
+		switch (prefix)
+		{
+			case 'h':		
+				parsed = sscanf (&data_l.c_str () [1], "%" PRIx64 " %s", &value, remaining.get ());
+				break;
+			case 'd':
+				parsed = sscanf (&data_l.c_str () [1], "%" PRIu64 " %s", &value, remaining.get ());		
+				break;
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				parsed = sscanf (&data_l.c_str () [0], "%" PRIu64 " %s", &value, remaining.get ());		
+				break;
+			case 'o':
+				parsed = sscanf (&data_l.c_str () [1], "%" PRIo64 " %s", &value, remaining.get ());		
+				break;
+			default:
+				parsed = 0;
+				break;
+		}
+		if (parsed == 1)
+		{
+			auto result (new (GC) mu::llvmc::skeleton::number (value));
+			number_a->assigned = true;
+			number_a->generated.push_back (result);
+		}
+		else
+		{
+			error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
+		}
+	}
+	else
+	{
+		error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number, number_a->region);
 	}
 }
 

@@ -354,7 +354,6 @@ namespace mu
 			mu::llvmc::template_hook template_hook;
             mu::llvmc::entry_hook entry_hook;
             mu::llvmc::namespace_hook namespace_hook;
-			mu::llvmc::constant_int int_constant;
             std::vector <mu::llvmc::parser_frame> parse_stack;
         };
         class parser_error : public mu::core::error

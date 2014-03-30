@@ -639,7 +639,7 @@ TEST (llvmc_parser, rational)
 
 TEST (llvmc_parser, constant_int)
 {
-    test_parser parser ("let test function [] [int-c 32 42] []");
+    test_parser parser ("let test function [] [[int-c int-t 32 # 42]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -656,10 +656,18 @@ TEST (llvmc_parser, constant_int)
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
     EXPECT_EQ (1, function1->roots.size ());
-	auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (function1->roots [0]));
+    auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (mu::core::region (22, 1, 23, 42, 1, 43), expression1->region);
+	ASSERT_EQ (3, expression1->arguments.size ());
+	auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (expression1->arguments [0]));
 	ASSERT_NE (nullptr, constant_int);
-    ASSERT_EQ (U"32", constant_int->bits);
-    ASSERT_EQ (U"42", constant_int->number);
+	auto type (dynamic_cast <mu::llvmc::ast::integer_type *> (expression1->arguments [1]));
+	ASSERT_NE (nullptr, type);
+	auto number (dynamic_cast <mu::llvmc::ast::number *> (expression1->arguments [2]));
+	ASSERT_NE (nullptr, number);
+    ASSERT_EQ (U"32", type->bits);
+    ASSERT_EQ (U"42", number->number_m);
 }
 
 TEST (llvmc_parser, recursive)
@@ -1787,7 +1795,7 @@ TEST (llvmc_parser, array_type)
 
 TEST (llvmc_parser, constant_array)
 {
-    test_parser parser ("let test1 function [] [[array-c int-t 8 [int-c 8 h08 int-c 8 h09 int-c 8 h0a int-c 8 h0b]]] []");
+    test_parser parser ("let test1 function [] [[carray int-t 8 [[int-c int-t 8 # h08] [int-c int-t 8 # h09] [int-c int-t 8 # h0a] [int-c int-t 8 # h0b]]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1811,10 +1819,17 @@ TEST (llvmc_parser, constant_array)
     ASSERT_NE (nullptr, integer_type1);
     ASSERT_EQ (U"8", integer_type1->bits);
     ASSERT_EQ (4, constant1->initializer.size ());
-    auto constant2 (dynamic_cast <mu::llvmc::ast::constant_int *> (constant1->initializer [0]));
+	auto expression2 (dynamic_cast <mu::llvmc::ast::expression *> (constant1->initializer [0]));
+	ASSERT_NE (nullptr, expression2);
+	ASSERT_EQ (3, expression2->arguments.size ());
+    auto constant2 (dynamic_cast <mu::llvmc::ast::constant_int *> (expression2->arguments [0]));
     ASSERT_NE (nullptr, constant2);
-    ASSERT_EQ (U"8", constant2->bits);
-    ASSERT_EQ (U"h08", constant2->number);
+	auto type (dynamic_cast <mu::llvmc::ast::integer_type *> (expression2->arguments [1]));
+	ASSERT_NE (nullptr, type);
+	auto number (dynamic_cast <mu::llvmc::ast::number *> (expression2->arguments [2]));
+	ASSERT_NE (nullptr, number);
+    ASSERT_EQ (integer_type1->bits, type->bits);
+    ASSERT_EQ (U"h08", number->number_m);
 }
 
 TEST (llvmc_parser, constant_string)
@@ -1983,7 +1998,7 @@ TEST (llvmc_parser, unit_result)
 
 TEST (llvmc_parser, global_variable)
 {
-    test_parser parser ("let test1 global [int-c 64 42]");
+    test_parser parser ("let test1 global [int-c int-t 64 # 42]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1999,11 +2014,15 @@ TEST (llvmc_parser, global_variable)
     ASSERT_NE (nullptr, global1);
 	auto expression (dynamic_cast <mu::llvmc::ast::expression *> (global1->initializer));
 	ASSERT_NE (nullptr, expression);
-	ASSERT_EQ (1, expression->arguments.size ());
+	ASSERT_EQ (3, expression->arguments.size ());
     auto initializer1 (dynamic_cast <mu::llvmc::ast::constant_int *> (expression->arguments [0]));
     ASSERT_NE (nullptr, initializer1);
-    ASSERT_EQ (U"64", initializer1->bits);
-    ASSERT_EQ (U"42", initializer1->number);
+	auto type (dynamic_cast <mu::llvmc::ast::integer_type *> (expression->arguments [1]));
+	ASSERT_NE (nullptr, type);
+    auto number1 (dynamic_cast <mu::llvmc::ast::number *> (expression->arguments [2]));
+    ASSERT_NE (nullptr, number1);
+    ASSERT_EQ (U"64", type->bits);
+    ASSERT_EQ (U"42", number1->number_m);
 }
 
 TEST (llvmc_parser, constant_pointer_null)

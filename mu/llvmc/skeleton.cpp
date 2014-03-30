@@ -1272,6 +1272,16 @@ void mu::llvmc::skeleton::visitor::module (mu::llvmc::skeleton::module * node_a)
 	node (node_a);
 }
 
+void mu::llvmc::skeleton::constant_int_c::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+	visitor_a->constant_int_c (this);
+}
+
+void mu::llvmc::skeleton::visitor::constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a)
+{
+	node (node_a);
+}
+
 mu::llvmc::skeleton::node * mu::llvmc::skeleton::struct_type::operator [] (mu::string const & name_a)
 {
 	mu::llvmc::skeleton::node * result;
@@ -1480,6 +1490,11 @@ mu::llvmc::skeleton::template_c * mu::llvmc::skeleton::factory::template_c (mu::
 mu::llvmc::skeleton::module * mu::llvmc::skeleton::factory::module ()
 {
 	return new (GC) mu::llvmc::skeleton::module;
+}
+
+mu::llvmc::skeleton::constant_int_c * mu::llvmc::skeleton::factory::constant_int_c ()
+{
+	return new (GC) mu::llvmc::skeleton::constant_int_c;
 }
 
 mu::llvmc::skeleton::instruction::instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, std::initializer_list <mu::llvmc::skeleton::node *> arguments_a, std::initializer_list <mu::llvmc::skeleton::node *> predicates_a) :

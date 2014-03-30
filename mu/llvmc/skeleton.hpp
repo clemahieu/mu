@@ -510,6 +510,11 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;
 			};
+			class constant_int_c : public mu::llvmc::skeleton::node
+			{
+			public:
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+			};
             class visitor
             {
             public:
@@ -552,6 +557,7 @@ namespace mu
                 virtual void template_c (mu::llvmc::skeleton::template_c * node_a);
                 virtual void global_value (mu::llvmc::skeleton::global_value * node_a);
 				virtual void module (mu::llvmc::skeleton::module * node_a);
+				virtual void constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a);
             };
             class factory
             {
@@ -590,6 +596,7 @@ namespace mu
 				mu::llvmc::skeleton::undefined * undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::template_c * template_c (mu::llvmc::template_context * base_a);
 				mu::llvmc::skeleton::module * module ();
+				mu::llvmc::skeleton::constant_int_c * constant_int_c ();
             };
 			class namespace_visitor
 			{
