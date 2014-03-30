@@ -69,9 +69,9 @@ void mu::llvmc::ast::expression::set_predicate_position ()
     predicate_position = arguments.size ();
 }
 
-mu::llvmc::ast::integer_type::integer_type (mu::string const & bits_a, mu::llvmc::template_context * template_a) :
+mu::llvmc::ast::integer_type::integer_type (mu::llvmc::template_context * template_a) :
 node (template_a),
-bits (bits_a)
+bits (nullptr)
 {
 }
 

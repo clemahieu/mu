@@ -282,6 +282,29 @@ void mu::llvmc::function_processor::process_parameters ()
 	}
 }
 
+mu::llvmc::skeleton::number * mu::llvmc::global_processor::process_number (mu::llvmc::ast::node * node_a)
+{
+	mu::llvmc::skeleton::number * result (nullptr);
+	process_node (node_a);
+	if (error == nullptr)
+	{
+		assert (node_a->assigned);
+		if (node_a->generated.size () == 1)
+		{
+			result = dynamic_cast <mu::llvmc::skeleton::number *> (node_a->generated [0]);
+			if (result == nullptr)
+			{
+				error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number);
+			}
+		}
+		else
+		{
+			error = new (GC) mu::core::error_string (U"Expecting one node", mu::core::error_type::expecting_one_value);
+		}
+	}
+	return result;
+}
+
 void mu::llvmc::function_processor::node (mu::llvmc::ast::node * node_a)
 {
 	node_a->visit (previous);
@@ -295,23 +318,19 @@ void mu::llvmc::module_processor::value (mu::llvmc::ast::value * value_node)
 
 void mu::llvmc::module_processor::integer_type (mu::llvmc::ast::integer_type * type_a)
 {
-	try
+	auto number (global_m.process_number (type_a->bits));
+	if (global_m.error == nullptr)
 	{
-		std::string data_l (type_a->bits.begin (), type_a->bits.end ());
-		unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
-		if (bits <= 1024)
+		assert (number != nullptr);
+		if (number->value <= 1024)
 		{
-			type_a->generated.push_back (b.integer_type (bits));
+			type_a->generated.push_back (b.integer_type (number->value));
 			type_a->assigned = true;
 		}
 		else
 		{
 			global_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, type_a->region);
 		}
-	}
-	catch (boost::bad_lexical_cast)
-	{
-		global_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
 	}
 }
 

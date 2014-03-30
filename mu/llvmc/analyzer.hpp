@@ -63,6 +63,7 @@ namespace mu
 			void module (mu::llvmc::ast::module * node_a) override;
 			void number (mu::llvmc::ast::number * node_a) override;
 			void template_parameter (mu::llvmc::ast::template_parameter * node_a) override;
+			mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::node *);
 			std::string print_analysis_stack ();
 			mu::vector <mu::llvmc::ast::node *> analysis_stack;
 			mu::llvmc::ast::visitor * current_context;

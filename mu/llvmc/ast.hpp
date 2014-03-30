@@ -160,10 +160,10 @@ namespace mu
             {
             public:
 				integer_type (mu::llvmc::ast::integer_type const & other_a);
-                integer_type (mu::string const & bits_a, mu::llvmc::template_context * template_a = nullptr);
+                integer_type (mu::llvmc::template_context * template_a = nullptr);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
-                mu::string bits;
+				mu::llvmc::ast::node * bits;
             };
             class pointer_type : public mu::llvmc::ast::node
             {

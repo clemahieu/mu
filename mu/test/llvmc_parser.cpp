@@ -639,7 +639,7 @@ TEST (llvmc_parser, rational)
 
 TEST (llvmc_parser, constant_int)
 {
-    test_parser parser ("let test function [] [[int-c int-t 32 # 42]] []");
+    test_parser parser ("let test function [] [[int-c int-t # 32 # 42]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -658,16 +658,18 @@ TEST (llvmc_parser, constant_int)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (mu::core::region (22, 1, 23, 42, 1, 43), expression1->region);
+    ASSERT_EQ (mu::core::region (22, 1, 23, 44, 1, 45), expression1->region);
 	ASSERT_EQ (3, expression1->arguments.size ());
 	auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (expression1->arguments [0]));
 	ASSERT_NE (nullptr, constant_int);
 	auto type (dynamic_cast <mu::llvmc::ast::integer_type *> (expression1->arguments [1]));
 	ASSERT_NE (nullptr, type);
-	auto number (dynamic_cast <mu::llvmc::ast::number *> (expression1->arguments [2]));
-	ASSERT_NE (nullptr, number);
-    ASSERT_EQ (U"32", type->bits);
-    ASSERT_EQ (U"42", number->number_m);
+	auto number1 (dynamic_cast <mu::llvmc::ast::number *> (expression1->arguments [2]));
+	ASSERT_NE (nullptr, number1);
+	auto number2 (dynamic_cast <mu::llvmc::ast::number *> (type->bits));
+	ASSERT_NE (nullptr, number2);
+    ASSERT_EQ (U"32", number2->number_m);
+    ASSERT_EQ (U"42", number1->number_m);
 }
 
 TEST (llvmc_parser, recursive)
@@ -753,7 +755,7 @@ TEST (llvmc_parser, two_functions)
 
 TEST (llvmc_parser, int_type42)
 {
-    test_parser parser ("let test1 function [int-t 42 val] [] []");
+    test_parser parser ("let test1 function [int-t # 42 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -771,11 +773,13 @@ TEST (llvmc_parser, int_type42)
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     ASSERT_NE (nullptr, parameter1);
-    ASSERT_EQ (mu::core::region (20, 1, 21, 31, 1, 32), parameter1->region);
+    ASSERT_EQ (mu::core::region (20, 1, 21, 33, 1, 34), parameter1->region);
     auto type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (parameter1->type));
     ASSERT_NE (nullptr, type1);
-	ASSERT_EQ (mu::core::region (20, 1, 21, 27, 1, 28), type1->region);
-    EXPECT_EQ (U"42", type1->bits);
+	ASSERT_EQ (mu::core::region (20, 1, 21, 29, 1, 30), type1->region);
+	auto number1 (dynamic_cast <mu::llvmc::ast::number *> (type1->bits));
+	ASSERT_NE (nullptr, number1);
+    EXPECT_EQ (U"42", number1->number_m);
 }
 
 TEST (llvmc_parser, join_empty)
@@ -831,7 +835,7 @@ TEST (llvmc_parser, join_single)
 
 TEST (llvmc_parser, join_item)
 {
-    test_parser parser ("let test1 function [int-t 32 i] [join [[i]]] []");
+    test_parser parser ("let test1 function [int-t # 32 i] [join [[i]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -859,7 +863,7 @@ TEST (llvmc_parser, join_item)
 
 TEST (llvmc_parser, join_predicate)
 {
-    test_parser parser ("let test1 function [int-t 32 i] [join [[; i]]] []");
+    test_parser parser ("let test1 function [int-t # 32 i] [join [[; i]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -887,7 +891,7 @@ TEST (llvmc_parser, join_predicate)
 
 TEST (llvmc_parser, join_2branches)
 {
-    test_parser parser ("let test1 function [int-t 32 i] [join [[][]]] []");
+    test_parser parser ("let test1 function [int-t # 32 i] [join [[][]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -935,7 +939,7 @@ TEST (llvmc_parser, join_branch_error)
 
 TEST (llvmc_parser, ptr_int_type42)
 {
-    test_parser parser ("let test1 function [ptr int-t 42 val] [] []");
+    test_parser parser ("let test1 function [ptr int-t # 42 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -952,19 +956,21 @@ TEST (llvmc_parser, ptr_int_type42)
     ASSERT_EQ (1, function1->parameters.size ());
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
-    ASSERT_EQ (mu::core::region (20, 1, 21, 35, 1, 36), parameter1->region);
+    ASSERT_EQ (mu::core::region (20, 1, 21, 37, 1, 38), parameter1->region);
     ASSERT_NE (nullptr, parameter1);
     auto type1 (dynamic_cast <mu::llvmc::ast::pointer_type *> (parameter1->type));
-    ASSERT_EQ (mu::core::region (20, 1, 21, 31, 1, 32), type1->region);
+    ASSERT_EQ (mu::core::region (20, 1, 21, 33, 1, 34), type1->region);
     ASSERT_NE (nullptr, type1);
     auto type2 (dynamic_cast <mu::llvmc::ast::integer_type *> (type1->pointed_type));
     ASSERT_NE (nullptr, type2);
-    EXPECT_EQ (U"42", type2->bits);
+	auto number1 (dynamic_cast <mu::llvmc::ast::number *> (type2->bits));
+	ASSERT_NE (nullptr, number1);
+    EXPECT_EQ (U"42", number1->number_m);
 }
 
 TEST (llvmc_parser, ptr_reference)
 {
-    test_parser parser ("let i8 int-t 8 let test1 function [ptr i8 val] [] []");
+    test_parser parser ("let i8 int-t # 8 let test1 function [ptr i8 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -981,16 +987,18 @@ TEST (llvmc_parser, ptr_reference)
     ASSERT_EQ (1, function1->parameters.size ());
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
-    ASSERT_EQ (mu::core::region (35, 1, 36, 44, 1, 45), parameter1->region);
+    ASSERT_EQ (mu::core::region (37, 1, 38, 46, 1, 47), parameter1->region);
     ASSERT_NE (nullptr, parameter1);
     auto type1 (dynamic_cast <mu::llvmc::ast::pointer_type *> (parameter1->type));
-    ASSERT_EQ (mu::core::region (35, 1, 36, 40, 1, 41), type1->region);
+    ASSERT_EQ (mu::core::region (37, 1, 38, 42, 1, 43), type1->region);
     ASSERT_NE (nullptr, type1);
     auto element2 (dynamic_cast <mu::llvmc::ast::element *> (type1->pointed_type));
     ASSERT_NE (nullptr, element2);
     auto type2 (dynamic_cast <mu::llvmc::ast::integer_type *> (element2->node_m));
     ASSERT_NE (nullptr, type2);
-    EXPECT_EQ (U"8", type2->bits);
+	auto number1 (dynamic_cast <mu::llvmc::ast::number *> (type2->bits));
+	ASSERT_NE (nullptr, number1);
+    EXPECT_EQ (U"8", number1->number_m);
 }
 
 TEST (llvmc_parser, result_no_type_error)
@@ -1015,7 +1023,7 @@ TEST (llvmc_parser, result_no_close_error)
 
 TEST (llvmc_parser, results1)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [] [[int-t 1 val]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [] [[int-t # 1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1037,7 +1045,7 @@ TEST (llvmc_parser, results1)
     ASSERT_EQ (1, function1->predicate_offsets.size ());
     ASSERT_EQ (1, function1->predicate_offsets [0]);
     auto result1 (function1->results [0]);
-    ASSERT_EQ (mu::core::region (38, 1, 39, 48, 1, 49), result1->region);
+    ASSERT_EQ (mu::core::region (40, 1, 41, 52, 1, 53), result1->region);
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
     ASSERT_NE (nullptr, value1);
     EXPECT_EQ (parameter1, value1->value);
@@ -1045,7 +1053,7 @@ TEST (llvmc_parser, results1)
 
 TEST (llvmc_parser, results1_empty_predicate)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [] [[int-t 1 val;]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [] [[int-t # 1 val;]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1074,7 +1082,7 @@ TEST (llvmc_parser, results1_empty_predicate)
 
 TEST (llvmc_parser, results1_one_predicate)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [] [[int-t 1 val; val]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [] [[int-t # 1 val; val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1103,7 +1111,7 @@ TEST (llvmc_parser, results1_one_predicate)
 
 TEST (llvmc_parser, results1_expression_predicate)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [] [[; [val]]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [] [[; [val]]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1132,7 +1140,7 @@ TEST (llvmc_parser, results1_expression_predicate)
 
 TEST (llvmc_parser, results1_multi_predicate)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [] [[int-t 1 val; val val val]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [] [[int-t # 1 val; val val val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1161,7 +1169,7 @@ TEST (llvmc_parser, results1_multi_predicate)
 
 TEST (llvmc_parser, results2)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [] [[int-t 1 val] [int-t 1 val]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [] [[int-t # 1 val] [int-t # 1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1196,7 +1204,7 @@ TEST (llvmc_parser, results2)
 
 TEST (llvmc_parser, results2_predicates)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [] [[int-t 1 val; val] [int-t 1 val; val]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [] [[int-t # 1 val; val] [int-t # 1 val; val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1233,7 +1241,7 @@ TEST (llvmc_parser, results2_predicates)
 
 TEST (llvmc_parser, results_unresolved_type)
 {
-    test_parser parser ("let test1 function [] [] [[thing1 test2 thing2 test3]] let thing1 int-t 1 let test2 function [] [] [] let thing2 int-t 1 let test3 function [] [] []");
+    test_parser parser ("let test1 function [] [] [[thing1 test2 thing2 test3]] let thing1 int-t # 1 let test2 function [] [] [] let thing2 int-t # 1 let test3 function [] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1307,7 +1315,7 @@ TEST (llvmc_parser, results_unresolved_type)
 
 TEST (llvmc_parser, results_resolved_predicates)
 {
-    test_parser parser ("let test1 function [] [] [[int-t 1 test2]] let test2 function [] [] []");
+    test_parser parser ("let test1 function [] [] [[int-t # 1 test2]] let test2 function [] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1344,7 +1352,7 @@ TEST (llvmc_parser, results_resolved_predicates)
 
 TEST (llvmc_parser, body1)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [[]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [[]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1367,7 +1375,7 @@ TEST (llvmc_parser, body1)
 
 TEST (llvmc_parser, body2)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [[val]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [[val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1395,7 +1403,7 @@ TEST (llvmc_parser, body2)
 
 TEST (llvmc_parser, body3)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [[val] [val]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [[val] [val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1428,7 +1436,7 @@ TEST (llvmc_parser, body3)
 
 TEST (llvmc_parser, body4)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [[val;val]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [[val;val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1474,7 +1482,7 @@ TEST (llvmc_parser, expression_already_parsing_predicates_error)
 
 TEST (llvmc_parser, set1)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [set val1 [val]] [[int-t 1 val1]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [set val1 [val]] [[int-t # 1 val1]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1534,7 +1542,7 @@ TEST (llvmc_parser, loop1)
 
 TEST (llvmc_parser, loop2)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [loop [val; val] [val1] [[val1]] [[val val1]]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [loop [val; val] [val1] [[val1]] [[val val1]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1574,7 +1582,7 @@ TEST (llvmc_parser, loop2)
 
 TEST (llvmc_parser, loop3)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [loop [] [] [] [[;][;]]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [loop [] [] [] [[;][;]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1599,7 +1607,7 @@ TEST (llvmc_parser, loop3)
 
 TEST (llvmc_parser, loop_result_expression)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [loop [val] [val1] [] [[[val1]]]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [loop [val] [val1] [] [[[val1]]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1636,7 +1644,7 @@ TEST (llvmc_parser, loop_result_expression)
 
 TEST (llvmc_parser, let1)
 {
-    test_parser parser ("let test1 function [int-t 1 val] [let val1 [val]] [[int-t 1 val1]]");
+    test_parser parser ("let test1 function [int-t # 1 val] [let val1 [val]] [[int-t # 1 val1]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1677,7 +1685,7 @@ TEST (llvmc_parser, let1)
 
 TEST (llvmc_parser, asm1)
 {
-    test_parser parser ("let test1 function [] [asm int-t 1 text constraints] []");
+    test_parser parser ("let test1 function [] [asm int-t # 1 text constraints] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1693,7 +1701,7 @@ TEST (llvmc_parser, asm1)
     ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
     auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (function1->roots [0]));
-    ASSERT_EQ (mu::core::region (23, 1, 24, 50, 1, 51), asm_l->region);
+    ASSERT_EQ (mu::core::region (23, 1, 24, 52, 1, 53), asm_l->region);
     ASSERT_NE (nullptr, asm_l);
     ASSERT_EQ (mu::string (U"text"), asm_l->text);
     ASSERT_EQ (mu::string (U"constraints"), asm_l->constraints);
@@ -1731,7 +1739,7 @@ TEST (llvmc_parser, asm_constraint_error)
 
 TEST (llvmc_parser, asm_type_resolution)
 {
-    test_parser parser ("let test1 function [] [asm int1 text constraints asm int2 text constraints][] let int1 int-t 1 let int2 int-t 2");
+    test_parser parser ("let test1 function [] [asm int1 text constraints asm int2 text constraints][] let int1 int-t # 1 let int2 int-t # 2");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1766,7 +1774,7 @@ TEST (llvmc_parser, asm_type_resolution)
 
 TEST (llvmc_parser, array_type)
 {
-    test_parser parser ("let test1 function [farray int-t 8 # 4 p0] [] []");
+    test_parser parser ("let test1 function [farray int-t # 8 # 4 p0] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1787,7 +1795,9 @@ TEST (llvmc_parser, array_type)
     ASSERT_NE (nullptr, array_type1);
     auto integer_type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (array_type1->element_type));
     ASSERT_NE (nullptr, integer_type1);
-    ASSERT_EQ (U"8", integer_type1->bits);
+	auto number2 (dynamic_cast <mu::llvmc::ast::number *> (integer_type1->bits));
+	ASSERT_NE (nullptr, number2);
+    ASSERT_EQ (U"8", number2->number_m);
     auto number1 (dynamic_cast <mu::llvmc::ast::number *> (array_type1->size));
     ASSERT_NE (nullptr, number1);
     ASSERT_EQ (U"4", number1->number_m);
@@ -1795,7 +1805,7 @@ TEST (llvmc_parser, array_type)
 
 TEST (llvmc_parser, constant_array)
 {
-    test_parser parser ("let test1 function [] [[carray int-t 8 [[int-c int-t 8 # h08] [int-c int-t 8 # h09] [int-c int-t 8 # h0a] [int-c int-t 8 # h0b]]]] []");
+    test_parser parser ("let test1 function [] [[carray int-t # 8 [[int-c int-t # 8 # h08] [int-c int-t # 8 # h09] [int-c int-t # 8 # h0a] [int-c int-t # 8 # h0b]]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1817,7 +1827,9 @@ TEST (llvmc_parser, constant_array)
     ASSERT_NE (nullptr, constant1);
     auto integer_type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (constant1->type));
     ASSERT_NE (nullptr, integer_type1);
-    ASSERT_EQ (U"8", integer_type1->bits);
+	auto number1 (dynamic_cast <mu::llvmc::ast::number *> (integer_type1->bits));
+	ASSERT_NE (nullptr, number1);
+    ASSERT_EQ (U"8", number1->number_m);
     ASSERT_EQ (4, constant1->initializer.size ());
 	auto expression2 (dynamic_cast <mu::llvmc::ast::expression *> (constant1->initializer [0]));
 	ASSERT_NE (nullptr, expression2);
@@ -1826,9 +1838,11 @@ TEST (llvmc_parser, constant_array)
     ASSERT_NE (nullptr, constant2);
 	auto type (dynamic_cast <mu::llvmc::ast::integer_type *> (expression2->arguments [1]));
 	ASSERT_NE (nullptr, type);
+	auto number2 (dynamic_cast <mu::llvmc::ast::number *> (type->bits));
+	ASSERT_NE (nullptr, number2);
 	auto number (dynamic_cast <mu::llvmc::ast::number *> (expression2->arguments [2]));
 	ASSERT_NE (nullptr, number);
-    ASSERT_EQ (integer_type1->bits, type->bits);
+    ASSERT_EQ (number1->number_m, number2->number_m);
     ASSERT_EQ (U"h08", number->number_m);
 }
 
@@ -1998,7 +2012,7 @@ TEST (llvmc_parser, unit_result)
 
 TEST (llvmc_parser, global_variable)
 {
-    test_parser parser ("let test1 global [int-c int-t 64 # 42]");
+    test_parser parser ("let test1 global [int-c int-t # 64 # 42]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2021,13 +2035,15 @@ TEST (llvmc_parser, global_variable)
 	ASSERT_NE (nullptr, type);
     auto number1 (dynamic_cast <mu::llvmc::ast::number *> (expression->arguments [2]));
     ASSERT_NE (nullptr, number1);
-    ASSERT_EQ (U"64", type->bits);
+	auto number2 (dynamic_cast <mu::llvmc::ast::number *> (type->bits));
+	ASSERT_NE (nullptr, number2);
+    ASSERT_EQ (U"64", number2->number_m);
     ASSERT_EQ (U"42", number1->number_m);
 }
 
 TEST (llvmc_parser, constant_pointer_null)
 {
-    test_parser parser ("let test1 null int-t 8");
+    test_parser parser ("let test1 null int-t # 8");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2043,12 +2059,14 @@ TEST (llvmc_parser, constant_pointer_null)
     ASSERT_NE (nullptr, constant1);
     auto type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (constant1->type));
     ASSERT_NE (nullptr, type1);
-    ASSERT_EQ (U"8", type1->bits);
+	auto number1 (dynamic_cast <mu::llvmc::ast::number *> (type1->bits));
+	ASSERT_NE (nullptr, number1);
+    ASSERT_EQ (U"8", number1->number_m);
 }
 
 TEST (llvmc_parser, undefined)
 {
-    test_parser parser ("let test1 function [] [] [[int-t 8 undefined int-t 8]]");
+    test_parser parser ("let test1 function [] [] [[int-t # 8 undefined int-t # 8]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -2076,7 +2094,7 @@ TEST (llvmc_parser, undefined)
 
 TEST (llvmc_parser, struct_type)
 {
-    test_parser parser ("let test1 function [] [] [[struct [name1 int-t 8] undefined struct [name1 int-t 8]]]");
+    test_parser parser ("let test1 function [] [] [[struct [name1 int-t # 8] undefined struct [name1 int-t # 8]]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);

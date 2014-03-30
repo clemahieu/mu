@@ -1,109 +1,109 @@
-let size-t int64
-let iptr int64
+let size-t int-t # 64
+let iptr int-t # 64
 
 let syscall-0 function
-[int64 id]
+[int-t # 64 id]
 [
-	let result [asm int64 syscall {%}={ax},{ax}% id]
+	let result [asm int-t # 64 syscall {%}={ax},{ax}% id]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-1 function
-[int64 id int64 arg1]
+[int-t # 64 id int-t # 64 arg1]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di}% id arg1]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di}% id arg1]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-2 function
-[int64 id int64 arg1 int64 arg2]
+[int-t # 64 id int-t # 64 arg1 int-t # 64 arg2]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di},{si}% id arg1 arg2]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di},{si}% id arg1 arg2]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-3 function
-[int64 id int64 arg1 int64 arg2 int64 arg3]
+[int-t # 64 id int-t # 64 arg1 int-t # 64 arg2 int-t # 64 arg3]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx}% id arg1 arg2 arg3]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di},{si},{dx}% id arg1 arg2 arg3]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-4-osx function
-[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4]
+[int-t # 64 id int-t # 64 arg1 int-t # 64 arg2 int-t # 64 arg3 int-t # 64 arg4]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx}% id arg1 arg2 arg3 arg4]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di},{si},{dx},{cx}% id arg1 arg2 arg3 arg4]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-5-osx function
-[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5]
+[int-t # 64 id int-t # 64 arg1 int-t # 64 arg2 int-t # 64 arg3 int-t # 64 arg4 int-t # 64 arg5]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx},{r8}% id arg1 arg2 arg3 arg4 arg5]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di},{si},{dx},{cx},{r8}% id arg1 arg2 arg3 arg4 arg5]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-6-osx function
-[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5 int64 arg6]
+[int-t # 64 id int-t # 64 arg1 int-t # 64 arg2 int-t # 64 arg3 int-t # 64 arg4 int-t # 64 arg5 int-t # 64 arg6]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx},{r8},{r9}% id arg1 arg2 arg3 arg4 arg5 arg6]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di},{si},{dx},{cx},{r8},{r9}% id arg1 arg2 arg3 arg4 arg5 arg6]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-4-linux function
-[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4]
+[int-t # 64 id int-t # 64 arg1 int-t # 64 arg2 int-t # 64 arg3 int-t # 64 arg4]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{r10}% id arg1 arg2 arg3 arg4]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di},{si},{dx},{r10}% id arg1 arg2 arg3 arg4]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-5-linux function
-[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5]
+[int-t # 64 id int-t # 64 arg1 int-t # 64 arg2 int-t # 64 arg3 int-t # 64 arg4 int-t # 64 arg5]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{r10},{r8}% id arg1 arg2 arg3 arg4 arg5]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di},{si},{dx},{r10},{r8}% id arg1 arg2 arg3 arg4 arg5]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let syscall-6-linux function
-[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5 int64 arg6]
+[int-t # 64 id int-t # 64 arg1 int-t # 64 arg2 int-t # 64 arg3 int-t # 64 arg4 int-t # 64 arg5 int-t # 64 arg6]
 [
-	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{r10},{r8},{r9}% id arg1 arg2 arg3 arg4 arg5 arg6]
+	let result [asm int-t # 64 syscall {%}={ax},{ax},{di},{si},{dx},{r10},{r8},{r9}% id arg1 arg2 arg3 arg4 arg5 arg6]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
-let exit-osx-system-code [cint int64 #h2000001]
-let write-osx-system-code [cint int64 #h2000004]
-let open-osx-system-code [cint int64 #h2000005]
-let close-osx-system-code [cint int64 #h2000006]
-let mmap-osx-system-code [cint int64 #h20000c5]
+let exit-osx-system-code [int-c int-t # 64 # h2000001]
+let write-osx-system-code [int-c int-t # 64 # h2000004]
+let open-osx-system-code [int-c int-t # 64 # h2000005]
+let close-osx-system-code [int-c int-t # 64 # h2000006]
+let mmap-osx-system-code [int-c int-t # 64 # h20000c5]
 
-let write-linux-system-code [cint int64 #h1]
-let open-linux-system-code [cint int64 #h2]
-let mmap-linux-system-code [cint int64 #h9]
-let exit-linux-system-code [cint int64 #h3c]
+let write-linux-system-code [int-c int-t # 64 # h1]
+let open-linux-system-code [int-c int-t # 64 # h2]
+let mmap-linux-system-code [int-c int-t # 64 # h9]
+let exit-linux-system-code [int-c int-t # 64 # h3c]
 
-let O_RDWR-linux [cint int64 #o2]
-let O_CREAT-linux [cint int64 #o100]
+let O_RDWR-linux [int-c int-t # 64 # o2]
+let O_CREAT-linux [int-c int-t # 64 # o100]
 
-let PROT_READ-linux [cint int64 #h1]
-let PROT_WRITE-linux [cint int64 #h2]
-let PROT_EXEC-linux [cint int64 #h4]
-let PROT_NONE-linux [cint int64 #h0]
+let PROT_READ-linux [int-c int-t # 64 # h1]
+let PROT_WRITE-linux [int-c int-t # 64 # h2]
+let PROT_EXEC-linux [int-c int-t # 64 # h4]
+let PROT_NONE-linux [int-c int-t # 64 # h0]
 
-let MAP_SHARED-linux [cint int64 #h1]
-let MAP_PRIVATE-linux [cint int64 #h2]
-let MAP_ANONYMOUS-linux [cint int64 #h20]
-let no-fd-linux [cint int64 #hffffffffffffffff]
+let MAP_SHARED-linux [int-c int-t # 64 # h1]
+let MAP_PRIVATE-linux [int-c int-t # 64 # h2]
+let MAP_ANONYMOUS-linux [int-c int-t # 64 # h20]
+let no-fd-linux [int-c int-t # 64 # hffffffffffffffff]
 
 let exit_linux function
-[int64 code]
+[int-t # 64 code]
 [
 	let nothing [syscall-1 exit-linux-system-code code]
 ]
 [[;nothing]]
 
 let exit_osx function
-[int64 code]
+[int-t # 64 code]
 [
 	let nothing [syscall-1 exit-osx-system-code code]
 ]
@@ -112,12 +112,12 @@ let exit_osx function
 let platform function
 []
 [
-	let linux osx [if [cint int1 #0]]
+	let linux osx [if [int-c int-t # 1 # 0]]
 ]
 [[unit linux][unit osx]]
 
 let exit function
-[int64 code]
+[int-t # 64 code]
 [
 	let linux osx [platform]
 	let result join [
@@ -127,21 +127,21 @@ let exit function
 [[; result]]
 
 let write-linux function
-[int64 file-descriptor ptr int8 data int64 size]
+[int-t # 64 file-descriptor ptr int-t # 8 data int-t # 64 size]
 [
-	let nothing [syscall-3 write-linux-system-code file-descriptor [ptrtoint data int64] size]
+	let nothing [syscall-3 write-linux-system-code file-descriptor [ptrtoint data int-t # 64] size]
 ]
 [[;nothing]]
 
 let write-osx function
-[int64 file-descriptor ptr int8 data int64 size]
+[int-t # 64 file-descriptor ptr int-t # 8 data int-t # 64 size]
 [
-	let nothing [syscall-3 write-osx-system-code file-descriptor [ptrtoint data int64] size]
+	let nothing [syscall-3 write-osx-system-code file-descriptor [ptrtoint data int-t # 64] size]
 ]
 [[;nothing]]
 
 let write function
-[int64 file-descriptor ptr int8 data int64 size]
+[int-t # 64 file-descriptor ptr int-t # 8 data int-t # 64 size]
 [
 	let linux osx [platform]
 	let result join [
@@ -154,92 +154,92 @@ let write-test-string global ascii {%}Hello world!
 %
 
 let write-string function
-[int64 fd ` astring type str]
+[int-t # 64 fd ` astring type str]
 [
 	let result [write fd [` astring data str] [` astring size str]]
 ]
 [[;result]]
 
 let write-test function
-[int64 fd]
+[int-t # 64 fd]
 [
-	let initial [` astring new-set [bitcast write-test-string ptr int8] [cint int64 #13]]
+	let initial [` astring new-set [bitcast write-test-string ptr int-t # 8] [int-c int-t # 64 # 13]]
 	let full [` astring append initial initial]
 	let result [write-string fd full]
 ]
 [[;result]]
 
 let open-osx function
-[ptr int8 path int64 flags int64 mode]
+[ptr int-t # 8 path int-t # 64 flags int-t # 64 mode]
 [
-	let fd [syscall-3 open-osx-system-code [ptrtoint path int64] flags mode]
+	let fd [syscall-3 open-osx-system-code [ptrtoint path int-t # 64] flags mode]
 ]
-[[int64 fd]]
+[[int-t # 64 fd]]
 
 let open-linux function
-[ptr int8 path int64 flags int64 mode]
+[ptr int-t # 8 path int-t # 64 flags int-t # 64 mode]
 [
-	let fd [syscall-3 open-linux-system-code [ptrtoint path int64] flags mode]
+	let fd [syscall-3 open-linux-system-code [ptrtoint path int-t # 64] flags mode]
 ]
-[[int64 fd]]
+[[int-t # 64 fd]]
 
 let open function
-[ptr int8 path int64 flags int64 mode]
+[ptr int-t # 8 path int-t # 64 flags int-t # 64 mode]
 [
 	let linux osx [platform]
 	let fd join [
 		[[open-osx path flags mode; osx]]
 		[[open-linux path flags mode; linux]]]
 ]
-[[int64 fd]]
+[[int-t # 64 fd]]
 
 let close-osx function
-[int64 fd]
+[int-t # 64 fd]
 [
 	let result [syscall-1 close-osx-system-code fd]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let close-linux function
-[int64 fd]
+[int-t # 64 fd]
 [
 	let result [syscall-1 close-osx-system-code fd]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let close function
-[int64 fd]
+[int-t # 64 fd]
 [
 	let linux osx [platform]
 	let result join [
 		[[close-osx fd; osx]]
 		[[close-linux fd; linux]]]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let mmap-osx function
-[ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
+[ptr int-t # 8 addr int-t # 64 len int-t # 64 prot int-t # 64 flags int-t # 64 fd int-t # 64 pos]
 [
-	let result [ptrfromint [syscall-6-osx mmap-osx-system-code [ptrtoint addr int64] len prot flags fd pos] ptr int8]
+	let result [ptrfromint [syscall-6-osx mmap-osx-system-code [ptrtoint addr int-t # 64] len prot flags fd pos] ptr int-t # 8]
 ]
-[[ptr int8 result]]
+[[ptr int-t # 8 result]]
 
 let mmap-linux function
-[ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
+[ptr int-t # 8 addr int-t # 64 len int-t # 64 prot int-t # 64 flags int-t # 64 fd int-t # 64 pos]
 [
-	let result [ptrfromint [syscall-6-linux mmap-linux-system-code [ptrtoint addr int64] len prot flags fd pos] ptr int8]
+	let result [ptrfromint [syscall-6-linux mmap-linux-system-code [ptrtoint addr int-t # 64] len prot flags fd pos] ptr int-t # 8]
 ]
-[[ptr int8 result]]
+[[ptr int-t # 8 result]]
 
 let mmap function
-[ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
+[ptr int-t # 8 addr int-t # 64 len int-t # 64 prot int-t # 64 flags int-t # 64 fd int-t # 64 pos]
 [
 	let linux osx [platform]
 	let result join [
 		[[mmap-osx addr len prot flags fd pos; osx]]
 		[[mmap-linux addr len prot flags fd pos; linux]]]
 ]
-[[ptr int8 result]]
+[[ptr int-t # 8 result]]
 
 let generic_mul template [type]
 [
@@ -251,43 +251,43 @@ let generic_mul template [type]
 	[[type result]]
 ]
 
-let mul64 [generic_mul int64]
-let mul32 [generic_mul int32]
+let mul64 [generic_mul int-t # 64]
+let mul32 [generic_mul int-t # 32]
 
 let umax function
-[int64 left int64 right]
+[int-t # 64 left int-t # 64 right]
 [
 	let result [select [icmp iugt left right] left right]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
 let umin function
-[int64 left int64 right]
+[int-t # 64 left int-t # 64 right]
 [
 	let result [select [icmp iult left right] left right]
 ]
-[[int64 result]]
+[[int-t # 64 result]]
 
-let lalloc-base global null ptr int8
-let lalloc-available global [cint int64 #h0]
+let lalloc-base global null ptr int-t # 8
+let lalloc-available global [int-c int-t # 64 # h0]
 
-let lalloc-slab-size [cint int64 #h100000]
+let lalloc-slab-size [int-c int-t # 64 # h100000]
 
 let lalloc-slab function
 []
 [
 	let mem [mmap 
-		[ptrfromint [cint int64 #0] ptr int8] 
+		[ptrfromint [int-c int-t # 64 # 0] ptr int-t # 8] 
 		lalloc-slab-size
 		[or PROT_READ-linux PROT_WRITE-linux] 
 		[or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] 
 		no-fd-linux 
-		[cint int64 #0]]
+		[int-c int-t # 64 # 0]]
 ]
-[[ptr int8 mem]]
+[[ptr int-t # 8 mem]]
 
 let lalloc function
-[int64 amount]
+[int-t # 64 amount]
 [
 	let current-available [load lalloc-available]
 	let enough not-enough [if [icmp iuge current-available amount]]	
@@ -297,10 +297,10 @@ let lalloc function
 	let store1 [store [getelementptr result amount] lalloc-base]
 	let store2 [store [sub available amount] lalloc-available]
 ]
-[[ptr int8 result; store1 store2]]
+[[ptr int-t # 8 result; store1 store2]]
 
 let lfree function
-[ptr int8 data]
+[ptr int-t # 8 data]
 [
 ]
 [[;data]]
@@ -310,21 +310,21 @@ let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
 let sizeof template [sizeof-type]
 [
-	[sub [ptrtoint [getelementptr let base null ptr sizeof-type [cint int32 #1]] int64] [ptrtoint [getelementptr base [cint int32 #0]] int64]]
+	[sub [ptrtoint [getelementptr let base null ptr sizeof-type [int-c int-t # 32 # 1]] int-t # 64] [ptrtoint [getelementptr base [int-c int-t # 32 # 0]] int-t # 64]]
 ]
 
 let memcopy function
-[ptr int8 source ptr int8 destination int64 size]
+[ptr int-t # 8 source ptr int-t # 8 destination int-t # 64 size]
 [
-	let end [ptrtoint [getelementptr source size] int64]
+	let end [ptrtoint [getelementptr source size] int-t # 64]
 	let complete loop
 	[source destination]
 	[source_l destination_l]
 	[
-		let done not-done [if [icmp ieq [ptrtoint source_l int64] end]]
+		let done not-done [if [icmp ieq [ptrtoint source_l int-t # 64] end]]
 		let stored [store [load source_l; not-done] destination_l]
 	]
-	[[[getelementptr source_l [cint int64 #1]] [getelementptr destination_l [cint int64 #1]]; stored][; done]]
+	[[[getelementptr source_l [int-c int-t # 64 # 1]] [getelementptr destination_l [int-c int-t # 64 # 1]]; stored][; done]]
 ]
 [[; complete]]
 
@@ -337,33 +337,33 @@ let vector-template template [template-type]
 		let data-set function
 		[ptr type vector ptr template-type data-a]
 		[
-			let result [store data-a [getelementptr vector [cint int32 #0] ` type data]]
+			let result [store data-a [getelementptr vector [int-c int-t # 32 # 0] ` type data]]
 		]
 		[[; result]]
 		
 		let data-get function
 		[ptr type vector]
 		[
-			let result [load [getelementptr vector [cint int32 #0] ` type data]]
+			let result [load [getelementptr vector [int-c int-t # 32 # 0] ` type data]]
 		]
 		[[ptr template-type result]]
 	
 		let size-set function
 		[ptr type vector size-t size-a]
 		[
-			let result [store size-a [getelementptr vector [cint int32 #0] ` type size]]
+			let result [store size-a [getelementptr vector [int-c int-t # 32 # 0] ` type size]]
 		]
 		[[; result]]
 		
 		let size-get function
 		[ptr type vector]
 		[
-			let result [load [getelementptr vector [cint int32 #0] ` type size]]
+			let result [load [getelementptr vector [int-c int-t # 32 # 0] ` type size]]
 		]
 		[[size-t result]]
 	
 		let new-set function
-		[ptr template-type data-a int64 size-a]
+		[ptr template-type data-a int-t # 64 size-a]
 		[
 			let result [bitcast [lalloc [sizeof type]] ptr type]
 			let data [data-set result data-a]
@@ -374,7 +374,7 @@ let vector-template template [template-type]
 		let new function
 		[]
 		[
-			let result [new-set null ptr template-type [cint int64 #0]]
+			let result [new-set null ptr template-type [int-c int-t # 64 # 0]]
 		]
 		[[ptr type result]]
 	]
@@ -390,9 +390,9 @@ let string-template template [element-type]
 		let empty function
 		[type string-a]
 		[
-			let result [icmp ieq [extractvalue string-a ` type size] [cint size-t #0]] 
+			let result [icmp ieq [extractvalue string-a ` type size] [int-c size-t # 0]] 
 		]
-		[[int1 result]]
+		[[int-t # 1 result]]
 
 		let size function
 		[type string-a]
@@ -415,9 +415,9 @@ let string-template template [element-type]
 			let other-size [size other-a]
 			let new-size [add string-size other-size]
 			let new-data [lalloc new-size]
-			let string-data [bitcast [data string-a] ptr int8]
+			let string-data [bitcast [data string-a] ptr int-t # 8]
 			let copied1 [memcopy string-data new-data string-size]
-			let copied2 [memcopy [bitcast [data other-a] ptr int8] [bitcast [getelementptr new-data string-size] ptr int8] other-size]
+			let copied2 [memcopy [bitcast [data other-a] ptr int-t # 8] [bitcast [getelementptr new-data string-size] ptr int-t # 8] other-size]
 			let result [new-set [bitcast new-data ptr element-type] new-size]
 			let freed [lfree string-data; copied1]
 		]
@@ -426,38 +426,38 @@ let string-template template [element-type]
 		let new-set function
 		[ptr element-type data-a size-t size-a]
 		[
-			let result [insertvalue [insertvalue undefined type data-a [cint int32 #0]] size-a [cint int32 #1]]
+			let result [insertvalue [insertvalue undefined type data-a [int-c int-t # 32 # 0]] size-a [int-c int-t # 32 # 1]]
 		]
 		[[type result]]
 
 		let new function
 		[]
 		[
-			let result [new-set [bitcast [lalloc [cint size-t #0]] ptr element-type] [cint size-t #0]]
+			let result [new-set [bitcast [lalloc [int-c size-t # 0]] ptr element-type] [int-c size-t # 0]]
 		]
 		[[type result]]
 	]
 ]
 
-let string [string-template int32]
-let astring [string-template int8]
+let string [string-template int-t # 32]
+let astring [string-template int-t # 8]
 
-let vector<int64> [vector-template int64]
-let vector<int32> [vector-template int32]
+let vector<int64> [vector-template int-t # 64]
+let vector<int32> [vector-template int-t # 32]
 
 entrypoint let entry function
 []
 [
-	:(let stored [store ascii  let text [alloca array int8 #26]]
-	let stored [store ascii  let text [alloca array int8 #30]]
-	let fd [open [bitcast file-name-osx ptr int8] [cint int64 #h602] [cint int64 #o600]]
-	let fd [open [bitcast file-name-linux ptr int8] [or O_RDWR-linux O_CREAT-linux] [cint int64 #o600]]
+	:(let stored [store ascii  let text [alloca array int-t # 8 #26]]
+	let stored [store ascii  let text [alloca array int-t # 8 #30]]
+	let fd [open [bitcast file-name-osx ptr int-t # 8] [int-c int-t # 64 # h602] [int-c int-t # 64 # o600]]
+	let fd [open [bitcast file-name-linux ptr int-t # 8] [or O_RDWR-linux O_CREAT-linux] [int-c int-t # 64 # o600]]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]:)
 	let vector [` vector<int64> new]
-	let hello [write-test [cint int64 #1]]
-	let alloc1 [lalloc [cint int64 #100]]
-	let alloc2 [lalloc [cint int64 #1000]]
-	let result [exit [cint int64 #0]; hello alloc1 alloc2]
+	let hello [write-test [int-c int-t # 64 # 1]]
+	let alloc1 [lalloc [int-c int-t # 64 # 100]]
+	let alloc2 [lalloc [int-c int-t # 64 # 1000]]
+	let result [exit [int-c int-t # 64 # 0]; hello alloc1 alloc2]
 ]
 [[; result vector]]

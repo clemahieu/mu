@@ -74,9 +74,12 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"undefined", &undefined_hook);
     assert (!error);
-    error = builtins.insert  (U"false", new (GC) mu::llvmc::ast::expression ({constant_int, new (GC) mu::llvmc::ast::integer_type (U"1"), new (GC) mu::llvmc::ast::number (U"0")}, {}));
+	auto bit_size (new (GC) mu::llvmc::ast::number (U"1"));
+	auto bit_type (new (GC) mu::llvmc::ast::integer_type);
+	bit_type->bits = bit_size;
+    error = builtins.insert  (U"false", new (GC) mu::llvmc::ast::expression ({constant_int, bit_type, new (GC) mu::llvmc::ast::number (U"0")}, {}));
     assert (!error);
-    error = builtins.insert  (U"true", new (GC) mu::llvmc::ast::expression ({constant_int, new (GC) mu::llvmc::ast::integer_type (U"1"), new (GC) mu::llvmc::ast::number (U"1")}, {}));
+    error = builtins.insert  (U"true", new (GC) mu::llvmc::ast::expression ({constant_int, bit_type, new (GC) mu::llvmc::ast::number (U"1")}, {}));
     assert (!error);
     error = builtins.insert (U"unit_v", new (GC) mu::llvmc::ast::unit (current_template));
     assert (!error);
@@ -695,14 +698,15 @@ void mu::llvmc::global::accept (mu::multimap <mu::string, unresolved_type> unres
 mu::llvmc::node_result mu::llvmc::int_type::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-	result.error = parser_a.parse_identifier (
-		[&] (mu::io::identifier * identifier_a)
+	auto type (new (GC) mu::llvmc::ast::integer_type (parser_a.current_template));
+	result.node = type;
+	type->region.first = region_a.first;
+	result.error = parser_a.parse_ast_or_refer (
+		[type] (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
 		{
-			result.node = new (GC) mu::llvmc::ast::integer_type (identifier_a->string, parser_a.current_template);
-			result.node->region.first = region_a.first;
-			result.node->region.last = identifier_a->region.last;
-			return nullptr;
-		}, U"Expecting an identifier", mu::core::error_type::expecting_identifier);
+			type->bits = node_a;
+			type->region.last = region_a.last;
+		});
     return result;
 }
 
