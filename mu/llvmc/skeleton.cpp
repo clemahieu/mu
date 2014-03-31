@@ -1623,3 +1623,8 @@ mu::string mu::llvmc::skeleton::pointer_type::name ()
 	result.append (pointed_type->name ());
 	return result;
 }
+
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::number::adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a)
+{
+	
+}

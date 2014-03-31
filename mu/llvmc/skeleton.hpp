@@ -449,6 +449,7 @@ namespace mu
             {
             public:
                 number (uint64_t value_a);
+				mu::llvmc::skeleton::value * adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a) override;
                 uint64_t value;
             };
 			class template_c : public mu::llvmc::skeleton::node
