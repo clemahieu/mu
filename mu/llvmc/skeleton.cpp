@@ -1624,7 +1624,7 @@ mu::string mu::llvmc::skeleton::pointer_type::name ()
 	return result;
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::number::adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a)
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::number::adapt_constant_integer (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a)
 {
     mu::llvmc::skeleton::value * result;
 	auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (target_type_a));
@@ -1647,6 +1647,16 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::number::adapt (mu::llvmc::skel
         result = nullptr;
     }
     return result;
+}
+
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::number::adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a)
+{
+	return adapt_constant_integer (target_type_a, function_a, error_action_a);
+}
+
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::number::adapt_result (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a)
+{
+	return adapt_constant_integer (target_type_a, function_a, error_action_a);
 }
 
 unsigned mu::llvmc::skeleton::number::bits_required ()

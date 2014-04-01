@@ -3947,9 +3947,48 @@ TEST (llvmc_analyzer, number_adaptation)
     result1.written_type = &type1;
 	mu::llvmc::ast::number number1 (U"255");
     result1.value = &number1;
+	function.results.push_back (&result1);
+	function.predicate_offsets.push_back (function.results.size ());
+	function.branch_ends.push_back (function.results.size ());
+    mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->results.size ());
+	auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0]));
+	ASSERT_NE (nullptr, result2);
+	auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (result2->type));
+	ASSERT_NE (nullptr, type2);
+	ASSERT_EQ (8, type2->bits);
+	auto constant1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (result2->value));
+	ASSERT_NE (nullptr, constant1);
+	ASSERT_EQ (255, constant1->value_m);
 }
 
 TEST (llvmc_analyzer, fail_number_adaptation_too_big)
 {
-    
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::template_c template_l (&context1);
+    mu::llvmc::ast::function function (&context1);
+	mu::llvmc::ast::number bits1 (U"8");
+	mu::llvmc::ast::integer_type type1;
+	type1.bits = &bits1;
+    mu::llvmc::ast::result result1;
+    result1.written_type = &type1;
+	mu::llvmc::ast::number number1 (U"256");
+    result1.value = &number1;
+	function.results.push_back (&result1);
+	function.predicate_offsets.push_back (function.results.size ());
+	function.branch_ends.push_back (function.results.size ());
+    mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
 }

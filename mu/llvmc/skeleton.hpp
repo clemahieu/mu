@@ -449,7 +449,9 @@ namespace mu
             {
             public:
                 number (uint64_t value_a);
+				mu::llvmc::skeleton::value * adapt_constant_integer (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a);
 				mu::llvmc::skeleton::value * adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a) override;
+				mu::llvmc::skeleton::value * adapt_result (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a) override;
                 unsigned bits_required ();
                 uint64_t value;
             };

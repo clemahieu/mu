@@ -1317,15 +1317,15 @@ void mu::llvmc::function_processor::process_results ()
 				auto type (module_m.process_type (result_a->written_type));
 				if (type != nullptr)
 				{
-					auto value (process_value (result_a->value));
-					if (value != nullptr)
+					module_m.process_single_node (result_a->value);
+					if (module_m.global_m.error == nullptr)
 					{
-                        auto new_value (value->adapt_result (type, *this,
-						[]
-						(mu::core::region const & region_a)
-						{
-							return new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, region_a);
-						}));
+                        auto new_value (result_a->value->generated [0]->adapt_result (type, *this,
+							[]
+							(mu::core::region const & region_a)
+							{
+								return new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, region_a);
+							}));
                         if (new_value != nullptr)
                         {
                             function_m->results.push_back (b.result (type, new_value));
