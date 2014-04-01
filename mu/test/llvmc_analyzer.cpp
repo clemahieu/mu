@@ -4083,3 +4083,31 @@ TEST (llvmc_analyzer, zext_argument_adaptation)
     ASSERT_NE (nullptr, result.module);
     ASSERT_EQ (2, result.module->globals.size ());
 }
+
+TEST (llvmc_analyzer, fail_join_processed_node_after_error)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+	mu::llvmc::ast::number number1 (U"0");
+	module.globals.push_back (&number1);
+    mu::llvmc::ast::function function;
+    mu::llvmc::ast::expression expression1 ({}, {});
+    mu::llvmc::ast::expression expression2 ({}, {});
+    mu::llvmc::ast::expression expression3 ({&expression1, &number1}, {});
+    mu::llvmc::ast::expression expression4 ({&expression2, &number1}, {});
+    mu::llvmc::ast::join join1;
+    auto & branch1 (join1.add_branch ());
+    branch1.arguments.push_back (&expression3);
+    auto & branch2 (join1.add_branch ());
+    branch2.predicates.push_back (&expression4);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::result result1 (&value1, &join1);
+    function.results.push_back (&result1);
+    function.branch_ends.push_back (function.results.size ());
+    function.predicate_offsets.push_back (function.results.size ());
+    mu::llvmc::ast::element element3 (&function, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element3);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+}

@@ -599,9 +599,9 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 		auto & target (join->add_branch ());
 		for (auto j: i.arguments)
 		{
-			module_m.global_m.process_node (j);
 			if (module_m.global_m.error == nullptr)
 			{
+				module_m.global_m.process_node (j);
 				auto & values (j->generated);
 				for (auto k: values)
 				{
@@ -620,9 +620,9 @@ void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 		}
 		for (auto j: i.predicates)
 		{
-			module_m.global_m.process_node (j);
 			if (module_m.global_m.error == nullptr)
 			{
+				module_m.global_m.process_node (j);
 				auto & values (j->generated);
 				for (auto k: values)
 				{
@@ -1172,6 +1172,7 @@ void mu::llvmc::module_processor::process_template (mu::llvmc::ast::expression *
 void mu::llvmc::global_processor::process_node (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
+	assert (error == nullptr);
 	if (!node_a->assigned)
 	{
 		analysis_stack.push_back (node_a);
