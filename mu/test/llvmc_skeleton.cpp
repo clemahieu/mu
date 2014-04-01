@@ -145,3 +145,31 @@ TEST (llvmc_analyzer, pointer_type)
 	auto name (type2.name ());
 	ASSERT_EQ (U"ptr int8", name);
 }
+
+TEST (llvmc_analyzer, number_bits_0)
+{
+    mu::llvmc::skeleton::number number1 (0);
+    auto bits (number1.bits_required ());
+    ASSERT_EQ (1, bits);
+}
+
+TEST (llvmc_analyzer, number_bits_1)
+{
+    mu::llvmc::skeleton::number number1 (1);
+    auto bits (number1.bits_required ());
+    ASSERT_EQ (1, bits);
+}
+
+TEST (llvmc_analyzer, number_bits_255)
+{
+    mu::llvmc::skeleton::number number1 (255);
+    auto bits (number1.bits_required ());
+    ASSERT_EQ (8, bits);
+}
+
+TEST (llvmc_analyzer, number_bits_256)
+{
+    mu::llvmc::skeleton::number number1 (256);
+    auto bits (number1.bits_required ());
+    ASSERT_EQ (9, bits);
+}

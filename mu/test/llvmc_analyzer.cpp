@@ -3932,3 +3932,24 @@ TEST (llvmc_analyzer, set_clone)
 	auto set2 (dynamic_cast <mu::llvmc::ast::set *> (set1.clone (context2)));
 	ASSERT_EQ (set1.region, set2->region);
 }
+
+TEST (llvmc_analyzer, number_adaptation)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::template_c template_l (&context1);
+    mu::llvmc::ast::function function (&context1);
+	mu::llvmc::ast::number bits1 (U"8");
+	mu::llvmc::ast::integer_type type1;
+	type1.bits = &bits1;
+    mu::llvmc::ast::result result1;
+    result1.written_type = &type1;
+	mu::llvmc::ast::number number1 (U"255");
+    result1.value = &number1;
+}
+
+TEST (llvmc_analyzer, fail_number_adaptation_too_big)
+{
+    
+}

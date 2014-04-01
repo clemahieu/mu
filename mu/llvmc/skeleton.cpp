@@ -1626,5 +1626,37 @@ mu::string mu::llvmc::skeleton::pointer_type::name ()
 
 mu::llvmc::skeleton::value * mu::llvmc::skeleton::number::adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a)
 {
-	
+    mu::llvmc::skeleton::value * result;
+	auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (target_type_a));
+    if (integer_type != nullptr)
+    {
+        auto bits (bits_required ());
+        if (bits <= integer_type->bits)
+        {
+            result = b.constant_integer (mu::core::region (), integer_type, value);
+        }
+        else
+        {
+            function_a.module_m.global_m.error = error_action_a (mu::core::region ());
+            result = nullptr;
+        }
+    }
+    else
+    {
+        function_a.module_m.global_m.error = error_action_a (mu::core::region ());
+        result = nullptr;
+    }
+    return result;
+}
+
+unsigned mu::llvmc::skeleton::number::bits_required ()
+{
+    uint64_t value_l (value);
+    unsigned result (value_l ? 0 : 1);
+    while (value_l)
+    {
+        ++result;
+        value_l >>= 1;
+    }
+    return result;
 }
