@@ -71,7 +71,7 @@ let syscall-6-linux function
 ]
 [[int-t # 64 result]]
 
-let exit-osx-system-code [int-c int-t # 64 # h2000001]
+let exit-osx-system-code # h2000001
 let write-osx-system-code [int-c int-t # 64 # h2000004]
 let open-osx-system-code [int-c int-t # 64 # h2000005]
 let close-osx-system-code [int-c int-t # 64 # h2000006]

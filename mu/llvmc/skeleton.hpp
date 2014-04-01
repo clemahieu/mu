@@ -449,6 +449,7 @@ namespace mu
             {
             public:
                 number (uint64_t value_a);
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 				mu::llvmc::skeleton::value * adapt_constant_integer (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a);
 				mu::llvmc::skeleton::value * adapt (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a) override;
 				mu::llvmc::skeleton::value * adapt_result (mu::llvmc::skeleton::type * target_type_a, mu::llvmc::function_processor & function_a, std::function <mu::core::error * (mu::core::region const &)> error_action_a) override;
@@ -562,6 +563,7 @@ namespace mu
                 virtual void global_value (mu::llvmc::skeleton::global_value * node_a);
 				virtual void module (mu::llvmc::skeleton::module * node_a);
 				virtual void constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a);
+				virtual void number (mu::llvmc::skeleton::number * node_a);
             };
             class factory
             {

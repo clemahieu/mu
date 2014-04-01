@@ -943,6 +943,11 @@ void mu::llvmc::skeleton::visitor::unexpected (mu::llvmc::skeleton::node * node_
     assert (false && "Unexpected node");
 }
 
+void mu::llvmc::skeleton::visitor::number (mu::llvmc::skeleton::number * node_a)
+{
+	node (node_a);
+}
+
 void mu::llvmc::skeleton::visitor::node (mu::llvmc::skeleton::node * node_a)
 {
     unexpected (node_a);
@@ -1669,4 +1674,9 @@ unsigned mu::llvmc::skeleton::number::bits_required ()
         value_l >>= 1;
     }
     return result;
+}
+
+void mu::llvmc::skeleton::number::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+	visitor_a->number (this);
 }

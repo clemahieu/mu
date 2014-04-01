@@ -3933,7 +3933,7 @@ TEST (llvmc_analyzer, set_clone)
 	ASSERT_EQ (set1.region, set2->region);
 }
 
-TEST (llvmc_analyzer, number_adaptation)
+TEST (llvmc_analyzer, number_result_adaptation)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
@@ -3969,7 +3969,7 @@ TEST (llvmc_analyzer, number_adaptation)
 	ASSERT_EQ (255, constant1->value_m);
 }
 
-TEST (llvmc_analyzer, fail_number_adaptation_too_big)
+TEST (llvmc_analyzer, fail_number_result_adaptation_too_big)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
@@ -3985,6 +3985,63 @@ TEST (llvmc_analyzer, fail_number_adaptation_too_big)
     result1.value = &number1;
 	function.results.push_back (&result1);
 	function.predicate_offsets.push_back (function.results.size ());
+	function.branch_ends.push_back (function.results.size ());
+    mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+}
+
+TEST (llvmc_analyzer, number_argument_adaptation)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::template_c template_l (&context1);
+	mu::llvmc::ast::number bits1 (U"8");
+	mu::llvmc::ast::integer_type type1;
+	type1.bits = &bits1;
+	mu::llvmc::ast::parameter parameter1;
+	parameter1.type = &type1;
+    mu::llvmc::ast::function function2 (&context1);
+	function2.parameters.push_back (&parameter1);
+    mu::llvmc::ast::element element2 (&function2, 0, 1, U"1", mu::empty_region);
+    module.globals.push_back (&element2);
+    mu::llvmc::ast::function function (&context1);
+	mu::llvmc::ast::number number1 (U"255");
+	mu::llvmc::ast::expression expression1 ({&function2, &number1}, {}, &context1);
+	function.predicate_offsets.push_back (function.results.size ());
+	function.results.push_back (&expression1);
+	function.branch_ends.push_back (function.results.size ());
+    mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (2, result.module->globals.size ());
+}
+
+TEST (llvmc_analyzer, fail_number_argument_adaptation_too_big)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::template_c template_l (&context1);
+	mu::llvmc::ast::number bits1 (U"8");
+	mu::llvmc::ast::integer_type type1;
+	type1.bits = &bits1;
+	mu::llvmc::ast::parameter parameter1;
+	parameter1.type = &type1;
+    mu::llvmc::ast::function function1 (&context1);
+	function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::element element2 (&function1, 0, 1, U"1", mu::empty_region);
+    module.globals.push_back (&element2);
+    mu::llvmc::ast::function function (&context1);
+	mu::llvmc::ast::number number1 (U"256");
+	mu::llvmc::ast::expression expression1 ({&function1, &number1}, {}, &context1);
+	function.predicate_offsets.push_back (function.results.size ());
+	function.results.push_back (&expression1);
 	function.branch_ends.push_back (function.results.size ());
     mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
     module.globals.push_back (&element1);

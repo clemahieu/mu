@@ -132,6 +132,10 @@ public:
 			node_a->value_m->visit (&naming);
 		}
     }
+	void number (mu::llvmc::skeleton::number * node_a) override
+	{
+		written_but_not_generated (node_a);
+	}
 	void global_value (mu::llvmc::skeleton::global_value * node_a) override
 	{
 		written_but_not_generated (node_a);
@@ -1445,17 +1449,17 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 			size_t j (function_type->function->parameters.size ());
 			for (; i != j && k != l && module_m.global_m.error == nullptr; ++i, ++k)
 			{
-				auto argument_value (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
-				if (argument_value != nullptr)
+				auto argument_node (*k);
+				if (argument_node != nullptr)
 				{
 					auto parameter_type (function_type->function->parameters [i]->type ());
-					auto new_value (argument_value->adapt (parameter_type, *this,
-						[argument_value, parameter_type]
+					auto new_value ((*k)->adapt (parameter_type, *this,
+						[argument_node, parameter_type]
 						(mu::core::region const & region_a)
 						{
 							mu::string message (U"Argument type does not match parameter type: ");
-							message.append (argument_value->type ()->name ());
-							message.push_back (U' ');
+							/*message.append (argument_node->type ()->name ());
+							message.push_back (U' ');*/
 							message.append (parameter_type->name ());
 							return new (GC) mu::core::error_string (message, mu::core::error_type::argument_type_does_not_match_parameter_type, region_a);
 						}));
