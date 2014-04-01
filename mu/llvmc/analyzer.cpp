@@ -1621,6 +1621,53 @@ void mu::llvmc::module_processor::process_call_values (mu::vector <mu::llvmc::as
 	predicate_position_a = predicate_position_l;
 }
 
+static unsigned minimum_bit_width (mu::core::error * & error_a, mu::llvmc::skeleton::node * node_a)
+{
+	unsigned result (0);
+	auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node_a));
+	if (value != nullptr)
+	{
+		auto type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (value->type ()));
+		if (type != nullptr)
+		{
+			result = type->bits;
+		}
+		else
+		{
+			error_a = new (GC) mu::core::error_string (U"Instruction argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, mu::core::region ());
+		}
+	}
+	else
+	{
+		auto number (dynamic_cast <mu::llvmc::skeleton::number *> (node_a));
+		if (number != nullptr)
+		{
+			result = number->bits_required ();
+		}
+		else
+		{
+			error_a = new (GC) mu::core::error_string (U"Instruction argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, mu::core::region ());
+		}
+	}
+	return result;
+}
+
+template <typename ... Args>
+static unsigned minimum_bit_width (mu::core::error * & error_a, mu::llvmc::skeleton::node * node_a, Args ... args)
+{
+	unsigned result (0);
+	unsigned lhs (minimum_bit_width (error_a, node_a));
+	if (error_a == nullptr)
+	{
+		unsigned rhs (minimum_bit_width (error_a, args ...));
+		if (error_a == nullptr)
+		{
+			result = std::max (lhs, rhs);
+		}
+	}
+	return result;
+}
+
 void mu::llvmc::function_processor::process_binary_integer_instruction (mu::llvmc::ast::expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch)
 {
 	if (predicate_offset == 3)

@@ -576,8 +576,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
         {
             assert (predicate_position == 3);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
-            assert (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [2]) != nullptr);
-            result = static_cast <mu::llvmc::skeleton::type *> (arguments [2]);
+            result = mu::cast <mu::llvmc::skeleton::type> (arguments [2]);
             break;
         }
         default:
@@ -1316,8 +1315,26 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::value::adapt (mu::llvmc::skele
 	}
 	else
 	{
-        function_a.module_m.global_m.error = error_action_a (region);
-        result = nullptr;
+		auto lhs_integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type ()));
+		auto rhs_integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (target_type_a));
+		if (lhs_integer_type != nullptr && rhs_integer_type != nullptr)
+		{
+			assert (lhs_integer_type->bits != rhs_integer_type->bits);
+			if (lhs_integer_type->bits < rhs_integer_type->bits)
+			{
+				result = b.instruction (region, branch, {b.marker (mu::llvmc::instruction_type::zext), this, rhs_integer_type}, {});
+			}
+			else
+			{
+				function_a.module_m.global_m.error = error_action_a (region);
+				result = nullptr;
+			}
+		}
+		else
+		{
+			function_a.module_m.global_m.error = error_action_a (region);
+			result = nullptr;
+		}
 	}
 	return result;
 }

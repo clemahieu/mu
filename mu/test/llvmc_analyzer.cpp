@@ -4049,3 +4049,37 @@ TEST (llvmc_analyzer, fail_number_argument_adaptation_too_big)
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
 }
+
+TEST (llvmc_analyzer, zext_argument_adaptation)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::template_context context1 ({nullptr});
+	mu::llvmc::ast::template_c template_l (&context1);
+	mu::llvmc::ast::number bits1 (U"16");
+	mu::llvmc::ast::integer_type type1;
+	type1.bits = &bits1;
+	mu::llvmc::ast::parameter parameter1;
+	parameter1.type = &type1;
+    mu::llvmc::ast::function function2 (&context1);
+	function2.parameters.push_back (&parameter1);
+    mu::llvmc::ast::element element2 (&function2, 0, 1, U"1", mu::empty_region);
+    module.globals.push_back (&element2);
+    mu::llvmc::ast::function function (&context1);
+	mu::llvmc::ast::constant_int constant1;
+	mu::llvmc::ast::number bits2 (U"8");
+	mu::llvmc::ast::integer_type type2;
+	type2.bits = &bits2;
+	mu::llvmc::ast::number number1 (U"42");
+	mu::llvmc::ast::expression expression2 ({&constant1, &type2, &number1}, {});
+	mu::llvmc::ast::expression expression1 ({&function2, &expression2}, {}, &context1);
+	function.predicate_offsets.push_back (function.results.size ());
+	function.results.push_back (&expression1);
+	function.branch_ends.push_back (function.results.size ());
+    mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
+    module.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (2, result.module->globals.size ());
+}

@@ -72,28 +72,28 @@ let syscall-6-linux function
 [[int-t # 64 result]]
 
 let exit-osx-system-code # h2000001
-let write-osx-system-code [int-c int-t # 64 # h2000004]
-let open-osx-system-code [int-c int-t # 64 # h2000005]
-let close-osx-system-code [int-c int-t # 64 # h2000006]
-let mmap-osx-system-code [int-c int-t # 64 # h20000c5]
+let write-osx-system-code # h2000004
+let open-osx-system-code # h2000005
+let close-osx-system-code # h2000006
+let mmap-osx-system-code # h20000c5
 
-let write-linux-system-code [int-c int-t # 64 # h1]
-let open-linux-system-code [int-c int-t # 64 # h2]
-let mmap-linux-system-code [int-c int-t # 64 # h9]
-let exit-linux-system-code [int-c int-t # 64 # h3c]
+let write-linux-system-code # h1
+let open-linux-system-code # h2
+let mmap-linux-system-code # h9
+let exit-linux-system-code # h3c
 
-let O_RDWR-linux [int-c int-t # 64 # o2]
-let O_CREAT-linux [int-c int-t # 64 # o100]
+let O_RDWR-linux # o2
+let O_CREAT-linux # o100
 
-let PROT_READ-linux [int-c int-t # 64 # h1]
-let PROT_WRITE-linux [int-c int-t # 64 # h2]
-let PROT_EXEC-linux [int-c int-t # 64 # h4]
-let PROT_NONE-linux [int-c int-t # 64 # h0]
+let PROT_READ-linux # h1
+let PROT_WRITE-linux # h2
+let PROT_EXEC-linux # h4
+let PROT_NONE-linux # h0
 
-let MAP_SHARED-linux [int-c int-t # 64 # h1]
-let MAP_PRIVATE-linux [int-c int-t # 64 # h2]
-let MAP_ANONYMOUS-linux [int-c int-t # 64 # h20]
-let no-fd-linux [int-c int-t # 64 # hffffffffffffffff]
+let MAP_SHARED-linux # h1
+let MAP_PRIVATE-linux # h2
+let MAP_ANONYMOUS-linux # h20
+let no-fd-linux # hffffffffffffffff
 
 let exit_linux function
 [int-t # 64 code]
