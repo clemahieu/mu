@@ -299,13 +299,9 @@ let lalloc function
 ]
 [[ptr int-t # 8 result; store1 store2]]
 
-let tlalloc template [element-type]
+let tlalloc template [element-type count]
 [
-	function [size-t count]
-	[
-		let result [bitcast [lalloc [mul count [sizeof element-type]]] ptr element-type]
-	]
-	[[ptr element-type result]]
+	[bitcast [lalloc [mul count [sizeof element-type]]] ptr element-type]
 ]
 
 let lfree function
@@ -450,7 +446,7 @@ let string-template template [element-type]
 			let string-size [size string-a]
 			let other-size [size other-a]
 			let new-size [add string-size other-size]
-			let new-data [[tlalloc element-type] new-size]
+			let new-data [tlalloc element-type new-size]
 			let copied1 [[mcopy element-type] let string-data [data string-a] [getelementptr string-data string-size] new-data]
 			let copied2 [[mcopy element-type] let begin [data other-a] [getelementptr begin other-size] [getelementptr new-data string-size]]
 			let result [new-set new-data new-size]
@@ -468,7 +464,7 @@ let string-template template [element-type]
 		let new function
 		[]
 		[
-			let result [new-set [bitcast [lalloc [int-c size-t # 0]] ptr element-type] # 0]
+			let result [new-set [ptrfromint [int-c size-t # 0] ptr element-type] # 0]
 		]
 		[[type result]]
 	]
