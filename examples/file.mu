@@ -112,7 +112,7 @@ let exit_osx function
 let platform function
 []
 [
-	let linux osx [if [int-c int-t # 1 # 0]]
+	let linux osx [if # 0]
 ]
 [[unit linux][unit osx]]
 
@@ -163,7 +163,7 @@ let write-string function
 let write-test function
 [int-t # 64 fd]
 [
-	let initial [` astring new-set [bitcast write-test-string ptr int-t # 8] [int-c int-t # 64 # 13]]
+	let initial [` astring new-set [bitcast write-test-string ptr int-t # 8] # 13]
 	let full [` astring append initial initial]
 	let result [write-string fd full]
 ]

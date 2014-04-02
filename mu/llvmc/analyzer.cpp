@@ -1669,50 +1669,24 @@ static unsigned minimum_bit_width (mu::core::error * & error_a, mu::llvmc::skele
 	return result;
 }
 
-void mu::llvmc::function_processor::process_binary_integer_instruction (mu::llvmc::ast::expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch)
+void mu::llvmc::function_processor::process_binary_integer_instruction (mu::llvmc::ast::expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments, mu::llvmc::skeleton::branch * most_specific_branch)
 {
 	if (predicate_offset == 3)
 	{
-		auto left (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
-		if (left != nullptr)
+		auto width (minimum_bit_width (module_m.global_m.error, arguments [1], arguments [2]));
+		if (module_m.global_m.error == nullptr)
 		{
-			auto right (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [2]));
-			if (right != nullptr)
-			{
-				auto left_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (left->type ()));
-				if (left_type != nullptr)
-				{
-					auto right_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (right->type ()));
-					if (right_type != nullptr)
+			auto type (b.integer_type (width));
+			auto error_action ([]
+					(mu::core::region const &)
 					{
-						if (*left_type == *right_type)
-						{
-							expression_a->assigned = true;
-							expression_a->generated.push_back (b.instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
-						}
-						else
-						{
-							module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction left and right arguments must be same width", mu::core::error_type::instruction_arguments_must_have_same_bit_width, expression_a->region);
-						}
-					}
-					else
-					{
-						module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction right argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, expression_a->region);
-					}
-				}
-				else
-				{
-					module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction left argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, expression_a->region);
-				}
-			}
-			else
-			{
-				module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction right argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
-			}
-		}
-		else
-		{
-			module_m.global_m.error = new (GC) mu::core::error_string (U"Instruction left argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
+						assert (false);
+						return nullptr;
+					});
+			arguments [1] = arguments [1]->adapt (type, *this, error_action);
+			arguments [2] = arguments [2]->adapt (type, *this, error_action);
+			expression_a->assigned = true;
+			expression_a->generated.push_back (b.instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
 		}
 	}
 	else
@@ -2058,42 +2032,29 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
             {
                 if (predicate_offset == 2)
                 {
-                    auto predicate (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
-                    if (predicate != nullptr)
+					auto type (b.integer_type (1));
+					arguments [1] = arguments [1]->adapt (type, *this,
+						[&]
+						(mu::core::region const & region_a)
+						{
+							return new (GC) mu::core::error_string (U"If instruction expects 1 bit integer", mu::core::error_type::if_instruction_expects_one_bit_integer, region_a);
+						});
+					if (module_m.global_m.error == nullptr)
                     {
-                        auto integer_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (predicate->type ()));
-                        if (integer_type != nullptr)
-                        {
-                            if (integer_type->bits == 1)
-                            {
-                                result = true;
-                                auto false_const (b.constant_integer (expression_a->region, &module_m.module_m->integer_1_type, 0));
-                                auto true_const (b.constant_integer (expression_a->region, &module_m.module_m->integer_1_type, 1));
-                                arguments.push_back (false_const);
-                                arguments.push_back (true_const);
-                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &module_m.module_m->the_unit_type));
-                                auto true_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-                                auto false_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-                                auto true_element (b.switch_element (expression_a->region, true_branch, switch_i, true_const));
-                                auto false_element (b.switch_element (expression_a->region, false_branch, switch_i, false_const));
-								expression_a->assigned = true;
-                                auto & values (expression_a->generated);
-                                values.push_back (true_element);
-                                values.push_back (false_element);
-                            }
-                            else
-                            {
-                                module_m.global_m.error = new (GC) mu::core::error_string (U"If instruction expects 1 bit integer", mu::core::error_type::if_instruction_expects_one_bit_integer, expression_a->region);
-                            }
-                        }
-                        else
-                        {
-                            module_m.global_m.error = new (GC) mu::core::error_string (U"If instruction expects an integer type value", mu::core::error_type::if_instruction_expects_integer_type_value, expression_a->region);
-                        }
-                    }
-                    else
-                    {
-                        module_m.global_m.error = new (GC) mu::core::error_string (U"If instruction expects a value argument", mu::core::error_type::if_instruction_expects_a_value_argument, expression_a->region);
+						result = true;
+						auto false_const (b.constant_integer (expression_a->region, &module_m.module_m->integer_1_type, 0));
+						auto true_const (b.constant_integer (expression_a->region, &module_m.module_m->integer_1_type, 1));
+						arguments.push_back (false_const);
+						arguments.push_back (true_const);
+						auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &module_m.module_m->the_unit_type));
+						auto true_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+						auto false_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+						auto true_element (b.switch_element (expression_a->region, true_branch, switch_i, true_const));
+						auto false_element (b.switch_element (expression_a->region, false_branch, switch_i, false_const));
+						expression_a->assigned = true;
+						auto & values (expression_a->generated);
+						values.push_back (true_element);
+						values.push_back (false_element);
                     }
                 }
                 else
