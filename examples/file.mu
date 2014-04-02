@@ -299,11 +299,30 @@ let lalloc function
 ]
 [[ptr int-t # 8 result; store1 store2]]
 
+let tlalloc template [element-type]
+[
+	function [size-t count]
+	[
+		let result [bitcast [lalloc [mul count [sizeof element-type]]] ptr element-type]
+	]
+	[[ptr element-type result]]
+]
+
 let lfree function
 [ptr int-t # 8 data]
 [
 ]
 [[;data]]
+
+let tlfree template [element-type]
+[
+	function
+	[ptr element-type data]
+	[
+		let result [lfree [bitcast data ptr int-t # 8]]
+	]
+	[[; result]]
+]
 
 let file-name-osx global ascii /Users/clemahieu/test.txt:a00
 let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
@@ -431,11 +450,11 @@ let string-template template [element-type]
 			let string-size [size string-a]
 			let other-size [size other-a]
 			let new-size [add string-size other-size]
-			let new-data [lalloc new-size]
-			let copied1 [[mcopy element-type] let string-data [data string-a] [getelementptr string-data string-size] [bitcast new-data ptr element-type]]
-			let copied2 [[mcopy element-type] let begin [data other-a] [getelementptr begin other-size] [getelementptr [bitcast new-data ptr element-type] string-size]]
-			let result [new-set [bitcast new-data ptr element-type] new-size]
-			let freed [lfree [bitcast string-data ptr int-t # 8]; copied1]
+			let new-data [[tlalloc element-type] new-size]
+			let copied1 [[mcopy element-type] let string-data [data string-a] [getelementptr string-data string-size] new-data]
+			let copied2 [[mcopy element-type] let begin [data other-a] [getelementptr begin other-size] [getelementptr new-data string-size]]
+			let result [new-set new-data new-size]
+			let freed [[tlfree element-type] string-data; copied1]
 		]
 		[[type result; copied2 freed]]
 
