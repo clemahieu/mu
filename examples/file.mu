@@ -451,9 +451,7 @@ let string-template template [element-type]
 		let append function
 		[type string-a type other-a]
 		[
-			let string-size [size string-a]
-			let other-size [size other-a]
-			let new-size [add string-size other-size]
+			let new-size [add let string-size [size string-a] let other-size [size other-a]]
 			let new-data [alloc new-size]
 			let copied1 [copy let string-data [data string-a] [getelementptr string-data string-size] new-data]
 			let copied2 [copy let begin [data other-a] [getelementptr begin other-size] [getelementptr new-data string-size]]
