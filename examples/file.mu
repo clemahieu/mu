@@ -328,6 +328,23 @@ let memcopy function
 ]
 [[; complete]]
 
+let mcopy template [element-type]
+[
+	function [ptr element-type begin ptr element-type end ptr element-type destination]
+	[
+		let next [int-c int-t # 64 # 1]
+		let complete loop
+		[begin destination]
+		[source-l destination-l]
+		[
+			let done not-done [if [icmp iuge [ptrtoint source-l iptr] [ptrtoint end iptr]]]
+			let stored [store [load source-l; not-done] destination-l]
+		]
+		[[[getelementptr source-l next] [getelementptr destination-l next]; stored] [; done]]
+	]
+	[[; complete]]
+]
+
 let vector-template template [template-type]
 [
 	module [
@@ -374,7 +391,7 @@ let vector-template template [template-type]
 		let new function
 		[]
 		[
-			let result [new-set null ptr template-type [int-c int-t # 64 # 0]]
+			let result [new-set null ptr template-type # 0]
 		]
 		[[ptr type result]]
 	]
@@ -417,7 +434,7 @@ let string-template template [element-type]
 			let new-data [lalloc new-size]
 			let string-data [bitcast [data string-a] ptr int-t # 8]
 			let copied1 [memcopy string-data new-data string-size]
-			let copied2 [memcopy [bitcast [data other-a] ptr int-t # 8] [bitcast [getelementptr new-data string-size] ptr int-t # 8] other-size]
+			let copied2 [[mcopy element-type] let begin [data other-a] [getelementptr begin other-size] [getelementptr [bitcast new-data ptr element-type] string-size]]
 			let result [new-set [bitcast new-data ptr element-type] new-size]
 			let freed [lfree string-data; copied1]
 		]
@@ -433,7 +450,7 @@ let string-template template [element-type]
 		let new function
 		[]
 		[
-			let result [new-set [bitcast [lalloc [int-c size-t # 0]] ptr element-type] [int-c size-t # 0]]
+			let result [new-set [bitcast [lalloc [int-c size-t # 0]] ptr element-type] # 0]
 		]
 		[[type result]]
 	]
