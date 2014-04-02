@@ -282,7 +282,7 @@ let lalloc-slab function
 		[or PROT_READ-linux PROT_WRITE-linux] 
 		[or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] 
 		no-fd-linux 
-		[int-c int-t # 64 # 0]]
+		# 0]
 ]
 [[ptr int-t # 8 mem]]
 
@@ -450,14 +450,14 @@ entrypoint let entry function
 [
 	:(let stored [store ascii  let text [alloca array int-t # 8 #26]]
 	let stored [store ascii  let text [alloca array int-t # 8 #30]]
-	let fd [open [bitcast file-name-osx ptr int-t # 8] [int-c int-t # 64 # h602] [int-c int-t # 64 # o600]]
-	let fd [open [bitcast file-name-linux ptr int-t # 8] [or O_RDWR-linux O_CREAT-linux] [int-c int-t # 64 # o600]]
+	let fd [open [bitcast file-name-osx ptr int-t # 8] # h602 # o600]
+	let fd [open [bitcast file-name-linux ptr int-t # 8] [or O_RDWR-linux O_CREAT-linux] # o600]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]:)
 	let vector [` vector<int64> new]
-	let hello [write-test [int-c int-t # 64 # 1]]
-	let alloc1 [lalloc [int-c int-t # 64 # 100]]
-	let alloc2 [lalloc [int-c int-t # 64 # 1000]]
-	let result [exit [int-c int-t # 64 # 0]; hello alloc1 alloc2]
+	let hello [write-test # 1]
+	let alloc1 [lalloc # 100]
+	let alloc2 [lalloc # 1000]
+	let result [exit # 0; hello alloc1 alloc2]
 ]
 [[; result vector]]
