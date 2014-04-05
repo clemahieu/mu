@@ -175,8 +175,7 @@ namespace mu
 			template_argument_count_mismatch,
 			expecting_an_integer_type,
 			expecting_type_or_right_square_or_terminator,
-			expecting_left_square_or_right_square,
-            expecting_argument_or_right_paren,
+			expecting_left_square_or_right_square
         };
         class error
         {
