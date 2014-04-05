@@ -94,10 +94,15 @@ mu::io::token_result mu::io::lexer::lex ()
                     case U'}':
 					case U'(':
 					case U')':
+                    case U'f':
                     case U'\f':
+                    case U'n':
                     case U'\n':
+                    case U'r':
                     case U'\r':
+                    case U't':
                     case U'\t':
+                    case U'0':
                     case U'\0':
                         result = identifier ();
                         break;
@@ -231,30 +236,35 @@ mu::io::token_result mu::io::lexer::identifier ()
                         last = position;
                         consume (1);
                         break;
+                    case U'f':
                     case U'\f':
                         identifier->string.push_back (U'\f');
                         consume (1);
                         last = position;
                         consume (1);
                         break;
+                    case U'n':
                     case U'\n':
                         identifier->string.push_back (U'\n');
                         consume (1);
                         last = position;
                         consume (1);
                         break;
+                    case U'r':
                     case U'\r':
                         identifier->string.push_back (U'\r');
                         consume (1);
                         last = position;
                         consume (1);
                         break;
+                    case U't':
                     case U'\t':
                         identifier->string.push_back (U'\t');
                         consume (1);
                         last = position;
                         consume (1);
                         break;
+                    case U'0':
                     case U'\0':
                         identifier->string.push_back (U'\0');
                         consume (1);
