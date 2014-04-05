@@ -70,14 +70,6 @@ mu::io::token_result mu::io::lexer::lex ()
                 result.token = new (GC) mu::io::right_square (mu::core::region (position, position));
                 consume (1);
                 break;
-			case U'(':
-				result.token = new (GC) mu::io::left_paren (mu::core::region (position, position));
-				consume (1);
-				break;
-			case U')':
-				result.token = new (GC) mu::io::right_paren (mu::core::region (position, position));
-				consume (1);
-				break;
             case U';':
                 result.token = new (GC) mu::io::terminator (mu::core::region (position, position));
                 consume (1);
@@ -151,8 +143,6 @@ mu::io::token_result mu::io::lexer::identifier ()
             case U'\0':
             case U'[':
             case U']':
-			case U'(':
-			case U')':
             case U'{':
             case U';':
             case U'\U0000FFFF':
@@ -212,18 +202,6 @@ mu::io::token_result mu::io::lexer::identifier ()
                         last = position;
                         consume (1);
                         break;
-					case U'(':
-						identifier->string.push_back (U'(');
-						consume (1);
-						last = position;
-						consume (1);
-						break;
-					case U')':
-						identifier->string.push_back (U')');
-						consume (1);
-						last = position;
-						consume (1);
-						break;
                     case U':':
                         identifier->string.push_back (U':');
                         consume (1);

@@ -13,9 +13,7 @@ namespace mu
             identifier,
             left_square,
             right_square,
-            terminator,
-			left_paren,
-			right_paren
+            terminator
         };
         class token
         {
@@ -56,17 +54,5 @@ namespace mu
             end (mu::core::region const &);
             token_id id () override;
         };
-		class left_paren : public token
-		{
-		public:
-			left_paren (mu::core::region const &);
-			token_id id () override;
-		};
-		class right_paren : public token
-		{
-		public:
-			right_paren (mu::core::region const &);
-			token_id id () override;
-		};
     }
 }
