@@ -141,6 +141,16 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 size_t predicate_position;
             };
+			class sequence : public mu::llvmc::ast::node
+			{
+			public:
+                sequence (mu::llvmc::template_context * template_a = nullptr);
+                sequence (std::initializer_list <mu::llvmc::ast::node *> arguments, mu::llvmc::template_context * template_a = nullptr);
+				sequence (mu::llvmc::ast::sequence const & other_a, mu::llvmc::clone_context & context_a);
+				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
+                void visit (mu::llvmc::ast::visitor * visitor_a) override;
+                mu::vector <mu::llvmc::ast::node *> arguments;
+			};
             class function : public mu::llvmc::ast::node
             {
             public:
@@ -371,6 +381,7 @@ namespace mu
                 virtual void constant_array (mu::llvmc::ast::constant_array * node_a);
                 virtual void global_variable (mu::llvmc::ast::global_variable * node_a);
                 virtual void expression (mu::llvmc::ast::expression * node_a);
+                virtual void sequence (mu::llvmc::ast::sequence * node_a);
                 virtual void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * node_a);
                 virtual void join (mu::llvmc::ast::join * node_a);
                 virtual void loop (mu::llvmc::ast::loop * node_a);

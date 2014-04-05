@@ -56,6 +56,12 @@ predicate_position (arguments_a.size ())
     arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
 }
 
+mu::llvmc::ast::sequence::sequence (std::initializer_list <mu::llvmc::ast::node *> arguments_a, mu::llvmc::template_context * template_a) :
+node (template_a)
+{
+    arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
+}
+
 mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a, mu::llvmc::template_context * template_a):
 node (template_a),
 written_type (written_type_a),
@@ -89,6 +95,11 @@ node (template_a)
 mu::llvmc::ast::expression::expression (mu::llvmc::template_context * template_a) :
 node (template_a),
 predicate_position (~0)
+{
+}
+
+mu::llvmc::ast::sequence::sequence (mu::llvmc::template_context * template_a) :
+node (template_a)
 {
 }
 
@@ -188,6 +199,11 @@ void mu::llvmc::ast::visitor::global_variable (mu::llvmc::ast::global_variable *
 }
 
 void mu::llvmc::ast::visitor::expression (mu::llvmc::ast::expression * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::sequence (mu::llvmc::ast::sequence * node_a)
 {
     node (node_a);
 }
@@ -310,6 +326,11 @@ void mu::llvmc::ast::global_variable::visit (mu::llvmc::ast::visitor * visitor_a
 void mu::llvmc::ast::expression::visit (mu::llvmc::ast::visitor * visitor_a)
 {
     visitor_a->expression (this);
+}
+
+void mu::llvmc::ast::sequence::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->sequence (this);
 }
 
 void mu::llvmc::ast::constant_pointer_null::visit (mu::llvmc::ast::visitor * visitor_a)
@@ -476,6 +497,12 @@ mu::llvmc::ast::node * mu::llvmc::ast::expression::do_clone (mu::llvmc::clone_co
 	return result;
 }
 
+mu::llvmc::ast::node * mu::llvmc::ast::sequence::do_clone (mu::llvmc::clone_context & context_a)
+{
+	auto result (new (GC) mu::llvmc::ast::sequence (*this, context_a));
+	return result;
+}
+
 mu::llvmc::ast::node * mu::llvmc::ast::constant_pointer_null::do_clone (mu::llvmc::clone_context & context_a)
 {
 	auto result (new (GC) mu::llvmc::ast::constant_pointer_null (*this, context_a));
@@ -589,6 +616,15 @@ initializer (other_a.initializer->clone (context_a))
 mu::llvmc::ast::expression::expression (mu::llvmc::ast::expression const & other_a, mu::llvmc::clone_context & context_a) :
 node (other_a, context_a),
 predicate_position (other_a.predicate_position)
+{
+	for (auto i: other_a.arguments)
+	{
+		arguments.push_back (i->clone (context_a));
+	}
+}
+
+mu::llvmc::ast::sequence::sequence (mu::llvmc::ast::sequence const & other_a, mu::llvmc::clone_context & context_a) :
+node (other_a, context_a)
 {
 	for (auto i: other_a.arguments)
 	{
