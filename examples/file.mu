@@ -370,6 +370,8 @@ let vector-template template [template-type]
 	module [
 		let type struct [data ptr template-type
 			size size-t]
+		let alloc [tlalloc template-type]
+		let copy [mcopy template-type]
 	
 		let data-set function
 		[ptr type vector ptr template-type data-a]
@@ -407,6 +409,17 @@ let vector-template template [template-type]
 			let size [size-set result size-a]
 		]
 		[[ptr type result; data size]]
+		
+		let push-back function
+		[ptr template-type data-a element-type value-a]
+		[
+			let size-set-l [size-set let size-new [add let size-old [size-get data-a] # 1]]
+			let data-old [data-get data-a]
+			let data-new [alloc size-new]
+			let copied [copy data-old [getelementptr data-old size-old] data-new]
+			let element-set [store [getelementptr data-new size-old] value-a]
+		]
+		[[; set copied element-set]]
 	
 		let new function
 		[]

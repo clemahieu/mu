@@ -13,12 +13,14 @@ namespace mu
             identifier,
             left_square,
             right_square,
-            terminator
+            terminator,
+			left_paren,
+			right_paren
         };
         class token
         {
         public:
-            token (mu::core::region const & region_a);
+            token (mu::core::region const &);
             virtual ~token ();
             virtual token_id id () = 0;
             mu::core::region region;
@@ -26,33 +28,45 @@ namespace mu
         class left_square : public token
         {
         public:
-            left_square (mu::core::region const & region_a);
+            left_square (mu::core::region const &);
             token_id id () override;
         };
         class right_square : public token
         {
         public:
-            right_square (mu::core::region const & region_a);
+            right_square (mu::core::region const &);
             token_id id () override;
         };
         class terminator : public token
         {
         public:
-            terminator (mu::core::region const & region_a);
+            terminator (mu::core::region const &);
             token_id id () override;
         };
         class identifier : public token
         {
         public:
-            identifier (mu::core::region const & region_a);
+            identifier (mu::core::region const &);
             token_id id () override;
             mu::string string;
         };
         class end : public token
         {
         public:            
-            end (mu::core::region const & region_a);
+            end (mu::core::region const &);
             token_id id () override;
         };
+		class left_paren : public token
+		{
+		public:
+			left_paren (mu::core::region const &);
+			token_id id () override;
+		};
+		class right_paren : public token
+		{
+		public:
+			right_paren (mu::core::region const &);
+			token_id id () override;
+		};
     }
 }

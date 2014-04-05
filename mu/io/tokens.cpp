@@ -58,3 +58,23 @@ mu::io::token_id mu::io::identifier::id ()
 {
     return mu::io::token_id::identifier;
 }
+
+mu::io::left_paren::left_paren (mu::core::region const & region_a):
+token (region_a)
+{
+}
+
+mu::io::token_id mu::io::left_paren::id ()
+{
+    return mu::io::token_id::left_paren;
+}
+
+mu::io::right_paren::right_paren (mu::core::region const & region_a):
+token (region_a)
+{
+}
+
+mu::io::token_id mu::io::right_paren::id ()
+{
+    return mu::io::token_id::right_paren;
+}

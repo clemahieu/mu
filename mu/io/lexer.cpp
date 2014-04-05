@@ -70,6 +70,14 @@ mu::io::token_result mu::io::lexer::lex ()
                 result.token = new (GC) mu::io::right_square (mu::core::region (position, position));
                 consume (1);
                 break;
+			case U'(':
+				result.token = new (GC) mu::io::left_paren (mu::core::region (position, position));
+				consume (1);
+				break;
+			case U')':
+				result.token = new (GC) mu::io::right_paren (mu::core::region (position, position));
+				consume (1);
+				break;
             case U';':
                 result.token = new (GC) mu::io::terminator (mu::core::region (position, position));
                 consume (1);
@@ -92,6 +100,8 @@ mu::io::token_result mu::io::lexer::lex ()
                     case U';':
                     case U'{':
                     case U'}':
+					case U'(':
+					case U')':
                     case U'\f':
                     case U'\n':
                     case U'\r':
@@ -99,10 +109,10 @@ mu::io::token_result mu::io::lexer::lex ()
                     case U'\0':
                         result = identifier ();
                         break;
-                    case U'-':
+                    case U'/':
                         line_comment ();
                         break;
-                    case U'(':
+                    case U'*':
                         result.error = region_comment ();
                         break;
                     default:
@@ -141,6 +151,8 @@ mu::io::token_result mu::io::lexer::identifier ()
             case U'\0':
             case U'[':
             case U']':
+			case U'(':
+			case U')':
             case U'{':
             case U';':
             case U'\U0000FFFF':
@@ -200,6 +212,18 @@ mu::io::token_result mu::io::lexer::identifier ()
                         last = position;
                         consume (1);
                         break;
+					case U'(':
+						identifier->string.push_back (U'(');
+						consume (1);
+						last = position;
+						consume (1);
+						break;
+					case U')':
+						identifier->string.push_back (U')');
+						consume (1);
+						last = position;
+						consume (1);
+						break;
                     case U':':
                         identifier->string.push_back (U':');
                         consume (1);
@@ -259,10 +283,10 @@ mu::io::token_result mu::io::lexer::identifier ()
                         last = position;
                         consume (1);
                         break;
-                    case U'-':
+                    case U'/':
                         result.token = identifier;
                         break;
-                    case U'(':
+                    case U'*':
                         result.error = region_comment ();
                         break;
                     default:
@@ -354,7 +378,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
 void mu::io::lexer::line_comment ()
 {
     assert (stream [0] == U':');
-    assert (stream [1] == U'-');
+    assert (stream [1] == U'/');
     consume (2);
     auto done (false);
     while (!done)
@@ -430,7 +454,7 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
 mu::core::error * mu::io::lexer::region_comment ()
 {
     assert (stream [0] == U':');
-    assert (stream [1] == U'(');
+    assert (stream [1] == U'*');
     consume (2);
     mu::core::error * result (nullptr);
     auto done (false);
@@ -443,18 +467,26 @@ mu::core::error * mu::io::lexer::region_comment ()
             case U':':
                 switch (character2)
                 {
-                    case U')':
-                        consume (2);
-                        done = true;
-                        break;
-                    case U'(':
-                        result = region_comment ();
+                    case U'*':
+						result = region_comment ();
                         break;
                     default:
-                        consume (2);
+                        consume (1);
                         break;
                 }
                 break;
+			case U'*':
+				switch (character2)
+				{
+					case U':':
+						consume (2);
+						done = true;
+						break;
+					default:
+						consume (1);
+						break;
+				}
+				break;
             case U'\U0000ffff':
                 result = new (GC) mu::core::error_string (U"End of stream inside region comment", mu::core::error_type::end_of_stream_inside_region_comment, mu::core::region (position, position));
                 done = true;
