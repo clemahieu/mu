@@ -36,6 +36,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"#", &number);
     assert (!error);
+    error = keywords.insert (U"!", &sequence_hook);
+    assert (!error);
     error = keywords.insert (U"farray", &array_type);
     assert (!error);
     error = keywords.insert (U"ascii", &ascii_hook);
@@ -1687,137 +1689,118 @@ mu::llvmc::node_result mu::llvmc::struct_hook::parse (mu::core::region const & r
     return result;
 }
 
-static mu::string array_type_name (U"array_type");
-
 mu::string const & mu::llvmc::array_type::name ()
 {
-    return array_type_name;
+    static mu::string const result (U"array_type");
+    return result;
 }
-
-static mu::string ascii_hook_name (U"ascii_hook");
 
 mu::string const & mu::llvmc::ascii_hook::name ()
 {
-    return ascii_hook_name;
+    static mu::string const result (U"ascii_hook");
+    return result;
 }
-
-static mu::string string_hook_name (U"string_hook");
 
 mu::string const & mu::llvmc::string_hook::name ()
 {
-    return string_hook_name;
+    static mu::string const result (U"string_hook");
+    return result;
 }
-
-static mu::string struct_hook_name (U"struct_hook");
 
 mu::string const & mu::llvmc::struct_hook::name ()
 {
-    return struct_hook_name;
+    static mu::string const result (U"struct_hook");
+    return result;
 }
-
-static mu::string constant_int_name (U"constant_int");
 
 mu::string const & mu::llvmc::constant_int::name ()
 {
-    return constant_int_name;
+    static mu::string const result (U"constant_int");
+    return result;
 }
-
-static mu::string function_hook_name (U"function_hook");
 
 mu::string const & mu::llvmc::function_hook::name ()
 {
-    return function_hook_name;
+    static mu::string const result (U"function_hook");
+    return result;
 }
-
-static mu::string constant_array_name (U"constant_array");
 
 mu::string const & mu::llvmc::constant_array::name ()
 {
-    return constant_array_name;
+    static mu::string const result (U"constant_array");
+    return result;
 }
-
-static mu::string undefined_hook_name (U"undefined_hook");
 
 mu::string const & mu::llvmc::undefined_hook::name ()
 {
-    return undefined_hook_name;
+    static mu::string const result (U"undefined_hook");
+    return result;
 }
-
-static mu::string global_variable_name (U"global_variable");
 
 mu::string const & mu::llvmc::global_variable::name ()
 {
-    return global_variable_name;
+    static mu::string const result (U"global_variable");
+    return result;
 }
-
-static mu::string constant_pointer_null_name (U"constant_pointer_null");
 
 mu::string const & mu::llvmc::constant_pointer_null::name ()
 {
-    return constant_pointer_null_name;
+    static mu::string const result (U"constant_pointer_null");
+    return result;
 }
-
-static mu::string module_name (U"module");
 
 mu::string const & mu::llvmc::module_hook::name ()
 {
-    return module_name;
+    static mu::string const result (U"module");
+    return result;
 }
-
-static mu::string number_name (U"number");
 
 mu::string const & mu::llvmc::number::name ()
 {
-    return number_name;
+    static mu::string const result (U"number");
+    return result;
 }
-
-static mu::string asm_hook_name (U"asm_hook");
 
 mu::string const & mu::llvmc::asm_hook::name ()
 {
-    return asm_hook_name;
+    static mu::string const result (U"asm_hook");
+    return result;
 }
-
-static mu::string int_type_name (U"int_type");
 
 mu::string const & mu::llvmc::int_type::name ()
 {
-    return int_type_name;
+    static mu::string const result (U"int_type");
+    return result;
 }
-
-static mu::string let_hook_name (U"let_hook");
 
 mu::string const & mu::llvmc::let_hook::name ()
 {
-    return let_hook_name;
+    static mu::string const result (U"let_hook");
+    return result;
 }
-
-static mu::string ptr_type_name (U"ptr_type");
 
 mu::string const & mu::llvmc::ptr_type::name ()
 {
-    return ptr_type_name;
+    static mu::string const result (U"ptr_type");
+    return result;
 }
-
-static mu::string set_hook_name (U"set_hook");
 
 mu::string const & mu::llvmc::set_hook::name ()
 {
-    return set_hook_name;
+    static mu::string const result (U"set_hook");
+    return result;
 }
-
-static mu::string join_hook_name (U"join_hook");
 
 mu::string const & mu::llvmc::join_hook::name ()
 {
-    return join_hook_name;
+    static mu::string const result (U"join_hook");
+    return result;
 }
-
-static mu::string loop_hook_name (U"loop_hook");
 
 mu::string const & mu::llvmc::loop_hook::name ()
 {
-    return loop_hook_name;
+    static mu::string const result (U"loop_hook");
+    return result;
 }
 
 mu::llvmc::parser_context::parser_context (mu::llvmc::parser & parser_a, mu::string const * name_a) :
@@ -1933,11 +1916,10 @@ mu::llvmc::node_result mu::llvmc::template_hook::parse (mu::core::region const &
 	return result;
 }
 
-static mu::string template_hook_name (U"template_hook");
-
 mu::string const & mu::llvmc::template_hook::name ()
 {
-	return template_hook_name;
+    static mu::string const result (U"template_hook");
+	return result;
 }
 
 mu::llvmc::node_result mu::llvmc::entry_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
@@ -1959,11 +1941,11 @@ mu::llvmc::node_result mu::llvmc::entry_hook::parse (mu::core::region const & re
     return result;
 }
 
-static mu::string entry_hook_name (U"entry_hook");
 
 mu::string const & mu::llvmc::entry_hook::name ()
 {
-    return entry_hook_name;
+    static mu::string const result (U"entry_hook");
+    return result;
 }
 
 bool mu::llvmc::template_context::should_clone (mu::llvmc::template_context * node_a)
@@ -2007,11 +1989,10 @@ mu::llvmc::node_result mu::llvmc::namespace_hook::parse (mu::core::region const 
     return result;
 }
 
-static mu::string namespace_hook_name (U"namespace_hook");
-
 mu::string const & mu::llvmc::namespace_hook::name ()
 {
-    return namespace_hook_name;
+    static mu::string const result (U"namespace_hook");
+    return result;
 }
 
 mu::llvmc::module::module (mu::core::region const & region_a, mu::llvmc::parser & parser_a) :
@@ -2027,4 +2008,28 @@ mu::llvmc::module::~module ()
 {
 	assert (parser.current_mapping == &block);
 	parser.current_mapping = block.parent;
+}
+
+mu::llvmc::node_result mu::llvmc::sequence_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
+{
+    auto sequence_l (new (GC) mu::llvmc::ast::sequence (parser_a.current_template));
+    mu::llvmc::node_result result ({nullptr, nullptr});
+	sequence_l->region.first = region_a.first;
+    result.error = parser_a.parse_ast_or_refer (
+        [sequence_l]
+        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+        {
+            sequence_l->node_m = node_a;
+        });
+    if (result.error == nullptr)
+    {
+        result.node = sequence_l;
+    }
+    return result;
+}
+
+mu::string const & mu::llvmc::sequence_hook::name ()
+{
+    static mu::string const result (U"sequence_hook");
+    return result;
 }

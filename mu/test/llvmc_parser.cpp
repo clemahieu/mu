@@ -2289,3 +2289,18 @@ TEST (llvmc_parser, nested_reference)
 	ASSERT_EQ (nullptr, module1.error);
 	ASSERT_NE (nullptr, module1.node);
 }
+
+TEST (llvmc_parser, sequence)
+{
+    test_parser parser ("! []");
+    auto module1 (parser.parser.parse ());
+	ASSERT_EQ (nullptr, module1.error);
+	ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto sequence1 (dynamic_cast <mu::llvmc::ast::sequence *> (module2->globals [0]));
+    ASSERT_NE (nullptr, sequence1);
+    auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (sequence1->node_m));
+    ASSERT_NE (nullptr, expression1);
+}

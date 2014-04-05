@@ -1033,3 +1033,30 @@ void mu::llvmc::ast::visitor::array_type (mu::llvmc::ast::array_type * node_a)
 {
     node (node_a);
 }
+
+mu::llvmc::ast::sequence::sequence (mu::llvmc::template_context * context_a) :
+node (context_a)
+{
+}
+
+mu::llvmc::ast::sequence::sequence (mu::llvmc::ast::sequence const & other_a, mu::llvmc::clone_context & context_a) :
+node (other_a.template_m),
+node_m (other_a.node_m->clone (context_a))
+{
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::sequence::do_clone (mu::llvmc::clone_context & context_a)
+{
+    auto result (new (GC) mu::llvmc::ast::sequence (*this, context_a));
+    return result;
+}
+
+void mu::llvmc::ast::sequence::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->sequence (this);
+}
+
+void mu::llvmc::ast::visitor::sequence (mu::llvmc::ast::sequence * node_a)
+{
+    node (node_a);
+}

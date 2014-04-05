@@ -358,6 +358,15 @@ namespace mu
                 mu::string member;
                 mu::llvmc::ast::node * node_m;
             };
+            class sequence : public mu::llvmc::ast::node
+            {
+            public:
+				sequence (mu::llvmc::template_context * context_a = nullptr);
+				sequence (mu::llvmc::ast::sequence const & other_a, mu::llvmc::clone_context & context_a);
+				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
+				void visit (mu::llvmc::ast::visitor * visitor_a) override;
+                mu::llvmc::ast::node * node_m;
+            };
             class visitor
             {
             public:
@@ -392,6 +401,7 @@ namespace mu
                 virtual void entry (mu::llvmc::ast::entry * node_a);
 				virtual void set (mu::llvmc::ast::set * node_a);
                 virtual void namespace_c (mu::llvmc::ast::namespace_c * node_a);
+                virtual void sequence (mu::llvmc::ast::sequence * node_a);
             };
         }
     }

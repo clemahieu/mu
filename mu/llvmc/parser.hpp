@@ -308,6 +308,12 @@ namespace mu
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
             mu::string const & name () override;
         };
+        class sequence_hook : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::string const & name () override;
+        };
         class parser
         {
         public:
@@ -354,6 +360,7 @@ namespace mu
 			mu::llvmc::template_hook template_hook;
             mu::llvmc::entry_hook entry_hook;
             mu::llvmc::namespace_hook namespace_hook;
+            mu::llvmc::sequence_hook sequence_hook;
             std::vector <mu::llvmc::parser_frame> parse_stack;
         };
         class parser_error : public mu::core::error
