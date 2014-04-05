@@ -784,6 +784,61 @@ void mu::llvmc::expression::parse ()
     }
 }
 
+mu::llvmc::sequence::sequence (mu::core::region const & region_a, mu::llvmc::parser & parser_a):
+result ({nullptr, nullptr}),
+parser (parser_a),
+region (region_a)
+{
+}
+
+void mu::llvmc::sequence::parse ()
+{
+    auto sequence_l (new (GC) mu::llvmc::ast::sequence (parser.current_template));
+    auto done (false);
+    while (!done && result.error == nullptr)
+    {
+        auto next (parser.peek ());
+        if (next.ast != nullptr)
+        {
+            sequence_l->arguments.push_back (next.ast);
+        }
+        else if (next.token != nullptr)
+        {
+            switch (next.token->id ())
+            {
+                case mu::io::token_id::identifier:
+                {
+                    auto position (sequence_l->arguments.size ());
+                    sequence_l->arguments.push_back (nullptr);
+                    auto identifier (static_cast <mu::io::identifier *> (next.token));
+                    parser.current_mapping->refer (identifier->string, identifier->region,
+												   [sequence_l, position]
+												   (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+												   {
+													   sequence_l->arguments [position] = node_a;
+												   });
+                    break;
+                }
+                case mu::io::token_id::right_paren:
+                    sequence_l->region = mu::core::region (region.first, next.token->region.last);
+                    done = true;
+                    break;
+                default:
+                    result.error = new (GC) mu::core::error_string (U"Expecting argument or right_paren", mu::core::error_type::expecting_argument_or_right_paren, next.token->region);
+                    break;
+            }
+        }
+        else
+        {
+            result.error = next.error;
+        }
+    }
+    if (result.error == nullptr)
+    {
+        result.node = sequence_l;
+    }
+}
+
 mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
@@ -1363,6 +1418,20 @@ mu::llvmc::partial_ast_result mu::llvmc::parser::peek ()
             }
             break;
         }
+		case mu::io::token_id::left_paren:
+		{
+			mu::llvmc::sequence sequence_l (token->region, *this);
+			sequence_l.parse ();
+			if (sequence_l.result.node != nullptr)
+			{
+				result.ast = sequence_l.result.node;
+			}
+			else
+			{
+				result.error = sequence_l.result.error;
+			}
+			break;
+		}
         default:
             result = {token, nullptr, nullptr};
             break;
