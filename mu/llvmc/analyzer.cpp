@@ -1318,7 +1318,7 @@ void mu::llvmc::function_processor::process_results ()
         {
             if (first)
             {
-                function_m->results.push_back (decltype (function_m->results)::value_type ());
+                function_m->results.add_branch ();
                 first = false;
             }
             auto result_a (dynamic_cast <mu::llvmc::ast::result *> (node_a));
@@ -1339,7 +1339,7 @@ void mu::llvmc::function_processor::process_results ()
                         if (new_value != nullptr)
                         {
                             assert (function_m->results.size () > 0);
-                            function_m->results.back ().values.push_back (b.result (type, new_value));
+                            function_m->results.branches.back ().values.push_back (b.result (type, new_value));
                             branches.add_branch (new_value->branch, result_a->region);
                         }
 					}
@@ -1359,7 +1359,7 @@ void mu::llvmc::function_processor::process_results ()
         {
             if (first)
             {
-                function_m->results.push_back (decltype (function_m->results)::value_type ());
+                function_m->results.add_branch ();
                 first = false;
             }
             module_m.global_m.process_node (node_a);
@@ -1371,7 +1371,7 @@ void mu::llvmc::function_processor::process_results ()
                     if (value != nullptr)
                     {
                         assert (function_m->results.size () > 0);
-                        function_m->results.back ().sequenced.push_back (value);
+                        function_m->results.branches.back ().sequenced.push_back (value);
                         branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
                     }
                     else
@@ -1499,7 +1499,7 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
                         {
                             branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
                         }
-                        for (auto & i: function_type->function->results)
+                        for (auto & i: function_type->function->results.branches)
                         {
                             if (i.values.empty ())
                             {

@@ -239,7 +239,7 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     llvm::Value * selector (llvm::UndefValue::get (type));
     llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
     uint8_t selector_number (0);
-    for (auto & i: function->results)
+    for (auto & i: function->results.branches)
     {
         for (auto j: i.values)
         {
@@ -399,7 +399,7 @@ void mu::llvmc::generate_function::call_element (mu::llvmc::skeleton::call_eleme
 			new_last->getInstList ().push_back (compare);
 			auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
 			new_last->getInstList ().push_back (instruction);
-            for (auto & i: call_a->target->results)
+            for (auto & i: call_a->target->results.branches)
             {
                 for (auto j: i.values)
                 {
@@ -1485,7 +1485,7 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
 	std::vector <llvm::Value *> results_debug;
 	std::vector <llvm::Type *> results;
 	uint64_t offset (0);
-    for (auto & i: function->results)
+    for (auto & i: function->results.branches)
     {
         for (auto j: i.values)
         {

@@ -282,8 +282,20 @@ namespace mu
             class function_result
             {
             public:
+                function_result () = default;
+                function_result (std::initializer_list <mu::llvmc::skeleton::result *> const &, std::initializer_list <mu::llvmc::skeleton::value *> const &);
                 mu::vector <mu::llvmc::skeleton::result *> values;
                 mu::vector <mu::llvmc::skeleton::value *> sequenced;
+            };
+            class function_branches
+            {
+            public:
+                function_branches () = default;
+                function_branches (std::initializer_list <function_result> const &);
+                function_result & add_branch ();
+                function_result & operator [] (size_t);
+                size_t size () const;
+                mu::vector <function_result> branches;
             };
             class function : public mu::llvmc::skeleton::global_value
             {
@@ -296,7 +308,7 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
-                mu::vector <mu::llvmc::skeleton::function_result> results;
+                function_branches results;
                 static void empty_node (mu::llvmc::skeleton::node *, size_t);
                 static bool empty_loop_predicate ();
                 llvm::DISubprogram debug;

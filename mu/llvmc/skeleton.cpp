@@ -177,7 +177,7 @@ bool mu::llvmc::skeleton::function_type::parameters_equal (mu::llvmc::skeleton::
 bool mu::llvmc::skeleton::function_type::results_equal (mu::llvmc::skeleton::function_type const & other_a) const
 {
     auto result (function->results.size () == other_a.function->results.size ());
-    for (auto i (function->results.begin ()), j (function->results.end ()), k (other_a.function->results.begin ()); result && i != j; ++i, ++k)
+    for (auto i (function->results.branches.begin ()), j (function->results.branches.end ()), k (other_a.function->results.branches.begin ()); result && i != j; ++i, ++k)
     {
         result = i->values.size () == k->values.size ();
         for (auto l (i->values.begin ()), m (i->values.end ()), n (k->values.begin ()); result && l != m; ++l, ++n)
@@ -215,7 +215,7 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
 {
     mu::llvmc::skeleton::function_return_type result;
     size_t llvm_values (0);
-    for (auto i (results.begin ()), j (results.end ()); llvm_values < 2 && i != j; ++i)
+    for (auto i (results.branches.begin ()), j (results.branches.end ()); llvm_values < 2 && i != j; ++i)
     {
         for (auto k (i->values.begin ()), l (i->values.end ()); llvm_values < 2 && k != l; ++k)
         {
@@ -1526,7 +1526,7 @@ mu::string mu::llvmc::skeleton::function_type::name ()
 	result.push_back (U' ');
 	result.push_back (U'[');
 	first = true;
-    for (auto & i: function->results)
+    for (auto & i: function->results.branches)
     {
         for (auto j: i.values)
         {
@@ -1644,4 +1644,32 @@ unsigned mu::llvmc::skeleton::number::bits_required ()
 void mu::llvmc::skeleton::number::visit (mu::llvmc::skeleton::visitor * visitor_a)
 {
 	visitor_a->number (this);
+}
+
+mu::llvmc::skeleton::function_result::function_result (std::initializer_list <mu::llvmc::skeleton::result *> const & values_a, std::initializer_list <mu::llvmc::skeleton::value *> const & sequenced_a) :
+values (values_a),
+sequenced (sequenced_a)
+{
+}
+
+mu::llvmc::skeleton::function_branches::function_branches (std::initializer_list <function_result> const & branches_a) :
+branches (branches_a)
+{
+}
+
+mu::llvmc::skeleton::function_result & mu::llvmc::skeleton::function_branches::add_branch ()
+{
+    branches.push_back (mu::llvmc::skeleton::function_result ());
+    return branches [branches.size ()];
+}
+
+size_t mu::llvmc::skeleton::function_branches::size () const
+{
+    return branches.size ();
+}
+
+mu::llvmc::skeleton::function_result & mu::llvmc::skeleton::function_branches::operator [] (size_t index)
+{
+    assert (branches.size () > index);
+    return branches [index];
 }
