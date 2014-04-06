@@ -81,11 +81,10 @@ TEST (llvmc_analyzer, function_type_name3)
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
 	mu::llvmc::skeleton::result result1 (&type1, &constant1);
-	function.results.push_back (&result1);
 	mu::llvmc::skeleton::result result2 (&type1, &constant1);
-	function.results.push_back (&result2);
-	function.add_predicate_offset ();
-	function.add_branch_end ();
+    function.results.push_back (decltype (function.results)::value_type ());
+	function.results [0].values.push_back (&result1);
+	function.results [0].values.push_back (&result2);
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8 int8]]", name);
 }
@@ -97,10 +96,9 @@ TEST (llvmc_analyzer, function_type_name4)
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
 	mu::llvmc::skeleton::result result1 (&type1, &constant1);
-	function.results.push_back (&result1);
-	function.add_predicate_offset ();
-	function.results.push_back (&constant1);
-	function.add_branch_end ();
+    function.results.push_back (decltype (function.results)::value_type ());
+	function.results [0].values.push_back (&result1);
+	function.results [0].sequenced.push_back (&constant1);
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8]]", name);
 }
@@ -112,13 +110,11 @@ TEST (llvmc_analyzer, function_type_name5)
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
 	mu::llvmc::skeleton::result result1 (&type1, &constant1);
-	function.results.push_back (&result1);
+	function.results.push_back (decltype (function.results)::value_type ());
+	function.results [0].values.push_back (&result1);
 	mu::llvmc::skeleton::result result2 (&type1, &constant1);
-	function.add_predicate_offset ();
-	function.add_branch_end ();
-	function.results.push_back (&result2);
-	function.add_predicate_offset ();
-	function.add_branch_end ();
+    function.results.push_back (decltype (function.results)::value_type ());
+	function.results [1].values.push_back (&result2);
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8][int8]]", name);
 }

@@ -34,21 +34,6 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::global_variable::type ()
 	return type_m;
 }
 
-void mu::llvmc::skeleton::function::add_branch_end ()
-{
-	branch_ends.push_back (results.size ());
-}
-
-void mu::llvmc::skeleton::function::add_predicate_offset ()
-{
-	predicate_offsets.push_back (results.size ());
-}
-
-void mu::llvmc::skeleton::function::set_predicate_offset ()
-{
-	predicate_offset = results.size ();
-}
-
 void mu::llvmc::skeleton::function::empty_node (mu::llvmc::skeleton::node *, size_t)
 {
 }
@@ -65,20 +50,6 @@ void mu::llvmc::skeleton::loop::empty_node (mu::llvmc::skeleton::node *, size_t)
 bool mu::llvmc::skeleton::loop::empty_loop_predicate ()
 {
     return true;
-}
-
-mu::llvmc::skeleton::result * mu::llvmc::skeleton::function::as_result (mu::llvmc::skeleton::node * node_a)
-{
-    assert (dynamic_cast <mu::llvmc::skeleton::result *> (node_a) != nullptr);
-    auto result (static_cast <mu::llvmc::skeleton::result *> (node_a));
-    return result;
-}
-
-mu::llvmc::skeleton::value * mu::llvmc::skeleton::function::as_value (mu::llvmc::skeleton::node * node_a)
-{
-    assert (dynamic_cast <mu::llvmc::skeleton::value *> (node_a) != nullptr);
-    auto result (static_cast <mu::llvmc::skeleton::value *> (node_a));
-    return result;
 }
 
 mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::llvmc::skeleton::unit_type * type_a) :
@@ -171,21 +142,6 @@ pointed_type (type_a)
 {
 }
 
-size_t mu::llvmc::skeleton::function::branch_size (size_t index) const
-{
-    assert (index < branch_ends.size ());
-    size_t result;
-    if (index == 0)
-    {
-        result = branch_ends [index];
-    }
-    else
-    {
-        result = branch_ends [index] - branch_ends [index - 1];
-    }
-    return result;
-}
-
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element::type ()
 {
     return type_m;
@@ -208,33 +164,37 @@ bool mu::llvmc::skeleton::integer_type::operator == (mu::llvmc::skeleton::type c
     return result;
 }
 
+bool mu::llvmc::skeleton::function_type::parameters_equal (mu::llvmc::skeleton::function_type const & other_a) const
+{
+    auto result (function->parameters.size () == other_a.function->parameters.size ());
+    for (auto i (function->parameters.begin ()), j (function->parameters.end ()), k (other_a.function->parameters.begin ()); result && i != j; ++i, ++k)
+    {
+        result = *(*i)->type () == *(*k)->type ();
+    }
+    return result;
+}
+
+bool mu::llvmc::skeleton::function_type::results_equal (mu::llvmc::skeleton::function_type const & other_a) const
+{
+    auto result (function->results.size () == other_a.function->results.size ());
+    for (auto i (function->results.begin ()), j (function->results.end ()), k (other_a.function->results.begin ()); result && i != j; ++i, ++k)
+    {
+        result = i->values.size () == k->values.size ();
+        for (auto l (i->values.begin ()), m (i->values.end ()), n (k->values.begin ()); result && l != m; ++l, ++n)
+        {
+            result = *(*l)->type == *(*n)->type;
+        }
+    }
+    return result;
+}
+
 bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type const & other_a) const
 {
     auto result (false);
     auto other_function (dynamic_cast <mu::llvmc::skeleton::function_type const *> (&other_a));
     if (other_function != nullptr)
     {
-        if (function->parameters.size () == other_function->function->parameters.size ())
-        {
-            if (function->results.size () == other_function->function->results.size ())
-            {
-                if (function->branch_ends.size () == other_function->function->branch_ends.size ())
-                {
-                    result = true;
-                    for (auto i (function->branch_ends.begin ()), j (function->branch_ends.end ()), k (other_function->function->branch_ends.begin ()); i != j && result; ++i, ++k)
-                    {
-                        result = (*i) == (*k);
-                    }
-                    function->for_each_results (
-                    [&]
-                    (mu::llvmc::skeleton::result * result_a, size_t index_a)
-                    {
-                        result = (*result_a->type) == (*function->as_result (other_function->function->results [index_a])->type);
-                    }
-                    );
-                }
-            }
-        }
+        result = parameters_equal (*other_function) && results_equal (*other_function);
     }
     return result;
 }
@@ -255,17 +215,17 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
 {
     mu::llvmc::skeleton::function_return_type result;
     size_t llvm_values (0);
-    for_each_results (
-        [&]
-        (mu::llvmc::skeleton::result * result_a, size_t)
+    for (auto i (results.begin ()), j (results.end ()); llvm_values < 2 && i != j; ++i)
+    {
+        for (auto k (i->values.begin ()), l (i->values.end ()); llvm_values < 2 && k != l; ++k)
         {
-            if (!result_a->type->is_unit_type ())
+            if (!(*k)->type->is_unit_type ())
             {
                 ++llvm_values;
             }
         }
-    );
-    switch (branch_ends.size ())
+    }
+    switch (results.size ())
     {
         case 0:
             result = mu::llvmc::skeleton::function_return_type::b0;
@@ -1107,6 +1067,11 @@ void mu::llvmc::skeleton::visitor::identity_element (mu::llvmc::skeleton::identi
     value (node_a);
 }
 
+void mu::llvmc::skeleton::visitor::sequence (mu::llvmc::skeleton::sequence * node_a)
+{
+    node (node_a);
+}
+
 mu::llvmc::skeleton::icmp::icmp (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::predicate * predicate_a, mu::llvmc::skeleton::value * left_a, mu::llvmc::skeleton::value * right_a) :
 value (region_a, branch_a),
 type_m (type_a),
@@ -1561,10 +1526,10 @@ mu::string mu::llvmc::skeleton::function_type::name ()
 	result.push_back (U' ');
 	result.push_back (U'[');
 	first = true;
-	function->for_each_results (
-		[&]
-		(mu::llvmc::skeleton::result * result_a, size_t index)
-		{
+    for (auto & i: function->results)
+    {
+        for (auto j: i.values)
+        {
 			if (!first)
 			{
 				result.push_back (U' ');
@@ -1574,28 +1539,11 @@ mu::string mu::llvmc::skeleton::function_type::name ()
 				result.push_back (U'[');
 			}
 			first = false;
-			result.append (result_a->type->name ());
-		},
-		[&]
-		(mu::llvmc::skeleton::value * value_a, size_t index)
-		{
-			// Predicates are not part of signature
-		},
-		[&]
-		(mu::llvmc::skeleton::node * node_a, size_t index)
-		{
-		},
-		[&]
-		(mu::llvmc::skeleton::node * node_a, size_t index)
-		{
-			result.push_back (']');
-			first = true;
-		},
-		[]
-		()
-		{
-			return true;
-		});
+			result.append (j->type->name ());
+        }
+        result.push_back (']');
+        first = true;
+    }
 	result.push_back (U']');
 	return result;
 }

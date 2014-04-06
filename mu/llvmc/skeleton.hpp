@@ -249,6 +249,8 @@ namespace mu
                 function_type (mu::llvmc::skeleton::function * function_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+                bool parameters_equal (mu::llvmc::skeleton::function_type const &) const;
+                bool results_equal (mu::llvmc::skeleton::function_type const &) const;
 				mu::string name () override;
                 mu::llvmc::skeleton::function * function;
             };
@@ -277,33 +279,26 @@ namespace mu
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::string name;
             };
+            class function_result
+            {
+            public:
+                mu::vector <mu::llvmc::skeleton::result *> values;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
+            };
             class function : public mu::llvmc::skeleton::global_value
             {
             public:
                 function (mu::core::region const & region_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-                size_t branch_size (size_t index) const;
                 mu::llvmc::skeleton::function_return_type get_return_type ();
                 mu::llvmc::skeleton::function_type type_m;
                 mu::llvmc::skeleton::pointer_type pointer_type_m;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
-                mu::vector <mu::llvmc::skeleton::node *> results;
-                std::vector <size_t> branch_ends;
-                std::vector <size_t> predicate_offsets;
-				size_t predicate_offset;
-				void add_branch_end ();
-				void add_predicate_offset ();
-				void set_predicate_offset ();
-                template <typename T>
-                void for_each_branch (T branch_op);
-                mu::llvmc::skeleton::result * as_result (mu::llvmc::skeleton::node * node_a);
-                mu::llvmc::skeleton::value * as_value (mu::llvmc::skeleton::node * node_a);
+                mu::vector <mu::llvmc::skeleton::function_result> results;
                 static void empty_node (mu::llvmc::skeleton::node *, size_t);
                 static bool empty_loop_predicate ();
-                template <typename T = decltype (empty_node), typename U = decltype (empty_node), typename V = decltype (empty_node), typename W = decltype (empty_node), typename X = decltype (empty_loop_predicate)>
-                void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate);
                 llvm::DISubprogram debug;
             };
             class switch_element;
@@ -520,6 +515,11 @@ namespace mu
 			public:
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 			};
+            class sequence : public mu::llvmc::skeleton::node
+            {
+            public:
+                void visit (mu::llvmc::skeleton::visitor *) override;
+            };
             class visitor
             {
             public:
@@ -564,6 +564,7 @@ namespace mu
 				virtual void module (mu::llvmc::skeleton::module * node_a);
 				virtual void constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a);
 				virtual void number (mu::llvmc::skeleton::number * node_a);
+                virtual void sequence (mu::llvmc::skeleton::sequence *);
             };
             class factory
             {
@@ -603,6 +604,7 @@ namespace mu
                 mu::llvmc::skeleton::template_c * template_c (mu::llvmc::template_context * base_a);
 				mu::llvmc::skeleton::module * module ();
 				mu::llvmc::skeleton::constant_int_c * constant_int_c ();
+                mu::llvmc::skeleton::sequence * sequence ();
             };
 			class namespace_visitor
 			{

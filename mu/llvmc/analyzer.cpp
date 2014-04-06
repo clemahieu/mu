@@ -745,10 +745,9 @@ void mu::llvmc::module_processor::entry (mu::llvmc::ast::entry * node_a)
                 {
                     if (function_l->parameters.size () == 0)
                     {
-                        if (function_l->branch_ends.size () == 1)
+                        if (function_l->results.size () == 1)
                         {
-                            assert (function_l->predicate_offsets.size () == 1);
-                            if (function_l->predicate_offsets [0] == 0)
+                            if (function_l->results [0].values.size () == 0)
                             {
 								module_m->entry = function_l;
                                 node_a->generated.push_back (function_l);
@@ -1312,10 +1311,16 @@ mu::llvmc::skeleton::type * mu::llvmc::module_processor::process_type (mu::llvmc
 void mu::llvmc::function_processor::process_results ()
 {
 	mu::llvmc::branch_analyzer branches (&mu::llvmc::skeleton::branch::global, module_m.global_m.error);
+    auto first (true);
 	node_m->for_each_results (
         [&]
         (mu::llvmc::ast::node * node_a, size_t index_a)
         {
+            if (first)
+            {
+                function_m->results.push_back (decltype (function_m->results)::value_type ());
+                first = false;
+            }
             auto result_a (dynamic_cast <mu::llvmc::ast::result *> (node_a));
 			if (result_a != nullptr)
 			{
@@ -1333,7 +1338,8 @@ void mu::llvmc::function_processor::process_results ()
 							}));
                         if (new_value != nullptr)
                         {
-                            function_m->results.push_back (b.result (type, new_value));
+                            assert (function_m->results.size () > 0);
+                            function_m->results.back ().values.push_back (b.result (type, new_value));
                             branches.add_branch (new_value->branch, result_a->region);
                         }
 					}
@@ -1351,6 +1357,11 @@ void mu::llvmc::function_processor::process_results ()
         [&]
         (mu::llvmc::ast::node * node_a, size_t)
         {
+            if (first)
+            {
+                function_m->results.push_back (decltype (function_m->results)::value_type ());
+                first = false;
+            }
             module_m.global_m.process_node (node_a);
             if (module_m.global_m.error == nullptr)
             {
@@ -1359,7 +1370,8 @@ void mu::llvmc::function_processor::process_results ()
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
                     if (value != nullptr)
                     {
-                        function_m->results.push_back (i);
+                        assert (function_m->results.size () > 0);
+                        function_m->results.back ().sequenced.push_back (value);
                         branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
                     }
                     else
@@ -1372,13 +1384,12 @@ void mu::llvmc::function_processor::process_results ()
         [&]
         (mu::llvmc::ast::node *, size_t)
         {
-            function_m->predicate_offsets.push_back (function_m->results.size ());
         },
         [&]
         (mu::llvmc::ast::node *, size_t)
         {
 			branches.new_set ();
-            function_m->branch_ends.push_back (function_m->results.size ());
+            first = true;
         },
         [&]
         ()
@@ -1480,7 +1491,7 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 						auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments, predicate_offset, &module_m.module_m->the_unit_type));
 						mu::vector <mu::llvmc::skeleton::node *> returned_results;
                         mu::llvmc::skeleton::branch * branch;
-                        if (function_type->function->branch_ends.size () < 2)
+                        if (function_type->function->results.size () < 2)
                         {
                             branch = most_specific_branch;
                         }
@@ -1488,34 +1499,25 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
                         {
                             branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
                         }
-						auto empty (true);
-						function_type->function->for_each_results (
-							[&]
-							(mu::llvmc::skeleton::result * node_a, size_t index_a)
-							{
-                                auto element (b.call_element (expression_a->region, branch, call, node_a->type));
-								returned_results.push_back (element);
+                        for (auto & i: function_type->function->results)
+                        {
+                            if (i.values.empty ())
+                            {
+                                auto element (b.call_element (expression_a->region, branch, call, &module_m.module_m->the_unit_type));
+                                returned_results.push_back (element);
                                 call->elements.push_back (element);
-								empty = false;
-							},
-							mu::llvmc::skeleton::function::empty_node,
-							[&]
-							(mu::llvmc::skeleton::node * node_a, size_t index_a)
-							{
-								if (empty)
-								{
-                                    auto element (b.call_element (expression_a->region, branch, call, &module_m.module_m->the_unit_type));
-									returned_results.push_back (element);
+                            }
+                            else
+                            {
+                                for (auto j: i.values)
+                                {
+                                    auto element (b.call_element (expression_a->region, branch, call, j->type));
+                                    returned_results.push_back (element);
                                     call->elements.push_back (element);
-								}
-							},
-							[&]
-							(mu::llvmc::skeleton::node * node_a, size_t)
-							{
-								branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
-								empty = true;
-							}
-						);
+                                }
+                            }
+                            branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
+                        }
 						expression_a->assigned = true;
                         switch (returned_results.size ())
                         {
