@@ -36,7 +36,7 @@ TEST (llvmc_skeleton, most_specific_branch4)
     ASSERT_EQ (nullptr, branch4);
 }
 
-TEST (llvmc_analyzer, ptr_equality)
+TEST (llvmc_skeleton, ptr_equality)
 {
     mu::llvmc::skeleton::integer_type type1 (8);
     mu::llvmc::skeleton::pointer_type type2 (&type1);
@@ -45,7 +45,7 @@ TEST (llvmc_analyzer, ptr_equality)
     ASSERT_EQ (type2, type4);
 }
 
-TEST (llvmc_analyzer, error_integer_type_match_pointer)
+TEST (llvmc_skeleton, error_integer_type_match_pointer)
 {
     mu::llvmc::skeleton::integer_type type1 (8);
     mu::llvmc::skeleton::integer_type type3 (8);
@@ -53,7 +53,7 @@ TEST (llvmc_analyzer, error_integer_type_match_pointer)
     ASSERT_NE (type1, type4);
 }
 
-TEST (llvmc_analyzer, function_type_name)
+TEST (llvmc_skeleton, function_type_name)
 {
 	mu::llvmc::skeleton::function function (mu::empty_region);
 	mu::llvmc::skeleton::function_type function_type (&function);
@@ -61,7 +61,7 @@ TEST (llvmc_analyzer, function_type_name)
 	ASSERT_EQ (U"function [] []", name);
 }
 
-TEST (llvmc_analyzer, function_type_name2)
+TEST (llvmc_skeleton, function_type_name2)
 {
 	mu::llvmc::skeleton::function function (mu::empty_region);
 	mu::llvmc::skeleton::function_type function_type (&function);
@@ -74,7 +74,7 @@ TEST (llvmc_analyzer, function_type_name2)
 	ASSERT_EQ (U"function [int8 int8] []", name);
 }
 
-TEST (llvmc_analyzer, function_type_name3)
+TEST (llvmc_skeleton, function_type_name3)
 {
 	mu::llvmc::skeleton::function function (mu::empty_region);
 	mu::llvmc::skeleton::function_type function_type (&function);
@@ -82,24 +82,25 @@ TEST (llvmc_analyzer, function_type_name3)
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
 	mu::llvmc::skeleton::result result1 (&type1, &constant1);
 	mu::llvmc::skeleton::result result2 (&type1, &constant1);
-    function.results = {{{&result1, &result2}, {}}};
+    function.results = {{&result1, &result2}};
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8 int8]]", name);
 }
 
-TEST (llvmc_analyzer, function_type_name4)
+TEST (llvmc_skeleton, function_type_name4)
 {
 	mu::llvmc::skeleton::function function (mu::empty_region);
 	mu::llvmc::skeleton::function_type function_type (&function);
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
+    mu::llvmc::skeleton::sequence sequence1 (&constant1);
 	mu::llvmc::skeleton::result result1 (&type1, &constant1);
-    function.results = {{{&result1}, {&constant1}}};
+    function.results = {{&result1, &sequence1}};
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8]]", name);
 }
 
-TEST (llvmc_analyzer, function_type_name5)
+TEST (llvmc_skeleton, function_type_name5)
 {
 	mu::llvmc::skeleton::function function (mu::empty_region);
 	mu::llvmc::skeleton::function_type function_type (&function);
@@ -107,12 +108,12 @@ TEST (llvmc_analyzer, function_type_name5)
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
 	mu::llvmc::skeleton::result result1 (&type1, &constant1);
 	mu::llvmc::skeleton::result result2 (&type1, &constant1);
-    function.results = {{{&result1}, {}}, {{&result2}, {}}};
+    function.results = {{&result1}, {&result2}};
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8][int8]]", name);
 }
 
-TEST (llvmc_analyzer, fixed_array_type)
+TEST (llvmc_skeleton, fixed_array_type)
 {
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::fixed_array_type farray (&type1, 4);
@@ -120,14 +121,14 @@ TEST (llvmc_analyzer, fixed_array_type)
 	ASSERT_EQ (U"farray int8 #4", name);
 }
 
-TEST (llvmc_analyzer, unit_type)
+TEST (llvmc_skeleton, unit_type)
 {
 	mu::llvmc::skeleton::unit_type type1;
 	auto name (type1.name ());
 	ASSERT_EQ (U"unit", name);
 }
 
-TEST (llvmc_analyzer, pointer_type)
+TEST (llvmc_skeleton, pointer_type)
 {
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::pointer_type type2 (&type1);
@@ -135,28 +136,28 @@ TEST (llvmc_analyzer, pointer_type)
 	ASSERT_EQ (U"ptr int8", name);
 }
 
-TEST (llvmc_analyzer, number_bits_0)
+TEST (llvmc_skeleton, number_bits_0)
 {
     mu::llvmc::skeleton::number number1 (0);
     auto bits (number1.bits_required ());
     ASSERT_EQ (1, bits);
 }
 
-TEST (llvmc_analyzer, number_bits_1)
+TEST (llvmc_skeleton, number_bits_1)
 {
     mu::llvmc::skeleton::number number1 (1);
     auto bits (number1.bits_required ());
     ASSERT_EQ (1, bits);
 }
 
-TEST (llvmc_analyzer, number_bits_255)
+TEST (llvmc_skeleton, number_bits_255)
 {
     mu::llvmc::skeleton::number number1 (255);
     auto bits (number1.bits_required ());
     ASSERT_EQ (8, bits);
 }
 
-TEST (llvmc_analyzer, number_bits_256)
+TEST (llvmc_skeleton, number_bits_256)
 {
     mu::llvmc::skeleton::number number1 (256);
     auto bits (number1.bits_required ());

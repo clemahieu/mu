@@ -283,9 +283,8 @@ namespace mu
             {
             public:
                 function_result () = default;
-                function_result (std::initializer_list <mu::llvmc::skeleton::result *> const &, std::initializer_list <mu::llvmc::skeleton::value *> const &);
-                mu::vector <mu::llvmc::skeleton::result *> values;
-                mu::vector <mu::llvmc::skeleton::value *> sequenced;
+                function_result (std::initializer_list <mu::llvmc::skeleton::node *> const &);
+                mu::vector <mu::llvmc::skeleton::node *> values;
             };
             class function_branches
             {
@@ -530,7 +529,9 @@ namespace mu
             class sequence : public mu::llvmc::skeleton::node
             {
             public:
+                sequence (mu::llvmc::skeleton::value *);
                 void visit (mu::llvmc::skeleton::visitor *) override;
+                mu::llvmc::skeleton::value * value;
             };
             class visitor
             {

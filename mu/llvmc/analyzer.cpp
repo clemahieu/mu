@@ -747,15 +747,19 @@ void mu::llvmc::module_processor::entry (mu::llvmc::ast::entry * node_a)
                     {
                         if (function_l->results.size () == 1)
                         {
-                            if (function_l->results [0].values.size () == 0)
+                            for (auto i (function_l->results [0].values.begin ()), j (function_l->results [0].values.end ()); global_m.error == nullptr && i != j; ++i)
                             {
-								module_m->entry = function_l;
+                                auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (*i));
+                                if (sequence == nullptr)
+                                {
+                                    global_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
+                                }
+                            }
+                            if (global_m.error == nullptr)
+                            {
+                                module_m->entry = function_l;
                                 node_a->generated.push_back (function_l);
                                 node_a->assigned = true;
-                            }
-                            else
-                            {
-                                global_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
                             }
                         }
                         else
@@ -1371,7 +1375,7 @@ void mu::llvmc::function_processor::process_results ()
                     if (value != nullptr)
                     {
                         assert (function_m->results.size () > 0);
-                        function_m->results.branches.back ().sequenced.push_back (value);
+                        function_m->results.branches.back ().values.push_back (new (GC) mu::llvmc::skeleton::sequence (value));
                         branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
                     }
                     else
@@ -1511,9 +1515,13 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
                             {
                                 for (auto j: i.values)
                                 {
-                                    auto element (b.call_element (expression_a->region, branch, call, j->type));
-                                    returned_results.push_back (element);
-                                    call->elements.push_back (element);
+                                    auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (j));
+                                    if (sequence == nullptr)
+                                    {
+                                        auto element (b.call_element (expression_a->region, branch, call, mu::cast <mu::llvmc::skeleton::result> (j)->type));
+                                        returned_results.push_back (element);
+                                        call->elements.push_back (element);
+                                    }
                                 }
                             }
                             branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);

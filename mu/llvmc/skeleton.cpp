@@ -179,10 +179,27 @@ bool mu::llvmc::skeleton::function_type::results_equal (mu::llvmc::skeleton::fun
     auto result (function->results.size () == other_a.function->results.size ());
     for (auto i (function->results.branches.begin ()), j (function->results.branches.end ()), k (other_a.function->results.branches.begin ()); result && i != j; ++i, ++k)
     {
-        result = i->values.size () == k->values.size ();
-        for (auto l (i->values.begin ()), m (i->values.end ()), n (k->values.begin ()); result && l != m; ++l, ++n)
+        for (auto l (i->values.begin ()), m (i->values.end ()), n (k->values.begin ()), o (k->values.end ()); result && l != m && n != o;)
         {
-            result = *(*l)->type == *(*n)->type;
+            auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (*l));
+            if (sequence == nullptr)
+            {
+                auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (*n));
+                if (sequence == nullptr)
+                {
+                    result = *mu::cast <mu::llvmc::skeleton::result> (*l)->type == *mu::cast <mu::llvmc::skeleton::result> (*n)->type;
+                    ++l;
+                    ++n;
+                }
+                else
+                {
+                    ++n;
+                }
+            }
+            else
+            {
+                ++l;
+            }
         }
     }
     return result;
@@ -219,9 +236,13 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
     {
         for (auto k (i->values.begin ()), l (i->values.end ()); llvm_values < 2 && k != l; ++k)
         {
-            if (!(*k)->type->is_unit_type ())
+            auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (*k));
+            if (sequence == nullptr)
             {
-                ++llvm_values;
+                if (!mu::cast <mu::llvmc::skeleton::result> (*k)->type->is_unit_type ())
+                {
+                    ++llvm_values;
+                }
             }
         }
     }
@@ -1528,18 +1549,19 @@ mu::string mu::llvmc::skeleton::function_type::name ()
 	first = true;
     for (auto & i: function->results.branches)
     {
+        result.push_back (U'[');
         for (auto j: i.values)
         {
-			if (!first)
-			{
-				result.push_back (U' ');
-			}
-			else
-			{
-				result.push_back (U'[');
-			}
-			first = false;
-			result.append (j->type->name ());
+            auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (j));
+            if (sequence == nullptr)
+            {
+                if (!first)
+                {
+                    result.push_back (U' ');
+                }
+                first = false;
+                result.append (mu::cast <mu::llvmc::skeleton::result> (j)->type->name ());
+            }
         }
         result.push_back (']');
         first = true;
@@ -1646,9 +1668,8 @@ void mu::llvmc::skeleton::number::visit (mu::llvmc::skeleton::visitor * visitor_
 	visitor_a->number (this);
 }
 
-mu::llvmc::skeleton::function_result::function_result (std::initializer_list <mu::llvmc::skeleton::result *> const & values_a, std::initializer_list <mu::llvmc::skeleton::value *> const & sequenced_a) :
-values (values_a),
-sequenced (sequenced_a)
+mu::llvmc::skeleton::function_result::function_result (std::initializer_list <mu::llvmc::skeleton::node *> const & values_a) :
+values (values_a)
 {
 }
 
@@ -1672,4 +1693,14 @@ mu::llvmc::skeleton::function_result & mu::llvmc::skeleton::function_branches::o
 {
     assert (branches.size () > index);
     return branches [index];
+}
+
+mu::llvmc::skeleton::sequence::sequence (mu::llvmc::skeleton::value * value_a) :
+value (value_a)
+{
+}
+
+void mu::llvmc::skeleton::sequence::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->sequence (this);
 }
