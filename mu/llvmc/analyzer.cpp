@@ -711,8 +711,6 @@ void mu::llvmc::module_processor::node (mu::llvmc::ast::node * node_a)
 
 void mu::llvmc::module_processor::function (mu::llvmc::ast::function * function_node)
 {
-	assert (function_node->branch_ends.size () == function_node->predicate_offsets.size ());
-	
 	mu::llvmc::function_processor nodes (*this, function_node);
 	nodes.process ();
 }
@@ -1316,91 +1314,82 @@ void mu::llvmc::function_processor::process_results ()
 {
 	mu::llvmc::branch_analyzer branches (&mu::llvmc::skeleton::branch::global, module_m.global_m.error);
     auto first (true);
-	node_m->for_each_results (
-        [&]
-        (mu::llvmc::ast::node * node_a, size_t index_a)
+    for (auto i (node_m->results.branches.begin ()), j (node_m->results.branches.end ()); module_m.global_m.error == nullptr && i != j; ++i)
+    {
+        for (auto k (i->nodes.begin ()), l (i->nodes.end ()); module_m.global_m.error == nullptr && k != l; ++k)
         {
-            if (first)
+            auto node_a (*k);
+            auto sequence (dynamic_cast <mu::llvmc::ast::sequence *> (node_a));
+            if (sequence == nullptr)
             {
-                function_m->results.add_branch ();
-                first = false;
-            }
-            auto result_a (dynamic_cast <mu::llvmc::ast::result *> (node_a));
-			if (result_a != nullptr)
-			{
-				auto type (module_m.process_type (result_a->written_type));
-				if (type != nullptr)
-				{
-					module_m.process_single_node (result_a->value);
-					if (module_m.global_m.error == nullptr)
-					{
-                        auto new_value (result_a->value->generated [0]->adapt_result (type, *this,
-							[]
-							(mu::core::region const & region_a)
-							{
-								return new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, region_a);
-							}));
-                        if (new_value != nullptr)
-                        {
-                            assert (function_m->results.size () > 0);
-                            function_m->results.branches.back ().values.push_back (b.result (type, new_value));
-                            branches.add_branch (new_value->branch, result_a->region);
-                        }
-					}
-				}
-				else
-				{
-					module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, result_a->written_type->region);
-				}
-			}
-			else
-			{
-				module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a result", mu::core::error_type::expecting_a_result, node_a->region);
-			}
-        },
-        [&]
-        (mu::llvmc::ast::node * node_a, size_t)
-        {
-            if (first)
-            {
-                function_m->results.add_branch ();
-                first = false;
-            }
-            module_m.global_m.process_node (node_a);
-            if (module_m.global_m.error == nullptr)
-            {
-                for (auto i : node_a->generated)
+                if (first)
                 {
-                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
-                    if (value != nullptr)
+                    function_m->results.add_branch ();
+                    first = false;
+                }
+                auto result_a (dynamic_cast <mu::llvmc::ast::result *> (node_a));
+                if (result_a != nullptr)
+                {
+                    auto type (module_m.process_type (result_a->written_type));
+                    if (type != nullptr)
                     {
-                        assert (function_m->results.size () > 0);
-                        function_m->results.branches.back ().values.push_back (new (GC) mu::llvmc::skeleton::sequence (value));
-                        branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
+                        module_m.process_single_node (result_a->value);
+                        if (module_m.global_m.error == nullptr)
+                        {
+                            auto new_value (result_a->value->generated [0]->adapt_result (type, *this,
+                                []
+                                (mu::core::region const & region_a)
+                                {
+                                    return new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, region_a);
+                                }));
+                            if (new_value != nullptr)
+                            {
+                                assert (function_m->results.size () > 0);
+                                function_m->results.branches.back ().values.push_back (b.result (type, new_value));
+                                branches.add_branch (new_value->branch, result_a->region);
+                            }
+                        }
                     }
                     else
                     {
-                        module_m.global_m.error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value, node_a->region);
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, result_a->written_type->region);
+                    }
+                }
+                else
+                {
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a result", mu::core::error_type::expecting_a_result, node_a->region);
+                }
+            }
+            else
+            {
+                if (first)
+                {
+                    function_m->results.add_branch ();
+                    first = false;
+                }
+                module_m.global_m.process_node (node_a);
+                if (module_m.global_m.error == nullptr)
+                {
+                    for (auto i : node_a->generated)
+                    {
+                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
+                        if (value != nullptr)
+                        {
+                            assert (function_m->results.size () > 0);
+                            function_m->results.branches.back ().values.push_back (new (GC) mu::llvmc::skeleton::sequence (value));
+                            branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
+                        }
+                        else
+                        {
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value, node_a->region);
+                        }
                     }
                 }
             }
-        },
-        [&]
-        (mu::llvmc::ast::node *, size_t)
-        {
-        },
-        [&]
-        (mu::llvmc::ast::node *, size_t)
-        {
-			branches.new_set ();
-            first = true;
-        },
-        [&]
-        ()
-        {
-            return module_m.global_m.error == nullptr;
         }
-	);
+        branches.new_set ();
+        first = true;
+    }
 }
 
 void mu::llvmc::module_processor::process_identity (mu::llvmc::ast::expression * expression_a)

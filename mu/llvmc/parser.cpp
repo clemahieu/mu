@@ -446,7 +446,7 @@ void mu::llvmc::function::parse_results ()
                 case mu::io::token_id::left_square:
                     parser.stream.consume (1);
                     parse_result_set ();
-                    function_m->branch_ends.push_back (function_m->results.size ());
+                    function_m->results.add_branch ();
                     next = parser.stream [0];
                     break;
                 case mu::io::token_id::right_square:
@@ -466,10 +466,12 @@ void mu::llvmc::function::parse_result_set ()
 {
     auto done (false);
     auto predicates (false);
+    function_m->results.add_branch ();
+    auto & branch (function_m->results.branches.back ());
     while (result.error == nullptr && !done && !predicates)
     {
 		auto result_l (new (GC) mu::llvmc::ast::result (parser.current_template));
-		function_m->results.push_back (result_l);
+		branch.nodes.push_back (result_l);
 		result.error = parser.parse_ast_or_refer_or_right_square_or_terminator (
 			[result_l]
 			(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
@@ -481,14 +483,13 @@ void mu::llvmc::function::parse_result_set ()
 			(mu::core::region const & region_a)
 			{
 				done = true;
-				function_m->results.pop_back ();
+				branch.nodes.pop_back ();
 			},
 			[&]
 			(mu::core::region const & region_a)
 			{
 				predicates = true;
-				function_m->results.pop_back ();
-				function_m->predicate_offsets.push_back (function_m->results.size ());
+				branch.nodes.pop_back ();
 			}, U"Expecting a type or right square or terminator", mu::core::error_type::expecting_type_or_right_square_or_terminator);
 		if (!result.error && !done && !predicates)
 		{
@@ -503,24 +504,20 @@ void mu::llvmc::function::parse_result_set ()
     }
     while (result.error == nullptr && !done)
     {
-        auto position (function_m->results.size ());
-        function_m->results.push_back (nullptr);
+        auto sequence (new (GC) mu::llvmc::ast::sequence (nullptr));
+        branch.nodes.push_back (sequence);
         parser.parse_ast_or_refer_or_right_square (
-            [&, position]
+            [sequence]
             (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
             {
-               function_m->results [position] = node_a;
+               sequence->node_m = node_a;
             },
             [&]
             (mu::io::right_square *)
             {
-              function_m->results.pop_back ();
-              done = true;
+                branch.nodes.pop_back ();
+                done = true;
             } , U"Parsing predicates, expecting ast or reference", mu::core::error_type::expecting_ast_or_reference);
-    }
-    if (!predicates)
-    {
-        function_m->predicate_offsets.push_back (function_m->results.size ());
     }
 }
 
@@ -2012,7 +2009,7 @@ mu::llvmc::module::~module ()
 
 mu::llvmc::node_result mu::llvmc::sequence_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
 {
-    auto sequence_l (new (GC) mu::llvmc::ast::sequence (parser_a.current_template));
+    auto sequence_l (new (GC) mu::llvmc::ast::sequence (nullptr, parser_a.current_template));
     mu::llvmc::node_result result ({nullptr, nullptr});
 	sequence_l->region.first = region_a.first;
     result.error = parser_a.parse_ast_or_refer (

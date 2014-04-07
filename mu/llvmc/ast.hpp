@@ -141,6 +141,23 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 size_t predicate_position;
             };
+            class function_branch
+            {
+            public:
+                function_branch () = default;
+                function_branch (std::initializer_list <mu::llvmc::ast::node *> const &);
+                function_branch (mu::llvmc::ast::function_branch const &, mu::llvmc::clone_context &);
+                mu::vector <mu::llvmc::ast::node *> nodes;
+            };
+            class function_result
+            {
+            public:
+                function_result () = default;
+                function_result (std::initializer_list <mu::llvmc::ast::function_branch> const &);
+                function_result (mu::llvmc::ast::function_result const &, mu::llvmc::clone_context &);
+                mu::llvmc::ast::function_branch & add_branch ();
+                mu::vector <mu::llvmc::ast::function_branch> branches;
+            };
             class function : public mu::llvmc::ast::node
             {
             public:
@@ -149,11 +166,7 @@ namespace mu
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::vector <mu::llvmc::ast::node *> parameters;
-                mu::vector <mu::llvmc::ast::node *> results;
-                std::vector <size_t> branch_ends;
-                std::vector <size_t> predicate_offsets;
-                template <typename T, typename U, typename V, typename W, typename X>
-                void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate);
+                mu::llvmc::ast::function_result results;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
             class integer_type : public mu::llvmc::ast::node
@@ -361,7 +374,7 @@ namespace mu
             class sequence : public mu::llvmc::ast::node
             {
             public:
-				sequence (mu::llvmc::template_context * context_a = nullptr);
+				sequence (mu::llvmc::ast::node * = nullptr, mu::llvmc::template_context * context_a = nullptr);
 				sequence (mu::llvmc::ast::sequence const & other_a, mu::llvmc::clone_context & context_a);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
 				void visit (mu::llvmc::ast::visitor * visitor_a) override;

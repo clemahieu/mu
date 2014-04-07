@@ -683,20 +683,11 @@ name (other_a.name)
 
 mu::llvmc::ast::function::function (mu::llvmc::ast::function const & other_a, mu::llvmc::clone_context & context_a) :
 node (other_a, context_a),
-branch_ends (other_a.branch_ends),
-predicate_offsets (other_a.predicate_offsets)
+results (other_a.results, context_a)
 {
 	for (auto i: other_a.parameters)
 	{
 		parameters.push_back (i->clone (context_a));
-	}
-	for (auto i: other_a.results)
-	{
-		results.push_back (i->clone (context_a));
-	}
-	for (auto i: other_a.roots)
-	{
-		roots.push_back (i->clone (context_a));
 	}
 }
 
@@ -1034,7 +1025,7 @@ void mu::llvmc::ast::visitor::array_type (mu::llvmc::ast::array_type * node_a)
     node (node_a);
 }
 
-mu::llvmc::ast::sequence::sequence (mu::llvmc::template_context * context_a) :
+mu::llvmc::ast::sequence::sequence (mu::llvmc::ast::node * node_a, mu::llvmc::template_context * context_a) :
 node (context_a)
 {
 }
@@ -1059,4 +1050,36 @@ void mu::llvmc::ast::sequence::visit (mu::llvmc::ast::visitor * visitor_a)
 void mu::llvmc::ast::visitor::sequence (mu::llvmc::ast::sequence * node_a)
 {
     node (node_a);
+}
+
+mu::llvmc::ast::function_branch::function_branch (std::initializer_list <mu::llvmc::ast::node *> const & nodes_a) :
+nodes (nodes_a)
+{
+}
+
+mu::llvmc::ast::function_result::function_result (std::initializer_list <mu::llvmc::ast::function_branch> const & branches_a) :
+branches (branches_a)
+{
+}
+
+mu::llvmc::ast::function_result::function_result (mu::llvmc::ast::function_result const & other_a, mu::llvmc::clone_context & context_a)
+{
+    for (auto i: other_a.branches)
+    {
+        branches.push_back (mu::llvmc::ast::function_branch (i, context_a));
+    }
+}
+
+mu::llvmc::ast::function_branch::function_branch (mu::llvmc::ast::function_branch const & other_a, mu::llvmc::clone_context & context_a)
+{
+    for (auto i: other_a.nodes)
+    {
+        nodes.push_back (i->clone (context_a));
+    }
+}
+
+mu::llvmc::ast::function_branch & mu::llvmc::ast::function_result::add_branch ()
+{
+    branches.push_back (mu::llvmc::ast::function_branch ());
+    return branches.back ();
 }
