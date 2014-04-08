@@ -111,7 +111,7 @@ TEST (llvmc_generator, generate_parameter_return)
     mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
     function1.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::result result1 (&type1, &parameter1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -151,7 +151,7 @@ TEST (llvmc_generator, generate_add)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -188,7 +188,7 @@ TEST (llvmc_generator, generate_alloca)
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::pointer_type type2 (&type1);
     mu::llvmc::skeleton::result result1 (&type2, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -225,7 +225,7 @@ TEST (llvmc_generator, generate_and)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -266,7 +266,7 @@ TEST (llvmc_generator, generate_ashr)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -309,7 +309,7 @@ TEST (llvmc_generator, DISABLED_generate_cmpxchg)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_cmpxchg", U"", 0));
@@ -344,7 +344,7 @@ TEST (llvmc_generator, generate_icmp1)
     mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, function1.entry, &module.integer_1_type, &predicate1, &parameter1, &parameter2);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -385,7 +385,7 @@ TEST (llvmc_generator, generate_load)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -426,7 +426,7 @@ TEST (llvmc_generator, generate_lshr)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -467,7 +467,7 @@ TEST (llvmc_generator, generate_mul)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -506,7 +506,7 @@ TEST (llvmc_generator, generate_or)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -547,7 +547,7 @@ TEST (llvmc_generator, generate_sdiv)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -585,7 +585,7 @@ TEST (llvmc_generator, generate_sext)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type2, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -624,7 +624,7 @@ TEST (llvmc_generator, generate_shl)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -661,7 +661,7 @@ TEST (llvmc_generator, generate_srem)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -698,7 +698,7 @@ TEST (llvmc_generator, generate_store)
     mu::llvmc::skeleton::store instruction1 (mu::empty_region, function1.entry, &module.the_unit_type, &parameter1, &parameter2);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::sequence sequence1 (&named1);
-    function1.results = {{&sequence1}};
+    function1.results = {{{}, {&sequence1}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -737,7 +737,7 @@ TEST (llvmc_generator, generate_sub)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -776,7 +776,7 @@ TEST (llvmc_generator, generate_udiv)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -815,7 +815,7 @@ TEST (llvmc_generator, generate_urem)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -854,7 +854,7 @@ TEST (llvmc_generator, generate_xor)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -892,7 +892,7 @@ TEST (llvmc_generator, generate_zext)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type2, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -922,7 +922,7 @@ TEST (llvmc_generator, generate_two_return)
     mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
     function1.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::result result1 (&type1, &parameter1);
-    function1.results = {{&result1, &result1}};
+    function1.results = {{{&result1, &result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -973,7 +973,7 @@ TEST (llvmc_generator, generate_if)
     mu::llvmc::skeleton::named named2 (mu::empty_region, &element2, U"element2");
     mu::llvmc::skeleton::result result1 (&module.the_unit_type, &named1);
     mu::llvmc::skeleton::result result2 (&module.the_unit_type, &named2);
-    function1.results = {{&result1}, {&result2}};
+    function1.results = {{{&result1}, {}}, {{&result2}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1016,7 +1016,7 @@ TEST (llvmc_generator, generate_if_value)
     mu::llvmc::skeleton::result result2 (&module.the_unit_type, &named2);
     mu::llvmc::skeleton::constant_integer integer4 (mu::empty_region, &type2, 5);
     mu::llvmc::skeleton::result result4 (&type2, &integer4);
-    function1.results = {{&result1, &result3}, {&result2, &result4}};
+    function1.results = {{{&result1, &result3}, {}}, {{&result2, &result4}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1061,7 +1061,7 @@ TEST (llvmc_generator, generate_if_join)
     mu::llvmc::skeleton::named named3 (mu::empty_region, &join2, U"join1");
     mu::llvmc::skeleton::unit_type unit;
     mu::llvmc::skeleton::result result1 (&unit, &named3);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1124,7 +1124,7 @@ TEST (llvmc_generator, generate_if_join_value)
     join1.elements.push_back (&join2);
     mu::llvmc::skeleton::named named5 (mu::empty_region, &join2, U"join1");
     mu::llvmc::skeleton::result result1 (&type1, &named5);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1212,7 +1212,7 @@ TEST (llvmc_generator, generate_if_join_2value)
     join2.elements.push_back (&join4);
     mu::llvmc::skeleton::named named8 (mu::empty_region, &join4, U"join2");
     mu::llvmc::skeleton::result result2 (&type1, &named8);
-    function1.results = {{&result1}, {&result2}};
+    function1.results = {{{&result1}, {}}, {{&result2}, {}}};
     
     function1.name = U"0";
     module.globals.push_back (&function1);
@@ -1277,7 +1277,7 @@ TEST (llvmc_generator, generate_if_join_load)
     join1.elements.push_back (&join2);
     mu::llvmc::skeleton::named named5 (mu::empty_region, &join2, U"join1");
     mu::llvmc::skeleton::result result1 (&type1, &named5);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1309,7 +1309,7 @@ TEST (llvmc_generator, generate_call_0)
     mu::llvmc::skeleton::call_element element1 (mu::empty_region, function2.entry, &call1, &module.the_unit_type);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
-    function2.results = {{&result2}};
+    function2.results = {{{&result2}, {}}};
     function2.name = U"1";
     module.globals.push_back (&function2);
     
@@ -1334,7 +1334,7 @@ TEST (llvmc_generator, generate_call_1)
     mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
     function1.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::result result1 (&type1, &parameter1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     
@@ -1348,7 +1348,7 @@ TEST (llvmc_generator, generate_call_1)
     mu::llvmc::skeleton::call_element element1 (mu::empty_region, function2.entry, &call1, result1.type);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
-    function2.results = {{&result2}};
+    function2.results = {{{&result2}, {}}};
     function2.name = U"1";
     module.globals.push_back (&function2);
     
@@ -1385,7 +1385,7 @@ TEST (llvmc_generator, generate_call_2)
     mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch2, &instruction1, &integer2);
     mu::llvmc::skeleton::result result1 (&module.the_unit_type, &element1);
     mu::llvmc::skeleton::result result2 (&module.the_unit_type, &element2);
-    function1.results = {{&result1}, {&result2}};
+    function1.results = {{{&result1}, {}}, {{&result2}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     
@@ -1402,7 +1402,7 @@ TEST (llvmc_generator, generate_call_2)
     call1.elements.push_back (&element4);
     mu::llvmc::skeleton::result result3 (element3.type (), &element3);
     mu::llvmc::skeleton::result result4 (element4.type (), &element4);
-    function2.results = {{&result3}, {&result4}};
+    function2.results = {{{&result3}, {}}, {{&result4}, {}}};
     function2.name = U"1";
     module.globals.push_back (&function2);
     
@@ -1444,7 +1444,7 @@ TEST (llvmc_generator, generate_call_3)
     mu::llvmc::skeleton::result result2 (&module.the_unit_type, &element2);
     mu::llvmc::skeleton::constant_integer constant2 (mu::empty_region, &type2, 2);
     mu::llvmc::skeleton::result result6 (&type2, &constant2);
-    function1.results = {{&result1, &result5}, {&result2, &result6}};
+    function1.results = {{{&result1, &result5}, {}}, {{&result2, &result6}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     
@@ -1461,7 +1461,7 @@ TEST (llvmc_generator, generate_call_3)
     call1.elements.push_back (&element4);
     mu::llvmc::skeleton::result result3 (element3.type (), &element3);
     mu::llvmc::skeleton::result result4 (element4.type (), &element4);
-    function2.results = {{&result3}, {&result4}};
+    function2.results = {{{&result3}, {}}, {{&result4}, {}}};
     function2.name = U"1";
     module.globals.push_back (&function2);
     
@@ -1484,7 +1484,7 @@ TEST (llvmc_generator, generate_call_predicate_b1v0)
     mu::llvmc::skeleton::function function1 (mu::empty_region);
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::skeleton::sequence sequence1 (&module.the_unit_value);
-    function1.results = {{&sequence1}};
+    function1.results = {{{}, {&sequence1}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     
@@ -1495,7 +1495,7 @@ TEST (llvmc_generator, generate_call_predicate_b1v0)
     mu::llvmc::skeleton::call_element element1 (mu::empty_region, function2.entry, &call1, &module.the_unit_type);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::sequence sequence2 (&element1);
-    function2.results = {{&sequence2}};
+    function2.results = {{{}, {&sequence2}}};
     function2.name = U"1";
     module.globals.push_back (&function2);
     
@@ -1518,7 +1518,7 @@ TEST (llvmc_generator, generate_call_predicate_b1v1)
     mu::llvmc::skeleton::function function1 (mu::empty_region);
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::skeleton::sequence sequence1 (&module.the_unit_value);
-    function1.results = {{&sequence1}};
+    function1.results = {{{}, {&sequence1}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     
@@ -1532,7 +1532,7 @@ TEST (llvmc_generator, generate_call_predicate_b1v1)
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, &type2, 0);
     mu::llvmc::skeleton::result result1 (&type2, &integer1);
     mu::llvmc::skeleton::sequence sequence2 (&element1);
-    function2.results = {{&result1, &sequence2}};
+    function2.results = {{{&result1}, {&sequence2}}};
     function2.name = U"1";
     module.globals.push_back (&function2);
     
@@ -1594,7 +1594,7 @@ TEST (llvmc_generator, generate_loop1)
 	mu::llvmc::skeleton::loop_element element3 (mu::empty_region, function1.entry, &loop1, element1.type ());
 	loop1.elements.push_back (&element3);
     mu::llvmc::skeleton::sequence sequence1 (&element3);
-    function1.results = {{&sequence1}};
+    function1.results = {{{}, {&sequence1}}};
     function1.name = U"0";
 	module.globals.push_back (&function1);
     
@@ -1670,7 +1670,7 @@ TEST (llvmc_generator, generate_loop_count)
 	mu::llvmc::skeleton::loop_element element3 (mu::empty_region, &branch3, &loop1, loop_parameter2.type ());
 	loop1.elements.push_back (&element3);
 	mu::llvmc::skeleton::result result1 (&type1, &element3);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
 	module.globals.push_back (&function1);
     
@@ -1704,7 +1704,7 @@ TEST (llvmc_generator, generate_asm)
 	arguments.push_back (&asm1);
 	mu::llvmc::skeleton::inline_asm asm2 (mu::empty_region, function1.entry, arguments, 1);
     mu::llvmc::skeleton::sequence sequence1 (&asm2);
-    function1.results = {{&sequence1}};
+    function1.results = {{{}, {&sequence1}}};
     function1.name = U"0";
 	module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1738,7 +1738,7 @@ TEST (llvmc_generator, generate_getelementptr)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type2, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1775,7 +1775,7 @@ TEST (llvmc_generator, generate_identity)
     identity1.elements.push_back (&element1);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &element1, U"element1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1812,7 +1812,7 @@ TEST (llvmc_generator, generate_asm2)
 	arguments1.push_back (&asm2);
 	mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, 3);
     mu::llvmc::skeleton::sequence sequence1 (&instruction1);
-    function1.results = {{&sequence1}};
+    function1.results = {{{}, {&sequence1}}};
     function1.name = U"0";
 	module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1864,7 +1864,7 @@ TEST (llvmc_generator, generate_call_0_predicate)
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
     mu::llvmc::skeleton::result result3 (&type1, &element2);
-    function2.results = {{&result2}, {&result3}};
+    function2.results = {{{&result2}, {}}, {{&result3}, {}}};
     function2.name = U"1";
     module.globals.push_back (&function2);
     
@@ -1892,7 +1892,7 @@ TEST (llvmc_generator, generate_array)
 	mu::llvmc::skeleton::constant_array constant1 (mu::empty_region, &array1, initializer1);
     mu::llvmc::skeleton::function function1 (mu::empty_region);
     mu::llvmc::skeleton::result result1 (&array1, &constant1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1927,7 +1927,7 @@ TEST (llvmc_generator, generate_bitcast)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type4, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -1965,7 +1965,7 @@ TEST (llvmc_generator, generate_ptrtoint)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type3, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -2003,7 +2003,7 @@ TEST (llvmc_generator, generate_ptrfromint)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type3, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -2076,7 +2076,7 @@ TEST (llvmc_generator, generate_if_join_value_predicate)
     join1.elements.push_back (&join2);
     mu::llvmc::skeleton::named named5 (mu::empty_region, &join2, U"join1");
     mu::llvmc::skeleton::result result1 (join2.type (), &named5);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -2104,7 +2104,7 @@ TEST (llvmc_generator, generate_struct_type_undefined)
     function1.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::undefined undefined1 (mu::empty_region, &mu::llvmc::skeleton::branch::global, &type2);
     mu::llvmc::skeleton::result result1 (&type2, &undefined1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -2141,7 +2141,7 @@ TEST (llvmc_generator, generate_insertvalue)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments, 4);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
 	mu::llvmc::skeleton::result result1 (&type2, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -2175,7 +2175,7 @@ TEST (llvmc_generator, generate_select)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments, 4);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
 	mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -2209,7 +2209,7 @@ TEST (llvmc_generator, generate_extractvalue)
     mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments, 3);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
 	mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results = {{&result1}};
+    function1.results = {{{&result1}, {}}};
     function1.name = U"0";
     module.globals.push_back (&function1);
     mu::llvmc::generator generator;
@@ -2255,7 +2255,7 @@ TEST (llvmc_generator, generate_call_out_of_order)
     mu::llvmc::skeleton::call_element element1 (mu::empty_region, function2.entry, &call1, &module.the_unit_type);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
-    function2.results = {{&result2}};
+    function2.results = {{{&result2}, {}}};
     function2.name = U"1";
     module.globals.push_back (&function2);
     module.globals.push_back (&function1);

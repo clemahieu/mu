@@ -745,19 +745,15 @@ void mu::llvmc::module_processor::entry (mu::llvmc::ast::entry * node_a)
                     {
                         if (function_l->results.size () == 1)
                         {
-                            for (auto i (function_l->results [0].values.begin ()), j (function_l->results [0].values.end ()); global_m.error == nullptr && i != j; ++i)
-                            {
-                                auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (*i));
-                                if (sequence == nullptr)
-                                {
-                                    global_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
-                                }
-                            }
-                            if (global_m.error == nullptr)
+                            if (function_l->results [0].results.empty ())
                             {
                                 module_m->entry = function_l;
                                 node_a->generated.push_back (function_l);
                                 node_a->assigned = true;
+                            }
+                            else
+                            {
+                                global_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
                             }
                         }
                         else
@@ -1375,7 +1371,7 @@ void mu::llvmc::function_processor::process_results ()
                 if (sequence != nullptr)
                 {
                     branches.add_branch (sequence->value->branch, sequence->value->region);
-                    current_branch.values.push_back (sequence);
+                    current_branch.sequenced.push_back (sequence);
                 }
                 else
                 {
@@ -1383,7 +1379,7 @@ void mu::llvmc::function_processor::process_results ()
                     if (result != nullptr)
                     {
                         branches.add_branch (result->value->branch, result->value->region);
-                        current_branch.values.push_back (result);
+                        current_branch.results.push_back (result);
                     }
                     else
                     {
@@ -1498,7 +1494,7 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
                         }
                         for (auto & i: function_type->function->results.branches)
                         {
-                            if (i.values.empty ())
+                            if (i.results.empty ())
                             {
                                 auto element (b.call_element (expression_a->region, branch, call, &module_m.module_m->the_unit_type));
                                 returned_results.push_back (element);
@@ -1506,15 +1502,11 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
                             }
                             else
                             {
-                                for (auto j: i.values)
+                                for (auto j: i.results)
                                 {
-                                    auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (j));
-                                    if (sequence == nullptr)
-                                    {
-                                        auto element (b.call_element (expression_a->region, branch, call, mu::cast <mu::llvmc::skeleton::result> (j)->type));
-                                        returned_results.push_back (element);
-                                        call->elements.push_back (element);
-                                    }
+                                    auto element (b.call_element (expression_a->region, branch, call, mu::cast <mu::llvmc::skeleton::result> (j)->type));
+                                    returned_results.push_back (element);
+                                    call->elements.push_back (element);
                                 }
                             }
                             branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);

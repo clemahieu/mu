@@ -138,19 +138,15 @@ void mu::llvmc::generate_function::generate ()
         {
             assert (function->results.size () == 1);
             auto & result_l (function->results [0]);
-            for (auto i: result_l.values)
+            for (auto i: result_l.results)
             {
-                auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (i));
-                if (sequence == nullptr)
-                {
-                    auto result (mu::cast <mu::llvmc::skeleton::result> (i));
-                    module.system.generate_value (result->value);
-                    assert (result->type->is_unit_type ());
-                }
-                else
-                {
-                    module.system.generate_value (sequence->value);
-                }
+                auto result (mu::cast <mu::llvmc::skeleton::result> (i));
+                module.system.generate_value (result->value);
+                assert (result->type->is_unit_type ());
+            }
+            for (auto i: result_l.sequenced)
+            {
+                module.system.generate_value (i->value);
             }
             auto ret (llvm::ReturnInst::Create (function_l->getContext ()));
             ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
@@ -162,22 +158,18 @@ void mu::llvmc::generate_function::generate ()
             llvm::Value * the_value (nullptr);
             assert (function->results.size () == 1);
             auto & result_l (function->results [0]);
-            for (auto i: result_l.values)
+            for (auto i: result_l.results)
             {
-                auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (i));
-                if (sequence == nullptr)
-                {
-                    auto result (mu::cast <mu::llvmc::skeleton::result> (i));
-                    module.system.generate_value (result->value);
-                    assert (the_value == nullptr || result->type->is_unit_type ());
-                    the_value = result->type->is_unit_type () ? the_value : result->value->generated;
-                }
-                else
-                {
-                    module.system.generate_value (sequence->value);
-                }
+                auto result (mu::cast <mu::llvmc::skeleton::result> (i));
+                module.system.generate_value (result->value);
+                assert (the_value == nullptr || result->type->is_unit_type ());
+                the_value = result->type->is_unit_type () ? the_value : result->value->generated;
             }
-            auto ret (llvm::ReturnInst::Create (function_l->getContext (), the_value));            
+            for (auto i: result_l.sequenced)
+            {
+                module.system.generate_value (i->value);
+            }
+            auto ret (llvm::ReturnInst::Create (function_l->getContext (), the_value));
             ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
             last->getInstList ().push_back (ret);
             break;
@@ -188,25 +180,21 @@ void mu::llvmc::generate_function::generate ()
             unsigned index (0);
             assert (function->results.size () == 1);
             auto & result_l (function->results [0]);
-            for (auto i: result_l.values)
+            for (auto i: result_l.results)
             {
-                auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (i));
-                if (sequence == nullptr)
+                auto result_l (mu::cast <mu::llvmc::skeleton::result> (i));
+                module.system.generate_value (result_l->value);
+                if (!result_l->type->is_unit_type ())
                 {
-                    auto result_l (mu::cast <mu::llvmc::skeleton::result> (i));
-                    module.system.generate_value (result_l->value);
-                    if (!result_l->type->is_unit_type ())
-                    {
-                        auto insert = llvm::InsertValueInst::Create (result, result_l->value->generated, llvm::ArrayRef <unsigned> (index));
-                        last->getInstList ().push_back (insert);
-                        result = insert;
-                        ++index;
-                    }
+                    auto insert = llvm::InsertValueInst::Create (result, result_l->value->generated, llvm::ArrayRef <unsigned> (index));
+                    last->getInstList ().push_back (insert);
+                    result = insert;
+                    ++index;
                 }
-                else
-                {
-                    module.system.generate_value (sequence->value);
-                }
+            }
+            for (auto i: result_l.sequenced)
+            {
+                module.system.generate_value (i->value);
             }
             assert (index > 1);
             auto ret (llvm::ReturnInst::Create (function_l->getContext (), result));            
@@ -256,25 +244,21 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     uint8_t selector_number (0);
     for (auto & i: function->results.branches)
     {
-        for (auto j: i.values)
+        for (auto j: i.results)
         {
-            auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (j));
-            if (sequence == nullptr)
+            auto result_l (mu::cast <mu::llvmc::skeleton::result> (j));
+            module.system.generate_value (result_l->value);
+            if (!result_l->type->is_unit_type())
             {
-                auto result_l (mu::cast <mu::llvmc::skeleton::result> (j));
-                module.system.generate_value (result_l->value);
-                if (!result_l->type->is_unit_type())
-                {
-                    result.push_back (result_l->value->generated);
-                }
-                auto instruction (llvm::BinaryOperator::CreateAnd (predicate, result_l->value->predicate));
-                last->getInstList ().push_back (instruction);
-                predicate = instruction;
+                result.push_back (result_l->value->generated);
             }
-            else
-            {
-                module.system.generate_value (sequence->value);
-            }
+            auto instruction (llvm::BinaryOperator::CreateAnd (predicate, result_l->value->predicate));
+            last->getInstList ().push_back (instruction);
+            predicate = instruction;
+        }
+        for (auto j: i.sequenced)
+        {
+            module.system.generate_value (j->value);
         }
         auto selector_new (llvm::SelectInst::Create (predicate, llvm::ConstantInt::get (type, selector_number), selector));
         last->getInstList().push_back (selector_new);
@@ -421,28 +405,24 @@ void mu::llvmc::generate_function::call_element (mu::llvmc::skeleton::call_eleme
 			new_last->getInstList ().push_back (instruction);
             for (auto & i: call_a->target->results.branches)
             {
-                for (auto j: i.values)
+                for (auto j: i.results)
                 {
                     assert (current_element != end_element);
-                    auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (j));
-                    if (sequence == nullptr)
+                    if (!j->type->is_unit_type ())
                     {
-                        if (!mu::cast <mu::llvmc::skeleton::result> (j)->type->is_unit_type ())
-                        {
-                            auto extraction (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (result_index)));
-                            new_last->getInstList().push_back (extraction);
-                            auto value (*current_element);
-                            value->generated = extraction;
-                            value->predicate = instruction;
-                            ++result_index;
-                            ++current_element;
-                        }
-                        else
-                        {
-                            auto value (*current_element);
-                            value->generated = nullptr;
-                            value->predicate = instruction;
-                        }
+                        auto extraction (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (result_index)));
+                        new_last->getInstList().push_back (extraction);
+                        auto value (*current_element);
+                        value->generated = extraction;
+                        value->predicate = instruction;
+                        ++result_index;
+                        ++current_element;
+                    }
+                    else
+                    {
+                        auto value (*current_element);
+                        value->generated = nullptr;
+                        value->predicate = instruction;
                     }
                 }
                 ++current_selector;
@@ -1511,22 +1491,18 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
 	uint64_t offset (0);
     for (auto & i: function->results.branches)
     {
-        for (auto j: i.values)
+        for (auto j: i.results)
         {
-            auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (j));
-            if (sequence == nullptr)
+            auto type_s (j->type);
+            if (!type_s->is_unit_type())
             {
-                auto type_s (mu::cast <mu::llvmc::skeleton::result> (j)->type);
-                if (!type_s->is_unit_type())
-                {
-                    system.generate_type (type_s);
-                    auto size (type_s->debug.getSizeInBits ());
-                    auto line (type_s->debug.getLineNumber ());
-                    auto member (builder.createMemberType (file, "", file, line, size, 0, offset, 0, type_s->debug));
-                    results_debug.push_back (member);
-                    results.push_back (type_s->generated);
-                    offset += size;
-                }
+                system.generate_type (type_s);
+                auto size (type_s->debug.getSizeInBits ());
+                auto line (type_s->debug.getLineNumber ());
+                auto member (builder.createMemberType (file, "", file, line, size, 0, offset, 0, type_s->debug));
+                results_debug.push_back (member);
+                results.push_back (type_s->generated);
+                offset += size;
             }
         }
     }

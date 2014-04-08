@@ -279,12 +279,20 @@ namespace mu
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::string name;
             };
+            class sequence : public mu::llvmc::skeleton::node
+            {
+            public:
+                sequence (mu::llvmc::skeleton::value *);
+                void visit (mu::llvmc::skeleton::visitor *) override;
+                mu::llvmc::skeleton::value * value;
+            };
             class function_result
             {
             public:
                 function_result () = default;
-                function_result (std::initializer_list <mu::llvmc::skeleton::node *> const &);
-                mu::vector <mu::llvmc::skeleton::node *> values;
+                function_result (std::initializer_list <mu::llvmc::skeleton::result *> const &, std::initializer_list <mu::llvmc::skeleton::sequence *> const &);
+                mu::vector <mu::llvmc::skeleton::result *> results;
+                mu::vector <mu::llvmc::skeleton::sequence *> sequenced;
             };
             class function_branches
             {
@@ -526,13 +534,6 @@ namespace mu
 			public:
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 			};
-            class sequence : public mu::llvmc::skeleton::node
-            {
-            public:
-                sequence (mu::llvmc::skeleton::value *);
-                void visit (mu::llvmc::skeleton::visitor *) override;
-                mu::llvmc::skeleton::value * value;
-            };
             class visitor
             {
             public:
