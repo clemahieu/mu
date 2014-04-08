@@ -1310,85 +1310,89 @@ mu::llvmc::skeleton::type * mu::llvmc::module_processor::process_type (mu::llvmc
 	return result;
 }
 
+void mu::llvmc::function_processor::sequence (mu::llvmc::ast::sequence * sequence_a)
+{
+    module_m.global_m.process_node (sequence_a->node_m);
+    for (auto i (sequence_a->node_m->generated.begin ()), j (sequence_a->node_m->generated.end ()); module_m.global_m.error == nullptr && i != j; ++i)
+    {
+        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*i));
+        if (value != nullptr)
+        {
+            sequence_a->generated.push_back (new (GC) mu::llvmc::skeleton::sequence (value));
+        }
+        else
+        {
+            module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a value", mu::core::error_type::expecting_a_value);
+        }
+    }
+    if (module_m.global_m.error == nullptr)
+    {
+        sequence_a->assigned = true;
+    }
+}
+
+void mu::llvmc::function_processor::result (mu::llvmc::ast::result * result_a)
+{
+    auto type (module_m.process_type (result_a->written_type));
+    if (type != nullptr)
+    {
+        module_m.process_single_node (result_a->value);
+        if (module_m.global_m.error == nullptr)
+        {
+            auto new_value (result_a->value->generated [0]->adapt_result (type, *this,
+                []
+                (mu::core::region const & region_a)
+                {
+                    return new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, region_a);
+                }));
+            if (new_value != nullptr)
+            {
+                result_a->generated.push_back (b.result (type, new_value));
+                result_a->assigned = true;
+            }
+        }
+    }
+    else
+    {
+        module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, result_a->written_type->region);
+    }
+}
+
 void mu::llvmc::function_processor::process_results ()
 {
 	mu::llvmc::branch_analyzer branches (&mu::llvmc::skeleton::branch::global, module_m.global_m.error);
-    auto first (true);
     for (auto i (node_m->results.branches.begin ()), j (node_m->results.branches.end ()); module_m.global_m.error == nullptr && i != j; ++i)
     {
+        auto & current_branch (function_m->results.add_branch ());
         for (auto k (i->nodes.begin ()), l (i->nodes.end ()); module_m.global_m.error == nullptr && k != l; ++k)
         {
             auto node_a (*k);
-            auto sequence (dynamic_cast <mu::llvmc::ast::sequence *> (node_a));
-            if (sequence == nullptr)
+            module_m.global_m.process_node (*k);
+            for (auto m (node_a->generated.begin ()), n (node_a->generated.end ()); module_m.global_m.error == nullptr && m != n; ++m)
             {
-                if (first)
+                auto node_l (*m);
+                auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (node_l));
+                if (sequence != nullptr)
                 {
-                    function_m->results.add_branch ();
-                    first = false;
-                }
-                auto result_a (dynamic_cast <mu::llvmc::ast::result *> (node_a));
-                if (result_a != nullptr)
-                {
-                    auto type (module_m.process_type (result_a->written_type));
-                    if (type != nullptr)
-                    {
-                        module_m.process_single_node (result_a->value);
-                        if (module_m.global_m.error == nullptr)
-                        {
-                            auto new_value (result_a->value->generated [0]->adapt_result (type, *this,
-                                []
-                                (mu::core::region const & region_a)
-                                {
-                                    return new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, region_a);
-                                }));
-                            if (new_value != nullptr)
-                            {
-                                assert (function_m->results.size () > 0);
-                                function_m->results.branches.back ().values.push_back (b.result (type, new_value));
-                                branches.add_branch (new_value->branch, result_a->region);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, result_a->written_type->region);
-                    }
+                    branches.add_branch (sequence->value->branch, sequence->value->region);
+                    current_branch.values.push_back (sequence);
                 }
                 else
                 {
-                    module_m.global_m.error = new (GC) mu::core::error_string (U"Expecting a result", mu::core::error_type::expecting_a_result, node_a->region);
-                }
-            }
-            else
-            {
-                if (first)
-                {
-                    function_m->results.add_branch ();
-                    first = false;
-                }
-                module_m.global_m.process_node (node_a);
-                if (module_m.global_m.error == nullptr)
-                {
-                    for (auto i : node_a->generated)
+                    auto result (dynamic_cast <mu::llvmc::skeleton::result *> (node_l));
+                    if (result != nullptr)
                     {
-                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
-                        if (value != nullptr)
-                        {
-                            assert (function_m->results.size () > 0);
-                            function_m->results.branches.back ().values.push_back (new (GC) mu::llvmc::skeleton::sequence (value));
-                            branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
-                        }
-                        else
-                        {
-                            module_m.global_m.error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value, node_a->region);
-                        }
+                        branches.add_branch (result->value->branch, result->value->region);
+                        current_branch.values.push_back (result);
+                    }
+                    else
+                    {
+                        module_m.global_m.error = new (GC) mu::core::error_string (U"Function must return results or sequences", mu::core::error_type::functions_must_return_results_or_sequences);
                     }
                 }
             }
         }
         branches.new_set ();
-        first = true;
     }
 }
 

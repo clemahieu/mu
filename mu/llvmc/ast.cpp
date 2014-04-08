@@ -1026,7 +1026,8 @@ void mu::llvmc::ast::visitor::array_type (mu::llvmc::ast::array_type * node_a)
 }
 
 mu::llvmc::ast::sequence::sequence (mu::llvmc::ast::node * node_a, mu::llvmc::template_context * context_a) :
-node (context_a)
+node (context_a),
+node_m (node_a)
 {
 }
 

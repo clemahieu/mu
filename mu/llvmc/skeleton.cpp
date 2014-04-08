@@ -1681,7 +1681,7 @@ branches (branches_a)
 mu::llvmc::skeleton::function_result & mu::llvmc::skeleton::function_branches::add_branch ()
 {
     branches.push_back (mu::llvmc::skeleton::function_result ());
-    return branches [branches.size ()];
+    return branches.back ();
 }
 
 size_t mu::llvmc::skeleton::function_branches::size () const

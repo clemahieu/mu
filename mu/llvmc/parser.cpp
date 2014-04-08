@@ -446,7 +446,6 @@ void mu::llvmc::function::parse_results ()
                 case mu::io::token_id::left_square:
                     parser.stream.consume (1);
                     parse_result_set ();
-                    function_m->results.add_branch ();
                     next = parser.stream [0];
                     break;
                 case mu::io::token_id::right_square:
