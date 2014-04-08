@@ -1695,8 +1695,13 @@ mu::llvmc::skeleton::function_result & mu::llvmc::skeleton::function_branches::o
     return branches [index];
 }
 
-mu::llvmc::skeleton::sequence::sequence (mu::llvmc::skeleton::value * value_a) :
-value (value_a)
+mu::llvmc::skeleton::sequence::sequence (std::initializer_list <mu::llvmc::skeleton::value *> const & values_a) :
+values (values_a)
+{
+}
+
+mu::llvmc::skeleton::sequence::sequence (mu::vector <mu::llvmc::skeleton::value *> const & values_a) :
+values (values_a)
 {
 }
 
