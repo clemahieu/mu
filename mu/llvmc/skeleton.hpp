@@ -529,10 +529,9 @@ namespace mu
             class sequence : public mu::llvmc::skeleton::node
             {
             public:
-                sequence (std::initializer_list <mu::llvmc::skeleton::value *> const &);
-                sequence (mu::vector <mu::llvmc::skeleton::value *> const &);
+                sequence (mu::llvmc::skeleton::value *);
                 void visit (mu::llvmc::skeleton::visitor *) override;
-                mu::vector <mu::llvmc::skeleton::value *> values;
+                mu::llvmc::skeleton::value * value;
             };
             class visitor
             {

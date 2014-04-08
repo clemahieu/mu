@@ -1376,7 +1376,7 @@ void mu::llvmc::function_processor::process_results ()
                         if (value != nullptr)
                         {
                             assert (function_m->results.size () > 0);
-                            function_m->results.branches.back ().values.push_back (new (GC) mu::llvmc::skeleton::sequence ({value}));
+                            function_m->results.branches.back ().values.push_back (new (GC) mu::llvmc::skeleton::sequence (value));
                             branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
                         }
                         else

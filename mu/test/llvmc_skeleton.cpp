@@ -93,7 +93,7 @@ TEST (llvmc_skeleton, function_type_name4)
 	mu::llvmc::skeleton::function_type function_type (&function);
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
-    mu::llvmc::skeleton::sequence sequence1 ({&constant1});
+    mu::llvmc::skeleton::sequence sequence1 (&constant1);
 	mu::llvmc::skeleton::result result1 (&type1, &constant1);
     function.results = {{&result1, &sequence1}};
 	auto name (function_type.name ());
