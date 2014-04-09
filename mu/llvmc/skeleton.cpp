@@ -1640,7 +1640,7 @@ void mu::llvmc::skeleton::number::visit (mu::llvmc::skeleton::visitor * visitor_
 	visitor_a->number (this);
 }
 
-mu::llvmc::skeleton::function_result::function_result (std::initializer_list <mu::llvmc::skeleton::result *> const & results_a, std::initializer_list <mu::llvmc::skeleton::sequence *> const & sequenced_a) :
+mu::llvmc::skeleton::function_result::function_result (std::initializer_list <mu::llvmc::skeleton::result *> const & results_a, std::initializer_list <mu::llvmc::skeleton::value *> const & sequenced_a) :
 results (results_a),
 sequenced (sequenced_a)
 {

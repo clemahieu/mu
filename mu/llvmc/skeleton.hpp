@@ -290,9 +290,9 @@ namespace mu
             {
             public:
                 function_result () = default;
-                function_result (std::initializer_list <mu::llvmc::skeleton::result *> const &, std::initializer_list <mu::llvmc::skeleton::sequence *> const &);
+                function_result (std::initializer_list <mu::llvmc::skeleton::result *> const &, std::initializer_list <mu::llvmc::skeleton::value *> const &);
                 mu::vector <mu::llvmc::skeleton::result *> results;
-                mu::vector <mu::llvmc::skeleton::sequence *> sequenced;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
             };
             class function_branches
             {

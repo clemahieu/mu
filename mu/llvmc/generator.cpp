@@ -146,7 +146,7 @@ void mu::llvmc::generate_function::generate ()
             }
             for (auto i: result_l.sequenced)
             {
-                module.system.generate_value (i->value);
+                module.system.generate_value (i);
             }
             auto ret (llvm::ReturnInst::Create (function_l->getContext ()));
             ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
@@ -167,7 +167,7 @@ void mu::llvmc::generate_function::generate ()
             }
             for (auto i: result_l.sequenced)
             {
-                module.system.generate_value (i->value);
+                module.system.generate_value (i);
             }
             auto ret (llvm::ReturnInst::Create (function_l->getContext (), the_value));
             ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function->debug));
@@ -194,7 +194,7 @@ void mu::llvmc::generate_function::generate ()
             }
             for (auto i: result_l.sequenced)
             {
-                module.system.generate_value (i->value);
+                module.system.generate_value (i);
             }
             assert (index > 1);
             auto ret (llvm::ReturnInst::Create (function_l->getContext (), result));            
@@ -258,7 +258,7 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
         }
         for (auto j: i.sequenced)
         {
-            module.system.generate_value (j->value);
+            module.system.generate_value (j);
         }
         auto selector_new (llvm::SelectInst::Create (predicate, llvm::ConstantInt::get (type, selector_number), selector));
         last->getInstList().push_back (selector_new);

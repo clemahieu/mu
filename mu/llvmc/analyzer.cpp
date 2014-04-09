@@ -1382,7 +1382,7 @@ void mu::llvmc::function_processor::process_results ()
                 if (sequence != nullptr)
                 {
                     branches.add_branch (sequence->value->branch, sequence->value->region);
-                    current_branch.sequenced.push_back (sequence);
+                    current_branch.sequenced.push_back (sequence->value);
                 }
                 else
                 {
