@@ -43,13 +43,10 @@ bool mu::llvmc::skeleton::function::empty_loop_predicate ()
     return true;
 }
 
-void mu::llvmc::skeleton::loop::empty_node (mu::llvmc::skeleton::node *, size_t)
+mu::llvmc::skeleton::loop_branch & mu::llvmc::skeleton::loop::add_branch ()
 {
-}
-
-bool mu::llvmc::skeleton::loop::empty_loop_predicate ()
-{
-    return true;
+    results.push_back (decltype (results)::value_type ());
+    return results.back ();
 }
 
 mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::llvmc::skeleton::unit_type * type_a) :

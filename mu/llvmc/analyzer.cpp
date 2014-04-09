@@ -818,7 +818,9 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 			auto branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
 			auto empty (true);
 			auto feedback_branch (true);
+            auto predicates (false);
 			mu::llvmc::branch_analyzer branches (&mu::llvmc::skeleton::branch::global, module_m.global_m.error);
+            loop_s->add_branch ();
 			loop_a->for_each_results (
 									  [&]
 									  (mu::llvmc::ast::node * expression_a, size_t index_a)
@@ -831,8 +833,9 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 												  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
 												  if (value != nullptr)
 												  {
+                                                      assert (!loop_s->results.empty ());
 													  branches.add_branch (value->branch, expression_a->region);
-													  loop_s->results.push_back (value);
+													  loop_s->results.back ().values.push_back (value);
 													  auto element (b.loop_element (expression_a->region, branch, loop_s, value->type ()));
 													  loop_s->elements.push_back (element);
 												  }
@@ -855,8 +858,16 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 												  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
 												  if (value != nullptr)
 												  {
+                                                      assert (!loop_s->results.empty ());
 													  branches.add_branch (value->branch, expression_a->region);
-													  loop_s->results.push_back (value);
+                                                      if (predicates)
+                                                      {
+                                                          loop_s->results.back ().sequenced.push_back (value);
+                                                      }
+                                                      else
+                                                      {
+                                                          loop_s->results.back ().values.push_back (value);
+                                                      }
 												  }
 												  else
 												  {
@@ -868,7 +879,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 									  [&]
 									  (mu::llvmc::ast::node * node_a, size_t index_a)
 									  {
-										  loop_s->predicate_offsets.push_back (loop_s->results.size ());
+                                          predicates = true;
 										  if (empty)
 										  {
 											  auto element (b.loop_element (node_a->region, branch, loop_s, &module_m.module_m->the_unit_type));
@@ -878,8 +889,9 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 									  [&]
 									  (mu::llvmc::ast::node * node_a, size_t)
 									  {
+                                          predicates = false;
+                                          loop_s->add_branch ();
 										  branches.new_set ();
-										  loop_s->branch_ends.push_back (loop_s->results.size ());
 										  branch = new (GC) mu::llvmc::skeleton::branch (loop_branch);
 										  feedback_branch = false;
 										  empty = true;
@@ -890,7 +902,6 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 										  return module_m.global_m.error == nullptr;
 									  }
 									  );
-			assert (module_m.global_m.error != nullptr || loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
 			if (module_m.global_m.error == nullptr)
 			{
 				loop_a->assigned = true;

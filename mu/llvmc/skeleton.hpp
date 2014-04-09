@@ -379,6 +379,12 @@ namespace mu
 				mu::llvmc::skeleton::type * type_m;
                 mu::string name;
 			};
+            class loop_branch
+            {
+            public:
+                mu::vector <mu::llvmc::skeleton::value *> values;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
+            };
 			class loop
 			{
 			public:
@@ -388,14 +394,9 @@ namespace mu
 				size_t argument_predicate_offset;
 				void set_argument_predicate_offset ();
 				mu::vector <mu::llvmc::skeleton::loop_parameter *> parameters;
-				mu::vector <mu::llvmc::skeleton::value *> results;
-				std::vector <size_t> predicate_offsets;
-				std::vector <size_t> branch_ends;
+                mu::llvmc::skeleton::loop_branch & add_branch ();
+				mu::vector <mu::llvmc::skeleton::loop_branch> results;
 				mu::vector <mu::llvmc::skeleton::loop_element *> elements;
-                static void empty_node (mu::llvmc::skeleton::node *, size_t);
-                static bool empty_loop_predicate ();
-                template <typename T = decltype (empty_node), typename U = decltype (empty_node), typename V = decltype (empty_node), typename W = decltype (empty_node), typename X = decltype (empty_loop_predicate)>
-                void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate);
                 mu::llvmc::skeleton::type * type_m;
 			};
             class unit_value : public mu::llvmc::skeleton::value
