@@ -461,7 +461,8 @@ TEST (llvmc_analyzer, branches)
     auto element3 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result3->value));
     ASSERT_NE (nullptr, element3);
     ASSERT_EQ (mu::llvmc::instruction_type::add, element3->marker ());
-    ASSERT_EQ (4, element3->arguments.size ());
+    ASSERT_EQ (3, element3->arguments.size ());
+    ASSERT_EQ (1, element3->sequenced.size ());
     ASSERT_EQ (&add_marker, element3->arguments [0]);
     ASSERT_EQ (parameter5, element3->arguments [1]);
     ASSERT_EQ (parameter5, element3->arguments [2]);
@@ -470,16 +471,17 @@ TEST (llvmc_analyzer, branches)
     auto element4 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result4->value));
     ASSERT_NE (nullptr, element4);
     ASSERT_EQ (mu::llvmc::instruction_type::add, element4->marker ());
-    ASSERT_EQ (4, element4->arguments.size ());
+    ASSERT_EQ (3, element4->arguments.size ());
+    ASSERT_EQ (1, element4->sequenced.size ());
     ASSERT_EQ (&add_marker, element4->arguments [0]);
     ASSERT_EQ (parameter6, element4->arguments [1]);
     ASSERT_EQ (parameter6, element4->arguments [2]);
     ASSERT_NE (element3->branch, element4->branch);
-    auto named1 (dynamic_cast <mu::llvmc::skeleton::named *> (element3->arguments [3]));
+    auto named1 (dynamic_cast <mu::llvmc::skeleton::named *> (element3->sequenced [0]));
     ASSERT_NE (nullptr, named1);
     auto element5 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (named1->value_m));
     ASSERT_NE (nullptr, element5);
-    auto named2 (dynamic_cast <mu::llvmc::skeleton::named *> (element4->arguments [3]));
+    auto named2 (dynamic_cast <mu::llvmc::skeleton::named *> (element4->sequenced [0]));
     ASSERT_NE (nullptr, named2);
     auto element6 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (named2->value_m));
     ASSERT_NE (nullptr, element6);
@@ -2440,7 +2442,7 @@ TEST (llvmc_analyzer, loop_empty)
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
 	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
 	ASSERT_NE (nullptr, element1);
-    ASSERT_EQ (0, element1->source->argument_predicate_offset);
+    ASSERT_EQ (0, element1->source->arguments.size ());
 }
 
 TEST (llvmc_analyzer, fail_loop_inner_error)
@@ -2530,7 +2532,7 @@ TEST (llvmc_analyzer, loop_passthrough)
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
 	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
 	ASSERT_NE (nullptr, element1);
-    ASSERT_EQ (1, element1->source->argument_predicate_offset);
+    ASSERT_EQ (1, element1->source->arguments.size ());
     ASSERT_EQ (1, element1->source->elements.size ());
     ASSERT_EQ (element1, element1->source->elements [0]);
 }

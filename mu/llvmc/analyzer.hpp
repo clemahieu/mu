@@ -94,7 +94,7 @@ namespace mu
 			void template_c (mu::llvmc::ast::template_c * node_a) override;
 			void value (mu::llvmc::ast::value * value_node) override;
 			void process_template (mu::llvmc::ast::expression * node_a);
-            void process_expression_value_arguments (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
+            void process_expression_value_arguments (mu::vector <mu::llvmc::ast::node *> const &, size_t, mu::vector <mu::llvmc::skeleton::node *> &, mu::vector <mu::llvmc::skeleton::value *> &, mu::llvmc::skeleton::branch * &);
 			void process_constant_int (mu::llvmc::ast::expression * expression_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
 			mu::llvmc::global_processor & global_m;
@@ -113,7 +113,7 @@ namespace mu
             void process_value_call (mu::llvmc::ast::expression * expression_a);
             void process_marker (mu::llvmc::ast::expression * expression_a);
             void process_asm (mu::llvmc::ast::expression * expression_a);
-			void process_binary_integer_instruction (mu::llvmc::ast::expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments, mu::llvmc::skeleton::branch * most_specific_branch);
+			void process_binary_integer_instruction (mu::llvmc::ast::expression *, mu::vector <mu::llvmc::skeleton::node *> &, mu::vector <mu::llvmc::skeleton::value *> &, mu::llvmc::skeleton::branch *);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
             void process_expression (mu::llvmc::ast::expression * node_a);
             void node (mu::llvmc::ast::node * node_a) override;

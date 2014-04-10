@@ -119,7 +119,7 @@ namespace mu
             void generate ();
             llvm::Value * generate_rejoin (llvm::BasicBlock * entry, llvm::BasicBlock * predicate, llvm::BasicBlock * successor, llvm::Value * value_a);
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);
-            llvm::Value * process_predicates (llvm::Value * predicate_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position);
+            llvm::Value * process_predicates (llvm::Value * predicate_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
             llvm::Value * and_predicates (llvm::Value * left_a, llvm::Value * right_a);
             std::vector <llvm::Value *> generate_result_set ();
             mu::llvmc::generate_module & module;

@@ -165,15 +165,15 @@ namespace mu
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
-                instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, std::initializer_list <mu::llvmc::skeleton::node *> arguments, std::initializer_list <mu::llvmc::skeleton::node *> predicates);
-                instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
+                instruction (mu::core::region const &, mu::llvmc::skeleton::branch *, std::initializer_list <mu::llvmc::skeleton::node *> const &, std::initializer_list <mu::llvmc::skeleton::value *> const &);
+                instruction (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::vector <mu::llvmc::skeleton::node *> const &, mu::vector <mu::llvmc::skeleton::value *> const &);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * binary_integer_type ();
                 mu::llvmc::skeleton::type * get_type ();
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::instruction_type marker ();
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
-                size_t predicate_position;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
                 mu::llvmc::skeleton::type * type_m;
             };
 			class predicate : public mu::llvmc::skeleton::node
@@ -186,25 +186,26 @@ namespace mu
             class icmp : public mu::llvmc::skeleton::value
             {
             public:
-                icmp (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::predicate * predicate_a, mu::llvmc::skeleton::value * left_a, mu::llvmc::skeleton::value * right_a);
+                icmp (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::llvmc::skeleton::type *, mu::llvmc::skeleton::predicate *, mu::llvmc::skeleton::value *, mu::llvmc::skeleton::value *, mu::vector <mu::llvmc::skeleton::value *> const &);
+                icmp (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::llvmc::skeleton::type *, mu::llvmc::skeleton::predicate *, mu::llvmc::skeleton::value *, mu::llvmc::skeleton::value *, std::initializer_list <mu::llvmc::skeleton::value *> const &);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
                 mu::llvmc::skeleton::predicate * predicate_m;
                 mu::llvmc::skeleton::value * left;
                 mu::llvmc::skeleton::value * right;
-                mu::vector <mu::llvmc::skeleton::node *> predicates;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
             };
             class store : public mu::llvmc::skeleton::value
             {
             public:
-                store (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * source_a, mu::llvmc::skeleton::value * destination_a);
+                store (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::llvmc::skeleton::type *, mu::llvmc::skeleton::value *, mu::llvmc::skeleton::value *, mu::vector <mu::llvmc::skeleton::value *> const &);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
                 mu::llvmc::skeleton::value * source;
                 mu::llvmc::skeleton::value * destination;
-                mu::vector <mu::llvmc::skeleton::node *> predicates;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
             };
             class marker : public mu::llvmc::skeleton::node
             {
@@ -324,9 +325,11 @@ namespace mu
             class switch_i
             {
             public:
-                switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::llvmc::skeleton::unit_type * type_a);
+                switch_i (mu::llvmc::skeleton::branch *, mu::vector <mu::llvmc::skeleton::node *> const &, mu::vector <mu::llvmc::skeleton::value *> const &, mu::llvmc::skeleton::unit_type *);
+                switch_i (mu::llvmc::skeleton::branch *, std::initializer_list <mu::llvmc::skeleton::node *> const &, std::initializer_list <mu::llvmc::skeleton::value *> const &, mu::llvmc::skeleton::unit_type *);
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
                 mu::vector <mu::llvmc::skeleton::switch_element *> elements;
                 mu::llvmc::skeleton::unit_type * type_m;
             };
@@ -343,12 +346,12 @@ namespace mu
             class function_call
             {
             public:
-                function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a, mu::llvmc::skeleton::type * type_a);
+                function_call (mu::llvmc::skeleton::function *, mu::llvmc::skeleton::branch *, mu::vector <mu::llvmc::skeleton::node *> const &, mu::vector <mu::llvmc::skeleton::value *> const &, mu::llvmc::skeleton::type *);
                 mu::llvmc::skeleton::function * target;
                 mu::llvmc::skeleton::branch * branch;
-                mu::vector <mu::llvmc::skeleton::node *> arguments;
                 mu::vector <mu::llvmc::skeleton::call_element *> elements;
-                size_t predicate_offset;
+                mu::vector <mu::llvmc::skeleton::node *> arguments;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
                 mu::llvmc::skeleton::type * type_m;
             };
             class call_element : public mu::llvmc::skeleton::value
@@ -391,8 +394,7 @@ namespace mu
 				loop (mu::llvmc::skeleton::type * type_a);
 				mu::llvmc::skeleton::branch * loop_entry_branch;
 				mu::vector <mu::llvmc::skeleton::node *> arguments;
-				size_t argument_predicate_offset;
-				void set_argument_predicate_offset ();
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
 				mu::vector <mu::llvmc::skeleton::loop_parameter *> parameters;
                 mu::llvmc::skeleton::loop_branch & add_branch ();
 				mu::vector <mu::llvmc::skeleton::loop_branch> results;
@@ -492,11 +494,11 @@ namespace mu
 			class inline_asm : public mu::llvmc::skeleton::value
 			{
 			public:
-				inline_asm (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
+				inline_asm (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::vector <mu::llvmc::skeleton::node *> const &, mu::vector <mu::llvmc::skeleton::value *> const &);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
 				mu::vector <mu::llvmc::skeleton::node *> arguments;
-				size_t predicate_position;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
 			};
             class identity : public mu::llvmc::skeleton::node
             {
@@ -516,9 +518,9 @@ namespace mu
             class identity_call
             {
             public:
-                identity_call (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a, mu::llvmc::skeleton::type * type_a);
+                identity_call (mu::vector <mu::llvmc::skeleton::node *> const &, mu::vector <mu::llvmc::skeleton::value *> const &, mu::llvmc::skeleton::type *);
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
-                size_t predicate_offset;
+                mu::vector <mu::llvmc::skeleton::value *> sequenced;
                 mu::vector <mu::llvmc::skeleton::identity_element *> elements;
                 mu::llvmc::skeleton::type * type_m;
             };
@@ -585,11 +587,11 @@ namespace mu
             {
             public:
                 mu::llvmc::skeleton::fixed_array_type * fixed_array_type (mu::llvmc::skeleton::type * element_a, size_t size_a);
-                mu::llvmc::skeleton::inline_asm * inline_asm (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
+                mu::llvmc::skeleton::inline_asm * inline_asm (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::vector <mu::llvmc::skeleton::node *> const &, mu::vector <mu::llvmc::skeleton::value *> const &);
                 mu::llvmc::skeleton::join_element * join_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::join_value * source_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::unit_value *  unit_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
-                mu::llvmc::skeleton::instruction * instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
-                mu::llvmc::skeleton::instruction * instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, std::initializer_list <mu::llvmc::skeleton::node *> arguments, std::initializer_list <mu::llvmc::skeleton::node *> predicates);
+                mu::llvmc::skeleton::instruction * instruction (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::vector <mu::llvmc::skeleton::node *> const &, mu::vector <mu::llvmc::skeleton::value *> const &);
+                mu::llvmc::skeleton::instruction * instruction (mu::core::region const &, mu::llvmc::skeleton::branch *, std::initializer_list <mu::llvmc::skeleton::node *> const &, std::initializer_list <mu::llvmc::skeleton::value *> const &);
                 mu::llvmc::skeleton::struct_type * struct_type ();
                 mu::llvmc::skeleton::call_element * call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::integer_type * integer_type (size_t bits_a);
@@ -613,8 +615,8 @@ namespace mu
                 mu::llvmc::skeleton::predicate * predicate (mu::llvmc::predicates type_a);
                 mu::llvmc::skeleton::unit_type * unit_type ();
                 mu::llvmc::skeleton::identity_element * identity_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a, mu::llvmc::skeleton::type * type_a);
-                mu::llvmc::skeleton::icmp * icmp (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::predicate * predicate_a, mu::llvmc::skeleton::value * left_a, mu::llvmc::skeleton::value * right_a);
-                mu::llvmc::skeleton::store * store (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * source_a, mu::llvmc::skeleton::value * destination_a);
+                mu::llvmc::skeleton::icmp * icmp (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::llvmc::skeleton::type *, mu::llvmc::skeleton::predicate *, mu::llvmc::skeleton::value *, mu::llvmc::skeleton::value *, mu::vector <mu::llvmc::skeleton::value *> const &);
+                mu::llvmc::skeleton::store * store (mu::core::region const &, mu::llvmc::skeleton::branch *, mu::llvmc::skeleton::type *, mu::llvmc::skeleton::value *, mu::llvmc::skeleton::value *, mu::vector <mu::llvmc::skeleton::value *> const &);
 				mu::llvmc::skeleton::undefined * undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::template_c * template_c (mu::llvmc::template_context * base_a);
 				mu::llvmc::skeleton::module * module ();

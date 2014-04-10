@@ -2142,7 +2142,7 @@ define i32 @"0000000000000000-0000000000000000-0"(i32) {
   %5 = and i1 %3, true
   %6 = alloca i32
   call void @llvm.dbg.declare(metadata !{i32* %6}, metadata !13), !dbg !11
-  br i1 %5, label %7, label %29
+  br i1 %5, label %7, label %27
 
 ; <label>:7                                       ; preds = %10, %1
   %8 = phi i32 [ %0, %1 ], [ %12, %10 ]
@@ -2165,17 +2165,15 @@ define i32 @"0000000000000000-0000000000000000-0"(i32) {
   %21 = and i1 %19, %20
   %22 = icmp eq i1 %18, true
   %23 = and i1 %19, %22
-  %24 = and i1 %19, true
-  %25 = and i1 %24, true
-  %26 = and i1 %16, %21
-  %27 = and i1 %5, %5
-  %28 = and i1 %27, %23
-  br i1 %26, label %7, label %29
+  %24 = and i1 %16, %21
+  %25 = and i1 %5, %5
+  %26 = and i1 %25, %23
+  br i1 %24, label %7, label %27
 
-; <label>:29                                      ; preds = %10, %1
-  %30 = phi i32 [ undef, %1 ], [ %9, %10 ]
-  %31 = phi i1 [ undef, %1 ], [ %5, %10 ]
-  ret i32 %30, !dbg !11
+; <label>:27                                      ; preds = %10, %1
+  %28 = phi i32 [ undef, %1 ], [ %9, %10 ]
+  %29 = phi i1 [ undef, %1 ], [ %5, %10 ]
+  ret i32 %28, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
