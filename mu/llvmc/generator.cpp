@@ -447,12 +447,9 @@ void mu::llvmc::generate_function::call_element (mu::llvmc::skeleton::call_eleme
 void mu::llvmc::generate_function::switch_element (mu::llvmc::skeleton::switch_element * element)
 {
 	assert (element->source->arguments.size () > 1);
-	llvm::Value * predicate (llvm::ConstantInt::getTrue (last->getContext ())); // Can be replaced with just the predicate of the value
 	auto arg1 (mu::cast <mu::llvmc::skeleton::value> (element->source->arguments [1]));
 	module.system.generate_value (arg1);
-	auto instruction (llvm::BinaryOperator::CreateAnd (predicate, arg1->predicate));
-	last->getInstList ().push_back (instruction);
-	predicate = instruction;
+	llvm::Value * predicate (arg1->predicate);
 	auto & elements (element->source->elements);
 	size_t position (0);
 	for (auto i (elements.begin ()), j (elements.end ()); i != j; ++i, ++position)

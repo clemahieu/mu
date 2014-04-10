@@ -1268,16 +1268,15 @@ define i8 @"0000000000000000-0000000000000000-0"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !10), !dbg !11
-  %3 = and i1 true, true
-  %4 = icmp eq i1 %0, false
-  %5 = and i1 %3, %4
-  %6 = icmp eq i1 %0, true
-  %7 = and i1 %3, %6
-  %8 = and i1 true, %5
-  %9 = select i1 %8, i8 0, i8 undef
-  %10 = and i1 true, %7
-  %11 = select i1 %10, i8 1, i8 %9
-  ret i8 %11, !dbg !11
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 true, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 true, %5
+  %7 = and i1 true, %4
+  %8 = select i1 %7, i8 0, i8 undef
+  %9 = and i1 true, %6
+  %10 = select i1 %9, i8 1, i8 %8
+  ret i8 %10, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1306,21 +1305,20 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !16), !dbg !17
-  %3 = and i1 true, true
-  %4 = icmp eq i1 %0, false
-  %5 = and i1 %3, %4
-  %6 = icmp eq i1 %0, true
-  %7 = and i1 %3, %6
-  %8 = and i1 true, %5
-  %9 = and i1 %8, true
-  %10 = select i1 %9, i8 0, i8 undef
-  %11 = and i1 true, %7
-  %12 = and i1 %11, true
-  %13 = select i1 %12, i8 1, i8 %10
-  %14 = insertvalue %0 undef, i32 4, 0
-  %15 = insertvalue %0 %14, i32 5, 1
-  %16 = insertvalue %0 %15, i8 %13, 2
-  ret %0 %16, !dbg !17
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 true, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 true, %5
+  %7 = and i1 true, %4
+  %8 = and i1 %7, true
+  %9 = select i1 %8, i8 0, i8 undef
+  %10 = and i1 true, %6
+  %11 = and i1 %10, true
+  %12 = select i1 %11, i8 1, i8 %9
+  %13 = insertvalue %0 undef, i32 4, 0
+  %14 = insertvalue %0 %13, i32 5, 1
+  %15 = insertvalue %0 %14, i8 %12, 2
+  ret %0 %15, !dbg !17
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1353,15 +1351,14 @@ define void @"0000000000000000-0000000000000000-0"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !10), !dbg !11
-  %3 = and i1 true, true
-  %4 = icmp eq i1 %0, false
-  %5 = and i1 %3, %4
-  %6 = icmp eq i1 %0, true
-  %7 = and i1 %3, %6
-  %8 = and i1 true, %5
-  %9 = and i1 true, %7
-  %10 = or i1 false, %8
-  %11 = or i1 %10, %9
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 true, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 true, %5
+  %7 = and i1 true, %4
+  %8 = and i1 true, %6
+  %9 = or i1 false, %7
+  %10 = or i1 %9, %8
   ret void, !dbg !11
 }
 
@@ -1390,35 +1387,34 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !10), !dbg !11
   %3 = and i1 true, true
-  %4 = and i1 true, true
-  %5 = icmp eq i1 %0, false
-  %6 = and i1 %4, %5
-  %7 = icmp eq i1 %0, true
-  %8 = and i1 %4, %7
-  %9 = and i1 %3, %8
-  %10 = add i1 %0, %0, !dbg !11
-  %11 = alloca i1
-  store i1 %10, i1* %11
-  call void @llvm.dbg.declare(metadata !{i1* %11}, metadata !12), !dbg !11
-  call void @llvm.dbg.value(metadata !{i1 %10}, i64 0, metadata !12), !dbg !11
-  %12 = and i1 true, %9
-  %13 = and i1 true, true
-  %14 = and i1 %13, %8
-  %15 = add i1 %0, %0, !dbg !11
-  %16 = alloca i1
-  store i1 %15, i1* %16
-  call void @llvm.dbg.declare(metadata !{i1* %16}, metadata !13), !dbg !11
-  call void @llvm.dbg.value(metadata !{i1 %15}, i64 0, metadata !13), !dbg !11
-  %17 = and i1 true, %14
-  %18 = or i1 false, %12
-  %19 = select i1 %12, i1 %10, i1 undef
-  %20 = or i1 %18, %17
-  %21 = select i1 %17, i1 %15, i1 %19
-  %22 = alloca i1
-  store i1 %21, i1* %22
-  call void @llvm.dbg.declare(metadata !{i1* %22}, metadata !14), !dbg !11
-  call void @llvm.dbg.value(metadata !{i1 %21}, i64 0, metadata !14), !dbg !11
-  ret i1 %21, !dbg !11
+  %4 = icmp eq i1 %0, false
+  %5 = and i1 true, %4
+  %6 = icmp eq i1 %0, true
+  %7 = and i1 true, %6
+  %8 = and i1 %3, %7
+  %9 = add i1 %0, %0, !dbg !11
+  %10 = alloca i1
+  store i1 %9, i1* %10
+  call void @llvm.dbg.declare(metadata !{i1* %10}, metadata !12), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %9}, i64 0, metadata !12), !dbg !11
+  %11 = and i1 true, %8
+  %12 = and i1 true, true
+  %13 = and i1 %12, %7
+  %14 = add i1 %0, %0, !dbg !11
+  %15 = alloca i1
+  store i1 %14, i1* %15
+  call void @llvm.dbg.declare(metadata !{i1* %15}, metadata !13), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %14}, i64 0, metadata !13), !dbg !11
+  %16 = and i1 true, %13
+  %17 = or i1 false, %11
+  %18 = select i1 %11, i1 %9, i1 undef
+  %19 = or i1 %17, %16
+  %20 = select i1 %16, i1 %14, i1 %18
+  %21 = alloca i1
+  store i1 %20, i1* %21
+  call void @llvm.dbg.declare(metadata !{i1* %21}, metadata !14), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %20}, i64 0, metadata !14), !dbg !11
+  ret i1 %20, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1451,23 +1447,22 @@ define i32 @"0000000000000000-0000000000000000-0"(i1) {
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !11), !dbg !12
   %3 = and i1 true, true
-  %4 = and i1 true, true
-  %5 = icmp eq i1 %0, false
-  %6 = and i1 %4, %5
-  %7 = icmp eq i1 %0, true
-  %8 = and i1 %4, %7
-  %9 = and i1 %3, %6
-  %10 = and i1 true, true
-  %11 = and i1 %10, %8
-  %12 = or i1 false, %9
-  %13 = select i1 %9, i32 42, i32 undef
-  %14 = or i1 %12, %11
-  %15 = select i1 %11, i32 13, i32 %13
-  %16 = alloca i32
-  store i32 %15, i32* %16
-  call void @llvm.dbg.declare(metadata !{i32* %16}, metadata !13), !dbg !12
-  call void @llvm.dbg.value(metadata !{i32 %15}, i64 0, metadata !13), !dbg !12
-  ret i32 %15, !dbg !12
+  %4 = icmp eq i1 %0, false
+  %5 = and i1 true, %4
+  %6 = icmp eq i1 %0, true
+  %7 = and i1 true, %6
+  %8 = and i1 %3, %5
+  %9 = and i1 true, true
+  %10 = and i1 %9, %7
+  %11 = or i1 false, %8
+  %12 = select i1 %8, i32 42, i32 undef
+  %13 = or i1 %11, %10
+  %14 = select i1 %10, i32 13, i32 %12
+  %15 = alloca i32
+  store i32 %14, i32* %15
+  call void @llvm.dbg.declare(metadata !{i32* %15}, metadata !13), !dbg !12
+  call void @llvm.dbg.value(metadata !{i32 %14}, i64 0, metadata !13), !dbg !12
+  ret i32 %14, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1501,66 +1496,65 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !15), !dbg !16
   %3 = and i1 true, true
-  %4 = and i1 true, true
-  %5 = icmp eq i1 %0, false
-  %6 = and i1 %4, %5
-  %7 = icmp eq i1 %0, true
-  %8 = and i1 %4, %7
-  %9 = and i1 %3, %6
-  %10 = add i1 %0, %0, !dbg !16
-  %11 = alloca i1
-  store i1 %10, i1* %11
-  call void @llvm.dbg.declare(metadata !{i1* %11}, metadata !17), !dbg !16
-  call void @llvm.dbg.value(metadata !{i1 %10}, i64 0, metadata !17), !dbg !16
-  %12 = and i1 true, %9
-  %13 = and i1 true, true
-  %14 = and i1 %13, %8
-  %15 = add i1 %0, %0, !dbg !16
-  %16 = alloca i1
-  store i1 %15, i1* %16
-  call void @llvm.dbg.declare(metadata !{i1* %16}, metadata !18), !dbg !16
-  call void @llvm.dbg.value(metadata !{i1 %15}, i64 0, metadata !18), !dbg !16
-  %17 = and i1 true, %14
-  %18 = or i1 false, %12
-  %19 = select i1 %12, i1 %10, i1 undef
-  %20 = or i1 %18, %17
-  %21 = select i1 %17, i1 %15, i1 %19
-  %22 = alloca i1
-  store i1 %21, i1* %22
-  call void @llvm.dbg.declare(metadata !{i1* %22}, metadata !19), !dbg !16
-  call void @llvm.dbg.value(metadata !{i1 %21}, i64 0, metadata !19), !dbg !16
-  %23 = and i1 true, %20
-  %24 = select i1 %23, i8 0, i8 undef
-  %25 = and i1 true, true
-  %26 = and i1 %25, %6
-  %27 = add i1 %0, %0, !dbg !16
-  %28 = alloca i1
-  store i1 %27, i1* %28
-  call void @llvm.dbg.declare(metadata !{i1* %28}, metadata !20), !dbg !16
-  call void @llvm.dbg.value(metadata !{i1 %27}, i64 0, metadata !20), !dbg !16
-  %29 = and i1 true, %26
-  %30 = and i1 true, true
-  %31 = and i1 %30, %8
-  %32 = add i1 %0, %0, !dbg !16
-  %33 = alloca i1
-  store i1 %32, i1* %33
-  call void @llvm.dbg.declare(metadata !{i1* %33}, metadata !21), !dbg !16
-  call void @llvm.dbg.value(metadata !{i1 %32}, i64 0, metadata !21), !dbg !16
-  %34 = and i1 true, %31
-  %35 = or i1 false, %29
-  %36 = select i1 %29, i1 %27, i1 undef
-  %37 = or i1 %35, %34
-  %38 = select i1 %34, i1 %32, i1 %36
-  %39 = alloca i1
-  store i1 %38, i1* %39
-  call void @llvm.dbg.declare(metadata !{i1* %39}, metadata !22), !dbg !16
-  call void @llvm.dbg.value(metadata !{i1 %38}, i64 0, metadata !22), !dbg !16
-  %40 = and i1 true, %37
-  %41 = select i1 %40, i8 1, i8 %24
-  %42 = insertvalue %0 undef, i1 %21, 0
-  %43 = insertvalue %0 %42, i1 %38, 1
-  %44 = insertvalue %0 %43, i8 %41, 2
-  ret %0 %44, !dbg !16
+  %4 = icmp eq i1 %0, false
+  %5 = and i1 true, %4
+  %6 = icmp eq i1 %0, true
+  %7 = and i1 true, %6
+  %8 = and i1 %3, %5
+  %9 = add i1 %0, %0, !dbg !16
+  %10 = alloca i1
+  store i1 %9, i1* %10
+  call void @llvm.dbg.declare(metadata !{i1* %10}, metadata !17), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %9}, i64 0, metadata !17), !dbg !16
+  %11 = and i1 true, %8
+  %12 = and i1 true, true
+  %13 = and i1 %12, %7
+  %14 = add i1 %0, %0, !dbg !16
+  %15 = alloca i1
+  store i1 %14, i1* %15
+  call void @llvm.dbg.declare(metadata !{i1* %15}, metadata !18), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %14}, i64 0, metadata !18), !dbg !16
+  %16 = and i1 true, %13
+  %17 = or i1 false, %11
+  %18 = select i1 %11, i1 %9, i1 undef
+  %19 = or i1 %17, %16
+  %20 = select i1 %16, i1 %14, i1 %18
+  %21 = alloca i1
+  store i1 %20, i1* %21
+  call void @llvm.dbg.declare(metadata !{i1* %21}, metadata !19), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %20}, i64 0, metadata !19), !dbg !16
+  %22 = and i1 true, %19
+  %23 = select i1 %22, i8 0, i8 undef
+  %24 = and i1 true, true
+  %25 = and i1 %24, %5
+  %26 = add i1 %0, %0, !dbg !16
+  %27 = alloca i1
+  store i1 %26, i1* %27
+  call void @llvm.dbg.declare(metadata !{i1* %27}, metadata !20), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %26}, i64 0, metadata !20), !dbg !16
+  %28 = and i1 true, %25
+  %29 = and i1 true, true
+  %30 = and i1 %29, %7
+  %31 = add i1 %0, %0, !dbg !16
+  %32 = alloca i1
+  store i1 %31, i1* %32
+  call void @llvm.dbg.declare(metadata !{i1* %32}, metadata !21), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %31}, i64 0, metadata !21), !dbg !16
+  %33 = and i1 true, %30
+  %34 = or i1 false, %28
+  %35 = select i1 %28, i1 %26, i1 undef
+  %36 = or i1 %34, %33
+  %37 = select i1 %33, i1 %31, i1 %35
+  %38 = alloca i1
+  store i1 %37, i1* %38
+  call void @llvm.dbg.declare(metadata !{i1* %38}, metadata !22), !dbg !16
+  call void @llvm.dbg.value(metadata !{i1 %37}, i64 0, metadata !22), !dbg !16
+  %39 = and i1 true, %36
+  %40 = select i1 %39, i8 1, i8 %23
+  %41 = insertvalue %0 undef, i1 %20, 0
+  %42 = insertvalue %0 %41, i1 %37, 1
+  %43 = insertvalue %0 %42, i8 %40, 2
+  ret %0 %43, !dbg !16
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1600,48 +1594,47 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !10), !dbg !11
-  %3 = and i1 true, true
-  %4 = icmp eq i1 %0, false
-  %5 = and i1 %3, %4
-  %6 = icmp eq i1 %0, true
-  %7 = and i1 %3, %6
-  %8 = and i1 true, %5
-  br i1 %8, label %9, label %11
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 true, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 true, %5
+  %7 = and i1 true, %4
+  br i1 %7, label %8, label %10
 
-; <label>:9                                       ; preds = %1
-  %10 = load i1* null, !dbg !12
-  br label %11
+; <label>:8                                       ; preds = %1
+  %9 = load i1* null, !dbg !12
+  br label %10
 
-; <label>:11                                      ; preds = %9, %1
-  %12 = phi i1 [ %10, %9 ], [ undef, %1 ]
-  %13 = alloca i1
-  store i1 %12, i1* %13
-  call void @llvm.dbg.declare(metadata !{i1* %13}, metadata !14), !dbg !11
-  call void @llvm.dbg.value(metadata !{i1 %12}, i64 0, metadata !14), !dbg !11
-  %14 = and i1 true, %8
-  %15 = and i1 true, %7
-  br i1 %15, label %16, label %18
+; <label>:10                                      ; preds = %8, %1
+  %11 = phi i1 [ %9, %8 ], [ undef, %1 ]
+  %12 = alloca i1
+  store i1 %11, i1* %12
+  call void @llvm.dbg.declare(metadata !{i1* %12}, metadata !14), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %11}, i64 0, metadata !14), !dbg !11
+  %13 = and i1 true, %7
+  %14 = and i1 true, %6
+  br i1 %14, label %15, label %17
 
-; <label>:16                                      ; preds = %11
-  %17 = load i1* null, !dbg !12
-  br label %18
+; <label>:15                                      ; preds = %10
+  %16 = load i1* null, !dbg !12
+  br label %17
 
-; <label>:18                                      ; preds = %16, %11
-  %19 = phi i1 [ %17, %16 ], [ undef, %11 ]
-  %20 = alloca i1
-  store i1 %19, i1* %20
-  call void @llvm.dbg.declare(metadata !{i1* %20}, metadata !15), !dbg !11
-  call void @llvm.dbg.value(metadata !{i1 %19}, i64 0, metadata !15), !dbg !11
-  %21 = and i1 true, %15
-  %22 = or i1 false, %14
-  %23 = select i1 %14, i1 %12, i1 undef
-  %24 = or i1 %22, %21
-  %25 = select i1 %21, i1 %19, i1 %23
-  %26 = alloca i1
-  store i1 %25, i1* %26
-  call void @llvm.dbg.declare(metadata !{i1* %26}, metadata !16), !dbg !11
-  call void @llvm.dbg.value(metadata !{i1 %25}, i64 0, metadata !16), !dbg !11
-  ret i1 %25, !dbg !11
+; <label>:17                                      ; preds = %15, %10
+  %18 = phi i1 [ %16, %15 ], [ undef, %10 ]
+  %19 = alloca i1
+  store i1 %18, i1* %19
+  call void @llvm.dbg.declare(metadata !{i1* %19}, metadata !15), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %18}, i64 0, metadata !15), !dbg !11
+  %20 = and i1 true, %14
+  %21 = or i1 false, %13
+  %22 = select i1 %13, i1 %11, i1 undef
+  %23 = or i1 %21, %20
+  %24 = select i1 %20, i1 %18, i1 %22
+  %25 = alloca i1
+  store i1 %24, i1* %25
+  call void @llvm.dbg.declare(metadata !{i1* %25}, metadata !16), !dbg !11
+  call void @llvm.dbg.value(metadata !{i1 %24}, i64 0, metadata !16), !dbg !11
+  ret i1 %24, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1758,16 +1751,15 @@ define i8 @"0000000000000000-0000000000000000-0"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !11), !dbg !12
-  %3 = and i1 true, true
-  %4 = icmp eq i1 %0, false
-  %5 = and i1 %3, %4
-  %6 = icmp eq i1 %0, true
-  %7 = and i1 %3, %6
-  %8 = and i1 true, %5
-  %9 = select i1 %8, i8 0, i8 undef
-  %10 = and i1 true, %7
-  %11 = select i1 %10, i8 1, i8 %9
-  ret i8 %11, !dbg !12
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 true, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 true, %5
+  %7 = and i1 true, %4
+  %8 = select i1 %7, i8 0, i8 undef
+  %9 = and i1 true, %6
+  %10 = select i1 %9, i8 1, i8 %8
+  ret i8 %10, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1826,21 +1818,20 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !21), !dbg !22
-  %3 = and i1 true, true
-  %4 = icmp eq i1 %0, false
-  %5 = and i1 %3, %4
-  %6 = icmp eq i1 %0, true
-  %7 = and i1 %3, %6
-  %8 = and i1 true, %5
-  %9 = and i1 %8, true
-  %10 = select i1 %9, i8 0, i8 undef
-  %11 = and i1 true, %7
-  %12 = and i1 %11, true
-  %13 = select i1 %12, i8 1, i8 %10
-  %14 = insertvalue %0 undef, i32 1, 0
-  %15 = insertvalue %0 %14, i32 2, 1
-  %16 = insertvalue %0 %15, i8 %13, 2
-  ret %0 %16, !dbg !22
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 true, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 true, %5
+  %7 = and i1 true, %4
+  %8 = and i1 %7, true
+  %9 = select i1 %8, i8 0, i8 undef
+  %10 = and i1 true, %6
+  %11 = and i1 %10, true
+  %12 = select i1 %11, i8 1, i8 %9
+  %13 = insertvalue %0 undef, i32 1, 0
+  %14 = insertvalue %0 %13, i32 2, 1
+  %15 = insertvalue %0 %14, i8 %12, 2
+  ret %0 %15, !dbg !22
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1987,24 +1978,23 @@ define i8 @"0000000000000000-0000000000000001-1"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
   call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !14), !dbg !15
-  %3 = and i1 true, true
-  %4 = icmp eq i1 %0, false
-  %5 = and i1 %3, %4
-  %6 = icmp eq i1 %0, true
-  %7 = and i1 %3, %6
-  %8 = and i1 true, %7
-  br i1 %8, label %9, label %10
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 true, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 true, %5
+  %7 = and i1 true, %6
+  br i1 %7, label %8, label %9
 
-; <label>:9                                       ; preds = %1
+; <label>:8                                       ; preds = %1
   call void @"0000000000000000-0000000000000000-0"(), !dbg !16
-  br label %10
+  br label %9
 
-; <label>:10                                      ; preds = %1, %9
-  %11 = and i1 true, %8
-  %12 = select i1 %11, i8 0, i8 undef
-  %13 = and i1 true, %5
-  %14 = select i1 %13, i8 1, i8 %12
-  ret i8 %14, !dbg !15
+; <label>:9                                       ; preds = %1, %8
+  %10 = and i1 true, %7
+  %11 = select i1 %10, i8 0, i8 undef
+  %12 = and i1 true, %4
+  %13 = select i1 %12, i8 1, i8 %11
+  ret i8 %13, !dbg !15
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -2078,7 +2068,7 @@ define void @"0000000000000000-0000000000000000-0"(i1) {
   %3 = and i1 true, true
   %4 = alloca i1
   call void @llvm.dbg.declare(metadata !{i1* %4}, metadata !12), !dbg !11
-  br i1 %3, label %5, label %24
+  br i1 %3, label %5, label %23
 
 ; <label>:5                                       ; preds = %7, %1
   %6 = phi i1 [ %0, %1 ], [ %9, %7 ]
@@ -2091,21 +2081,20 @@ define void @"0000000000000000-0000000000000000-0"(i1) {
   %10 = and i1 %3, %8
   %11 = and i1 %3, true
   %12 = icmp eq i1 %6, false, !dbg !13
-  %13 = and i1 true, %11
-  %14 = icmp eq i1 %12, false
-  %15 = and i1 %13, %14
-  %16 = icmp eq i1 %12, false
-  %17 = and i1 %13, %16
-  %18 = icmp eq i1 %12, true
-  %19 = and i1 %13, %18
-  %20 = icmp eq i1 %12, true
-  %21 = and i1 %13, %20
-  %22 = and i1 %10, %17
-  %23 = and i1 %3, %17
-  br i1 %22, label %5, label %24
+  %13 = icmp eq i1 %12, false
+  %14 = and i1 %11, %13
+  %15 = icmp eq i1 %12, false
+  %16 = and i1 %11, %15
+  %17 = icmp eq i1 %12, true
+  %18 = and i1 %11, %17
+  %19 = icmp eq i1 %12, true
+  %20 = and i1 %11, %19
+  %21 = and i1 %10, %16
+  %22 = and i1 %3, %16
+  br i1 %21, label %5, label %23
 
-; <label>:24                                      ; preds = %7, %1
-  %25 = phi i1 [ undef, %1 ], [ %23, %7 ]
+; <label>:23                                      ; preds = %7, %1
+  %24 = phi i1 [ undef, %1 ], [ %22, %7 ]
   ret void, !dbg !11
 }
 
@@ -2142,7 +2131,7 @@ define i32 @"0000000000000000-0000000000000000-0"(i32) {
   %5 = and i1 %3, true
   %6 = alloca i32
   call void @llvm.dbg.declare(metadata !{i32* %6}, metadata !13), !dbg !11
-  br i1 %5, label %7, label %27
+  br i1 %5, label %7, label %26
 
 ; <label>:7                                       ; preds = %10, %1
   %8 = phi i32 [ %0, %1 ], [ %12, %10 ]
@@ -2160,20 +2149,19 @@ define i32 @"0000000000000000-0000000000000000-0"(i32) {
   %16 = and i1 %13, %14
   %17 = and i1 %3, true
   %18 = icmp eq i32 %8, 0, !dbg !14
-  %19 = and i1 true, %17
-  %20 = icmp eq i1 %18, false
-  %21 = and i1 %19, %20
-  %22 = icmp eq i1 %18, true
-  %23 = and i1 %19, %22
-  %24 = and i1 %16, %21
-  %25 = and i1 %5, %5
-  %26 = and i1 %25, %23
-  br i1 %24, label %7, label %27
+  %19 = icmp eq i1 %18, false
+  %20 = and i1 %17, %19
+  %21 = icmp eq i1 %18, true
+  %22 = and i1 %17, %21
+  %23 = and i1 %16, %20
+  %24 = and i1 %5, %5
+  %25 = and i1 %24, %22
+  br i1 %23, label %7, label %26
 
-; <label>:27                                      ; preds = %10, %1
-  %28 = phi i32 [ undef, %1 ], [ %9, %10 ]
-  %29 = phi i1 [ undef, %1 ], [ %5, %10 ]
-  ret i32 %28, !dbg !11
+; <label>:26                                      ; preds = %10, %1
+  %27 = phi i32 [ undef, %1 ], [ %9, %10 ]
+  %28 = phi i1 [ undef, %1 ], [ %5, %10 ]
+  ret i32 %27, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
