@@ -2076,10 +2076,10 @@ define void @"0000000000000000-0000000000000000-0"(i1) {
 
 ; <label>:7                                       ; preds = %5
   store i1 %6, i1* %4
-  %8 = and i1 %3, true
+  %8 = and i1 true, true
   %9 = add i1 %6, true, !dbg !11
   %10 = and i1 %3, %8
-  %11 = and i1 %3, true
+  %11 = and i1 true, true
   %12 = icmp eq i1 %6, false, !dbg !13
   %13 = icmp eq i1 %12, false
   %14 = and i1 %11, %13
@@ -2141,26 +2141,26 @@ define i32 @"0000000000000000-0000000000000000-0"(i32) {
 ; <label>:10                                      ; preds = %7
   store i32 %8, i32* %4
   store i32 %9, i32* %6
-  %11 = and i1 true, %3
+  %11 = and i1 true, true
   %12 = add i32 1, %8, !dbg !11
   %13 = and i1 %5, %11
-  %14 = and i1 true, %5
+  %14 = and i1 true, true
   %15 = add i32 1, %9, !dbg !11
   %16 = and i1 %13, %14
-  %17 = and i1 %3, true
+  %17 = and i1 true, true
   %18 = icmp eq i32 %8, 0, !dbg !14
   %19 = icmp eq i1 %18, false
   %20 = and i1 %17, %19
   %21 = icmp eq i1 %18, true
   %22 = and i1 %17, %21
   %23 = and i1 %16, %20
-  %24 = and i1 %5, %5
+  %24 = and i1 %5, true
   %25 = and i1 %24, %22
   br i1 %23, label %7, label %26
 
 ; <label>:26                                      ; preds = %10, %1
   %27 = phi i32 [ undef, %1 ], [ %9, %10 ]
-  %28 = phi i1 [ undef, %1 ], [ %5, %10 ]
+  %28 = phi i1 [ undef, %1 ], [ true, %10 ]
   ret i32 %27, !dbg !11
 }
 

@@ -491,7 +491,7 @@ void mu::llvmc::generate_function::loop_element (mu::llvmc::skeleton::loop_eleme
 			assert (position < loop_element->source->parameters.size ());
 			auto param (loop_element->source->parameters [position]);
 			param->generated = loop_parameter;
-			param->predicate = predicate; // This needs to and all loop arguments together before setting predicate
+			param->predicate = llvm::ConstantInt::getTrue (context);
 			auto declaration (module.builder.insertDeclare (alloc, module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function->debug, std::string (param->name.begin (), param->name.end ()), module.file, 0, param->type ()->debug), last));
 			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function->debug));
 			parameters.push_back (loop_parameter);
