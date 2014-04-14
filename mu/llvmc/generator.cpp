@@ -27,6 +27,46 @@
 
 #include <stdio.h>
 
+class debug_name_on
+{
+};
+
+class debug_name_off
+{
+};
+
+template <typename T>
+class set_debug_name_class
+{
+public:
+    void operator () (llvm::Value *, char const *);
+};
+
+template <>
+class set_debug_name_class <debug_name_on>
+{
+public:
+    void operator () (llvm::Value * value_a, char const * name_a)
+    {
+        value_a->setName (name_a);
+    }
+};
+
+template <>
+class set_debug_name_class <debug_name_off>
+{
+public:
+    void operator () (llvm::Value *, char const *)
+    {
+    }
+};
+
+void set_debug_name (llvm::Value * value_a, char const * name_a)
+{
+    set_debug_name_class <debug_name_off> class_l;
+    class_l (value_a, name_a);
+}
+
 mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a)
 {
 	mu::llvmc::generate_system generator (context_a, name_a, path_a, module_id_a);
@@ -110,6 +150,7 @@ void mu::llvmc::generate_function::generate ()
             auto value (*k);
             assert (k != l);
             llvm::Value * parameter (i);
+            set_debug_name (parameter, "function_parameter");
             value->generated = parameter;
             value->predicate = llvm::ConstantInt::getTrue (context);
             auto existing (value->type ());
@@ -468,114 +509,156 @@ void mu::llvmc::generate_function::switch_element (mu::llvmc::skeleton::switch_e
 void mu::llvmc::generate_function::loop_element (mu::llvmc::skeleton::loop_element * loop_element)
 {
 	auto & context (module.system.result.module->getContext ());
-	llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
-	std::vector <llvm::PHINode *> parameters;
+	llvm::Value * loop_predicate (llvm::ConstantInt::getTrue (context));
 	auto phi_entry (llvm::BasicBlock::Create (context));
-	auto shadow_entry (llvm::BasicBlock::Create (context));
+    set_debug_name (phi_entry, "loop_phi_entry");
 	function_m->getBasicBlockList ().push_back (phi_entry);
-	function_m->getBasicBlockList ().push_back (shadow_entry);
-	{
-		size_t position (0);
-		for (auto i (loop_element->source->arguments.begin ()), j (loop_element->source->arguments.end ()); i < j; ++i, ++position)
-		{
-			auto value (mu::cast <mu::llvmc::skeleton::value> (*i));
-			module.system.generate_value (value);
-			predicate = and_predicates (predicate, value->predicate);
-			auto loop_parameter (llvm::PHINode::Create (value->generated->getType (), 2));
-			loop_parameter->addIncoming (value->generated, last);
-			phi_entry->getInstList ().push_back (loop_parameter);
-			auto alloc (new llvm::AllocaInst (loop_parameter->getType ()));
-			last->getInstList ().push_back (alloc);
-			auto store (new llvm::StoreInst (loop_parameter, alloc));
-			shadow_entry->getInstList ().push_back (store);
-			assert (position < loop_element->source->parameters.size ());
-			auto param (loop_element->source->parameters [position]);
-			param->generated = loop_parameter;
-			param->predicate = llvm::ConstantInt::getTrue (context);
-			auto declaration (module.builder.insertDeclare (alloc, module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function->debug, std::string (param->name.begin (), param->name.end ()), module.file, 0, param->type ()->debug), last));
-			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function->debug));
-			parameters.push_back (loop_parameter);
-		}
-		assert (position == loop_element->source->parameters.size ());
-	}
-	auto entry (last);
+	auto entry (llvm::BasicBlock::Create (context));
+    set_debug_name (entry, "loop_entry");
+	function_m->getBasicBlockList ().push_back (entry);
+	auto phi_successor (llvm::BasicBlock::Create (context));
+    set_debug_name (phi_successor, "loop_phi_successor");
+	function_m->getBasicBlockList ().push_back (phi_successor);
 	auto successor (llvm::BasicBlock::Create (context));
+    set_debug_name (successor, "loop_successor");
 	function_m->getBasicBlockList ().push_back (successor);
-	entry->getInstList ().push_back (llvm::BranchInst::Create (phi_entry, successor, predicate));
-	phi_entry->getInstList().push_back (llvm::BranchInst::Create (shadow_entry));
-	last = shadow_entry;
-	auto feedback_branch (true);
-	auto branch_predicate (predicate);
-	llvm::Value * feedback_predicate;
-	size_t parameter_position (0);
-	size_t element_position (0);
-	auto empty (true);
-    for (auto i (loop_element->source->results.begin ()), j (loop_element->source->results.end ()); i != j; ++i)
+    
     {
-        for (auto j (i->values.begin ()), k (i->values.end ()); j != k; ++j)
+        assert (loop_element->source->parameters.size () == loop_element->source->arguments.size ());
+        auto k (loop_element->source->parameters.begin ());
+        for (auto i (loop_element->source->arguments.begin ()), j (loop_element->source->arguments.end ()); i < j; ++i, ++k)
         {
-			empty = false;
-			auto value (*j);
-			module.system.generate_value (value);
-			branch_predicate = and_predicates (branch_predicate, value->predicate);
-			if (feedback_branch)
-			{
-				assert (parameter_position < parameters.size ());
-				parameters [parameter_position]->addIncoming (value->generated, last);
-				++parameter_position;
-			}
-			else
-			{
-				auto real_value (llvm::PHINode::Create (value->generated->getType (), 2));
-				real_value->addIncoming (llvm::UndefValue::get (value->generated->getType ()), last);
-				real_value->addIncoming (value->generated, last);
-				successor->getInstList ().push_back (real_value);
-				parameters.push_back (real_value);
-				auto real_predicate (llvm::PHINode::Create (value->predicate->getType (), 2));
-				real_predicate->addIncoming (llvm::UndefValue::get (value->predicate->getType ()), last);
-				real_predicate->addIncoming (value->predicate, last);
-				successor->getInstList ().push_back (real_predicate);
-				parameters.push_back (real_predicate);
-				assert (element_position < loop_element->source->elements.size ());
-				loop_element->source->elements [element_position]->generated = real_value;
-				loop_element->source->elements [element_position]->predicate = real_predicate;
-				++element_position;
-			}
+            auto value (mu::cast <mu::llvmc::skeleton::value> (*i));
+            module.system.generate_value (value);
+            loop_predicate = and_predicates (loop_predicate, value->predicate);
+            set_debug_name (loop_predicate, "loop_predicate");
+            auto loop_parameter (llvm::PHINode::Create (value->generated->getType (), 2));
+            set_debug_name (loop_parameter, "loop_parameter");
+            phi_entry->getInstList ().push_back (loop_parameter);
+            assert (k < loop_element->source->parameters.end ());
+            auto param (*k);
+            param->generated = loop_parameter;
+            param->predicate = llvm::ConstantInt::getTrue (context);
+            
+            auto alloc (new llvm::AllocaInst (loop_parameter->getType ()));
+            set_debug_name (alloc, "loop_parameter_debug_copy");
+            last->getInstList ().push_back (alloc);
+            auto store (new llvm::StoreInst (loop_parameter, alloc));
+            entry->getInstList ().push_back (store);
+            auto declaration (module.builder.insertDeclare (alloc, module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function->debug, std::string (param->name.begin (), param->name.end ()), module.file, 0, param->type ()->debug), last));
+            declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function->debug));
         }
-        for (auto j (i->sequenced.begin ()), k (i->sequenced.end ()); j != k; ++j)
-        {
-            auto value (*j);
-			module.system.generate_value (value);
-			branch_predicate = and_predicates (branch_predicate, value->predicate);
-        }
-        if (feedback_branch)
-        {
-            feedback_predicate = branch_predicate;
-            feedback_branch = false;
-        }
-        if (empty)
-        {
-            auto real_predicate (llvm::PHINode::Create (branch_predicate->getType (), 2));
-            real_predicate->addIncoming (llvm::UndefValue::get (branch_predicate->getType ()), last);
-            real_predicate->addIncoming (branch_predicate, last);
-            successor->getInstList ().push_back (real_predicate);
-            parameters.push_back (real_predicate);
-            assert (element_position < loop_element->source->elements.size ());
-            loop_element->source->elements [element_position]->generated = nullptr;
-            loop_element->source->elements [element_position]->predicate = real_predicate;
-            ++element_position;
-        }
-        empty = true;
-        branch_predicate = predicate;
     }
-	for (auto i: parameters)
-	{
-		i->setIncomingBlock (0, entry);
-		i->setIncomingBlock (1, last);
-	}
-	auto feedback (llvm::BranchInst::Create (phi_entry, successor, feedback_predicate));
-	last->getInstList ().push_back (feedback);
+    
+	auto predecessor (last);
+    predecessor->getInstList ().push_back (llvm::BranchInst::Create (phi_entry, phi_successor, loop_predicate));
+    phi_entry->getInstList().push_back (llvm::BranchInst::Create (entry));
+    {
+        auto k (loop_element->source->parameters.begin ());
+        for (auto i (loop_element->source->arguments.begin ()), j (loop_element->source->arguments.end ()); i < j; ++i, ++k)
+        {
+            llvm::Value * value (mu::cast <mu::llvmc::skeleton::value> (*i)->generated);
+            llvm::PHINode * node (llvm::cast <llvm::PHINode> ((*k)->generated));
+            node->addIncoming (value, predecessor);
+        }
+    }
+    
+	last = entry;
+	llvm::Value * feedback_predicate (llvm::ConstantInt::getTrue (context));
+    auto & feedback_branch (loop_element->source->results [0]);
+    for (auto i (feedback_branch.sequenced.begin ()), j (feedback_branch.sequenced.end ()); i != j; ++i)
+    {
+        auto value (*i);
+        module.system.generate_value (value);
+        feedback_predicate = and_predicates (feedback_predicate, value->predicate);
+        set_debug_name (feedback_predicate, "loop_feedback_predicate");
+    }
+    for (auto i (feedback_branch.values.begin ()), j (feedback_branch.values.end ()); i != j; ++i)
+    {
+        auto value (*i);
+        module.system.generate_value (value);
+        feedback_predicate = and_predicates (feedback_predicate, value->predicate);
+        set_debug_name (feedback_predicate, "loop_feedback_predicate");
+    }
+    
+    size_t selector_number (0);
+    llvm::Value * selector (llvm::UndefValue::get (llvm::IntegerType::getInt8Ty (context)));
+    auto landing_selector (llvm::PHINode::Create (llvm::IntegerType::getInt8Ty (context), 2));
+    set_debug_name (landing_selector, "loop_landing_selector");
+    landing_selector->addIncoming (llvm::UndefValue::get (llvm::IntegerType::getInt8Ty (context)), predecessor);
+    phi_successor->getInstList ().push_back (landing_selector);
+    {
+        auto l (loop_element->source->elements.begin ());
+        for (auto i (loop_element->source->results.begin () + 1), j (loop_element->source->results.end ()); i != j; ++i, ++selector_number)
+        {
+            llvm::Value * branch_predicate (llvm::ConstantInt::getTrue (context));
+            for (auto j (i->sequenced.begin ()), k (i->sequenced.end ()); j != k; ++j)
+            {
+                auto value (*j);
+                module.system.generate_value (value);
+                branch_predicate = and_predicates (branch_predicate, value->predicate);
+                set_debug_name (branch_predicate, "loop_branch_predicate");
+            }
+            for (auto j (i->values.begin ()), k (i->values.end ()); j != k; ++j, ++l)
+            {
+                auto value (*j);
+                module.system.generate_value (value);
+                branch_predicate = and_predicates (branch_predicate, value->predicate);
+                set_debug_name (branch_predicate, "loop_branch_predicate");
+                auto landing_value (llvm::PHINode::Create (value->generated->getType (), 2));
+                set_debug_name (landing_value, "loop_landing_value");
+                landing_value->addIncoming (llvm::UndefValue::get (value->generated->getType ()), predecessor);
+                phi_successor->getInstList ().push_back (landing_value);
+                assert (l < loop_element->source->elements.end ());
+                auto element (*l);
+                element->generated = landing_value;
+            }
+            auto selector_value (llvm::ConstantInt::get (llvm::IntegerType::getInt8Ty (context), selector_number));
+            auto select_instruction (llvm::SelectInst::Create (branch_predicate, selector_value, selector));
+            last->getInstList ().push_back (select_instruction);
+            selector = select_instruction;
+            set_debug_name (selector, "loop_selector");
+        }
+    }
+    auto exit (last);
 	last = successor;
+	auto feedback (llvm::BranchInst::Create (phi_entry, phi_successor, feedback_predicate));
+	exit->getInstList ().push_back (feedback);
+	phi_successor->getInstList ().push_back (llvm::BranchInst::Create (successor));
+    
+    landing_selector->addIncoming (selector, exit);
+    auto m (loop_element->source->parameters.begin ());
+    for (auto i (feedback_branch.values.begin ()), j (feedback_branch.values.end ()); i != j; ++i, ++m)
+    {
+        auto value (*i);
+        auto phi (llvm::cast <llvm::PHINode> ((*m)->generated));
+        phi->addIncoming (value->generated, exit);
+    }
+    
+    {
+        size_t selector_number (0);
+        auto n (loop_element->source->elements.begin ());
+        for (auto i (loop_element->source->results.begin () + 1), j (loop_element->source->results.end ()); i != j; ++i)
+        {
+            auto selector_value (llvm::ConstantInt::get (llvm::IntegerType::getInt8Ty (context), selector_number));
+            auto compare (new llvm::ICmpInst (llvm::ICmpInst::Predicate::ICMP_EQ, landing_selector, selector_value));
+            successor->getInstList().push_back (compare);
+            if (i->values.empty ())
+            {
+                auto element (*n);
+                element->predicate = and_predicates (loop_predicate, compare);
+                ++n;
+            }
+            for (auto k (i->values.begin ()), l (i->values.end ()); k != l; ++k, ++n)
+            {
+                auto element (*n);
+                auto value (*k);
+                auto phi (llvm::cast <llvm::PHINode> (element->generated));
+                phi->addIncoming (value->generated, exit);
+                element->predicate = and_predicates (loop_predicate, compare);
+            }
+        }
+    }
 }
 
 void mu::llvmc::generate_function::identity_element (mu::llvmc::skeleton::identity_element * identity_value)
@@ -1202,6 +1285,7 @@ void mu::llvmc::generate_function::icmp (mu::llvmc::skeleton::icmp * icmp)
 	module.system.generate_value (icmp->left);
 	module.system.generate_value (icmp->right);
 	auto predicate (and_predicates (icmp->left->predicate, icmp->right->predicate));
+    set_debug_name (predicate, "icmp_predicate");
 	predicate = process_predicates (predicate, icmp->sequenced);
 	llvm::CmpInst::Predicate predicate_t;
 	switch (icmp->predicate_m->type)

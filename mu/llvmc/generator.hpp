@@ -116,6 +116,7 @@ namespace mu
 			void icmp (mu::llvmc::skeleton::icmp * icmp) override;
 			void store (mu::llvmc::skeleton::store * store) override;
 			void node (mu::llvmc::skeleton::node * node_a) override;
+            void generate_loop_arguments (mu::llvmc::skeleton::loop_element * loop_element, llvm::Value * & loop_predicate);
             void generate ();
             llvm::Value * generate_rejoin (llvm::BasicBlock * entry, llvm::BasicBlock * predicate, llvm::BasicBlock * successor, llvm::Value * value_a);
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);

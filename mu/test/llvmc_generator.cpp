@@ -1435,13 +1435,9 @@ TEST (llvmc_generator, generate_loop1)
 	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, {&marker2, &instruction1}, {}, &module.the_unit_type);
 	mu::llvmc::skeleton::constant_integer constant_integer2 (mu::empty_region, &type1, 0);
 	mu::llvmc::skeleton::switch_element element1 (mu::empty_region, loop1.loop_entry_branch, &switch1, &constant_integer2);
-	switch1.elements.push_back (&element1);
 	mu::llvmc::skeleton::constant_integer constant_integer3 (mu::empty_region, &type1, 1);
 	mu::llvmc::skeleton::switch_element element2 (mu::empty_region, loop1.loop_entry_branch, &switch1, &constant_integer3);
-	switch1.elements.push_back (&element2);
-	mu::llvmc::skeleton::marker marker3 (mu::llvmc::instruction_type::add);
-	mu::llvmc::skeleton::instruction instruction2 (mu::empty_region, loop1.loop_entry_branch, {&marker3, &loop_parameter1, &constant_integer3}, {});
-    loop1.results = {{{&instruction2}, {&element1}}, {{}, {&element1}}};
+    loop1.results = {{{&loop_parameter1}, {&element1}}, {{}, {&element2}}};
 	mu::llvmc::skeleton::loop_element element3 (mu::empty_region, function1.entry, &loop1, element1.type ());
 	loop1.elements.push_back (&element3);
     function1.results = {{{}, {&element3}}};

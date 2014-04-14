@@ -2068,33 +2068,33 @@ define void @"0000000000000000-0000000000000000-0"(i1) {
   %3 = and i1 true, true
   %4 = alloca i1
   call void @llvm.dbg.declare(metadata !{i1* %4}, metadata !12), !dbg !11
-  br i1 %3, label %5, label %23
+  br i1 %3, label %5, label %18
 
 ; <label>:5                                       ; preds = %7, %1
-  %6 = phi i1 [ %0, %1 ], [ %9, %7 ]
+  %6 = phi i1 [ %0, %1 ], [ %6, %7 ]
   br label %7
 
 ; <label>:7                                       ; preds = %5
   store i1 %6, i1* %4
   %8 = and i1 true, true
-  %9 = add i1 %6, true, !dbg !11
-  %10 = and i1 %3, %8
-  %11 = and i1 true, true
-  %12 = icmp eq i1 %6, false, !dbg !13
-  %13 = icmp eq i1 %12, false
-  %14 = and i1 %11, %13
-  %15 = icmp eq i1 %12, false
-  %16 = and i1 %11, %15
-  %17 = icmp eq i1 %12, true
-  %18 = and i1 %11, %17
-  %19 = icmp eq i1 %12, true
-  %20 = and i1 %11, %19
-  %21 = and i1 %10, %16
-  %22 = and i1 %3, %16
-  br i1 %21, label %5, label %23
+  %9 = icmp eq i1 %6, false, !dbg !13
+  %10 = icmp eq i1 %9, false
+  %11 = and i1 %8, %10
+  %12 = icmp eq i1 %9, true
+  %13 = and i1 %8, %12
+  %14 = and i1 true, %11
+  %15 = and i1 %14, true
+  %16 = and i1 true, %13
+  %17 = select i1 %16, i8 0, i8 undef
+  br i1 %15, label %5, label %18
 
-; <label>:23                                      ; preds = %7, %1
-  %24 = phi i1 [ undef, %1 ], [ %22, %7 ]
+; <label>:18                                      ; preds = %7, %1
+  %19 = phi i8 [ undef, %1 ], [ %17, %7 ]
+  br label %20
+
+; <label>:20                                      ; preds = %18
+  %21 = icmp eq i8 %19, 0
+  %22 = and i1 %3, %21
   ret void, !dbg !11
 }
 
