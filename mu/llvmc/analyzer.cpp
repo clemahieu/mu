@@ -745,15 +745,22 @@ void mu::llvmc::module_processor::entry (mu::llvmc::ast::entry * node_a)
                     {
                         if (function_l->results.size () == 1)
                         {
-                            if (function_l->results [0].results.empty ())
+                            if (function_l->results [0].results.size () == 1)
                             {
-                                module_m->entry = function_l;
-                                node_a->generated.push_back (function_l);
-                                node_a->assigned = true;
+                                if (function_l->results [0].results [0]->type->is_unit_type ())
+                                {
+                                    module_m->entry = function_l;
+                                    node_a->generated.push_back (function_l);
+                                    node_a->assigned = true;
+                                }
+                                else
+                                {
+                                    global_m.error = new (GC) mu::core::error_string (U"Entry point function must return unit", mu::core::error_type::entry_point_must_return_unit);
+                                }
                             }
                             else
                             {
-                                global_m.error = new (GC) mu::core::error_string (U"Entry point function cannot return values", mu::core::error_type::entry_point_cannot_return_values);
+                                global_m.error = new (GC) mu::core::error_string (U"Entry point function must return unit", mu::core::error_type::entry_point_must_return_unit);
                             }
                         }
                         else
@@ -1394,6 +1401,13 @@ void mu::llvmc::function_processor::process_results ()
                     {
                         module_m.global_m.error = new (GC) mu::core::error_string (U"Function must return results or sequences", mu::core::error_type::functions_must_return_results_or_sequences);
                     }
+                }
+            }
+            if (module_m.global_m.error == nullptr)
+            {
+                if (current_branch.results.empty ())
+                {
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Functions must return at least one value", mu::core::error_type::functions_must_return_a_value);
                 }
             }
         }

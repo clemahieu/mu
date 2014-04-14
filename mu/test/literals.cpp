@@ -2131,37 +2131,43 @@ define i32 @"0000000000000000-0000000000000000-0"(i32) {
   %5 = and i1 %3, true
   %6 = alloca i32
   call void @llvm.dbg.declare(metadata !{i32* %6}, metadata !13), !dbg !11
-  br i1 %5, label %7, label %26
+  br i1 %5, label %7, label %27
 
 ; <label>:7                                       ; preds = %10, %1
-  %8 = phi i32 [ %0, %1 ], [ %12, %10 ]
-  %9 = phi i32 [ 0, %1 ], [ %15, %10 ]
+  %8 = phi i32 [ %0, %1 ], [ %19, %10 ]
+  %9 = phi i32 [ 0, %1 ], [ %22, %10 ]
   br label %10
 
 ; <label>:10                                      ; preds = %7
   store i32 %8, i32* %4
   store i32 %9, i32* %6
   %11 = and i1 true, true
-  %12 = add i32 1, %8, !dbg !11
-  %13 = and i1 %5, %11
-  %14 = and i1 true, true
-  %15 = add i32 1, %9, !dbg !11
-  %16 = and i1 %13, %14
-  %17 = and i1 true, true
-  %18 = icmp eq i32 %8, 0, !dbg !14
-  %19 = icmp eq i1 %18, false
-  %20 = and i1 %17, %19
-  %21 = icmp eq i1 %18, true
-  %22 = and i1 %17, %21
-  %23 = and i1 %16, %20
-  %24 = and i1 %5, true
-  %25 = and i1 %24, %22
-  br i1 %23, label %7, label %26
+  %12 = icmp eq i32 %8, 0, !dbg !14
+  %13 = icmp eq i1 %12, false0
+  %14 = and i1 %11, %13
+  %15 = icmp eq i1 %12, true
+  %16 = and i1 %11, %15
+  %17 = and i1 true, %14
+  %18 = and i1 true, true
+  %19 = add i32 1, %8, !dbg !11
+  %20 = and i1 %17, %18
+  %21 = and i1 true, true
+  %22 = add i32 1, %9, !dbg !11
+  %23 = and i1 %20, %21
+  %24 = and i1 true, %16
+  %25 = and i1 %24, true
+  %26 = select i1 %25, i8 0, i8 undef
+  br i1 %23, label %7, label %27
 
-; <label>:26                                      ; preds = %10, %1
-  %27 = phi i32 [ undef, %1 ], [ %9, %10 ]
-  %28 = phi i1 [ undef, %1 ], [ true, %10 ]
-  ret i32 %27, !dbg !11
+; <label>:27                                      ; preds = %10, %1
+  %28 = phi i8 [ undef, %1 ], [ %26, %10 ]
+  %29 = phi i32 [ undef, %1 ], [ %9, %10 ]
+  br label %30
+
+; <label>:30                                      ; preds = %27
+  %31 = icmp eq i8 %28, 0
+  %32 = and i1 %5, %31
+  ret i32 %29, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone

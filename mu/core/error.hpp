@@ -166,7 +166,7 @@ namespace mu
             entry_point_must_be_a_function,
             entry_point_must_have_no_arguments,
             entry_point_must_have_one_return_branch,
-            entry_point_cannot_return_values,
+            entry_point_must_return_unit,
             function_already_named,
 			global_already_named,
             not_a_namespace_container,
@@ -176,7 +176,8 @@ namespace mu
 			expecting_an_integer_type,
 			expecting_type_or_right_square_or_terminator,
 			expecting_left_square_or_right_square,
-            functions_must_return_results_or_sequences
+            functions_must_return_results_or_sequences,
+            functions_must_return_a_value
         };
         class error
         {
