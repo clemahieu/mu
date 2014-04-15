@@ -2450,7 +2450,6 @@ TEST (llvmc_analyzer, loop_empty)
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     mu::llvmc::ast::loop loop1;
-    loop1.set_argument_offset ();
     mu::llvmc::ast::sequence sequence1 (&loop1);
     mu::llvmc::ast::unit unit1;
     mu::llvmc::ast::unit_type unit2;
@@ -2481,7 +2480,6 @@ TEST (llvmc_analyzer, fail_loop_inner_error)
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     mu::llvmc::ast::loop loop1;
-    loop1.set_argument_offset ();
     mu::llvmc::ast::expression expression1 ({}, {});
     loop1.results.push_back (&expression1);
     loop1.add_predicate_offset ();
@@ -2506,7 +2504,6 @@ TEST (llvmc_analyzer, fail_loop_same_branch)
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::loop loop1;
     loop1.arguments.push_back (&parameter1);
-    loop1.set_argument_offset ();
     mu::llvmc::ast::loop_parameter parameter2 (U"p1");
     loop1.parameters.push_back (&parameter2);
     loop1.results.push_back (&parameter2);
@@ -2539,7 +2536,6 @@ TEST (llvmc_analyzer, loop_passthrough)
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::loop loop1;
     loop1.arguments.push_back (&parameter1);
-    loop1.set_argument_offset ();
     mu::llvmc::ast::loop_parameter parameter2 (U"p1");
     loop1.parameters.push_back (&parameter2);
     loop1.add_predicate_offset ();

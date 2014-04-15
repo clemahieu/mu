@@ -1489,7 +1489,7 @@ TEST (llvmc_parser, loop1)
 
 TEST (llvmc_parser, loop2)
 {
-    test_parser parser ("let test1 function [int-t # 1 val] [loop [val; val] [val1] [[val1]] [[val val1]]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [loop [val ! val] [val1] [[val1]] [[val val1]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1509,7 +1509,6 @@ TEST (llvmc_parser, loop2)
     auto loop1 (dynamic_cast <mu::llvmc::ast::loop *> (function1->roots [0]));
     ASSERT_NE (nullptr, loop1);
     ASSERT_EQ (2, loop1->arguments.size ());
-    ASSERT_EQ (1, loop1->argument_predicate_offset);
     EXPECT_EQ (parameter1, loop1->arguments [0]);
     ASSERT_EQ (1, loop1->parameters.size ());
     auto parameter2 (loop1->parameters [0]);
@@ -1574,7 +1573,6 @@ TEST (llvmc_parser, loop_result_expression)
     auto loop1 (dynamic_cast <mu::llvmc::ast::loop *> (function1->roots [0]));
     ASSERT_NE (nullptr, loop1);
     ASSERT_EQ (1, loop1->arguments.size ());
-    ASSERT_EQ (1, loop1->argument_predicate_offset);
     EXPECT_EQ (parameter1, loop1->arguments [0]);
     ASSERT_EQ (1, loop1->parameters.size ());
     auto parameter2 (loop1->parameters [0]);

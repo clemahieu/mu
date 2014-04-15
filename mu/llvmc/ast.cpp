@@ -88,12 +88,6 @@ node (template_a)
 {
 }
 
-void mu::llvmc::ast::loop::set_argument_offset ()
-{
-    assert (argument_predicate_offset == ~0);
-    argument_predicate_offset = arguments.size ();
-}
-
 void mu::llvmc::ast::loop::add_predicate_offset ()
 {
     predicate_offsets.push_back (results.size ());
@@ -105,8 +99,7 @@ void mu::llvmc::ast::loop::add_branch_end ()
 }
 
 mu::llvmc::ast::loop::loop (mu::llvmc::template_context * template_a) :
-node (template_a),
-argument_predicate_offset (~0)
+node (template_a)
 {
 }
 
@@ -612,7 +605,6 @@ node (other_a.template_m)
 
 mu::llvmc::ast::loop::loop (mu::llvmc::ast::loop const & other_a, mu::llvmc::clone_context & context_a) :
 node (other_a.template_m),
-argument_predicate_offset (other_a.argument_predicate_offset),
 predicate_offsets (other_a.predicate_offsets),
 branch_ends (other_a.branch_ends)
 {

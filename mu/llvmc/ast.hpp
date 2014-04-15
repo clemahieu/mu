@@ -118,8 +118,6 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::llvmc::ast::node *> roots;
-				void set_argument_offset ();
-				size_t argument_predicate_offset;
                 mu::vector <mu::llvmc::ast::node *> results;
 				void add_predicate_offset ();
 				void add_branch_end ();

@@ -953,10 +953,6 @@ void mu::llvmc::loop::parse_arguments ()
                     {
                         case mu::io::token_id::right_square:
                         {
-                            if (!predicates)
-                            {
-                                loop_m->set_argument_offset ();
-                            }
                             done = true;
                             break;
                         }
@@ -972,20 +968,6 @@ void mu::llvmc::loop::parse_arguments ()
                                   {
                                       arguments_l [position] = node_a;
                                   });
-                            break;
-                        }
-                        case mu::io::token_id::terminator:
-                        {
-                            if (!predicates)
-                            {
-                                predicates = true;
-                                loop_m->set_argument_offset ();
-                            }
-                            else
-                            {
-                                done = true;
-                                result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
-                            }
                             break;
                         }
                         default:
