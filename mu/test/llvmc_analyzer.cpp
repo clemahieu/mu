@@ -2547,7 +2547,10 @@ TEST (llvmc_analyzer, loop_passthrough)
     loop1.add_predicate_offset ();
     loop1.add_branch_end ();
     mu::llvmc::ast::sequence sequence1 (&loop1);
-    function1.results = {{&sequence1}};
+    mu::llvmc::ast::unit unit1;
+    mu::llvmc::ast::unit_type unit2;
+    mu::llvmc::ast::result result1 (&unit2, &unit1);
+    function1.results = {{&result1, &sequence1}};
     mu::llvmc::ast::element element2 (&function1, 0, 1, U"0", mu::empty_region);
     module1.globals.push_back (&element2);
     auto result (analyzer.analyze (&module1));
@@ -2557,7 +2560,10 @@ TEST (llvmc_analyzer, loop_passthrough)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->results.size ());
-    ASSERT_EQ (0, function2->results [0].results.size ());
+    ASSERT_EQ (1, function2->results [0].results.size ());
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
+    ASSERT_NE (nullptr, result2);
+    ASSERT_TRUE (result2->type->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
 	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
 	ASSERT_NE (nullptr, element1);
@@ -2692,7 +2698,10 @@ TEST (llvmc_analyzer, asm1)
 	mu::llvmc::ast::expression expression2 ({&constant1, &type2, &number1}, {});
     mu::llvmc::ast::expression expression1 ({&asm1, &expression2}, {});
     mu::llvmc::ast::sequence sequence1 (&expression1);
-    function1.results = {{&sequence1}};
+    mu::llvmc::ast::unit_type unit1;
+    mu::llvmc::ast::unit unit2;
+    mu::llvmc::ast::result result1 (&unit1, &unit2);
+    function1.results = {{&result1, &sequence1}};
     mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
     module1.globals.push_back (&element1);
     auto result (analyzer.analyze (&module1));
@@ -2700,7 +2709,10 @@ TEST (llvmc_analyzer, asm1)
     ASSERT_NE (nullptr, result.module);
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_EQ (1, function2->results.size ());
-    ASSERT_EQ (0, function2->results [0].results.size ());
+    ASSERT_EQ (1, function2->results [0].results.size ());
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
+    ASSERT_NE (nullptr, result2);
+    ASSERT_TRUE (result2->type->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
     auto asm2 (dynamic_cast <mu::llvmc::skeleton::inline_asm *> (function2->results [0].sequenced [0]));
     ASSERT_NE (nullptr, asm2);
@@ -2764,7 +2776,10 @@ TEST (llvmc_analyzer, element_not_enough_fail)
     element2.region = mu::core::region (9, 9, 9, 10, 10, 10);
     mu::llvmc::ast::sequence sequence1 (&element1);
     mu::llvmc::ast::sequence sequence2 (&element2);
-    function1.results = {{&sequence1, &sequence2}};
+    mu::llvmc::ast::unit_type unit1;
+    mu::llvmc::ast::unit unit2;
+    mu::llvmc::ast::result result1 (&unit1, &unit2);
+    function1.results = {{&result1, &sequence1, &sequence2}};
     mu::llvmc::ast::element element3 (&function1, 0, 1, U"0", mu::empty_region);
     module1.globals.push_back (&element3);
     auto result (analyzer.analyze (&module1));
@@ -2969,7 +2984,10 @@ TEST (llvmc_analyzer, value_branch)
     mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type2, 42);
     mu::llvmc::ast::value value1 (&constant1);
     mu::llvmc::ast::sequence sequence1 (&value1);
-    function1.results = {{&sequence1}};
+    mu::llvmc::ast::unit_type unit1;
+    mu::llvmc::ast::unit unit2;
+    mu::llvmc::ast::result result1 (&unit1, &unit2);
+    function1.results = {{&result1, &sequence1}};
     mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
     module1.globals.push_back (&element1);
     auto result (analyzer.analyze (&module1));
@@ -2980,7 +2998,10 @@ TEST (llvmc_analyzer, value_branch)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
-    ASSERT_EQ (0, function2->results [0].results.size ());
+    ASSERT_EQ (1, function2->results [0].results.size ());
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
+    ASSERT_NE (nullptr, result2);
+    ASSERT_TRUE (result2->type->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
     auto predicate1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (function2->results [0].sequenced [0]));
     ASSERT_NE (nullptr, predicate1);
@@ -3427,8 +3448,10 @@ TEST (llvmc_analyzer, namespace_c_module)
 	mu::llvmc::ast::module module1;
 	mu::llvmc::ast::function function1;
     mu::llvmc::ast::unit unit1;
+    mu::llvmc::ast::unit_type unit2;
     mu::llvmc::ast::sequence sequence1 (&unit1);
-    function1.results = {{&sequence1}};
+    mu::llvmc::ast::result result1 (&unit2, &unit1);
+    function1.results = {{&result1, &sequence1}};
 	mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
     module1.names [U"0"] = &element1;
     module1.globals.push_back (&element1);
@@ -3439,7 +3462,8 @@ TEST (llvmc_analyzer, namespace_c_module)
     mu::llvmc::ast::expression expression1 ({&namespace1}, {});
     mu::llvmc::ast::function function2;
     mu::llvmc::ast::sequence sequence2 (&expression1);
-    function2.results = {{&sequence2}};
+    mu::llvmc::ast::result result2 (&unit2, &unit1);
+    function2.results = {{&result2, &sequence2}};
     mu::llvmc::ast::element element2 (&function2, 0, 1, U"0", mu::empty_region);
     module2.names [U"0"] = &element2;
     module2.globals.push_back (&element2);
@@ -3450,7 +3474,10 @@ TEST (llvmc_analyzer, namespace_c_module)
     auto function3 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_NE (nullptr, function3);
     ASSERT_EQ (1, function3->results.size ());
-    ASSERT_EQ (0, function3->results [0].results.size ());
+    ASSERT_EQ (1, function3->results [0].results.size ());
+    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function3->results [0].results [0]));
+    ASSERT_NE (nullptr, result3);
+    ASSERT_TRUE (result3->type->is_unit_type ());
     ASSERT_EQ (1, function3->results [0].sequenced.size ());
     auto element3 (dynamic_cast <mu::llvmc::skeleton::call_element *> (function3->results [0].sequenced [0]));
     ASSERT_NE (nullptr, element3);
@@ -3458,10 +3485,13 @@ TEST (llvmc_analyzer, namespace_c_module)
     auto function4 (dynamic_cast <mu::llvmc::skeleton::function *> (element3->source->arguments [0]));
     ASSERT_NE (nullptr, function4);
     ASSERT_EQ (1, function4->results.size ());
-    ASSERT_EQ (0, function4->results [0].results.size ());
+    ASSERT_EQ (1, function4->results [0].results.size ());
+    auto result4 (dynamic_cast <mu::llvmc::skeleton::result *> (function4->results [0].results [0]));
+    ASSERT_NE (nullptr, result4);
+    ASSERT_TRUE (result4->type->is_unit_type ());
     ASSERT_EQ (1, function4->results [0].sequenced.size ());
-	auto unit2 (dynamic_cast <mu::llvmc::skeleton::unit_value *> (function4->results [0].sequenced [0]));
-	ASSERT_NE (nullptr, unit2);
+	auto unit3 (dynamic_cast <mu::llvmc::skeleton::unit_value *> (function4->results [0].sequenced [0]));
+	ASSERT_NE (nullptr, unit3);
 }
 
 TEST (llvmc_analyzer, nested_module)
@@ -3630,7 +3660,10 @@ TEST (llvmc_analyzer, number_argument_adaptation)
 	mu::llvmc::ast::number number1 (U"255");
 	mu::llvmc::ast::expression expression1 ({&function2, &number1}, {}, &context1);
     mu::llvmc::ast::sequence sequence1 (&expression1);
-    function.results = {{&sequence1}};
+    mu::llvmc::ast::unit_type unit1;
+    mu::llvmc::ast::unit unit2;
+    mu::llvmc::ast::result result1 (&unit1, &unit2);
+    function.results = {{&result1, &sequence1}};
     mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
     module.globals.push_back (&element1);
     auto result (analyzer.analyze (&module));
@@ -3690,7 +3723,10 @@ TEST (llvmc_analyzer, zext_argument_adaptation)
 	mu::llvmc::ast::expression expression2 ({&constant1, &type2, &number1}, {});
 	mu::llvmc::ast::expression expression1 ({&function2, &expression2}, {}, &context1);
     mu::llvmc::ast::sequence sequence1 (&expression1);
-    function.results = {{&sequence1}};
+    mu::llvmc::ast::unit_type unit1;
+    mu::llvmc::ast::unit unit2;
+    mu::llvmc::ast::result result1 (&unit1, &unit2);
+    function.results = {{&result1, &sequence1}};
     mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
     module.globals.push_back (&element1);
     auto result (analyzer.analyze (&module));

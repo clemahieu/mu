@@ -2143,7 +2143,7 @@ define i32 @"0000000000000000-0000000000000000-0"(i32) {
   store i32 %9, i32* %6
   %11 = and i1 true, true
   %12 = icmp eq i32 %8, 0, !dbg !14
-  %13 = icmp eq i1 %12, false0
+  %13 = icmp eq i1 %12, false
   %14 = and i1 %11, %13
   %15 = icmp eq i1 %12, true
   %16 = and i1 %11, %15
