@@ -94,7 +94,7 @@ namespace mu
 			void template_c (mu::llvmc::ast::template_c * node_a) override;
 			void value (mu::llvmc::ast::value * value_node) override;
 			void process_template (mu::llvmc::ast::expression * node_a);
-            void process_expression_value_arguments (mu::vector <mu::llvmc::ast::node *> const &, size_t, mu::vector <mu::llvmc::skeleton::node *> &, mu::vector <mu::llvmc::skeleton::value *> &, mu::llvmc::skeleton::branch * &);
+            void process_expression_value_arguments (mu::vector <mu::llvmc::ast::node *> const &, mu::vector <mu::llvmc::skeleton::node *> &, mu::vector <mu::llvmc::skeleton::value *> &, mu::llvmc::skeleton::branch * &);
 			void process_constant_int (mu::llvmc::ast::expression * expression_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
 			mu::llvmc::global_processor & global_m;

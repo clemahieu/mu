@@ -693,7 +693,6 @@ TEST (llvmc_parser, recursive)
     ASSERT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_EQ (1, expression1->arguments.size ());
-    ASSERT_EQ (1, expression1->predicate_position);
 	auto set2 (dynamic_cast <mu::llvmc::ast::set *> (module2->globals [1]));
 	ASSERT_NE (nullptr, set2);
 	ASSERT_EQ (1, set2->nodes.size ());
@@ -1339,7 +1338,6 @@ TEST (llvmc_parser, body1)
     auto root1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
     EXPECT_EQ (0, root1->arguments.size ());
-    ASSERT_EQ (0, root1->predicate_position);
 }
 
 TEST (llvmc_parser, body2)
@@ -1362,9 +1360,7 @@ TEST (llvmc_parser, body2)
     auto root1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
     ASSERT_EQ (1, root1->arguments.size ());
-    ASSERT_EQ (1, root1->predicate_position);
     auto argument1 (root1->arguments [0]);
-    ASSERT_EQ (1, root1->predicate_position);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     EXPECT_EQ (parameter1, argument1);
@@ -1390,7 +1386,6 @@ TEST (llvmc_parser, body3)
     auto root1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
     ASSERT_EQ (1, root1->arguments.size ());
-    ASSERT_EQ (1, root1->predicate_position);
     auto argument1 (root1->arguments [0]);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
@@ -1398,14 +1393,13 @@ TEST (llvmc_parser, body3)
     auto root2 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [1]));
     ASSERT_NE (nullptr, root2);
     ASSERT_EQ (1, root2->arguments.size ());
-    ASSERT_EQ (1, root2->predicate_position);
     auto argument2 (root2->arguments [0]);
     EXPECT_EQ (parameter1, argument2);
 }
 
 TEST (llvmc_parser, body4)
 {
-    test_parser parser ("let test1 function [int-t # 1 val] [[val;val]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [[val ! val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1423,9 +1417,7 @@ TEST (llvmc_parser, body4)
     auto root1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
     ASSERT_EQ (2, root1->arguments.size ());
-    ASSERT_EQ (1, root1->predicate_position);
     auto argument1 (root1->arguments [0]);
-    ASSERT_EQ (1, root1->predicate_position);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     EXPECT_EQ (parameter1, argument1);
@@ -1438,15 +1430,6 @@ TEST (llvmc_parser, body_not_expression_fail)
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
     ASSERT_EQ (mu::core::region (34, 1, 35, 34, 1, 35), module1.error->region ());
-}
-
-TEST (llvmc_parser, expression_already_parsing_predicates_error)
-{
-    test_parser parser ("let test1 function [int1 val] [[val;;val]] []");
-    auto module1 (parser.parser.parse ());
-    EXPECT_NE (nullptr, module1.error);
-    ASSERT_EQ (nullptr, module1.node);
-    ASSERT_EQ (mu::core::error_type::already_parsing_predicates, module1.error->type());
 }
 
 TEST (llvmc_parser, set1)
@@ -1469,7 +1452,6 @@ TEST (llvmc_parser, set1)
     auto root1 (dynamic_cast <mu::llvmc::ast::expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
     ASSERT_EQ (1, root1->arguments.size ());
-    ASSERT_EQ (1, root1->predicate_position);
     auto argument1 (root1->arguments [0]);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
@@ -2251,7 +2233,7 @@ TEST (llvmc_parser, nested_module)
 
 TEST (llvmc_parser, nested_reference)
 {
-    test_parser parser ("module [let t template [] [module [let caller [] [let result [callee]][[;result]] let callee [] [] [[]]]] [t]]");
+    test_parser parser ("module [let t template [] [module [let caller [] [let result [callee]][[! result]] let callee [] [] [[]]]] [t]]");
     auto module1 (parser.parser.parse ());
 	ASSERT_EQ (nullptr, module1.error);
 	ASSERT_NE (nullptr, module1.node);

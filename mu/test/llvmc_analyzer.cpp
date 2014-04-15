@@ -437,8 +437,10 @@ TEST (llvmc_analyzer, branches)
     mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     mu::llvmc::skeleton::marker add_marker (mu::llvmc::instruction_type::add);
     mu::llvmc::ast::value marker1 (&add_marker);
-    mu::llvmc::ast::expression expression2 ({&marker1, &parameter2, &parameter2}, {&element1});
-    mu::llvmc::ast::expression expression3 ({&marker1, &parameter3, &parameter3}, {&element2});
+    mu::llvmc::ast::sequence sequence1 (&element1);
+    mu::llvmc::ast::sequence sequence2 (&element2);
+    mu::llvmc::ast::expression expression2 ({&marker1, &parameter2, &parameter2, &sequence1});
+    mu::llvmc::ast::expression expression3 ({&marker1, &parameter3, &parameter3, &sequence2});
     mu::llvmc::ast::result result1 (&type4, &expression2);
     mu::llvmc::ast::result result2 (&type4, &expression3);
     function.results = {{&result1}, {&result2}};
@@ -533,8 +535,10 @@ TEST (llvmc_analyzer, error_join_different_type)
     mu::llvmc::ast::element element2 (&expression2, 1, 2, U"element2", empty_region);
     mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::add);
     mu::llvmc::ast::value value5 (&marker2);
-    mu::llvmc::ast::expression expression3 ({&value5, &parameter1, &parameter1}, {&element2});
-    mu::llvmc::ast::expression expression4 ({&value5, &parameter2, &parameter2}, {&element1});
+    mu::llvmc::ast::sequence sequence1 (&element2);
+    mu::llvmc::ast::sequence sequence2 (&element1);
+    mu::llvmc::ast::expression expression3 ({&value5, &parameter1, &parameter1, &sequence1});
+    mu::llvmc::ast::expression expression4 ({&value5, &parameter2, &parameter2, &sequence2});
     mu::llvmc::ast::join join1;
     auto & branch1 (join1.add_branch ());
     branch1.arguments.push_back (&expression3);
@@ -566,7 +570,8 @@ TEST (llvmc_analyzer, error_same_branch)
     mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
     mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
 
-    mu::llvmc::ast::expression expression2 ({&value2, &parameter1}, {&element1});
+    mu::llvmc::ast::sequence sequence1 (&element1);
+    mu::llvmc::ast::expression expression2 ({&value2, &parameter1, &sequence1});
     mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3", empty_region);
     mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4", empty_region);
     
@@ -604,7 +609,8 @@ TEST (llvmc_analyzer, error_same_branch2)
     mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
     mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     
-    mu::llvmc::ast::expression expression2 ({&value2, &parameter1}, {&element1});
+    mu::llvmc::ast::sequence sequence1 (&element1);
+    mu::llvmc::ast::expression expression2 ({&value2, &parameter1, &sequence1});
     mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3", empty_region);
     mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4", empty_region);
     
@@ -689,8 +695,10 @@ TEST (llvmc_analyzer, disjoint_results)
     mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::add);
     mu::llvmc::ast::value value3 (&marker2);
-    mu::llvmc::ast::expression expression2 ({&value3, &parameter1, &parameter1}, {&element1});
-    mu::llvmc::ast::expression expression3 ({&value3, &parameter1, &parameter1}, {&element2});
+    mu::llvmc::ast::sequence sequence1 (&element1);
+    mu::llvmc::ast::sequence sequence2 (&element2);
+    mu::llvmc::ast::expression expression2 ({&value3, &parameter1, &parameter1, &sequence1});
+    mu::llvmc::ast::expression expression3 ({&value3, &parameter1, &parameter1, &sequence2});
     mu::llvmc::ast::result result1 (&value1, &expression2);
     mu::llvmc::ast::result result2 (&value1, &expression3);
     
@@ -796,8 +804,9 @@ TEST (llvmc_analyzer, empty_call_predicate)
     function3.results = {{&result2}};
     mu::llvmc::ast::element element2 (&function3, 0, 1, U"2", mu::empty_region);
     module1.globals.push_back (&element2);
-    mu::llvmc::ast::expression expression2 ({&function1}, {});
-    mu::llvmc::ast::expression expression1 ({&function3}, {&expression2});
+    mu::llvmc::ast::expression expression2 ({&function1});
+    mu::llvmc::ast::sequence sequence1 (&expression2);
+    mu::llvmc::ast::expression expression1 ({&function3, &sequence1});
     mu::llvmc::ast::sequence sequence3 (&expression1);
     mu::llvmc::ast::result result3 (&value1, &unit1);
     mu::llvmc::ast::function function2;
@@ -1330,13 +1339,9 @@ TEST (llvmc_analyzer, DISABLED_instruction_extractelement)
 	type1.bits = &bits1;
     mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
-    mu::llvmc::ast::expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::ashr);
     mu::llvmc::ast::value value1 (&marker1);
-    expression1.arguments.push_back (&value1);
-    expression1.arguments.push_back (&parameter1);
-    expression1.arguments.push_back (&parameter1);
-    expression1.set_predicate_position ();
+    mu::llvmc::ast::expression expression1 ({&value1, &parameter1, &parameter1});
     mu::llvmc::ast::result result1 (&type1, &expression1);
     function1.results = {{&result1}};
     mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
@@ -1369,13 +1374,9 @@ TEST (llvmc_analyzer, DISABLED_instruction_extractvalue)
 	type1.bits = &bits1;
     mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
-    mu::llvmc::ast::expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::extractvalue);
     mu::llvmc::ast::value value1 (&marker1);
-    expression1.arguments.push_back (&value1);
-    expression1.arguments.push_back (&parameter1);
-    expression1.arguments.push_back (&parameter1);
-    expression1.set_predicate_position ();
+    mu::llvmc::ast::expression expression1 ({&value1, &parameter1, &parameter1});
     mu::llvmc::ast::result result1 (&type1, &expression1);
     function1.results = {{&result1}};
     mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
@@ -3360,7 +3361,7 @@ TEST (llvmc_analyzer, nested_template)
             mu::llvmc::ast::result result1 (&parameter1, &parameter2, &context1);
             function.results = {{&result1}};
 			template1.body.push_back (&function);
-		mu::llvmc::ast::expression expression2 ({&template1}, {}, &context0);
+		mu::llvmc::ast::expression expression2 ({&template1}, &context0);
 		template0.body.push_back (&expression2);
 	mu::llvmc::ast::number bits1 (U"8");
 	mu::llvmc::ast::integer_type type1;
@@ -3658,7 +3659,7 @@ TEST (llvmc_analyzer, number_argument_adaptation)
     module.globals.push_back (&element2);
     mu::llvmc::ast::function function (&context1);
 	mu::llvmc::ast::number number1 (U"255");
-	mu::llvmc::ast::expression expression1 ({&function2, &number1}, {}, &context1);
+	mu::llvmc::ast::expression expression1 ({&function2, &number1}, &context1);
     mu::llvmc::ast::sequence sequence1 (&expression1);
     mu::llvmc::ast::unit_type unit1;
     mu::llvmc::ast::unit unit2;
@@ -3689,7 +3690,7 @@ TEST (llvmc_analyzer, fail_number_argument_adaptation_too_big)
     module.globals.push_back (&element2);
     mu::llvmc::ast::function function (&context1);
 	mu::llvmc::ast::number number1 (U"256");
-	mu::llvmc::ast::expression expression1 ({&function1, &number1}, {}, &context1);
+	mu::llvmc::ast::expression expression1 ({&function1, &number1}, &context1);
     mu::llvmc::ast::sequence sequence1 (&expression1);
     function.results = {{&sequence1}};
     mu::llvmc::ast::element element1 (&function, 0, 1, U"0", mu::empty_region);
@@ -3720,8 +3721,8 @@ TEST (llvmc_analyzer, zext_argument_adaptation)
 	mu::llvmc::ast::integer_type type2;
 	type2.bits = &bits2;
 	mu::llvmc::ast::number number1 (U"42");
-	mu::llvmc::ast::expression expression2 ({&constant1, &type2, &number1}, {});
-	mu::llvmc::ast::expression expression1 ({&function2, &expression2}, {}, &context1);
+	mu::llvmc::ast::expression expression2 ({&constant1, &type2, &number1});
+	mu::llvmc::ast::expression expression1 ({&function2, &expression2}, &context1);
     mu::llvmc::ast::sequence sequence1 (&expression1);
     mu::llvmc::ast::unit_type unit1;
     mu::llvmc::ast::unit unit2;

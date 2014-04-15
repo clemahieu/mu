@@ -48,12 +48,10 @@ name (name_a)
 {
 }
 
-mu::llvmc::ast::expression::expression (std::initializer_list <mu::llvmc::ast::node *> arguments_a, std::initializer_list <mu::llvmc::ast::node *> predicates_a, mu::llvmc::template_context * template_a) :
-node (template_a),
-predicate_position (arguments_a.size ())
+mu::llvmc::ast::expression::expression (std::initializer_list <mu::llvmc::ast::node *> arguments_a, mu::llvmc::template_context * template_a) :
+node (template_a)
 {
     arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
-    arguments.insert (arguments.end (), predicates_a.begin (), predicates_a.end ());
 }
 
 mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a, mu::llvmc::template_context * template_a):
@@ -61,12 +59,6 @@ node (template_a),
 written_type (written_type_a),
 value (value_a)
 {
-}
-
-void mu::llvmc::ast::expression::set_predicate_position ()
-{
-    assert (predicate_position == ~0);
-    predicate_position = arguments.size ();
 }
 
 mu::llvmc::ast::integer_type::integer_type (mu::llvmc::template_context * template_a) :
@@ -87,8 +79,7 @@ node (template_a)
 }
 
 mu::llvmc::ast::expression::expression (mu::llvmc::template_context * template_a) :
-node (template_a),
-predicate_position (~0)
+node (template_a)
 {
 }
 
@@ -587,8 +578,7 @@ initializer (other_a.initializer->clone (context_a))
 }
 
 mu::llvmc::ast::expression::expression (mu::llvmc::ast::expression const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a, context_a),
-predicate_position (other_a.predicate_position)
+node (other_a, context_a)
 {
 	for (auto i: other_a.arguments)
 	{
@@ -1083,4 +1073,14 @@ mu::llvmc::ast::function_branch & mu::llvmc::ast::function_result::add_branch ()
 {
     branches.push_back (mu::llvmc::ast::function_branch ());
     return branches.back ();
+}
+
+bool mu::llvmc::ast::node::is_sequenced () const
+{
+    return false;
+}
+
+bool mu::llvmc::ast::sequence::is_sequenced () const
+{
+    return true;
 }

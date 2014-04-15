@@ -40,6 +40,7 @@ namespace mu
                 virtual ~node ();
 				mu::llvmc::ast::node * clone (mu::llvmc::clone_context & context_a);
                 virtual void visit (mu::llvmc::ast::visitor * visitor_a);
+                virtual bool is_sequenced () const;
 				mu::llvmc::template_context * template_m;
 				mu::core::region region;
 				mu::vector <mu::llvmc::skeleton::node *> generated;
@@ -133,13 +134,11 @@ namespace mu
             {
             public:
                 expression (mu::llvmc::template_context * template_a = nullptr);
-                expression (std::initializer_list <mu::llvmc::ast::node *> arguments, std::initializer_list <mu::llvmc::ast::node *> predicates, mu::llvmc::template_context * template_a = nullptr);
+                expression (std::initializer_list <mu::llvmc::ast::node *> arguments, mu::llvmc::template_context * template_a = nullptr);
 				expression (mu::llvmc::ast::expression const & other_a, mu::llvmc::clone_context & context_a);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
-                void set_predicate_position ();
                 mu::vector <mu::llvmc::ast::node *> arguments;
-                size_t predicate_position;
             };
             class function_branch
             {
@@ -378,6 +377,7 @@ namespace mu
 				sequence (mu::llvmc::ast::sequence const & other_a, mu::llvmc::clone_context & context_a);
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
 				void visit (mu::llvmc::ast::visitor * visitor_a) override;
+                bool is_sequenced () const override;
                 mu::llvmc::ast::node * node_m;
             };
             class visitor

@@ -744,20 +744,6 @@ void mu::llvmc::expression::parse ()
                         });
                     break;
                 }
-                case mu::io::token_id::terminator:
-                {
-                    predicates = true;
-                    auto position_l (expression_l->predicate_position);
-                    if (position_l == (0 - 1))
-                    {
-                        expression_l->set_predicate_position ();
-                    }
-                    else
-                    {
-                        result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
-                    }
-                    break;
-                }
                 case mu::io::token_id::right_square:
                     expression_l->region = mu::core::region (region.first, next.token->region.last);
                     done = true;
@@ -771,10 +757,6 @@ void mu::llvmc::expression::parse ()
         {
             result.error = next.error;
         }
-    }
-    if (!predicates)
-    {
-        expression_l->set_predicate_position ();
     }
     if (result.error == nullptr)
     {

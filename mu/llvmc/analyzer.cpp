@@ -407,7 +407,7 @@ void mu::llvmc::module_processor::process_constant_int (mu::llvmc::ast::expressi
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::vector <mu::llvmc::skeleton::value *> sequenced;
 	auto most_specific_branch (&mu::llvmc::skeleton::branch::global);
-	process_expression_value_arguments (expression_a->arguments, expression_a->predicate_position, arguments, sequenced, most_specific_branch);
+	process_expression_value_arguments (expression_a->arguments, arguments, sequenced, most_specific_branch);
 	if (global_m.error == nullptr)
 	{
 		if (arguments.size () == 3)
@@ -794,7 +794,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 {
 	auto loop_s (new (GC) mu::llvmc::skeleton::loop (&module_m.module_m->the_unit_type));
 	mu::llvmc::skeleton::branch * loop_branch (&mu::llvmc::skeleton::branch::global);
-	module_m.process_expression_value_arguments (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, loop_s->sequenced, loop_branch);
+	module_m.process_expression_value_arguments (loop_a->arguments, loop_s->arguments, loop_s->sequenced, loop_branch);
 	if (module_m.global_m.error == nullptr)
 	{
 		if (loop_s->arguments.size () == loop_a->parameters.size ())
@@ -1126,60 +1126,53 @@ void mu::llvmc::module_processor::template_c (mu::llvmc::ast::template_c * node_
 
 void mu::llvmc::module_processor::process_template (mu::llvmc::ast::expression * node_a)
 {
-	if (node_a->predicate_position == node_a->arguments.size ())
-	{
-		mu::vector <mu::llvmc::skeleton::node *> arguments;
-		for (auto i (node_a->arguments.begin ()), j (node_a->arguments.end ()); i != j && global_m.error == nullptr; ++i)
-		{
-			auto value (*i);
-			global_m.process_node (value);
-			auto & nodes (value->generated);
-			arguments.insert (arguments.end (), nodes.begin (), nodes.end ());
-		}
-		if (global_m.error == nullptr)
-		{
-			auto template_l (mu::cast <mu::llvmc::skeleton::template_c> (arguments [0]));
-			if (arguments.size () - 1 == template_l->parameters.size ())
-			{
-				mu::llvmc::clone_context context (template_l->base);
-				{
-					auto i (template_l->parameters.begin ());
-					auto j (template_l->parameters.end ());
-					auto k (arguments.begin () + 1);
-					while (i != j)
-					{
-						auto value ((*i)->clone (context));
-						value->assigned = true;
-						value->generated.push_back (*k);
-						++i;
-						++k;
-					}
-					assert (k == arguments.end ());
-				}
-				auto & target (node_a->generated);
-				for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && global_m.error == nullptr; ++i)
-				{
-					auto orig (*i);
-					auto value (orig->clone (context));
-					global_m.process_node (value);
-					auto & nodes (value->generated);
-					target.insert (target.end (), nodes.begin (), nodes.end ());
-				}
-				if (global_m.error == nullptr)
-				{
-					node_a->assigned = true;
-				}
-			}
-			else
-			{
-				global_m.error = new (GC) mu::core::error_string (U"Number of template arguments doesn't match number of parameters", mu::core::error_type::template_argument_count_mismatch);
-			}
-		}
-	}
-	else
-	{
-		global_m.error = new (GC) mu::core::error_string (U"Template instantiations cannot have predicates", mu::core::error_type::template_instantiations_cannot_have_predicates, node_a->region);
-	}
+    mu::vector <mu::llvmc::skeleton::node *> arguments;
+    for (auto i (node_a->arguments.begin ()), j (node_a->arguments.end ()); i != j && global_m.error == nullptr; ++i)
+    {
+        auto value (*i);
+        global_m.process_node (value);
+        auto & nodes (value->generated);
+        arguments.insert (arguments.end (), nodes.begin (), nodes.end ());
+    }
+    if (global_m.error == nullptr)
+    {
+        auto template_l (mu::cast <mu::llvmc::skeleton::template_c> (arguments [0]));
+        if (arguments.size () - 1 == template_l->parameters.size ())
+        {
+            mu::llvmc::clone_context context (template_l->base);
+            {
+                auto i (template_l->parameters.begin ());
+                auto j (template_l->parameters.end ());
+                auto k (arguments.begin () + 1);
+                while (i != j)
+                {
+                    auto value ((*i)->clone (context));
+                    value->assigned = true;
+                    value->generated.push_back (*k);
+                    ++i;
+                    ++k;
+                }
+                assert (k == arguments.end ());
+            }
+            auto & target (node_a->generated);
+            for (auto i (template_l->body.begin ()), j (template_l->body.end ()); i != j && global_m.error == nullptr; ++i)
+            {
+                auto orig (*i);
+                auto value (orig->clone (context));
+                global_m.process_node (value);
+                auto & nodes (value->generated);
+                target.insert (target.end (), nodes.begin (), nodes.end ());
+            }
+            if (global_m.error == nullptr)
+            {
+                node_a->assigned = true;
+            }
+        }
+        else
+        {
+            global_m.error = new (GC) mu::core::error_string (U"Number of template arguments doesn't match number of parameters", mu::core::error_type::template_argument_count_mismatch);
+        }
+    }
 }
 
 void mu::llvmc::global_processor::process_node (mu::llvmc::ast::node * node_a)
@@ -1212,7 +1205,7 @@ void mu::llvmc::function_processor::process_asm (mu::llvmc::ast::expression * as
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::vector <mu::llvmc::skeleton::value *> sequenced;
 	mu::llvmc::skeleton::branch * most_specific_branch (&mu::llvmc::skeleton::branch::global);
-	module_m.process_expression_value_arguments (asm_a->arguments, asm_a->predicate_position, arguments, sequenced, most_specific_branch);
+	module_m.process_expression_value_arguments (asm_a->arguments, arguments, sequenced, most_specific_branch);
 	if (module_m.global_m.error == nullptr)
 	{
 		assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [0]) != nullptr);
@@ -1420,7 +1413,7 @@ void mu::llvmc::module_processor::process_identity (mu::llvmc::ast::expression *
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::vector <mu::llvmc::skeleton::value *> sequenced;
 	mu::llvmc::skeleton::branch * most_specific_branch (&mu::llvmc::skeleton::branch::global);
-	process_expression_value_arguments (expression_a->arguments, expression_a->predicate_position, arguments, sequenced, most_specific_branch);
+	process_expression_value_arguments (expression_a->arguments, arguments, sequenced, most_specific_branch);
     auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, sequenced, &module_m->the_unit_type));
     auto argument_size (arguments.size ());
     switch (argument_size)
@@ -1462,7 +1455,7 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::vector <mu::llvmc::skeleton::value *> sequenced;
 	mu::llvmc::skeleton::branch * most_specific_branch (function_m->entry);
-	module_m.process_expression_value_arguments (expression_a->arguments, expression_a->predicate_position, arguments, sequenced, most_specific_branch);
+	module_m.process_expression_value_arguments (expression_a->arguments, arguments, sequenced, most_specific_branch);
 	auto target (static_cast<mu::llvmc::skeleton::value *> (arguments [0]));
 	auto type_l (target->type ());
 	auto pointer_type (dynamic_cast<mu::llvmc::skeleton::pointer_type *> (type_l));
@@ -1576,57 +1569,37 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 	module_m.current_expression_generation.erase (expression_a);
 }
 
-void mu::llvmc::module_processor::process_expression_value_arguments (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::vector <mu::llvmc::skeleton::value *> & sequenced_a, mu::llvmc::skeleton::branch * & most_specific_branch)
+void mu::llvmc::module_processor::process_expression_value_arguments (mu::vector <mu::llvmc::ast::node *> const & arguments, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::vector <mu::llvmc::skeleton::value *> & sequenced_a, mu::llvmc::skeleton::branch * & most_specific_branch)
 {
     mu::llvmc::branch_analyzer branches (most_specific_branch, global_m.error);
-	mu::llvmc::ast::for_each_argument (
-		arguments,
-		predicate_offset,
-		[&]
-		(mu::llvmc::ast::node * node_a, size_t index)
-		{
-			global_m.process_node (node_a);
-			if (global_m.error == nullptr)
-			{
-                auto & nodes (node_a->generated);
-                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && global_m.error == nullptr; ++k)
+    for (auto i (arguments.begin ()), j (arguments.end ()); i != j && global_m.error == nullptr; ++i)
+    {
+        auto node_a (*i);
+        global_m.process_node (node_a);
+        if (global_m.error == nullptr)
+        {
+            auto & nodes (node_a->generated);
+            for (auto k (nodes.begin ()), l (nodes.end ()); k != l && global_m.error == nullptr; ++k)
+            {
+                auto node (*k);
+                if (node_a->is_sequenced ())
                 {
-                    auto node (*k);
-                    auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+                    auto value (mu::cast <mu::llvmc::skeleton::sequence> (node)->value);
+                    most_specific_branch = branches.add_branch (value->branch, node_a->region);
+                    sequenced_a.push_back (value);
+                }
+                else
+                {
+                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
                     if (value != nullptr)
                     {
                         most_specific_branch = branches.add_branch (value->branch, node_a->region);
                     }
                     arguments_a.push_back (node);
                 }
-			}
-		},
-		[&]
-		(mu::llvmc::ast::node * node_a, size_t index)
-		{
-			global_m.process_node (node_a);
-			if (global_m.error == nullptr)
-			{
-                auto & nodes (node_a->generated);
-                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && global_m.error == nullptr; ++k)
-                {
-                    auto node (*k);
-                    auto value (mu::cast <mu::llvmc::skeleton::value> (node));
-                    most_specific_branch = branches.add_branch (value->branch, node_a->region);
-                    sequenced_a.push_back (value);
-                }
-			}
-		},
-		[&]
-		(mu::llvmc::ast::node * node_a, size_t index)
-		{
-		},
-		[&]
-		()
-		{
-			return global_m.error == nullptr;
-		}
-	);
+            }
+        }
+    }
 }
 
 static unsigned minimum_bit_width (mu::core::error * & error_a, mu::llvmc::skeleton::node * node_a)
@@ -1707,7 +1680,7 @@ void mu::llvmc::function_processor::process_marker (mu::llvmc::ast::expression *
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::vector <mu::llvmc::skeleton::value *> sequenced;
 	mu::llvmc::skeleton::branch * most_specific_branch (&mu::llvmc::skeleton::branch::global);
-	module_m.process_expression_value_arguments (expression_a->arguments, expression_a->predicate_position, arguments, sequenced, most_specific_branch);
+	module_m.process_expression_value_arguments (expression_a->arguments, arguments, sequenced, most_specific_branch);
     auto result (false);
     if (module_m.global_m.error == nullptr)
     {
