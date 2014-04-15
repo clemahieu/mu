@@ -108,8 +108,6 @@ namespace mu
                 size_t total;
                 mu::string name;
             };
-			template <typename S, typename T, typename U, typename V, typename W>
-			void for_each_argument (S arguments, size_t predicate_position, T argument_op, U predicate_op, V transition_op, W loop_op);
             class loop : public mu::llvmc::ast::node
             {
             public:
