@@ -88,16 +88,6 @@ node (template_a)
 {
 }
 
-void mu::llvmc::ast::loop::add_predicate_offset ()
-{
-    predicate_offsets.push_back (results.size ());
-}
-
-void mu::llvmc::ast::loop::add_branch_end ()
-{
-    branch_ends.push_back (results.size ());
-}
-
 mu::llvmc::ast::loop::loop (mu::llvmc::template_context * template_a) :
 node (template_a)
 {
@@ -603,10 +593,16 @@ node (other_a.template_m)
 	}
 }
 
+mu::llvmc::ast::loop_result::loop_result (mu::llvmc::ast::loop_result const & other_a, mu::llvmc::clone_context & context_a)
+{
+    for (auto i: other_a.nodes)
+    {
+        nodes.push_back (i->clone (context_a));
+    }
+}
+
 mu::llvmc::ast::loop::loop (mu::llvmc::ast::loop const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m),
-predicate_offsets (other_a.predicate_offsets),
-branch_ends (other_a.branch_ends)
+node (other_a.template_m)
 {
 	for (auto i: other_a.arguments)
 	{
@@ -622,7 +618,7 @@ branch_ends (other_a.branch_ends)
 	}
 	for (auto i: other_a.results)
 	{
-		results.push_back (i->clone (context_a));
+		results.push_back (loop_result (i, context_a));
 	}
 }
 
@@ -1075,4 +1071,21 @@ bool mu::llvmc::ast::node::is_sequenced () const
 bool mu::llvmc::ast::sequence::is_sequenced () const
 {
     return true;
+}
+
+mu::llvmc::ast::loop_result & mu::llvmc::ast::loop::add_branch ()
+{
+    results.push_back (mu::llvmc::ast::loop_result ());
+    return results.back ();
+}
+
+mu::llvmc::ast::loop_result::loop_result (std::initializer_list <mu::llvmc::ast::node *> const & list_a) :
+nodes (list_a)
+{
+}
+
+mu::llvmc::ast::loop::loop (std::initializer_list <mu::llvmc::ast::node *> const & list_a, mu::llvmc::template_context * template_a) :
+node (template_a),
+arguments (list_a)
+{    
 }

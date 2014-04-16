@@ -2449,14 +2449,25 @@ TEST (llvmc_analyzer, loop_empty)
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
-    mu::llvmc::ast::loop loop1;
-    mu::llvmc::ast::sequence sequence1 (&loop1);
     mu::llvmc::ast::unit unit1;
+    mu::llvmc::ast::loop loop1 ({&unit1});
+    mu::llvmc::ast::loop_parameter parameter1 (U"0");
+    loop1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
+    mu::llvmc::ast::value if_ast (&if_marker);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 0);
+    mu::llvmc::ast::value value1 (&constant1);
+    mu::llvmc::ast::expression expression1 ({&if_ast, &value1}, {});
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
+    loop1.results = {{&element1}, {&element2}};
+    mu::llvmc::ast::sequence sequence1 (&loop1);
     mu::llvmc::ast::unit_type unit2;
     mu::llvmc::ast::result result1 (&unit2, &unit1);
     function1.results = {{&result1, &sequence1}};
-    mu::llvmc::ast::element element2 (&function1, 0, 1, U"0", mu::empty_region);
-    module1.globals.push_back (&element2);
+    mu::llvmc::ast::element element3 (&function1, 0, 1, U"0", mu::empty_region);
+    module1.globals.push_back (&element3);
     auto result (analyzer.analyze (&module1));
     ASSERT_EQ (nullptr, result.error);
     ASSERT_NE (nullptr, result.module);
@@ -2469,9 +2480,9 @@ TEST (llvmc_analyzer, loop_empty)
     ASSERT_NE (nullptr, result2);
     ASSERT_TRUE (result2->type->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
-	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
-	ASSERT_NE (nullptr, element1);
-    ASSERT_EQ (0, element1->source->arguments.size ());
+	auto element4 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
+	ASSERT_NE (nullptr, element4);
+    ASSERT_EQ (1, element4->source->arguments.size ());
 }
 
 TEST (llvmc_analyzer, fail_loop_inner_error)
@@ -2481,9 +2492,7 @@ TEST (llvmc_analyzer, fail_loop_inner_error)
     mu::llvmc::ast::function function1;
     mu::llvmc::ast::loop loop1;
     mu::llvmc::ast::expression expression1 ({}, {});
-    loop1.results.push_back (&expression1);
-    loop1.add_predicate_offset ();
-    loop1.add_branch_end ();
+    loop1.results = {{&expression1}};
     mu::llvmc::ast::sequence sequence1 (&loop1);
     function1.results = {{&sequence1}};
     mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
@@ -2506,12 +2515,7 @@ TEST (llvmc_analyzer, fail_loop_same_branch)
     loop1.arguments.push_back (&parameter1);
     mu::llvmc::ast::loop_parameter parameter2 (U"p1");
     loop1.parameters.push_back (&parameter2);
-    loop1.results.push_back (&parameter2);
-    loop1.add_predicate_offset ();
-    loop1.add_branch_end ();
-    loop1.results.push_back (&parameter2);
-    loop1.add_predicate_offset ();
-    loop1.add_branch_end ();
+    loop1.results = {{&parameter2}, {&parameter2}};
     mu::llvmc::ast::element element1 (&loop1, 0, 2, U"element1", empty_region);
     mu::llvmc::ast::sequence sequence1 (&element1);
     mu::llvmc::ast::element element2 (&loop1, 1, 2, U"element2", empty_region);
@@ -2534,22 +2538,24 @@ TEST (llvmc_analyzer, loop_passthrough)
     mu::llvmc::ast::value value1 (&type1);
     mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function1.parameters.push_back (&parameter1);
-    mu::llvmc::ast::loop loop1;
-    loop1.arguments.push_back (&parameter1);
+    mu::llvmc::ast::loop loop1 ({&parameter1});
     mu::llvmc::ast::loop_parameter parameter2 (U"p1");
     loop1.parameters.push_back (&parameter2);
-    loop1.add_predicate_offset ();
-    loop1.add_branch_end ();
-    loop1.results.push_back (&parameter2);
-    loop1.add_predicate_offset ();
-    loop1.add_branch_end ();
-    mu::llvmc::ast::sequence sequence1 (&loop1);
+    mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
+    mu::llvmc::ast::value if_ast (&if_marker);
+    mu::llvmc::ast::expression expression1 ({&if_ast, &parameter2}, {});
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
+    mu::llvmc::ast::sequence sequence1 (&element1);
+    mu::llvmc::ast::sequence sequence2 (&element2);
+    loop1.results = {{&sequence1, &parameter2}, {&sequence2, &parameter2}};
+    mu::llvmc::ast::sequence sequence3 (&loop1);
     mu::llvmc::ast::unit unit1;
     mu::llvmc::ast::unit_type unit2;
     mu::llvmc::ast::result result1 (&unit2, &unit1);
-    function1.results = {{&result1, &sequence1}};
-    mu::llvmc::ast::element element2 (&function1, 0, 1, U"0", mu::empty_region);
-    module1.globals.push_back (&element2);
+    function1.results = {{&result1, &sequence3}};
+    mu::llvmc::ast::element element3 (&function1, 0, 1, U"0", mu::empty_region);
+    module1.globals.push_back (&element3);
     auto result (analyzer.analyze (&module1));
     ASSERT_EQ (nullptr, result.error);
     ASSERT_NE (nullptr, result.module);
@@ -2562,11 +2568,11 @@ TEST (llvmc_analyzer, loop_passthrough)
     ASSERT_NE (nullptr, result2);
     ASSERT_TRUE (result2->type->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
-	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
-	ASSERT_NE (nullptr, element1);
-    ASSERT_EQ (1, element1->source->arguments.size ());
-    ASSERT_EQ (1, element1->source->elements.size ());
-    ASSERT_EQ (element1, element1->source->elements [0]);
+	auto element4 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
+	ASSERT_NE (nullptr, element4);
+    ASSERT_EQ (1, element4->source->arguments.size ());
+    ASSERT_EQ (1, element4->source->elements.size ());
+    ASSERT_EQ (element4, element4->source->elements [0]);
 }
 
 TEST (llvmc_analyzer, branch_analyzer_single)

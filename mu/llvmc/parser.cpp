@@ -1100,43 +1100,25 @@ void mu::llvmc::loop::parse_results ()
             {
                 case mu::io::token_id::left_square:
                 {
+                    auto branch_index (loop_m->results.size ());
+                    auto & branch (loop_m->add_branch ());
                     parser.stream.consume (1);
                     auto set_done (false);
-                    auto predicates (false);
                     while (!set_done && result.error == nullptr)
                     {
-						auto position (loop_m->results.size ());
-						loop_m->results.push_back (nullptr);
-						result.error = parser.parse_ast_or_refer_or_right_square_or_terminator (
+						auto position (branch.nodes.size ());
+						branch.nodes.push_back (nullptr);
+						result.error = parser.parse_ast_or_refer_or_right_square (
 							[=]
 							(mu::llvmc::ast::node * node_a, mu::core::region const & region_a) 
 							{
-								loop_m->results [position] = node_a;
+								loop_m->results [branch_index].nodes [position] = node_a;
 							}, 
 							[&] 
-							(mu::core::region const & region_a) 
+                            (mu::io::right_square * token_a)
 							{
-								loop_m->results.pop_back ();
-								if (!predicates)
-								{
-									loop_m->add_predicate_offset ();
-								}
-								loop_m->add_branch_end ();
+                                branch.nodes.pop_back ();
 								set_done = true;
-							}, 
-							[&] 
-							(mu::core::region const & region_a) 
-							{
-								loop_m->results.pop_back ();
-								if (!predicates)
-								{
-									predicates = true;
-									loop_m->add_predicate_offset ();
-								}
-								else
-								{
-									result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
-								}
 							}, 
 						U"Expecting result", mu::core::error_type::expecting_an_expression);
                     }

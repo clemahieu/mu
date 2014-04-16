@@ -1517,18 +1517,15 @@ TEST (llvmc_parser, loop2)
     ASSERT_NE (nullptr, expression1);
     ASSERT_EQ (1, expression1->arguments.size ());
     EXPECT_EQ (parameter2, expression1->arguments [0]);
-    ASSERT_EQ (2, loop1->results.size ());
-    ASSERT_EQ (1, loop1->predicate_offsets.size ());
-    ASSERT_EQ (1, loop1->branch_ends.size ());
-    ASSERT_EQ (2, loop1->predicate_offsets [0]);
-    ASSERT_EQ (2, loop1->branch_ends [0]);
-    ASSERT_EQ (parameter1, loop1->results [0]);
-    ASSERT_EQ (parameter2, loop1->results [1]);
+    ASSERT_EQ (1, loop1->results.size ());
+    auto & branch1 (loop1->results [0]);
+    ASSERT_EQ (parameter1, branch1.nodes [0]);
+    ASSERT_EQ (parameter2, branch1.nodes [1]);
 }
 
 TEST (llvmc_parser, loop3)
 {
-    test_parser parser ("let test1 function [int-t # 1 val] [loop [] [] [] [[;][;]]] []");
+    test_parser parser ("let test1 function [int-t # 1 val] [loop [] [] [] [[][]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1548,7 +1545,7 @@ TEST (llvmc_parser, loop3)
     EXPECT_EQ (0, root1->arguments.size ());
     EXPECT_EQ (0, root1->parameters.size ());
     EXPECT_EQ (0, root1->roots.size ());
-    EXPECT_EQ (0, root1->results.size ());
+    EXPECT_EQ (2, root1->results.size ());
 }
 
 TEST (llvmc_parser, loop_result_expression)
@@ -1579,11 +1576,9 @@ TEST (llvmc_parser, loop_result_expression)
 	ASSERT_NE (nullptr, parameter2);
     ASSERT_EQ (0, loop1->roots.size ());
     ASSERT_EQ (1, loop1->results.size ());
-    ASSERT_EQ (1, loop1->predicate_offsets.size ());
-    ASSERT_EQ (1, loop1->branch_ends.size ());
-    ASSERT_EQ (1, loop1->predicate_offsets [0]);
-    ASSERT_EQ (1, loop1->branch_ends [0]);
-    auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (loop1->results [0]));
+    auto & branch1 (loop1->results [0]);
+    ASSERT_EQ (1, branch1.nodes.size ());
+    auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (branch1.nodes [0]));
 	ASSERT_NE (nullptr, expression1);
 }
 

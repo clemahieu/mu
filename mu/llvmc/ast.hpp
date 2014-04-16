@@ -108,23 +108,27 @@ namespace mu
                 size_t total;
                 mu::string name;
             };
+            class loop_result
+            {
+            public:
+                loop_result () = default;
+                loop_result (std::initializer_list <mu::llvmc::ast::node *> const &);
+                loop_result (mu::llvmc::ast::loop_result const &, mu::llvmc::clone_context &);
+                mu::vector <mu::llvmc::ast::node *> nodes;
+            };
             class loop : public mu::llvmc::ast::node
             {
             public:
-				loop (mu::llvmc::template_context * template_a = nullptr);
-				loop (mu::llvmc::ast::loop const & other_a, mu::llvmc::clone_context & context_a);
-				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
-                void visit (mu::llvmc::ast::visitor * visitor_a) override;
+                loop (std::initializer_list <mu::llvmc::ast::node *> const &, mu::llvmc::template_context * = nullptr);
+				loop (mu::llvmc::template_context * = nullptr);
+				loop (mu::llvmc::ast::loop const &, mu::llvmc::clone_context &);
+				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context &) override;
+                void visit (mu::llvmc::ast::visitor *) override;
+                mu::llvmc::ast::loop_result & add_branch ();
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::llvmc::ast::node *> roots;
-                mu::vector <mu::llvmc::ast::node *> results;
-				void add_predicate_offset ();
-				void add_branch_end ();
-                template <typename T, typename U, typename V, typename W, typename X>
-                void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate);
-				std::vector <size_t> predicate_offsets;
-				std::vector <size_t> branch_ends;
+                mu::vector <mu::llvmc::ast::loop_result> results;
             };
             class expression : public mu::llvmc::ast::node
             {

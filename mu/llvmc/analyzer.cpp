@@ -799,8 +799,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 	{
 		if (loop_s->arguments.size () == loop_a->parameters.size ())
 		{
-			auto loop_entry_branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
-			loop_s->loop_entry_branch = loop_entry_branch;
+			loop_s->loop_entry_branch = loop_branch;
 			auto i (loop_a->parameters.begin ());
 			auto j (loop_a->parameters.end ());
 			auto k (loop_s->arguments.begin ());
@@ -810,7 +809,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 				auto argument (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
 				if (argument != nullptr)
 				{
-					auto new_parameter (b.loop_parameter (loop_a->region, loop_entry_branch, static_cast<mu::llvmc::skeleton::value *> (*k)->type (), parameter->name));
+					auto new_parameter (b.loop_parameter (loop_a->region, loop_branch, static_cast<mu::llvmc::skeleton::value *> (*k)->type (), parameter->name));
 					loop_s->parameters.push_back (new_parameter);
 					parameter->assigned = true;
 					parameter->generated.push_back (new_parameter);
@@ -820,115 +819,98 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 					module_m.global_m.error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
 				}
 			}
-			auto branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
-			auto empty (true);
-			auto feedback_branch (true);
-            auto predicates (false);
-			mu::llvmc::branch_analyzer branches (&mu::llvmc::skeleton::branch::global, module_m.global_m.error);
-            loop_s->add_branch ();
-			loop_a->for_each_results (
-									  [&]
-									  (mu::llvmc::ast::node * expression_a, size_t index_a)
-									  {
-										  module_m.global_m.process_node (expression_a);
-										  if (module_m.global_m.error == nullptr)
-										  {
-											  for (auto i : expression_a->generated)
-											  {
-												  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
-												  if (value != nullptr)
-												  {
-                                                      assert (!loop_s->results.empty ());
-													  branches.add_branch (value->branch, expression_a->region);
-													  loop_s->results.back ().values.push_back (value);
-													  auto element (b.loop_element (expression_a->region, branch, loop_s, value->type ()));
-													  loop_s->elements.push_back (element);
-												  }
-												  else
-												  {
-													  module_m.global_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-												  }
-											  }
-										  }
-										  empty = false;
-									  },
-									  [&]
-									  (mu::llvmc::ast::node * expression_a, size_t)
-									  {
-										  module_m.global_m.process_node (expression_a);
-										  if (module_m.global_m.error == nullptr)
-										  {
-											  for (auto i : expression_a->generated)
-											  {
-												  auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
-												  if (value != nullptr)
-												  {
-                                                      assert (!loop_s->results.empty ());
-													  branches.add_branch (value->branch, expression_a->region);
-                                                      if (predicates)
-                                                      {
-                                                          loop_s->results.back ().sequenced.push_back (value);
-                                                      }
-                                                      else
-                                                      {
-                                                          loop_s->results.back ().values.push_back (value);
-                                                      }
-												  }
-												  else
-												  {
-													  module_m.global_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-												  }
-											  }
-										  }
-									  },
-									  [&]
-									  (mu::llvmc::ast::node * node_a, size_t index_a)
-									  {
-                                          predicates = true;
-										  if (empty)
-										  {
-											  auto element (b.loop_element (node_a->region, branch, loop_s, &module_m.module_m->the_unit_type));
-											  loop_s->elements.push_back (element);
-										  }
-									  },
-									  [&]
-									  (mu::llvmc::ast::node * node_a, size_t)
-									  {
-                                          predicates = false;
-                                          loop_s->add_branch ();
-										  branches.new_set ();
-										  branch = new (GC) mu::llvmc::skeleton::branch (loop_branch);
-										  feedback_branch = false;
-										  empty = true;
-									  },
-									  [&]
-									  ()
-									  {
-										  return module_m.global_m.error == nullptr;
-									  }
-									  );
-			if (module_m.global_m.error == nullptr)
-			{
-				loop_a->assigned = true;
-				switch (loop_s->elements.size ())
-				{
-					case 0:
-					{
-						loop_a->generated.push_back (b.loop_element (loop_a->region, branch, loop_s, &module_m.module_m->the_unit_type));
-						break;
-					}
-					case 1:
-					{
-						loop_a->generated.push_back (loop_s->elements [0]);
-						break;
-					}
-					default:
-					{
-						auto & target (loop_a->generated);
-						target.insert (target.end (), loop_s->elements.begin (), loop_s->elements.end ());
-					}
-				}
-			}
+            if (loop_a->results.size () >=2)
+            {
+                mu::llvmc::branch_analyzer branches (loop_branch, module_m.global_m.error);
+                auto & feedback_branch (loop_a->results [0]);
+                auto & target_branch (loop_s->add_branch ());
+                for (auto i (feedback_branch.nodes.begin ()), j (feedback_branch.nodes.end ()); i != j && module_m.global_m.error == nullptr; ++i)
+                {
+                    auto value (*i);
+                    module_m.global_m.process_node (value);
+                    if (module_m.global_m.error == nullptr)
+                    {
+                        for (auto k (value->generated.begin ()), l (value->generated.end ()); k != l && module_m.global_m.error == nullptr; ++k)
+                        {
+                            auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
+                            if (value != nullptr)
+                            {
+                                branches.add_branch (value->branch, value->region);
+                                target_branch.values.push_back (value);
+                            }
+                            else
+                            {
+                                auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (*k));
+                                if (sequence != nullptr)
+                                {
+                                    branches.add_branch (sequence->value->branch, sequence->value->region);
+                                    target_branch.sequenced.push_back (sequence->value);
+                                }
+                                else
+                                {
+                                    module_m.global_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+                                }
+                            }
+                        }
+                    }
+                }
+                branches.new_set ();
+                auto branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
+                for (auto i (loop_a->results.begin () + 1), j (loop_a->results.end ()); i != j && module_m.global_m.error == nullptr; ++i)
+                {
+                    auto & target_branch (loop_s->add_branch ());
+                    for (auto k (i->nodes.begin ()), l (i->nodes.end ()); k != l && module_m.global_m.error == nullptr; ++k)
+                    {
+                        auto value (*k);
+                        module_m.global_m.process_node (value);
+                        if (module_m.global_m.error == nullptr)
+                        {
+                            for (auto m (value->generated.begin ()), n (value->generated.end ()); m != n && module_m.global_m.error == nullptr; ++m)
+                            {
+                                auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*m));
+                                if (value != nullptr)
+                                {
+                                    branches.add_branch (value->branch, value->region);
+                                    target_branch.values.push_back (value);
+                                    auto element (b.loop_element (value->region, branch, loop_s, value->type ()));
+                                    loop_s->elements.push_back (element);
+                                }
+                                else
+                                {
+                                    auto sequence (dynamic_cast <mu::llvmc::skeleton::sequence *> (*m));
+                                    if (sequence != nullptr)
+                                    {
+                                        branches.add_branch (sequence->value->branch, sequence->value->region);
+                                        target_branch.sequenced.push_back (sequence->value);
+                                    }
+                                    else
+                                    {
+                                        module_m.global_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    branches.new_set ();
+                    if (module_m.global_m.error == nullptr)
+                    {
+                        if (target_branch.values.empty ())
+                        {
+                            module_m.global_m.error = new (GC) mu::core::error_string (U"Loop result branches must return a value", mu::core::error_type::branches_must_return_a_value);
+                        }
+                    }
+                    if (module_m.global_m.error == nullptr)
+                    {
+                        loop_a->assigned = true;
+                        assert (!loop_s->elements.empty ());
+                        loop_a->generated.insert (loop_a->generated.begin (), loop_s->elements.begin (), loop_s->elements.end ());
+                    }
+                }
+            }
+            else
+            {
+                module_m.global_m.error = new (GC) mu::core::error_string (U"Loop must have one feedback branch and at least one result branch", mu::core::error_type::loop_not_enough_branches);
+            }
 		}
 		else
 		{
@@ -1400,7 +1382,7 @@ void mu::llvmc::function_processor::process_results ()
             {
                 if (current_branch.results.empty ())
                 {
-                    module_m.global_m.error = new (GC) mu::core::error_string (U"Functions must return at least one value", mu::core::error_type::functions_must_return_a_value);
+                    module_m.global_m.error = new (GC) mu::core::error_string (U"Functions must return at least one value", mu::core::error_type::branches_must_return_a_value);
                 }
             }
         }
