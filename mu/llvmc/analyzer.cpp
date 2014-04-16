@@ -16,9 +16,9 @@
 
 static mu::llvmc::skeleton::factory b;
 
-mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * global_a, mu::core::error * & result_a) :
-global (global_a),
-most_specific (global_a),
+mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * start_a, mu::core::error * & result_a) :
+start (start_a),
+most_specific (start_a),
 result (result_a)
 {
 }
@@ -58,7 +58,7 @@ void mu::llvmc::branch_analyzer::new_set ()
 			{
 				ancestors.insert (ancestors_l.begin (), ancestors_l.end ());
 				leaves.insert (most_specific);
-				most_specific = global;
+				most_specific = start;
 			}
 			else
 			{
@@ -166,7 +166,8 @@ public:
 				
 mu::llvmc::global_processor::global_processor (mu::core::error * & error_a) :
 current_context (this),
-error (error_a)
+error (error_a),
+current_origin (&mu::llvmc::skeleton::branch::global)
 {
 }
 				
@@ -592,7 +593,7 @@ void mu::llvmc::module_processor::unit_type (mu::llvmc::ast::unit_type * unit_ty
 
 void mu::llvmc::function_processor::join (mu::llvmc::ast::join * node_a)
 {
-	mu::llvmc::branch_analyzer analyzer_l (&mu::llvmc::skeleton::branch::global, module_m.global_m.error);
+	mu::llvmc::branch_analyzer analyzer_l (module_m.global_m.current_origin, module_m.global_m.error);
 	auto join (new (GC) mu::llvmc::skeleton::join_value);
 	for (auto & i: node_a->branches)
 	{
@@ -821,7 +822,9 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
 			}
             if (loop_a->results.size () >=2)
             {
-                mu::llvmc::branch_analyzer branches (loop_branch, module_m.global_m.error);
+                auto previous_origin (module_m.global_m.current_origin);
+                module_m.global_m.current_origin = loop_branch;
+                mu::llvmc::branch_analyzer branches (module_m.global_m.current_origin, module_m.global_m.error);
                 auto & feedback_branch (loop_a->results [0]);
                 auto & target_branch (loop_s->add_branch ());
                 for (auto i (feedback_branch.nodes.begin ()), j (feedback_branch.nodes.end ()); i != j && module_m.global_m.error == nullptr; ++i)
@@ -906,6 +909,7 @@ void mu::llvmc::function_processor::loop (mu::llvmc::ast::loop * loop_a)
                         loop_a->generated.insert (loop_a->generated.begin (), loop_s->elements.begin (), loop_s->elements.end ());
                     }
                 }
+                module_m.global_m.current_origin = previous_origin;
             }
             else
             {
@@ -1347,7 +1351,7 @@ void mu::llvmc::function_processor::result (mu::llvmc::ast::result * result_a)
 
 void mu::llvmc::function_processor::process_results ()
 {
-	mu::llvmc::branch_analyzer branches (&mu::llvmc::skeleton::branch::global, module_m.global_m.error);
+	mu::llvmc::branch_analyzer branches (module_m.global_m.current_origin, module_m.global_m.error);
     for (auto i (node_m->results.branches.begin ()), j (node_m->results.branches.end ()); module_m.global_m.error == nullptr && i != j; ++i)
     {
         auto & current_branch (function_m->results.add_branch ());
@@ -1553,7 +1557,7 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
 
 void mu::llvmc::module_processor::process_expression_value_arguments (mu::vector <mu::llvmc::ast::node *> const & arguments, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::vector <mu::llvmc::skeleton::value *> & sequenced_a, mu::llvmc::skeleton::branch * & most_specific_branch)
 {
-    mu::llvmc::branch_analyzer branches (most_specific_branch, global_m.error);
+    mu::llvmc::branch_analyzer branches (global_m.current_origin, global_m.error);
     for (auto i (arguments.begin ()), j (arguments.end ()); i != j && global_m.error == nullptr; ++i)
     {
         auto node_a (*i);
@@ -2428,15 +2432,19 @@ mu::llvmc::function_processor::function_processor (mu::llvmc::module_processor &
 module_m (module_a),
 function_m (b.function (node_a->region)),
 node_m (node_a),
-previous (module_a.global_m.current_context)
+previous (module_a.global_m.current_context),
+previous_origin (module_a.global_m.current_origin)
 {
 	module_a.global_m.current_context = this;
+    module_a.global_m.current_origin = function_m->entry;
 }
 
 mu::llvmc::function_processor::~function_processor ()
 {
 	assert (module_m.global_m.current_context == this);
 	module_m.global_m.current_context = previous;
+    assert (module_m.global_m.current_origin == function_m->entry);
+    module_m.global_m.current_origin = previous_origin;
 }
 
 void mu::llvmc::module_processor::set (mu::llvmc::ast::set * node_a)

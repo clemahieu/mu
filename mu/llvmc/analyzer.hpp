@@ -68,6 +68,7 @@ namespace mu
 			mu::vector <mu::llvmc::ast::node *> analysis_stack;
 			mu::llvmc::ast::visitor * current_context;
 			mu::core::error * & error;
+            mu::llvmc::skeleton::branch * current_origin;
 		};
 		class module_processor : public mu::llvmc::ast::visitor
 		{
@@ -132,14 +133,15 @@ namespace mu
 			mu::llvmc::skeleton::function * function_m;
 			mu::llvmc::ast::function * node_m;
 			mu::llvmc::ast::visitor * previous;
+            mu::llvmc::skeleton::branch * previous_origin;
         };
 		class branch_analyzer
 		{
 		public:
-			branch_analyzer (mu::llvmc::skeleton::branch * global_a, mu::core::error * & result_a);
-            mu::llvmc::skeleton::branch * add_branch (mu::llvmc::skeleton::branch * branch_a, mu::core::region const & region_a);
+			branch_analyzer (mu::llvmc::skeleton::branch *, mu::core::error * &);
+            mu::llvmc::skeleton::branch * add_branch (mu::llvmc::skeleton::branch *, mu::core::region const &);
 			void new_set ();
-			mu::llvmc::skeleton::branch * global;
+			mu::llvmc::skeleton::branch * start;
 			mu::llvmc::skeleton::branch * most_specific;
 			mu::set <mu::llvmc::skeleton::branch *> ancestors;
 			mu::set <mu::llvmc::skeleton::branch *> leaves;
