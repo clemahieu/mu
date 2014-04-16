@@ -2543,7 +2543,9 @@ TEST (llvmc_analyzer, loop_passthrough)
     loop1.parameters.push_back (&parameter2);
     mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
     mu::llvmc::ast::value if_ast (&if_marker);
-    mu::llvmc::ast::expression expression1 ({&if_ast, &parameter2}, {});
+    mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 0);
+    mu::llvmc::ast::value value2 (&constant1);
+    mu::llvmc::ast::expression expression1 ({&if_ast, &value2}, {});
     mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
     mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     mu::llvmc::ast::sequence sequence1 (&element1);
