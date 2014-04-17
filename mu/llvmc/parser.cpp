@@ -683,12 +683,12 @@ void mu::llvmc::block::refer (mu::string const & name_a, mu::core::region const 
     }
 }
 
-void mu::llvmc::block::accept (mu::multimap <mu::string, unresolved_type> unresolved_a)
+void mu::llvmc::block::accept (mu::unordered_multimap <mu::string, unresolved_type> const & unresolved_a)
 {
     unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
 }
 
-void mu::llvmc::global::accept (mu::multimap <mu::string, unresolved_type> unresolved_a)
+void mu::llvmc::global::accept (mu::unordered_multimap <mu::string, unresolved_type> const & unresolved_a)
 {
     unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
 }

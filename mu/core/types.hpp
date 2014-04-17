@@ -27,6 +27,8 @@ namespace mu
 	using unordered_map = std::unordered_map <T, U, std::hash <T>, std::equal_to <T>, gc_allocator <std::pair <T const, U>>>;
     template <typename T, typename U>
     using multimap = std::multimap <T, U, std::less <T>, gc_allocator <std::pair <T, U>>>;
+    template <typename T, typename U>
+    using unordered_multimap = std::unordered_multimap <T, U, std::hash <T>, std::equal_to <T>, gc_allocator <std::pair <T const, U>>>;
     template <typename T>
     using set = std::set <T, std::less <T>, gc_allocator <T>>;
 	template <typename T, typename U>
