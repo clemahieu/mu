@@ -111,7 +111,7 @@ namespace mu
         class module
         {
         public:
-            module (mu::core::region const & region_a, mu::llvmc::parser & parser_a);
+            module (mu::core::region const &, mu::llvmc::parser &);
             ~module ();
 			void parse ();
 			void parse_internal ();
@@ -123,25 +123,31 @@ namespace mu
         class function_hook : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
+            mu::string const & name () override;
+        };
+        class function_overload_hook : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
         };
         class set_hook : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
         };
         class let_hook : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
         };
         class function
         {
         public:
-            function (mu::core::region const & region_a, mu::llvmc::parser & parser_a);
+            function (mu::core::region const &, mu::llvmc::parser &);
             ~function ();
             void parse ();
             void parse_parameters ();
@@ -158,7 +164,7 @@ namespace mu
         class expression
         {
         public:
-            expression (mu::core::region const & region_a, mu::llvmc::parser & parser_a);
+            expression (mu::core::region const &, mu::llvmc::parser &);
             void parse ();
             mu::llvmc::node_result result;
             mu::llvmc::parser & parser;
@@ -167,37 +173,37 @@ namespace mu
         class int_type : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
         };
         class ptr_type : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
         };
         class number : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
         };
         class constant_int : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
         };
         class loop_hook : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a) override;
+            mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
         };
         class loop
         {
         public:
-            loop (mu::llvmc::parser & parser_a);
+            loop (mu::llvmc::parser &);
             void parse ();
             void parse_arguments ();
             void parse_binds ();

@@ -168,6 +168,24 @@ namespace mu
                 mu::llvmc::ast::function_result results;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
+            class function_family : public mu::llvmc::ast::node
+            {
+            public:
+				function_family (mu::llvmc::template_context * = nullptr);
+				function_family (mu::llvmc::ast::function_family const &, mu::llvmc::clone_context &);
+				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context &) override;
+                void visit (mu::llvmc::ast::visitor *) override;
+            };
+            class function_overload : public mu::llvmc::ast::node
+            {
+            public:
+				function_overload (mu::llvmc::template_context * = nullptr);
+				function_overload (mu::llvmc::ast::function_overload const &, mu::llvmc::clone_context &);
+				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context &) override;
+                void visit (mu::llvmc::ast::visitor *) override;
+                mu::llvmc::ast::node * family;
+                mu::llvmc::ast::node * function;
+            };
             class integer_type : public mu::llvmc::ast::node
             {
             public:
@@ -383,38 +401,40 @@ namespace mu
             class visitor
             {
             public:
-                void unexpected (mu::llvmc::ast::node * node_a);
-                virtual void node (mu::llvmc::ast::node * node_a);
-                virtual void fixed_array_type (mu::llvmc::ast::fixed_array_type * node_a);
-                virtual void array_type (mu::llvmc::ast::array_type * node_a);
-                virtual void constant_int (mu::llvmc::ast::constant_int * node_a);
-                virtual void integer_type (mu::llvmc::ast::integer_type * node_a);
-                virtual void pointer_type (mu::llvmc::ast::pointer_type * node_a);
-                virtual void constant_array (mu::llvmc::ast::constant_array * node_a);
-                virtual void global_variable (mu::llvmc::ast::global_variable * node_a);
-                virtual void expression (mu::llvmc::ast::expression * node_a);
-                virtual void constant_pointer_null (mu::llvmc::ast::constant_pointer_null * node_a);
-                virtual void join (mu::llvmc::ast::join * node_a);
-                virtual void loop (mu::llvmc::ast::loop * node_a);
-                virtual void unit (mu::llvmc::ast::unit * node_a);
-                virtual void asm_c (mu::llvmc::ast::asm_c * node_a);
-                virtual void value (mu::llvmc::ast::value * node_a);
-                virtual void module (mu::llvmc::ast::module * node_a);
-                virtual void number (mu::llvmc::ast::number * node_a);
-                virtual void result (mu::llvmc::ast::result * node_a);
-                virtual void element (mu::llvmc::ast::element * node_a);
-                virtual void function (mu::llvmc::ast::function * node_a);
-                virtual void unit_type (mu::llvmc::ast::unit_type * node_a);
-                virtual void loop_parameter (mu::llvmc::ast::loop_parameter * node_a);
-                virtual void parameter (mu::llvmc::ast::parameter * node_a);
-                virtual void struct_type (mu::llvmc::ast::struct_type * node_a);
-                virtual void undefined (mu::llvmc::ast::undefined * node_a);
-				virtual void template_c (mu::llvmc::ast::template_c * node_a);
-				virtual void template_parameter (mu::llvmc::ast::template_parameter * node_a);
-                virtual void entry (mu::llvmc::ast::entry * node_a);
-				virtual void set (mu::llvmc::ast::set * node_a);
-                virtual void namespace_c (mu::llvmc::ast::namespace_c * node_a);
-                virtual void sequence (mu::llvmc::ast::sequence * node_a);
+                void unexpected (mu::llvmc::ast::node *);
+                virtual void node (mu::llvmc::ast::node *);
+                virtual void fixed_array_type (mu::llvmc::ast::fixed_array_type *);
+                virtual void array_type (mu::llvmc::ast::array_type *);
+                virtual void constant_int (mu::llvmc::ast::constant_int *);
+                virtual void integer_type (mu::llvmc::ast::integer_type *);
+                virtual void pointer_type (mu::llvmc::ast::pointer_type *);
+                virtual void constant_array (mu::llvmc::ast::constant_array *);
+                virtual void global_variable (mu::llvmc::ast::global_variable *);
+                virtual void expression (mu::llvmc::ast::expression *);
+                virtual void constant_pointer_null (mu::llvmc::ast::constant_pointer_null *);
+                virtual void join (mu::llvmc::ast::join *);
+                virtual void loop (mu::llvmc::ast::loop *);
+                virtual void unit (mu::llvmc::ast::unit *);
+                virtual void asm_c (mu::llvmc::ast::asm_c *);
+                virtual void value (mu::llvmc::ast::value *);
+                virtual void module (mu::llvmc::ast::module *);
+                virtual void number (mu::llvmc::ast::number *);
+                virtual void result (mu::llvmc::ast::result *);
+                virtual void element (mu::llvmc::ast::element *);
+                virtual void function (mu::llvmc::ast::function *);
+                virtual void unit_type (mu::llvmc::ast::unit_type *);
+                virtual void loop_parameter (mu::llvmc::ast::loop_parameter *);
+                virtual void parameter (mu::llvmc::ast::parameter *);
+                virtual void struct_type (mu::llvmc::ast::struct_type *);
+                virtual void undefined (mu::llvmc::ast::undefined *);
+				virtual void template_c (mu::llvmc::ast::template_c *);
+				virtual void template_parameter (mu::llvmc::ast::template_parameter *);
+                virtual void entry (mu::llvmc::ast::entry *);
+				virtual void set (mu::llvmc::ast::set *);
+                virtual void namespace_c (mu::llvmc::ast::namespace_c *);
+                virtual void sequence (mu::llvmc::ast::sequence *);
+                virtual void function_family (mu::llvmc::ast::function_family *);
+                virtual void function_overload (mu::llvmc::ast::function_overload *);
             };
         }
     }

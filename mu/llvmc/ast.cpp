@@ -1089,3 +1089,53 @@ node (template_a),
 arguments (list_a)
 {    
 }
+
+mu::llvmc::ast::function_family::function_family (mu::llvmc::template_context * template_a) :
+node (template_a)
+{
+}
+
+mu::llvmc::ast::function_family::function_family (mu::llvmc::ast::function_family const & other_a, mu::llvmc::clone_context & context_a) :
+node (other_a.template_m)
+{
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::function_family::do_clone (mu::llvmc::clone_context & context_a)
+{
+    return new (GC) mu::llvmc::ast::function_family (*this, context_a);
+}
+
+void mu::llvmc::ast::function_family::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->function_family (this);
+}
+
+void mu::llvmc::ast::visitor::function_family (mu::llvmc::ast::function_family * node_a)
+{
+    node (node_a);
+}
+
+mu::llvmc::ast::function_overload::function_overload (mu::llvmc::template_context * template_a)
+{
+}
+
+mu::llvmc::ast::function_overload::function_overload (mu::llvmc::ast::function_overload const & other_a, mu::llvmc::clone_context & context_a) :
+family (other_a.family->clone (context_a)),
+function (other_a.function->clone (context_a))
+{
+}
+
+mu::llvmc::ast::node * mu::llvmc::ast::function_overload::do_clone (mu::llvmc::clone_context & context_a)
+{
+    return new (GC) mu::llvmc::ast::function_overload (*this, context_a);
+}
+
+void mu::llvmc::ast::function_overload::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->function_overload (this);
+}
+
+void mu::llvmc::ast::visitor::function_overload (mu::llvmc::ast::function_overload * node_a)
+{
+    node (node_a);
+}

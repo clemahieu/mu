@@ -1975,3 +1975,43 @@ mu::string const & mu::llvmc::sequence_hook::name ()
     static mu::string const result (U"sequence_hook");
     return result;
 }
+
+mu::llvmc::node_result mu::llvmc::function_overload_hook::parse (mu::core::region const & region_a, mu::llvmc::parser & parser_a)
+{
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    auto overload (new (GC) mu::llvmc::ast::function_overload (parser_a.current_template));
+    result.error = parser_a.parse_identifier (
+        [&parser_a, overload]
+        (mu::io::identifier * identifier_a)
+        {
+            auto empty (parser_a.current_mapping->get (identifier_a->string, identifier_a->region,
+                [overload]
+                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                {
+                    overload->family = node_a;
+                }));
+            if (empty)
+            {
+                auto family (new (GC) mu::llvmc::ast::function_family);
+                parser_a.current_mapping->insert (identifier_a->string, family);
+                overload->family = family;
+            }
+            return nullptr;
+        }, U"Expecting function name", mu::core::error_type::expecting_function_name);
+    if (result.error == nullptr)
+    {
+        result.error = parser_a.parse_ast_or_refer (
+            [overload]
+            (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+            {
+                overload->function = node_a;
+            });
+    }
+    return result;
+}
+
+mu::string const & mu::llvmc::function_overload_hook::name ()
+{
+    static mu::string const name (U"function_overload_hook");
+    return name;
+}
