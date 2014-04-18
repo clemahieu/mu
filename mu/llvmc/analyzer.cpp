@@ -2512,3 +2512,18 @@ void mu::llvmc::global_processor::template_parameter (mu::llvmc::ast::template_p
 {
 	assert (false && "Template parameter was not replaced");
 }
+
+void mu::llvmc::module_processor::function_overload (mu::llvmc::ast::function_overload * overload_a)
+{
+	global_m.process_node (overload_a->family);
+	if (global_m.error == nullptr)
+	{
+		assert (overload_a->family->assigned);
+	}
+}
+
+void mu::llvmc::module_processor::function_family (mu::llvmc::ast::function_family * family_a)
+{
+	family_a->assigned = true;
+	family_a->generated.push_back (new (GC) mu::llvmc::skeleton::function_family);
+}

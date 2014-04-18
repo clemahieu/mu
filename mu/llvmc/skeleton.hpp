@@ -537,6 +537,20 @@ namespace mu
 			public:
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 			};
+			class function_overload;
+			class function_family : public mu::llvmc::skeleton::node
+			{
+			public:
+				void visit (mu::llvmc::skeleton::visitor *) override;
+				mu::vector <mu::llvmc::skeleton::function_overload *> overloads;
+			};
+			class function_overload : public mu::llvmc::skeleton::function
+			{
+			public:
+				function_overload (mu::core::region const &, mu::llvmc::skeleton::function_family *);
+				void visit (mu::llvmc::skeleton::visitor *) override;
+				mu::llvmc::skeleton::function_family * family;
+			};
             class visitor
             {
             public:
@@ -582,6 +596,8 @@ namespace mu
 				virtual void constant_int_c (mu::llvmc::skeleton::constant_int_c * node_a);
 				virtual void number (mu::llvmc::skeleton::number * node_a);
                 virtual void sequence (mu::llvmc::skeleton::sequence *);
+                virtual void function_overload (mu::llvmc::skeleton::function_overload *);
+                virtual void function_family (mu::llvmc::skeleton::function_family *);
             };
             class factory
             {

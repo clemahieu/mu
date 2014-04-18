@@ -2246,3 +2246,37 @@ TEST (llvmc_parser, sequence)
     auto expression1 (dynamic_cast <mu::llvmc::ast::expression *> (sequence1->node_m));
     ASSERT_NE (nullptr, expression1);
 }
+
+TEST (llvmc_parser, empty_function_overload)
+{
+	test_parser parser ("ofunction test1 [] [] []");
+	auto module1 (parser.parser.parse ());
+	ASSERT_EQ (nullptr, module1.error);
+	ASSERT_NE (nullptr, module1.node);
+	auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+	ASSERT_NE (nullptr, module2);
+	ASSERT_EQ (1, module2->globals.size ());
+	auto overload1 (dynamic_cast <mu::llvmc::ast::function_overload *> (module2->globals [0]));
+	ASSERT_NE (nullptr, overload1);
+	auto family1 (dynamic_cast <mu::llvmc::ast::function_family *> (overload1->family));
+	ASSERT_NE (nullptr, family1);
+}
+
+TEST (llvmc_parser, single_function_overload)
+{
+	test_parser parser ("ofunction test1 [] [] [] ofunction test1 [] [] []");
+	auto module1 (parser.parser.parse ());
+	ASSERT_EQ (nullptr, module1.error);
+	ASSERT_NE (nullptr, module1.node);
+	auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+	ASSERT_NE (nullptr, module2);
+	ASSERT_EQ (2, module2->globals.size ());
+	auto overload1 (dynamic_cast <mu::llvmc::ast::function_overload *> (module2->globals [0]));
+	ASSERT_NE (nullptr, overload1);
+	auto family1 (dynamic_cast <mu::llvmc::ast::function_family *> (overload1->family));
+	ASSERT_NE (nullptr, family1);
+	auto overload2 (dynamic_cast <mu::llvmc::ast::function_overload *> (module2->globals [1]));
+	ASSERT_NE (nullptr, overload2);
+	auto family2 (dynamic_cast <mu::llvmc::ast::function_family *> (overload2->family));
+	ASSERT_EQ (family1, family2);
+}

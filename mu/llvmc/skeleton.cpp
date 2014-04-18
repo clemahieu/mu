@@ -1691,3 +1691,29 @@ void mu::llvmc::skeleton::sequence::visit (mu::llvmc::skeleton::visitor * visito
 {
     visitor_a->sequence (this);
 }
+
+void mu::llvmc::skeleton::function_family::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+	visitor_a->function_family (this);
+}
+
+void mu::llvmc::skeleton::function_overload::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+	visitor_a->function_overload (this);
+}
+
+mu::llvmc::skeleton::function_overload::function_overload (mu::core::region const & region_a, mu::llvmc::skeleton::function_family * family_a) :
+function (region_a),
+family (family_a)
+{
+}
+
+void mu::llvmc::skeleton::visitor::function_family (mu::llvmc::skeleton::function_family * family_a)
+{
+	node (family_a);
+}
+
+void mu::llvmc::skeleton::visitor::function_overload (mu::llvmc::skeleton::function_overload * overload_a)
+{
+	function (overload_a);
+}

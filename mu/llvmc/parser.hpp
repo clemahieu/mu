@@ -129,8 +129,10 @@ namespace mu
         class function_overload_hook : public mu::llvmc::hook
         {
         public:
+			function_overload_hook (function_hook &);
             mu::llvmc::node_result parse (mu::core::region const &, mu::llvmc::parser &) override;
             mu::string const & name () override;
+			function_hook & function_hook;
         };
         class set_hook : public mu::llvmc::hook
         {
@@ -367,6 +369,7 @@ namespace mu
             mu::llvmc::entry_hook entry_hook;
             mu::llvmc::namespace_hook namespace_hook;
             mu::llvmc::sequence_hook sequence_hook;
+			mu::llvmc::function_overload_hook function_overload_hook;
             std::vector <mu::llvmc::parser_frame> parse_stack;
         };
         class parser_error : public mu::core::error

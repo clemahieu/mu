@@ -24,7 +24,8 @@ mu::llvmc::parser::parser (mu::io::stream_token & stream_a):
 current_template (nullptr),
 builtins (&keywords),
 current_mapping (&builtins),
-stream (stream_a)
+stream (stream_a),
+function_overload_hook (function)
 {
     bool error (false);
     error = builtins.insert  (U"~", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::identity, current_template));
@@ -52,6 +53,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"function", &function);
     assert (!error);
+	error = keywords.insert (U"ofunction", &function_overload_hook);
+	assert (!error);
     error = keywords.insert (U"int-t", &int_type);
     assert (!error);
     error = keywords.insert (U"join", &join_hook);
@@ -2000,12 +2003,16 @@ mu::llvmc::node_result mu::llvmc::function_overload_hook::parse (mu::core::regio
         }, U"Expecting function name", mu::core::error_type::expecting_function_name);
     if (result.error == nullptr)
     {
-        result.error = parser_a.parse_ast_or_refer (
-            [overload]
-            (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-            {
-                overload->function = node_a;
-            });
+		auto result2 (function_hook.parse (region_a, parser_a));
+		if (result2.error == nullptr)
+		{
+			overload->function = result2.node;
+			result.node = overload;
+		}
+		else
+		{
+			result.error = result2.error;
+		}
     }
     return result;
 }
@@ -2014,4 +2021,9 @@ mu::string const & mu::llvmc::function_overload_hook::name ()
 {
     static mu::string const name (U"function_overload_hook");
     return name;
+}
+
+mu::llvmc::function_overload_hook::function_overload_hook (mu::llvmc::function_hook & function_hook_a) :
+function_hook (function_hook_a)
+{
 }
