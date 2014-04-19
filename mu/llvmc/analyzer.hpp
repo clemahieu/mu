@@ -18,7 +18,6 @@ namespace mu
             class value;
             class node;
             class module;
-            class expression;
             class function;
             class type;
             class branch;

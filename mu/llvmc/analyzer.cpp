@@ -719,14 +719,19 @@ void mu::llvmc::module_processor::function (mu::llvmc::ast::function * function_
 void mu::llvmc::function_processor::process ()
 {
     process_parameters ();
+    node_m->generated.push_back (function_m);
+    node_m->assigned = true;
 	process_results ();
 	if (module_m.global_m.error == nullptr)
 	{
-		node_m->generated.push_back (function_m);
-		node_m->assigned = true;
         assert (module_m.unnamed_globals.find (function_m) == module_m.unnamed_globals.end ());
         module_m.unnamed_globals.insert (function_m);
 	}
+    else
+    {
+        node_m->generated.clear ();
+        node_m->assigned = false;
+    }
 }
 
 void mu::llvmc::module_processor::entry (mu::llvmc::ast::entry * node_a)

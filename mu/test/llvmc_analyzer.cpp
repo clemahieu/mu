@@ -3765,3 +3765,35 @@ TEST (llvmc_analyzer, fail_join_processed_node_after_error)
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
 }
+
+TEST (llvmc_analyzer, recursive_function)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::unit_type unit1;
+    mu::llvmc::ast::parameter parameter1 (U"0", &unit1);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::unit unit2;
+    mu::llvmc::ast::expression expression1 ({&function1, &unit2});
+    mu::llvmc::ast::element element1 (&function1, 0, 1, U"0", mu::empty_region);
+    mu::llvmc::ast::result result1 (&unit1, &expression1);
+    function1.results = {{&result1}};
+    module.globals.push_back (&element1);
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
+    ASSERT_NE (nullptr, function2);
+    ASSERT_EQ (1, function2->parameters.size ());
+    ASSERT_EQ (1, function2->results.size ());
+    ASSERT_EQ (1, function2->results [0].results.size ());
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
+    ASSERT_NE (nullptr, result2);
+    auto element2 (dynamic_cast <mu::llvmc::skeleton::call_element *> (result2->value));
+    ASSERT_NE (nullptr, element2);
+    ASSERT_EQ (2, element2->source->arguments.size ());
+    auto function3 (dynamic_cast <mu::llvmc::skeleton::function *> (element2->source->arguments [0]));
+    ASSERT_NE (nullptr, function3);
+}
