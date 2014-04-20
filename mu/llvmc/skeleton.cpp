@@ -114,12 +114,6 @@ name (name_a)
 {
 }
 
-mu::llvmc::skeleton::result::result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a):
-type (type_a),
-value (value_a)
-{
-}
-
 mu::llvmc::skeleton::instruction::instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::value *> const & sequenced_a) :
 value (region_a, branch_a),
 arguments (arguments_a),
@@ -188,7 +182,7 @@ bool mu::llvmc::skeleton::function_type::results_equal (mu::llvmc::skeleton::fun
         result = i->results.size () == k->results.size ();
         for (auto l (i->results.begin ()), m (i->results.end ()), n (k->results.begin ()); result && l != m; ++l, ++n)
         {
-            result = *(*l)->type == *(*n)->type;
+            result = *(*l)->type () == *(*n)->type ();
         }
     }
     return result;
@@ -225,7 +219,7 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
     {
         for (auto k (i->results.begin ()), l (i->results.end ()); llvm_values < 2 && k != l; ++k)
         {
-            if (!(*k)->type->is_unit_type ())
+            if (!(*k)->type ()->is_unit_type ())
             {
                 ++llvm_values;
             }
@@ -856,11 +850,6 @@ void mu::llvmc::skeleton::marker::visit (mu::llvmc::skeleton::visitor * visitor_
     visitor_a->marker (this);
 }
 
-void mu::llvmc::skeleton::result::visit (mu::llvmc::skeleton::visitor * visitor_a)
-{
-    visitor_a->result (this);
-}
-
 void mu::llvmc::skeleton::constant::visit (mu::llvmc::skeleton::visitor * visitor_a)
 {
     visitor_a->constant (this);
@@ -1022,11 +1011,6 @@ void mu::llvmc::skeleton::visitor::value (mu::llvmc::skeleton::value * node_a)
 }
 
 void mu::llvmc::skeleton::visitor::marker (mu::llvmc::skeleton::marker * node_a)
-{
-    node (node_a);
-}
-
-void mu::llvmc::skeleton::visitor::result (mu::llvmc::skeleton::result * node_a)
 {
     node (node_a);
 }
@@ -1430,11 +1414,6 @@ mu::llvmc::skeleton::marker * mu::llvmc::skeleton::factory::marker (mu::llvmc::i
 	return new (GC) mu::llvmc::skeleton::marker (type_a);
 }
 
-mu::llvmc::skeleton::result * mu::llvmc::skeleton::factory::result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a)
-{
-	return new (GC) mu::llvmc::skeleton::result (type_a, value_a);
-}
-
 mu::llvmc::skeleton::function * mu::llvmc::skeleton::factory::function (mu::core::region const & region_a)
 {
 	return new (GC) mu::llvmc::skeleton::function (region_a);
@@ -1547,7 +1526,7 @@ mu::string mu::llvmc::skeleton::function_type::name ()
                 result.push_back (U' ');
             }
             first = false;
-            result.append (j->type->name ());
+            result.append (j->type ()->name ());
         }
         result.push_back (']');
         first = true;
@@ -1654,12 +1633,6 @@ void mu::llvmc::skeleton::number::visit (mu::llvmc::skeleton::visitor * visitor_
 	visitor_a->number (this);
 }
 
-mu::llvmc::skeleton::function_result::function_result (std::initializer_list <mu::llvmc::skeleton::result *> const & results_a, std::initializer_list <mu::llvmc::skeleton::value *> const & sequenced_a) :
-results (results_a),
-sequenced (sequenced_a)
-{
-}
-
 mu::llvmc::skeleton::function_branches::function_branches (std::initializer_list <function_result> const & branches_a) :
 branches (branches_a)
 {
@@ -1716,4 +1689,9 @@ void mu::llvmc::skeleton::visitor::function_family (mu::llvmc::skeleton::functio
 void mu::llvmc::skeleton::visitor::function_overload (mu::llvmc::skeleton::function_overload * overload_a)
 {
 	function (overload_a);
+}
+
+mu::llvmc::skeleton::function_return::function_return (std::initializer_list <mu::llvmc::skeleton::type *> const & types_a) :
+types (types_a)
+{
 }

@@ -235,14 +235,6 @@ namespace mu
                 bool is_unit_type () const override;
 				mu::string name () override;
             };
-            class result : public mu::llvmc::skeleton::node
-            {
-            public:
-                result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-                mu::llvmc::skeleton::type * type;
-                mu::llvmc::skeleton::value * value;
-            };
             class function;
             class function_type : public mu::llvmc::skeleton::type
             {
@@ -291,8 +283,7 @@ namespace mu
             {
             public:
                 function_result () = default;
-                function_result (std::initializer_list <mu::llvmc::skeleton::result *> const &, std::initializer_list <mu::llvmc::skeleton::value *> const &);
-                mu::vector <mu::llvmc::skeleton::result *> results;
+                mu::vector <mu::llvmc::skeleton::value *> results;
                 mu::vector <mu::llvmc::skeleton::value *> sequenced;
             };
             class function_branches
@@ -305,6 +296,13 @@ namespace mu
                 size_t size () const;
                 mu::vector <function_result> branches;
             };
+            class function_return
+            {
+            public:
+                function_return () = default;
+                function_return (std::initializer_list <mu::llvmc::skeleton::type *> const &);
+                mu::vector <mu::llvmc::skeleton::type *> types;
+            };
             class function : public mu::llvmc::skeleton::global_value
             {
             public:
@@ -316,6 +314,7 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
+                mu::vector <mu::llvmc::skeleton::function_return> returns;
                 function_branches results;
                 static void empty_node (mu::llvmc::skeleton::node *, size_t);
                 static bool empty_loop_predicate ();
@@ -579,7 +578,6 @@ namespace mu
                 virtual void named (mu::llvmc::skeleton::named * node_a);
                 virtual void value (mu::llvmc::skeleton::value * node_a);
                 virtual void marker (mu::llvmc::skeleton::marker * node_a);
-                virtual void result (mu::llvmc::skeleton::result * node_a);
                 virtual void constant (mu::llvmc::skeleton::constant * node_a);
                 virtual void function (mu::llvmc::skeleton::function * node_a);
                 virtual void identity (mu::llvmc::skeleton::identity * node_a);
@@ -624,7 +622,6 @@ namespace mu
                 mu::llvmc::skeleton::asm_c * asm_c (mu::llvmc::skeleton::type * type_a, mu::string const & text_a, mu::string const & constraint_a);
                 mu::llvmc::skeleton::named * named (mu::core::region const & region_a, mu::llvmc::skeleton::value * value_a, mu::string const & name_a);
                 mu::llvmc::skeleton::marker * marker (mu::llvmc::instruction_type type_a);
-                mu::llvmc::skeleton::result * result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a);
                 mu::llvmc::skeleton::function * function (mu::core::region const & region_a);
                 mu::llvmc::skeleton::identity * identity ();
                 mu::llvmc::skeleton::parameter * parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a);

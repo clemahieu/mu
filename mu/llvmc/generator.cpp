@@ -181,9 +181,8 @@ void mu::llvmc::generate_function::generate ()
             auto & result_l (function->results [0]);
             for (auto i: result_l.results)
             {
-                auto result (mu::cast <mu::llvmc::skeleton::result> (i));
-                module.system.generate_value (result->value);
-                assert (result->type->is_unit_type ());
+                module.system.generate_value (i);
+                assert (i->type ()->is_unit_type ());
             }
             for (auto i: result_l.sequenced)
             {
@@ -201,10 +200,10 @@ void mu::llvmc::generate_function::generate ()
             auto & result_l (function->results [0]);
             for (auto i: result_l.results)
             {
-                auto result (mu::cast <mu::llvmc::skeleton::result> (i));
-                module.system.generate_value (result->value);
-                assert (the_value == nullptr || result->type->is_unit_type ());
-                the_value = result->type->is_unit_type () ? the_value : result->value->generated;
+                auto result (i);
+                module.system.generate_value (result);
+                assert (the_value == nullptr || result->type ()->is_unit_type ());
+                the_value = result->type ()->is_unit_type () ? the_value : result->generated;
             }
             for (auto i: result_l.sequenced)
             {
@@ -223,11 +222,11 @@ void mu::llvmc::generate_function::generate ()
             auto & result_l (function->results [0]);
             for (auto i: result_l.results)
             {
-                auto result_l (mu::cast <mu::llvmc::skeleton::result> (i));
-                module.system.generate_value (result_l->value);
-                if (!result_l->type->is_unit_type ())
+                auto result_l (i);
+                module.system.generate_value (result_l);
+                if (!result_l->type ()->is_unit_type ())
                 {
-                    auto insert = llvm::InsertValueInst::Create (result, result_l->value->generated, llvm::ArrayRef <unsigned> (index));
+                    auto insert = llvm::InsertValueInst::Create (result, result_l->generated, llvm::ArrayRef <unsigned> (index));
                     last->getInstList ().push_back (insert);
                     result = insert;
                     ++index;
@@ -287,13 +286,13 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     {
         for (auto j: i.results)
         {
-            auto result_l (mu::cast <mu::llvmc::skeleton::result> (j));
-            module.system.generate_value (result_l->value);
-            if (!result_l->type->is_unit_type())
+            auto result_l (j);
+            module.system.generate_value (result_l);
+            if (!result_l->type ()->is_unit_type())
             {
-                result.push_back (result_l->value->generated);
+                result.push_back (result_l->generated);
             }
-            auto instruction (llvm::BinaryOperator::CreateAnd (predicate, result_l->value->predicate));
+            auto instruction (llvm::BinaryOperator::CreateAnd (predicate, result_l->predicate));
             last->getInstList ().push_back (instruction);
             predicate = instruction;
         }
@@ -448,7 +447,7 @@ void mu::llvmc::generate_function::call_element (mu::llvmc::skeleton::call_eleme
                 for (auto j: i.results)
                 {
                     assert (current_element != end_element);
-                    if (!j->type->is_unit_type ())
+                    if (!j->type ()->is_unit_type ())
                     {
                         auto extraction (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (result_index)));
                         new_last->getInstList().push_back (extraction);
@@ -1560,7 +1559,7 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
     {
         for (auto j: i.results)
         {
-            auto type_s (j->type);
+            auto type_s (j->type ());
             if (!type_s->is_unit_type())
             {
                 system.generate_type (type_s);

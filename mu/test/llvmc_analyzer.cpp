@@ -219,12 +219,10 @@ TEST (llvmc_analyzer, one_result_parameter)
     ASSERT_EQ (parameter1.region, parameter2->region);
     ASSERT_EQ (1, function1->results.size ());
     ASSERT_EQ (1, function1->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    auto result3 (dynamic_cast <mu::llvmc::skeleton::value *> (result2->value));
+    auto result3 (dynamic_cast <mu::llvmc::skeleton::value *> (function1->results [0].results [0]));
     ASSERT_NE (nullptr, result3);
     ASSERT_EQ (parameter2, result3);
-    ASSERT_EQ (function1->entry, result2->value->branch);
+    ASSERT_EQ (function1->entry, result3->branch);
 }
 
 TEST (llvmc_analyzer, two_result_parameter)
@@ -251,18 +249,14 @@ TEST (llvmc_analyzer, two_result_parameter)
     auto parameter2 (function1->parameters [0]);
     ASSERT_EQ (1, function1->results.size ());
     ASSERT_EQ (2, function1->results [0].results.size ());
-    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0].results [0]));
-    ASSERT_NE (nullptr, result3);
-    auto result4 (dynamic_cast <mu::llvmc::skeleton::value *> (result3->value));
+    auto result4 (dynamic_cast <mu::llvmc::skeleton::value *> (function1->results [0].results [0]));
     ASSERT_NE (nullptr, result4);
     ASSERT_EQ (parameter2, result4);
-    ASSERT_EQ (function1->entry, result3->value->branch);
-    auto result5 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0].results [1]));
-    ASSERT_NE (nullptr, result5);
-    auto result6 (dynamic_cast <mu::llvmc::skeleton::value *> (result5->value));
+    ASSERT_EQ (function1->entry, result4->branch);
+    auto result6 (dynamic_cast <mu::llvmc::skeleton::value *> (function1->results [0].results [1]));
     ASSERT_NE (nullptr, result6);
     ASSERT_EQ (parameter2, result6);
-    ASSERT_EQ (function1->entry, result5->value->branch);
+    ASSERT_EQ (function1->entry, result6->branch);
 }
 
 TEST (llvmc_analyzer, error_wrong_result_type)
@@ -392,16 +386,12 @@ TEST (llvmc_analyzer, if_instruction)
     ASSERT_EQ (2, function1->results.size ());
     ASSERT_EQ (1, function1->results [0].results.size ());
     ASSERT_EQ (1, function1->results [1].results.size ());
-    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0].results [0]));
-    ASSERT_NE (nullptr, result3);
-    auto named1 (dynamic_cast <mu::llvmc::skeleton::named *> (result3->value));
+    auto named1 (dynamic_cast <mu::llvmc::skeleton::named *> (function1->results [0].results [0]));
     ASSERT_NE (nullptr, named1);
     ASSERT_EQ (named1->region, element1.region);
     auto element3 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (named1->value_m));
     ASSERT_NE (nullptr, element3);
-    auto result4 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [1].results [0]));
-    ASSERT_NE (nullptr, result4);
-    auto named2 (dynamic_cast <mu::llvmc::skeleton::named *> (result4->value));
+    auto named2 (dynamic_cast <mu::llvmc::skeleton::named *> (function1->results [1].results [0]));
     ASSERT_NE (nullptr, named2);
     ASSERT_EQ (named2->region, element2.region);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (named2->value_m));
@@ -459,9 +449,7 @@ TEST (llvmc_analyzer, branches)
     ASSERT_EQ (2, function1->results.size ());
     ASSERT_EQ (1, function1->results [0].results.size ());
     ASSERT_EQ (1, function1->results [1].results.size ());
-    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0].results [0]));
-    ASSERT_NE (nullptr, result3);
-    auto element3 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result3->value));
+    auto element3 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function1->results [0].results [0]));
     ASSERT_NE (nullptr, element3);
     ASSERT_EQ (mu::llvmc::instruction_type::add, element3->marker ());
     ASSERT_EQ (3, element3->arguments.size ());
@@ -469,9 +457,7 @@ TEST (llvmc_analyzer, branches)
     ASSERT_EQ (&add_marker, element3->arguments [0]);
     ASSERT_EQ (parameter5, element3->arguments [1]);
     ASSERT_EQ (parameter5, element3->arguments [2]);
-    auto result4 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [1].results [0]));
-    ASSERT_NE (nullptr, result4);
-    auto element4 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result4->value));
+    auto element4 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function1->results [1].results [0]));
     ASSERT_NE (nullptr, element4);
     ASSERT_EQ (mu::llvmc::instruction_type::add, element4->marker ());
     ASSERT_EQ (3, element4->arguments.size ());
@@ -671,9 +657,7 @@ TEST (llvmc_analyzer, join_simple)
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    auto element3 (dynamic_cast <mu::llvmc::skeleton::join_element *> (result2->value));
+    auto element3 (dynamic_cast <mu::llvmc::skeleton::join_element *> (function2->results [0].results [0]));
     ASSERT_NE (nullptr, element3);
     ASSERT_EQ (1, element3->source->elements.size ());
     ASSERT_EQ (element3, element3->source->elements [0]);
@@ -742,9 +726,7 @@ TEST (llvmc_analyzer, empty_call)
     ASSERT_EQ (1, function4->results.size ());
     ASSERT_EQ (1, function4->results [0].results.size ());
     ASSERT_EQ (0, function4->results [0].sequenced.size ());
-    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function4->results [0].results [0]));
-    ASSERT_NE (nullptr, result3);
-    auto element1 (dynamic_cast <mu::llvmc::skeleton::call_element *> (result3->value));
+    auto element1 (dynamic_cast <mu::llvmc::skeleton::call_element *> (function4->results [0].results [0]));
     ASSERT_NE (nullptr, element1);
     ASSERT_EQ (1, element1->source->elements.size ());
     ASSERT_EQ (element1, element1->source->elements [0]);
@@ -778,9 +760,9 @@ TEST (llvmc_analyzer, call_no_return)
     ASSERT_EQ (0, function4->parameters.size ());
     ASSERT_EQ (1, function4->results.size ());
     ASSERT_EQ (1, function4->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function4->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    ASSERT_TRUE (result2->type->is_unit_type ());
+    ASSERT_EQ (1, function4->returns.size ());
+    ASSERT_EQ (1, function4->returns [0].types.size ());
+    ASSERT_TRUE (function4->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (1, function4->results [0].sequenced.size ());
     auto element1 (dynamic_cast <mu::llvmc::skeleton::call_element *> (function4->results [0].sequenced [0]));
     ASSERT_NE (nullptr, element1);
@@ -821,25 +803,25 @@ TEST (llvmc_analyzer, empty_call_predicate)
     ASSERT_EQ (0, function4->parameters.size ());
     ASSERT_EQ (1, function4->results.size ());
     ASSERT_EQ (1, function4->results [0].results.size ());
-    auto result4 (dynamic_cast <mu::llvmc::skeleton::result *> (function4->results [0].results [0]));
-    ASSERT_NE (nullptr, result4);
-    ASSERT_TRUE (result4->type->is_unit_type ());
+    ASSERT_EQ (1, function4->returns.size ());
+    ASSERT_EQ (1, function4->returns [0].types.size ());
+    ASSERT_TRUE (function4->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (0, function4->results [0].sequenced.size ());
     auto function5 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [1]));
     ASSERT_EQ (0, function5->parameters.size ());
     ASSERT_EQ (1, function5->results.size ());
     ASSERT_EQ (1, function5->results [0].results.size ());
-    auto result5 (dynamic_cast <mu::llvmc::skeleton::result *> (function5->results [0].results [0]));
-    ASSERT_NE (nullptr, result5);
-    ASSERT_TRUE (result5->type->is_unit_type ());
+    ASSERT_EQ (1, function5->returns.size ());
+    ASSERT_EQ (1, function5->returns [0].types.size ());
+    ASSERT_TRUE (function5->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (0, function5->results [0].sequenced.size ());
     auto function6 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [2]));
     ASSERT_EQ (0, function6->parameters.size ());
     ASSERT_EQ (1, function6->results.size ());
     ASSERT_EQ (1, function6->results [0].results.size ());
-    auto result6 (dynamic_cast <mu::llvmc::skeleton::result *> (function6->results [0].results [0]));
-    ASSERT_NE (nullptr, result6);
-    ASSERT_TRUE (result6->type->is_unit_type ());
+    ASSERT_EQ (1, function6->returns.size ());
+    ASSERT_EQ (1, function6->returns [0].types.size ());
+    ASSERT_TRUE (function6->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (1, function6->results [0].sequenced.size ());
 }
 
@@ -876,9 +858,7 @@ TEST (llvmc_analyzer, call_1_argument)
     ASSERT_EQ (1, function4->parameters.size ());
     ASSERT_EQ (1, function4->results.size ());
     ASSERT_EQ (1, function4->results [0].results.size ());
-    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function4->results [0].results [0]));
-    ASSERT_NE (nullptr, result3);
-    auto expression2 (dynamic_cast <mu::llvmc::skeleton::call_element *> (result3->value));
+    auto expression2 (dynamic_cast <mu::llvmc::skeleton::call_element *> (function4->results [0].results [0]));
     ASSERT_NE (nullptr, expression2);
     ASSERT_EQ (1, expression2->source->elements.size ());
     ASSERT_EQ (expression2, expression2->source->elements [0]);
@@ -1032,9 +1012,7 @@ TEST (llvmc_analyzer, instruction_add)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1066,9 +1044,7 @@ TEST (llvmc_analyzer, instruction_alloca)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (2, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1102,9 +1078,7 @@ TEST (llvmc_analyzer, instruction_and)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1137,9 +1111,7 @@ TEST (llvmc_analyzer, instruction_ashr)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1172,9 +1144,7 @@ TEST (llvmc_analyzer, DISABLED_instruction_atomicrmw)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1212,9 +1182,7 @@ TEST (llvmc_analyzer, instruction_bitcast)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1224,7 +1192,9 @@ TEST (llvmc_analyzer, instruction_bitcast)
     auto type6 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type5->pointed_type));
     ASSERT_NE (nullptr, type6);
     ASSERT_EQ (8, type6->bits);
-    ASSERT_EQ (*type5, *result2->type);
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    ASSERT_EQ (*type5, *function2->returns [0].types [0]);
 }
 
 TEST (llvmc_analyzer, bitcast_error)
@@ -1280,9 +1250,7 @@ TEST (llvmc_analyzer, DISABLED_instruction_call)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1318,9 +1286,7 @@ TEST (llvmc_analyzer, instruction_cmpxchg)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (2, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (4, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1354,9 +1320,7 @@ TEST (llvmc_analyzer, DISABLED_instruction_extractelement)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1389,9 +1353,7 @@ TEST (llvmc_analyzer, DISABLED_instruction_extractvalue)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1434,9 +1396,7 @@ TEST (llvmc_analyzer, instruction_insertvalue)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (2, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (4, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1479,9 +1439,7 @@ TEST (llvmc_analyzer, instruction_extractvalue)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1549,9 +1507,7 @@ TEST (llvmc_analyzer, instruction_getelementptr)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1646,9 +1602,7 @@ TEST (llvmc_analyzer, instruction_lshr)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1681,9 +1635,7 @@ TEST (llvmc_analyzer, instruction_mul)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1716,9 +1668,7 @@ TEST (llvmc_analyzer, instruction_or)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1755,16 +1705,16 @@ TEST (llvmc_analyzer, instruction_ptrtoint)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
 	ASSERT_EQ (function2->parameters [0], instruction1->arguments [1]);
     auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (instruction1->arguments [2]));
     ASSERT_NE (nullptr, type4);
-    ASSERT_EQ (*type4, *result2->type);
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    ASSERT_EQ (*type4, *function2->returns [0].types [0]);
 }
 
 TEST (llvmc_analyzer, instruction_ptrfromint)
@@ -1796,16 +1746,16 @@ TEST (llvmc_analyzer, instruction_ptrfromint)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
 	ASSERT_EQ (function2->parameters [0], instruction1->arguments [1]);
     auto type4 (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (instruction1->arguments [2]));
     ASSERT_NE (nullptr, type4);
-    ASSERT_EQ (*type4, *result2->type);
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    ASSERT_EQ (*type4, *function2->returns [0].types [0]);
 }
 
 TEST (llvmc_analyzer, instruction_sdiv)
@@ -1833,9 +1783,7 @@ TEST (llvmc_analyzer, instruction_sdiv)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1868,9 +1816,7 @@ TEST (llvmc_analyzer, instruction_select)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (4, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1905,9 +1851,7 @@ TEST (llvmc_analyzer, instruction_shl)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -1940,9 +1884,7 @@ TEST (llvmc_analyzer, instruction_srem)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2040,9 +1982,7 @@ TEST (llvmc_analyzer, instruction_sub)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2104,9 +2044,7 @@ TEST (llvmc_analyzer, number_number)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2140,9 +2078,7 @@ TEST (llvmc_analyzer, number_dec)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2176,9 +2112,7 @@ TEST (llvmc_analyzer, number_hex)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2212,9 +2146,7 @@ TEST (llvmc_analyzer, number_oct)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2248,9 +2180,7 @@ TEST (llvmc_analyzer, instruction_udiv)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2283,9 +2213,7 @@ TEST (llvmc_analyzer, instruction_urem)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2318,9 +2246,7 @@ TEST (llvmc_analyzer, instruction_xor)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, instruction1);
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
@@ -2355,7 +2281,7 @@ TEST (llvmc_analyzer, constant_int)
     ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::value *> (function2->results [0].results [0]));
     ASSERT_NE (nullptr, result2);
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
     auto predicate1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (function2->results [0].sequenced [0]));
@@ -2396,9 +2322,7 @@ TEST (llvmc_analyzer, instruction_icmp_eq)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    auto instruction (dynamic_cast <mu::llvmc::skeleton::icmp *> (result2->value));
+    auto instruction (dynamic_cast <mu::llvmc::skeleton::icmp *> (function2->results [0].results [0]));
     ASSERT_NE (nullptr, instruction);
     auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (instruction->type ()));
     ASSERT_NE (nullptr, type2);
@@ -2476,9 +2400,9 @@ TEST (llvmc_analyzer, loop_empty)
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    ASSERT_TRUE (result2->type->is_unit_type ());
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    ASSERT_TRUE (function2->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
 	auto element4 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
 	ASSERT_NE (nullptr, element4);
@@ -2566,9 +2490,9 @@ TEST (llvmc_analyzer, loop_passthrough)
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    ASSERT_TRUE (result2->type->is_unit_type ());
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    ASSERT_TRUE (function2->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
 	auto element4 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0].sequenced [0]));
 	ASSERT_NE (nullptr, element4);
@@ -2715,9 +2639,9 @@ TEST (llvmc_analyzer, asm1)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    ASSERT_TRUE (result2->type->is_unit_type ());
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    ASSERT_TRUE (function2->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
     auto asm2 (dynamic_cast <mu::llvmc::skeleton::inline_asm *> (function2->results [0].sequenced [0]));
     ASSERT_NE (nullptr, asm2);
@@ -2832,9 +2756,7 @@ TEST (llvmc_analyzer, global_argument_call_in_function_branch)
     ASSERT_EQ (0, function4->parameters.size ());
     ASSERT_EQ (1, function4->results.size ());
     ASSERT_EQ (1, function4->results [0].results.size ());
-    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function4->results [0].results [0]));
-    ASSERT_NE (nullptr, result3);
-    auto expression2 (dynamic_cast <mu::llvmc::skeleton::call_element *> (result3->value));
+    auto expression2 (dynamic_cast <mu::llvmc::skeleton::call_element *> (function4->results [0].results [0]));
     ASSERT_NE (nullptr, expression2);
     ASSERT_EQ (function4->entry, expression2->branch);
 }
@@ -2920,15 +2842,16 @@ TEST (llvmc_analyzer, constant_array)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    auto array_type (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (result2->type));
+    ASSERT_EQ (1, function2->results [0].results.size ());
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    auto array_type (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (function2->returns [0].types [0]));
     ASSERT_NE (nullptr, array_type);
     ASSERT_EQ (4, array_type->size);
     auto element_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (array_type->element));
     ASSERT_NE (nullptr, element_type);
     ASSERT_EQ (8, element_type->bits);
-    auto constant_array (dynamic_cast <mu::llvmc::skeleton::constant_array *> (result2->value));
+    auto constant_array (dynamic_cast <mu::llvmc::skeleton::constant_array *> (function2->results [0].results [0]));
     ASSERT_NE (nullptr, constant_array);
     ASSERT_EQ (4, constant_array->initializer.size ());
     auto constant_int (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (constant_array->initializer [0]));
@@ -2963,15 +2886,16 @@ TEST (llvmc_analyzer, DISABLED_typeof_single)
     ASSERT_NE (nullptr, function2);
     ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    auto array_type (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (result2->type));
+    ASSERT_EQ (1, function2->results [0].results.size ());
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    auto array_type (dynamic_cast <mu::llvmc::skeleton::fixed_array_type *> (function2->returns [0].types [0]));
     ASSERT_NE (nullptr, array_type);
     ASSERT_EQ (4, array_type->size);
     auto element_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (array_type->element));
     ASSERT_NE (nullptr, element_type);
     ASSERT_EQ (8, element_type->bits);
-    auto constant_array (dynamic_cast <mu::llvmc::skeleton::constant_array *> (result2->value));
+    auto constant_array (dynamic_cast <mu::llvmc::skeleton::constant_array *> (function2->results [0].results [0]));
     ASSERT_NE (nullptr, constant_array);
     ASSERT_EQ (4, constant_array->initializer.size ());
     auto constant_int (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (constant_array->initializer [0]));
@@ -3004,9 +2928,9 @@ TEST (llvmc_analyzer, value_branch)
     ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    ASSERT_TRUE (result2->type->is_unit_type ());
+    ASSERT_EQ (1, function2->returns.size ());
+    ASSERT_EQ (1, function2->returns [0].types.size ());
+    ASSERT_TRUE (function2->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (1, function2->results [0].sequenced.size ());
     auto predicate1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (function2->results [0].sequenced [0]));
     ASSERT_NE (nullptr, predicate1);
@@ -3165,9 +3089,7 @@ TEST (llvmc_analyzer, null_pointer)
     ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    auto constant2 (dynamic_cast <mu::llvmc::skeleton::constant_pointer_null *> (result2->value));
+    auto constant2 (dynamic_cast <mu::llvmc::skeleton::constant_pointer_null *> (function2->results [0].results [0]));
     ASSERT_NE (nullptr, constant2);
     auto type3 (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (constant2->type ()));
     ASSERT_NE (nullptr, type3);
@@ -3203,9 +3125,7 @@ TEST (llvmc_analyzer, struct_type)
     ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    auto undefined2 (dynamic_cast <mu::llvmc::skeleton::undefined *> (result2->value));
+    auto undefined2 (dynamic_cast <mu::llvmc::skeleton::undefined *> (function2->results [0].results [0]));
     ASSERT_NE (nullptr, undefined2);
     auto type3 (dynamic_cast <mu::llvmc::skeleton::struct_type *> (undefined2->type ()));
     ASSERT_NE (nullptr, type3);
@@ -3416,16 +3336,12 @@ TEST (llvmc_analyzer, template_shared)
 	auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
 	ASSERT_NE (nullptr, function1);
 	ASSERT_EQ (1, function1->results.size ());
-	auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto value1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (result2->value));
+	auto value1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (function1->results [0].results [0]));
 	ASSERT_NE (nullptr, value1);
 	auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [1]));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->results.size ());
-	auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-	ASSERT_NE (nullptr, result3);
-	auto value2 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (result3->value));
+	auto value2 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (function2->results [0].results [0]));
 	ASSERT_NE (nullptr, value2);
 	ASSERT_EQ (value1, value2);
 }
@@ -3480,9 +3396,9 @@ TEST (llvmc_analyzer, namespace_c_module)
     ASSERT_NE (nullptr, function3);
     ASSERT_EQ (1, function3->results.size ());
     ASSERT_EQ (1, function3->results [0].results.size ());
-    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function3->results [0].results [0]));
-    ASSERT_NE (nullptr, result3);
-    ASSERT_TRUE (result3->type->is_unit_type ());
+    ASSERT_EQ (1, function3->returns.size ());
+    ASSERT_EQ (1, function3->returns [0].types.size ());
+    ASSERT_TRUE (function3->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (1, function3->results [0].sequenced.size ());
     auto element3 (dynamic_cast <mu::llvmc::skeleton::call_element *> (function3->results [0].sequenced [0]));
     ASSERT_NE (nullptr, element3);
@@ -3491,9 +3407,9 @@ TEST (llvmc_analyzer, namespace_c_module)
     ASSERT_NE (nullptr, function4);
     ASSERT_EQ (1, function4->results.size ());
     ASSERT_EQ (1, function4->results [0].results.size ());
-    auto result4 (dynamic_cast <mu::llvmc::skeleton::result *> (function4->results [0].results [0]));
-    ASSERT_NE (nullptr, result4);
-    ASSERT_TRUE (result4->type->is_unit_type ());
+    ASSERT_EQ (1, function4->returns.size ());
+    ASSERT_EQ (1, function4->returns [0].types.size ());
+    ASSERT_TRUE (function4->returns [0].types [0]->is_unit_type ());
     ASSERT_EQ (1, function4->results [0].sequenced.size ());
 	auto unit3 (dynamic_cast <mu::llvmc::skeleton::unit_value *> (function4->results [0].sequenced [0]));
 	ASSERT_NE (nullptr, unit3);
@@ -3614,12 +3530,13 @@ TEST (llvmc_analyzer, number_result_adaptation)
     auto function1 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [0]));
     ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->results.size ());
-	auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function1->results [0].results [0]));
-	ASSERT_NE (nullptr, result2);
-	auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (result2->type));
+    ASSERT_EQ (1, function1->results [0].results.size ());
+    ASSERT_EQ (1, function1->returns.size ());
+    ASSERT_EQ (1, function1->returns [0].types.size ());
+	auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (function1->returns [0].types [0]));
 	ASSERT_NE (nullptr, type2);
 	ASSERT_EQ (8, type2->bits);
-	auto constant1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (result2->value));
+	auto constant1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (function1->results [0].results [0]));
 	ASSERT_NE (nullptr, constant1);
 	ASSERT_EQ (255, constant1->value_m);
 }
@@ -3791,9 +3708,7 @@ TEST (llvmc_analyzer, recursive_function)
     ASSERT_EQ (1, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->results [0].results.size ());
-    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0].results [0]));
-    ASSERT_NE (nullptr, result2);
-    auto element2 (dynamic_cast <mu::llvmc::skeleton::call_element *> (result2->value));
+    auto element2 (dynamic_cast <mu::llvmc::skeleton::call_element *> (function2->results [0].results [0]));
     ASSERT_NE (nullptr, element2);
     ASSERT_EQ (2, element2->source->arguments.size ());
     auto function3 (dynamic_cast <mu::llvmc::skeleton::function *> (element2->source->arguments [0]));

@@ -80,9 +80,8 @@ TEST (llvmc_skeleton, function_type_name3)
 	mu::llvmc::skeleton::function_type function_type (&function);
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
-	mu::llvmc::skeleton::result result1 (&type1, &constant1);
-	mu::llvmc::skeleton::result result2 (&type1, &constant1);
-    function.results = {{{&result1, &result2}, {}}};
+    function.returns = {{&type1, &type1}};
+    function.results = {{{&constant1, &constant1}, {}}};
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8 int8]]", name);
 }
@@ -93,8 +92,8 @@ TEST (llvmc_skeleton, function_type_name4)
 	mu::llvmc::skeleton::function_type function_type (&function);
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
-	mu::llvmc::skeleton::result result1 (&type1, &constant1);
-    function.results = {{{&result1}, {&constant1}}};
+    function.returns = {{&type1}};
+    function.results = {{{&constant1}, {&constant1}}};
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8]]", name);
 }
@@ -105,9 +104,8 @@ TEST (llvmc_skeleton, function_type_name5)
 	mu::llvmc::skeleton::function_type function_type (&function);
 	mu::llvmc::skeleton::integer_type type1 (8);
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, &type1, 42);
-	mu::llvmc::skeleton::result result1 (&type1, &constant1);
-	mu::llvmc::skeleton::result result2 (&type1, &constant1);
-    function.results = {{{&result1}, {}}, {{&result2}, {}}};
+    function.returns = {{&type1}, {&type1}};
+    function.results = {{{&constant1}, {}}, {{&constant1}, {}}};
 	auto name (function_type.name ());
 	ASSERT_EQ (U"function [] [[int8][int8]]", name);
 }

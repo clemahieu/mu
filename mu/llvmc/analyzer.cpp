@@ -749,11 +749,11 @@ void mu::llvmc::module_processor::entry (mu::llvmc::ast::entry * node_a)
                 {
                     if (function_l->parameters.size () == 0)
                     {
-                        if (function_l->results.size () == 1)
+                        if (function_l->returns.size () == 1)
                         {
-                            if (function_l->results [0].results.size () == 1)
+                            if (function_l->returns [0].types.size () == 1)
                             {
-                                if (function_l->results [0].results [0]->type->is_unit_type ())
+                                if (function_l->returns [0].types [0]->is_unit_type ())
                                 {
                                     module_m->entry = function_l;
                                     node_a->generated.push_back (function_l);
@@ -1343,7 +1343,8 @@ void mu::llvmc::function_processor::result (mu::llvmc::ast::result * result_a)
                 }));
             if (new_value != nullptr)
             {
-                result_a->generated.push_back (b.result (type, new_value));
+                function_m->returns.back ().types.push_back (type);
+                result_a->generated.push_back (new_value);
                 result_a->assigned = true;
             }
         }
@@ -1360,6 +1361,7 @@ void mu::llvmc::function_processor::process_results ()
     for (auto i (node_m->results.branches.begin ()), j (node_m->results.branches.end ()); module_m.global_m.error == nullptr && i != j; ++i)
     {
         auto & current_branch (function_m->results.add_branch ());
+        function_m->returns.push_back (decltype (function_m->returns)::value_type ());
         for (auto k (i->nodes.begin ()), l (i->nodes.end ()); module_m.global_m.error == nullptr && k != l; ++k)
         {
             auto node_a (*k);
@@ -1375,10 +1377,10 @@ void mu::llvmc::function_processor::process_results ()
                 }
                 else
                 {
-                    auto result (dynamic_cast <mu::llvmc::skeleton::result *> (node_l));
+                    auto result (dynamic_cast <mu::llvmc::skeleton::value *> (node_l));
                     if (result != nullptr)
                     {
-                        branches.add_branch (result->value->branch, result->value->region);
+                        branches.add_branch (result->branch, result->region);
                         current_branch.results.push_back (result);
                     }
                     else
@@ -1511,7 +1513,7 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
                             {
                                 for (auto j: i.results)
                                 {
-                                    auto element (b.call_element (expression_a->region, branch, call, mu::cast <mu::llvmc::skeleton::result> (j)->type));
+                                    auto element (b.call_element (expression_a->region, branch, call, j->type ()));
                                     returned_results.push_back (element);
                                     call->elements.push_back (element);
                                 }
