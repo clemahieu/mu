@@ -1520,9 +1520,9 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
                         {
                             branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
                         }
-                        for (auto & i: function_type->function->results.branches)
+                        for (auto & i: function_type->function->returns)
                         {
-                            if (i.results.empty ())
+                            if (i.types.empty ())
                             {
                                 auto element (b.call_element (expression_a->region, branch, call, &module_m.module_m->the_unit_type));
                                 returned_results.push_back (element);
@@ -1530,9 +1530,9 @@ void mu::llvmc::function_processor::process_value_call (mu::llvmc::ast::expressi
                             }
                             else
                             {
-                                for (auto j: i.results)
+                                for (auto j: i.types)
                                 {
-                                    auto element (b.call_element (expression_a->region, branch, call, j->type ()));
+                                    auto element (b.call_element (expression_a->region, branch, call, j));
                                     returned_results.push_back (element);
                                     call->elements.push_back (element);
                                 }
