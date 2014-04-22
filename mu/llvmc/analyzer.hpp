@@ -124,11 +124,11 @@ namespace mu
 			void join (mu::llvmc::ast::join * node_a) override;
 			void loop (mu::llvmc::ast::loop * loop_a) override;
             void sequence (mu::llvmc::ast::sequence *) override;
-            void result (mu::llvmc::ast::result *) override;
 			void expression (mu::llvmc::ast::expression * expression_a) override;
 			void undefined (mu::llvmc::ast::undefined * node_a) override;
             void namespace_c (mu::llvmc::ast::namespace_c * node_a) override;
             void process_parameters ();
+			void process_returns ();
             void process_results ();
 			mu::llvmc::module_processor & module_m;
 			mu::llvmc::skeleton::function * function_m;

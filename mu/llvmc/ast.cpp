@@ -54,13 +54,6 @@ node (template_a)
     arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
 }
 
-mu::llvmc::ast::result::result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a, mu::llvmc::template_context * template_a):
-node (template_a),
-written_type (written_type_a),
-value (value_a)
-{
-}
-
 mu::llvmc::ast::integer_type::integer_type (mu::llvmc::template_context * template_a) :
 node (template_a),
 bits (nullptr)
@@ -79,11 +72,6 @@ node (template_a)
 }
 
 mu::llvmc::ast::expression::expression (mu::llvmc::template_context * template_a) :
-node (template_a)
-{
-}
-
-mu::llvmc::ast::result::result (mu::llvmc::template_context * template_a) :
 node (template_a)
 {
 }
@@ -206,11 +194,6 @@ void mu::llvmc::ast::visitor::number (mu::llvmc::ast::number * node_a)
     node (node_a);
 }
 
-void mu::llvmc::ast::visitor::result (mu::llvmc::ast::result * node_a)
-{
-    node (node_a);
-}
-
 void mu::llvmc::ast::visitor::element (mu::llvmc::ast::element * node_a)
 {
     node (node_a);
@@ -326,11 +309,6 @@ void mu::llvmc::ast::number::visit (mu::llvmc::ast::visitor * visitor_a)
     visitor_a->number (this);
 }
 
-void mu::llvmc::ast::result::visit (mu::llvmc::ast::visitor * visitor_a)
-{
-    visitor_a->result (this);
-}
-
 void mu::llvmc::ast::element::visit (mu::llvmc::ast::visitor * visitor_a)
 {
     visitor_a->element (this);
@@ -387,12 +365,6 @@ mu::llvmc::ast::node * mu::llvmc::ast::module::do_clone (mu::llvmc::clone_contex
 mu::llvmc::ast::node * mu::llvmc::ast::number::do_clone (mu::llvmc::clone_context & context_a)
 {
 	auto result (new (GC) mu::llvmc::ast::number (*this, context_a));
-	return result;
-}
-
-mu::llvmc::ast::node * mu::llvmc::ast::result::do_clone (mu::llvmc::clone_context & context_a)
-{
-	auto result (new (GC) mu::llvmc::ast::result (*this, context_a));
 	return result;
 }
 
@@ -643,13 +615,6 @@ node (other_a, context_a)
 	}
 }
 
-mu::llvmc::ast::result::result (mu::llvmc::ast::result const & other_a, mu::llvmc::clone_context & context_a) :
-node (other_a.template_m),
-written_type (other_a.written_type->clone (context_a)),
-value (other_a.value->clone (context_a))
-{
-}
-
 mu::llvmc::ast::element::element (mu::llvmc::ast::element const & other_a, mu::llvmc::clone_context & context_a) :
 node (other_a, context_a),
 node_m (other_a.node_m->clone (context_a)),
@@ -666,6 +631,14 @@ results (other_a.results, context_a)
 	for (auto i: other_a.parameters)
 	{
 		parameters.push_back (i->clone (context_a));
+	}
+	for (auto i: other_a.returns)
+	{
+		returns.push_back (decltype (returns)::value_type ());
+		for (auto j: i.types)
+		{
+			returns.back ().types.push_back (j->clone (context_a));
+		}
 	}
 }
 
@@ -1138,4 +1111,9 @@ void mu::llvmc::ast::function_overload::visit (mu::llvmc::ast::visitor * visitor
 void mu::llvmc::ast::visitor::function_overload (mu::llvmc::ast::function_overload * node_a)
 {
     node (node_a);
+}
+
+mu::llvmc::ast::function_return::function_return (std::initializer_list <mu::llvmc::ast::node *> const & types_a) :
+types (types_a)
+{
 }

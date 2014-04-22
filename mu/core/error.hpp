@@ -177,7 +177,9 @@ namespace mu
 			expecting_type_or_right_square_or_terminator,
 			expecting_left_square_or_right_square,
             functions_must_return_results_or_sequences,
-            branches_must_return_a_value
+            branches_must_return_a_value,
+			number_of_formal_return_branches_not_matching_number_of_actual_results,
+			number_of_formal_returns_not_matching_number_of_actual_results
         };
         class error
         {

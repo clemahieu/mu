@@ -468,46 +468,52 @@ void mu::llvmc::function::parse_result_set ()
 {
     auto done (false);
     auto predicates (false);
-    function_m->results.add_branch ();
-    auto & branch (function_m->results.branches.back ());
+	auto function_l (function_m);
+	auto branch_position (function_m->results.branches.size ());
+	assert (function_m->returns.size () == branch_position);
+    auto & value_branch (function_m->results.add_branch ());
+	function_m->returns.push_back (decltype (function_m->returns)::value_type ());
+	auto & type_branch (function_m->returns.back ());
     while (result.error == nullptr && !done && !predicates)
     {
-		auto result_l (new (GC) mu::llvmc::ast::result (parser.current_template));
-		branch.nodes.push_back (result_l);
+		assert (value_branch.nodes.size () == type_branch.types.size ());
+		auto value_position (value_branch.nodes.size ());
+		value_branch.nodes.push_back (nullptr);
+		type_branch.types.push_back (nullptr);
 		result.error = parser.parse_ast_or_refer_or_right_square_or_terminator (
-			[result_l]
+			[function_l, branch_position, value_position]
 			(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
 			{
-				result_l->written_type = node_a;
-				result_l->region.first = region_a.first;
+				function_l->returns [branch_position].types [value_position] = node_a;
 			},
 			[&]
 			(mu::core::region const & region_a)
 			{
 				done = true;
-				branch.nodes.pop_back ();
+				value_branch.nodes.pop_back ();
+				type_branch.types.pop_back ();
 			},
 			[&]
 			(mu::core::region const & region_a)
 			{
 				predicates = true;
-				branch.nodes.pop_back ();
+				value_branch.nodes.pop_back ();
+				type_branch.types.pop_back ();
 			}, U"Expecting a type or right square or terminator", mu::core::error_type::expecting_type_or_right_square_or_terminator);
 		if (!result.error && !done && !predicates)
 		{
 			result.error = parser.parse_ast_or_refer (
-				[result_l]
+				[function_l, branch_position, value_position]
 				(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
 				{
-					result_l->region.last = region_a.last;
-					result_l->value = node_a;
+					function_l->results.branches [branch_position].nodes [value_position] = node_a;
 				});
 		}
     }
     while (result.error == nullptr && !done)
     {
         auto sequence (new (GC) mu::llvmc::ast::sequence (nullptr));
-        branch.nodes.push_back (sequence);
+        value_branch.nodes.push_back (sequence);
         parser.parse_ast_or_refer_or_right_square (
             [sequence]
             (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
@@ -517,7 +523,7 @@ void mu::llvmc::function::parse_result_set ()
             [&]
             (mu::io::right_square *)
             {
-                branch.nodes.pop_back ();
+                value_branch.nodes.pop_back ();
                 done = true;
             } , U"Parsing predicates, expecting ast or reference", mu::core::error_type::expecting_ast_or_reference);
     }

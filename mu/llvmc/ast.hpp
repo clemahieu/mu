@@ -57,17 +57,6 @@ namespace mu
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::llvmc::skeleton::node * node_m;
             };
-            class result : public mu::llvmc::ast::node
-            {
-            public:
-                result (mu::llvmc::template_context * template_a = nullptr);
-				result (mu::llvmc::ast::result const & other_a, mu::llvmc::clone_context & context_a);
-                result (mu::llvmc::ast::node * written_type_a, mu::llvmc::ast::node * value_a, mu::llvmc::template_context * template_a = nullptr);
-				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
-                void visit (mu::llvmc::ast::visitor * visitor_a) override;
-                mu::llvmc::ast::node * written_type;
-                mu::llvmc::ast::node * value;
-            };
             class loop_parameter : public mu::llvmc::ast::node
             {
             public:
@@ -157,6 +146,13 @@ namespace mu
                 mu::llvmc::ast::function_branch & add_branch ();
                 mu::vector <mu::llvmc::ast::function_branch> branches;
             };
+			class function_return
+			{
+			public:
+				function_return () = default;
+				function_return (std::initializer_list <mu::llvmc::ast::node *> const &);
+				mu::vector <mu::llvmc::ast::node *> types;
+			};
             class function : public mu::llvmc::ast::node
             {
             public:
@@ -165,6 +161,7 @@ namespace mu
 				mu::llvmc::ast::node * do_clone (mu::llvmc::clone_context & context_a) override;
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::vector <mu::llvmc::ast::node *> parameters;
+				mu::vector <mu::llvmc::ast::function_return> returns;
                 mu::llvmc::ast::function_result results;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
@@ -419,7 +416,6 @@ namespace mu
                 virtual void value (mu::llvmc::ast::value *);
                 virtual void module (mu::llvmc::ast::module *);
                 virtual void number (mu::llvmc::ast::number *);
-                virtual void result (mu::llvmc::ast::result *);
                 virtual void element (mu::llvmc::ast::element *);
                 virtual void function (mu::llvmc::ast::function *);
                 virtual void unit_type (mu::llvmc::ast::unit_type *);
