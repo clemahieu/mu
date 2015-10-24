@@ -1,7 +1,5 @@
 #include <mu/llvmc/ast.hpp>
 
-#include <gc_cpp.h>
-
 #include <mu/core/error_string.hpp>
 #include <mu/llvmc/parser.hpp>
 
@@ -352,127 +350,127 @@ name (name_a)
 
 mu::llvmc::ast::node * mu::llvmc::ast::loop_parameter::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::loop_parameter (*this));
+	auto result (new mu::llvmc::ast::loop_parameter (*this));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::module::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::module (*this, context_a));
+	auto result (new mu::llvmc::ast::module (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::number::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::number (*this, context_a));
+	auto result (new mu::llvmc::ast::number (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::function::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::function (*this, context_a));
+	auto result (new mu::llvmc::ast::function (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::fixed_array_type::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::fixed_array_type (*this, context_a));
+	auto result (new mu::llvmc::ast::fixed_array_type (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::struct_type::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::struct_type (*this, context_a));
+	auto result (new mu::llvmc::ast::struct_type (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::constant_int::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::constant_int (*this, context_a));
+	auto result (new mu::llvmc::ast::constant_int (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::integer_type::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::integer_type (*this));
+	auto result (new mu::llvmc::ast::integer_type (*this));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::pointer_type::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::pointer_type (*this, context_a));
+	auto result (new mu::llvmc::ast::pointer_type (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::constant_array::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::constant_array (*this, context_a));
+	auto result (new mu::llvmc::ast::constant_array (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::global_variable::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::global_variable (*this, context_a));
+	auto result (new mu::llvmc::ast::global_variable (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::expression::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::expression (*this, context_a));
+	auto result (new mu::llvmc::ast::expression (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::constant_pointer_null::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::constant_pointer_null (*this, context_a));
+	auto result (new mu::llvmc::ast::constant_pointer_null (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::join::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::join (*this, context_a));
+	auto result (new mu::llvmc::ast::join (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::loop::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::loop (*this, context_a));
+	auto result (new mu::llvmc::ast::loop (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::unit::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::unit (*this, context_a));
+	auto result (new mu::llvmc::ast::unit (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::asm_c::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::asm_c (*this, context_a));
+	auto result (new mu::llvmc::ast::asm_c (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::value::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::value (*this, context_a));
+	auto result (new mu::llvmc::ast::value (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::element::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::element (*this, context_a));
+	auto result (new mu::llvmc::ast::element (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::parameter::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::parameter (*this, context_a));
+	auto result (new mu::llvmc::ast::parameter (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::undefined::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::undefined (*this, context_a));
+	auto result (new mu::llvmc::ast::undefined (*this, context_a));
 	return result;
 }
 
@@ -681,7 +679,7 @@ mu::llvmc::ast::node * mu::llvmc::ast::node::clone (mu::llvmc::clone_context & c
 
 mu::llvmc::ast::node * mu::llvmc::ast::node::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::node (*this, context_a));
+	auto result (new mu::llvmc::ast::node (*this, context_a));
 	return result;
 }
 
@@ -698,7 +696,7 @@ node (other_a.template_m)
 
 mu::llvmc::ast::node * mu::llvmc::ast::unit_type::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::unit_type (*this));
+	auto result (new mu::llvmc::ast::unit_type (*this));
 	return result;
 }
 
@@ -756,13 +754,13 @@ void mu::llvmc::ast::visitor::template_parameter (mu::llvmc::ast::template_param
 
 mu::llvmc::ast::node * mu::llvmc::ast::template_parameter::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::template_parameter (*this, context_a));
+	auto result (new mu::llvmc::ast::template_parameter (*this, context_a));
 	return result;
 }
 
 mu::llvmc::ast::node * mu::llvmc::ast::template_c::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::template_c (*this, context_a));
+	auto result (new mu::llvmc::ast::template_c (*this, context_a));
 	return result;
 }
 
@@ -791,7 +789,7 @@ function (other_a.function->clone (context_a))
 
 mu::llvmc::ast::node * mu::llvmc::ast::entry::do_clone (mu::llvmc::clone_context & context_a)
 {
-    auto result (new (GC) mu::llvmc::ast::entry (*this, context_a));
+    auto result (new mu::llvmc::ast::entry (*this, context_a));
     return result;
 }
 
@@ -816,7 +814,7 @@ node (other_a, context_a)
 
 mu::llvmc::ast::node * mu::llvmc::ast::set::do_clone (mu::llvmc::clone_context & context_a)
 {
-	auto result (new (GC) mu::llvmc::ast::set (*this, context_a));
+	auto result (new mu::llvmc::ast::set (*this, context_a));
 	return result;
 }
 
@@ -921,7 +919,7 @@ node_m (other_a.node_m->clone (context_a))
 
 mu::llvmc::ast::node * mu::llvmc::ast::namespace_c::do_clone (mu::llvmc::clone_context & context_a)
 {
-    auto result (new (GC) mu::llvmc::ast::namespace_c (*this, context_a));
+    auto result (new mu::llvmc::ast::namespace_c (*this, context_a));
     return result;
 }
 
@@ -962,7 +960,7 @@ element_type (element_type_a)
 
 mu::llvmc::ast::node * mu::llvmc::ast::array_type::do_clone (mu::llvmc::clone_context & context_a)
 {
-    auto result (new (GC) mu::llvmc::ast::array_type (*this, context_a));
+    auto result (new mu::llvmc::ast::array_type (*this, context_a));
     return result;
 }
 
@@ -990,7 +988,7 @@ node_m (other_a.node_m->clone (context_a))
 
 mu::llvmc::ast::node * mu::llvmc::ast::sequence::do_clone (mu::llvmc::clone_context & context_a)
 {
-    auto result (new (GC) mu::llvmc::ast::sequence (*this, context_a));
+    auto result (new mu::llvmc::ast::sequence (*this, context_a));
     return result;
 }
 
@@ -1075,7 +1073,7 @@ node (other_a.template_m)
 
 mu::llvmc::ast::node * mu::llvmc::ast::function_family::do_clone (mu::llvmc::clone_context & context_a)
 {
-    return new (GC) mu::llvmc::ast::function_family (*this, context_a);
+    return new mu::llvmc::ast::function_family (*this, context_a);
 }
 
 void mu::llvmc::ast::function_family::visit (mu::llvmc::ast::visitor * visitor_a)
@@ -1100,7 +1098,7 @@ function (other_a.function->clone (context_a))
 
 mu::llvmc::ast::node * mu::llvmc::ast::function_overload::do_clone (mu::llvmc::clone_context & context_a)
 {
-    return new (GC) mu::llvmc::ast::function_overload (*this, context_a);
+    return new mu::llvmc::ast::function_overload (*this, context_a);
 }
 
 void mu::llvmc::ast::function_overload::visit (mu::llvmc::ast::visitor * visitor_a)

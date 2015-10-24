@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8)
 project (core)
 
-add_library (mu_core SHARED
+add_library (mu_core
 	error.cpp
 	error.hpp
 	error_string.cpp
@@ -14,6 +14,3 @@ add_library (mu_core SHARED
     string_hash.hpp
     types.cpp
 	types.hpp)
-    
-target_link_libraries (mu_core
-    gc)

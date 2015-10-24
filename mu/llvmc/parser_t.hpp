@@ -5,8 +5,6 @@
 #include <mu/io/tokens.hpp>
 #include <mu/core/error.hpp>
 
-#include <gc_cpp.h>
-
 template <typename T>
 mu::core::error * mu::llvmc::parser::parse_ast_or_refer (T op)
 {
@@ -28,7 +26,7 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer (T op)
             }
             default:
             {
-                result = new (GC) mu::core::error_string (U"Expecting ast or reference", mu::core::error_type::expecting_ast_or_reference, item.token->region);
+                result = new mu::core::error_string (U"Expecting ast or reference", mu::core::error_type::expecting_ast_or_reference, item.token->region);
                 break;
             }
         }
@@ -53,7 +51,7 @@ mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t
 			result = identifier_op (mu::cast <mu::io::identifier> (item));
 			break;
 		default:
-			result = new (GC) mu::core::error_string (error_message_a, error_type_a, item->region);
+			result = new mu::core::error_string (error_message_a, error_type_a, item->region);
 			break;
 	}
     return result;
@@ -76,7 +74,7 @@ mu::core::error * mu::llvmc::parser::parse_identifier_or_right_square (T identif
 			result = right_square_op (mu::cast <mu::io::right_square> (item));
 			break;
 		default:
-			result = new (GC) mu::core::error_string (error_message_a, error_type_a, item->region);
+			result = new mu::core::error_string (error_message_a, error_type_a, item->region);
 			break;
 	}
     return result;
@@ -109,7 +107,7 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U
 			}
 			default:
 			{
-				result = new (GC) mu::core::error_string (error_message_a, error_type_a, item.token->region);
+				result = new mu::core::error_string (error_message_a, error_type_a, item.token->region);
 				break;
 			}
 		}
@@ -138,7 +136,7 @@ mu::core::error * mu::llvmc::parser::parse_left_or_right_square (T left_square_o
             result = right_square_op (item->region);
             break;
         default:
-            result = new (GC) mu::core::error_string (error_message_a, error_type_a, item->region);
+            result = new mu::core::error_string (error_message_a, error_type_a, item->region);
             break;
     }
     return result;
@@ -170,7 +168,7 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square_or_termi
                 terminator_op (item.token->region);
                 break;
             default:
-                error = new (GC) mu::core::error_string (error_message_a, error_type_a, item.token->region);
+                error = new mu::core::error_string (error_message_a, error_type_a, item.token->region);
                 break;
         }
     }

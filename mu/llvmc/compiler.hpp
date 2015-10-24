@@ -10,6 +10,7 @@ namespace llvm
 {
     class formatted_raw_ostream;
     class Function;
+	class raw_pwrite_stream;
 }
 namespace mu
 {
@@ -18,13 +19,13 @@ namespace mu
         class compiler
         {
         public:
-            compiler (mu::io::stream_istream & stream, llvm::formatted_raw_ostream & output_a);
+            compiler (mu::io::stream_istream & stream, llvm::raw_pwrite_stream & output_a);
             void compile (mu::string const & name_a, mu::string const & path_a);
-            void inject_entry (llvm::Module * module_a, llvm::Function * entry);
+            void inject_entry (llvm::Module & module_a, llvm::Function * entry);
             mu::io::lexer lexer;
             mu::io::stream_token stream_token;
             mu::llvmc::parser parser;
-            llvm::formatted_raw_ostream & output;
+            llvm::raw_pwrite_stream & output;
         };
     }
 }

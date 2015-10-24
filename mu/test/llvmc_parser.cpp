@@ -11,9 +11,7 @@
 #include <mu/llvmc/instruction_type.hpp>
 #include <mu/core/string_hash.hpp>
 
-#include <llvm/DerivedTypes.h>
-
-#include <gc_cpp.h>
+#include <llvm/IR/DerivedTypes.h>
 
 class test_parser
 {
@@ -40,7 +38,7 @@ class test_hook : public mu::llvmc::hook
 public:    
     mu::llvmc::node_result parse (mu::core::region const & region_a, mu::llvmc::parser & parser) override
     {
-        return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
+        return mu::llvmc::node_result {new mu::llvmc::ast::node, nullptr};
     }
     mu::string const & name () override
     {

@@ -1,13 +1,7 @@
 cmake_minimum_required (VERSION 2.8)
 project (llvmc)
 
-include_directories (
-    ${llvm_include_directories})
-    
-link_directories (
-    ${llvm_lib_directories})
-
-add_library (mu_llvmc SHARED
+add_library (mu_llvmc
 	ast.cpp
 	ast.hpp
     ast_t.hpp
@@ -27,9 +21,3 @@ add_library (mu_llvmc SHARED
     skeleton.cpp
     skeleton.hpp
     skeleton_t.hpp)
-    
-target_link_libraries (mu_llvmc
-	mu_core
-	mu_io
-	gc
-    LLVM-3.2svn)

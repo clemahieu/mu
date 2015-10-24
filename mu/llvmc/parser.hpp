@@ -5,7 +5,7 @@
 #include <mu/llvmc/node_result.hpp>
 #include <mu/llvmc/ast.hpp>
 
-#include <llvm/LLVMContext.h>
+#include <llvm/IR/LLVMContext.h>
 
 #include <functional>
 

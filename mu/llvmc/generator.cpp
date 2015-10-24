@@ -7,21 +7,20 @@
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/llvmc/skeleton_t.hpp>
 
-#include <llvm/Module.h>
-#include <llvm/DerivedTypes.h>
-#include <llvm/GlobalValue.h>
-#include <llvm/Constants.h>
-#include <llvm/Instructions.h>
-#include <llvm/InlineAsm.h>
+#include <llvm/IR/Constants.h>
+#include <llvm/IR/DebugLoc.h>
+#include <llvm/IR/DerivedTypes.h>
+#include <llvm/IR/GlobalValue.h>
+#include <llvm/IR/InlineAsm.h>
+#include <llvm/IR/Instructions.h>
+#include <llvm/IR/Module.h>
 #include <llvm/Support/Dwarf.h>
 #include <llvm/Support/Host.h>
-#include <llvm/Support/DebugLoc.h>
 
 #include <boost/array.hpp>
 
-#include <gc_cpp.h>
-
 #include <algorithm>
+#include <memory>
 
 #include <stdlib.h>
 
@@ -71,7 +70,7 @@ mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & 
 {
 	mu::llvmc::generate_system generator (context_a, name_a, path_a, module_id_a);
 	module_a->visit (&generator);
-    return generator.result;
+    return std::move (generator.result);
 }
 
 void mu::llvmc::generate_system::module (mu::llvmc::skeleton::module * node_a)
@@ -158,10 +157,10 @@ void mu::llvmc::generate_function::generate ()
             auto const & name ((*k)->name);
 			auto alloc (new llvm::AllocaInst (parameter->getType ()));
 			entry->getInstList ().push_back (alloc);
-			auto variable_info (module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function->debug, std::string (name.begin (), name.end ()), module.file, 0, existing->debug));
+			auto variable_info (module.builder.createAutoVariable (function->debug, std::string (name.begin (), name.end ()), module.file, 0, existing->debug));
 			auto store (new llvm::StoreInst (parameter, alloc));
 			entry->getInstList ().push_back (store);
-            auto declaration (module.builder.insertDeclare (alloc, variable_info, entry));
+            auto declaration (module.builder.insertDeclare (alloc, variable_info, nullptr, nullptr, entry));
 			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.last.row, value->region.last.column, function->debug));
         }
         assert ((i != j) == (k != l));
@@ -544,7 +543,7 @@ void mu::llvmc::generate_function::loop_element (mu::llvmc::skeleton::loop_eleme
             last->getInstList ().push_back (alloc);
             auto store (new llvm::StoreInst (loop_parameter, alloc));
             entry->getInstList ().push_back (store);
-            auto declaration (module.builder.insertDeclare (alloc, module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function->debug, std::string (param->name.begin (), param->name.end ()), module.file, 0, param->type ()->debug), last));
+            auto declaration (module.builder.insertDeclare (alloc, module.builder.createAutoVariable (function->debug, std::string (param->name.begin (), param->name.end ()), module.file, 0, param->type ()->debug), nullptr, nullptr, last));
             declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function->debug));
         }
     }
@@ -836,10 +835,10 @@ void mu::llvmc::generate_function::named (mu::llvmc::skeleton::named * named)
 		last->getInstList ().push_back (alloc);
 		auto store (new llvm::StoreInst (named->generated, alloc));
 		last->getInstList().push_back (store);
-		auto variable_info (module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function->debug, std::string (name.begin (), name.end ()), module.file, named->region.first.row, type->debug));
-		auto declaration (module.builder.insertDeclare (alloc, variable_info, last));
+		auto variable_info (module.builder.createAutoVariable (function->debug, std::string (name.begin (), name.end ()), module.file, named->region.first.row, type->debug));
+		auto declaration (module.builder.insertDeclare (alloc, variable_info, nullptr, nullptr, last));
 		declaration->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function->debug));
-		auto update (module.builder.insertDbgValueIntrinsic(named->generated, 0, variable_info, last));
+		auto update (module.builder.insertDbgValueIntrinsic(named->generated, 0, variable_info, nullptr, nullptr, last));
 		update->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function->debug));
 	}
 }
@@ -949,7 +948,7 @@ void mu::llvmc::generate_function::instruction (mu::llvmc::skeleton::instruction
 			auto new_last (llvm::BasicBlock::Create (context));
 			function_m->getBasicBlockList().push_back (new_last);
 			last->getInstList ().push_back (llvm::BranchInst::Create (predicate_branch, new_last, predicate));
-			auto instruction_l (new llvm::AtomicCmpXchgInst (one->generated, two->generated, three->generated, llvm::AtomicOrdering::AcquireRelease, llvm::SynchronizationScope::CrossThread));
+			auto instruction_l (new llvm::AtomicCmpXchgInst (one->generated, two->generated, three->generated, llvm::AtomicOrdering::AcquireRelease, llvm::AtomicOrdering::AcquireRelease, llvm::SynchronizationScope::CrossThread));
 			instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function->debug));
 			predicate_branch->getInstList ().push_back (instruction_l);
 			predicate_branch->getInstList ().push_back (llvm::BranchInst::Create(new_last));
@@ -1442,7 +1441,8 @@ void mu::llvmc::generate_module::global_variable (mu::llvmc::skeleton::global_va
 	global->setName (get_global_name (global_variable->name));
 	auto global_type (global_variable->type ());
 	system.generate_type (global_type);
-	global_variable->debug = builder.createGlobalVariable (std::string (global_variable->name.begin (), global_variable->name.end ()), file, global_variable->region.first.row, global_type->debug, false, global);
+	std::string name (global_variable->name.begin (), global_variable->name.end ());
+	global_variable->debug = builder.createGlobalVariable (file, name, name, file, global_variable->region.first.row, global_type->debug, false, global);
 	global_variable->generated = global;
 	global_variable->predicate = global_variable->initializer->predicate;
 	system.result.module->getGlobalList ().push_back (global);
@@ -1464,7 +1464,7 @@ void mu::llvmc::generate_module::function (mu::llvmc::skeleton::function * node_
 	auto function_type (llvm::cast <llvm::FunctionType> (type->generated));
 	auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
 	function_l->setName (get_global_name (node_a->name));
-	node_a->debug = builder.createFunction (file, std::string (node_a->name.begin (), node_a->name.end ()), function_l->getName (), file, node_a->region.first.row, type->debug, false, true, node_a->region.first.row, 0, false, function_l);
+	node_a->debug = builder.createFunction (file, std::string (node_a->name.begin (), node_a->name.end ()), function_l->getName (), file, node_a->region.first.row, llvm::cast<llvm::DISubroutineType>(type->debug), false, true, node_a->region.first.row, 0, false, function_l);
 	system.result.module->getFunctionList ().push_back (function_l);
 	node_a->generated = function_l;
 	node_a->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
@@ -1508,7 +1508,6 @@ void mu::llvmc::generate_system::generate_type (mu::llvmc::skeleton::type * type
 		type_a->visit (current_generator);
     }
     assert (type_a->generated != nullptr);
-    assert (type_a->debug.isValid ());
 }
 
 void mu::llvmc::generate_module::integer_type (mu::llvmc::skeleton::integer_type * integer_type)
@@ -1541,7 +1540,7 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
 {
 	auto & context (system.result.module->getContext ());
 	auto function (function_type_a->function);
-	std::vector <llvm::Value *> function_type_values;
+	std::vector <llvm::Metadata *> function_type_values;
 	function_type_values.push_back (nullptr); // Return type
 	std::vector <llvm::Type *> parameters;
 	for (auto i (function->parameters.begin ()), j (function->parameters.end ()); i != j; ++i)
@@ -1552,7 +1551,7 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
 		function_type_values.push_back (type_s->debug);
 		parameters.push_back (type_s->generated);
 	}
-	std::vector <llvm::Value *> results_debug;
+	std::vector <llvm::Metadata *> results_debug;
 	std::vector <llvm::Type *> results;
 	uint64_t offset (0);
     for (auto & i: function->results.branches)
@@ -1563,8 +1562,8 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
             if (!type_s->is_unit_type())
             {
                 system.generate_type (type_s);
-                auto size (type_s->debug.getSizeInBits ());
-                auto line (type_s->debug.getLineNumber ());
+                auto size (type_s->debug->getSizeInBits ());
+                auto line (type_s->debug->getLine ());
                 auto member (builder.createMemberType (file, "", file, line, size, 0, offset, 0, type_s->debug));
                 results_debug.push_back (member);
                 results.push_back (type_s->generated);
@@ -1577,7 +1576,7 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
 		results.push_back (llvm::Type::getInt8Ty (context));
 		results_debug.push_back (builder.createBasicType ("int8", 8, 0, llvm::dwarf::DW_ATE_unsigned_char));
 	}
-	llvm::Value * result_type_debug;
+	llvm::Metadata * result_type_debug;
 	llvm::Type * result_type;
 	switch (results.size ())
 	{
@@ -1587,19 +1586,19 @@ void mu::llvmc::generate_module::function_type (mu::llvmc::skeleton::function_ty
 			break;
 		case 1:
 			result_type = results [0];
-			result_type_debug = llvm::DIDerivedType (llvm::cast <llvm::MDNode> (results_debug [0])).getTypeDerivedFrom ();
+			result_type_debug = results_debug [0];
 			break;
 		default:
 		{
 			result_type = llvm::StructType::create (context, llvm::ArrayRef <llvm::Type *> (results));
-			auto array (builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (results_debug)));
-			result_type_debug = builder.createStructType (file, "", file, function->region.first.row, offset, 0, 0, array);
+			auto array (builder.getOrCreateArray (llvm::ArrayRef <llvm::Metadata *> (results_debug)));
+			result_type_debug = builder.createStructType (file, "", file, function->region.first.row, offset, 0, 0, nullptr, array);
 		}
 	}
 	function_type_values [0] = result_type_debug;
 	auto function_type (llvm::FunctionType::get (result_type, llvm::ArrayRef <llvm::Type *> (parameters), false));
-	auto array (builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
-	auto function_type_d (builder.createSubroutineType (file, array));
+	auto array (builder.getOrCreateTypeArray (llvm::ArrayRef <llvm::Metadata *> (function_type_values)));
+	auto function_type_d (builder.createSubroutineType (array));
 	function_type_a->generated = function_type;
 	function_type_a->debug = function_type_d;
 }
@@ -1610,27 +1609,27 @@ void mu::llvmc::generate_module::fixed_array_type (mu::llvmc::skeleton::fixed_ar
 	auto type (array_type->element);
 	system.generate_type (type);
 	array_type->generated = llvm::ArrayType::get (type->generated, array_type->size);
-	llvm::Value * indicies [2] = {llvm::ConstantInt::get(llvm::Type::getInt64Ty (context), 0), llvm::ConstantInt::get(llvm::Type::getInt64Ty (context), array_type->size)};
-	array_type->debug = builder.createArrayType (array_type->size, 0, type->debug, builder.getOrCreateArray(llvm::ArrayRef <llvm::Value *> (indicies)));
+	llvm::Metadata * indicies [2] = { llvm::ConstantAsMetadata::get(llvm::ConstantInt::get(llvm::Type::getInt64Ty (context), 0)), llvm::ConstantAsMetadata::get(llvm::ConstantInt::get(llvm::Type::getInt64Ty (context), array_type->size))};
+	array_type->debug = builder.createArrayType (array_type->size, 0, type->debug, builder.getOrCreateArray(llvm::ArrayRef <llvm::Metadata *> (indicies)));
 }
 
 void mu::llvmc::generate_module::struct_type (mu::llvmc::skeleton::struct_type * struct_type)
 {
 	auto & context (system.result.module->getContext ());
 	std::vector <llvm::Type *> elements;
-	std::vector <llvm::Value *> debug_members;
+	std::vector <llvm::Metadata *> debug_members;
 	size_t offset (0);
 	for (auto i: struct_type->elements)
 	{
 		i->visit (this);
 		elements.push_back (i->generated);
-		auto size (i->debug.getSizeInBits ());
+		auto size (i->debug->getSizeInBits ());
 		auto member (builder.createMemberType (file, "", file, 0, size, 0, offset, 0, i->debug));
 		offset += size;
 		debug_members.push_back (member);
 	}
 	auto type (llvm::StructType::get (context, elements));
-	auto debug (builder.createStructType (file, "", file, 0, offset, 0, 0, builder.getOrCreateArray (debug_members)));
+	auto debug (builder.createStructType (file, "", file, 0, offset, 0, 0, 0, builder.getOrCreateArray (debug_members)));
 	struct_type->generated = type;
 	struct_type->debug = debug;
 }
@@ -1644,7 +1643,7 @@ result ({nullptr, nullptr})
 {
 	char id [32];
 	sprintf (id, "%016" PRIx64 "", module_id_a);
-	result.module = new llvm::Module (id, context_a);
+	result.module.reset (new llvm::Module (id, context_a));
 }
 
 void mu::llvmc::generate_function::node (mu::llvmc::skeleton::node * node_a)

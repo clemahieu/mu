@@ -5,7 +5,7 @@
 #include <mu/llvmc/predicates.hpp>
 #include <mu/io/tokens.hpp>
 
-#include <llvm/DebugInfo.h>
+#include <llvm/IR/DebugInfoMetadata.h>
 
 namespace llvm
 {
@@ -57,7 +57,7 @@ namespace mu
             public:
                 type ();
                 llvm::Type * generated;
-                llvm::DIType debug;
+                llvm::DIType * debug;
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 virtual bool operator == (mu::llvmc::skeleton::type const & other_a) const = 0;
                 bool operator != (mu::llvmc::skeleton::type const & other_a) const;
@@ -318,7 +318,7 @@ namespace mu
                 function_branches results;
                 static void empty_node (mu::llvmc::skeleton::node *, size_t);
                 static bool empty_loop_predicate ();
-                llvm::DISubprogram debug;
+                llvm::DISubprogram * debug;
             };
             class switch_element;
             class switch_i
@@ -441,7 +441,7 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;
 				mu::llvmc::skeleton::constant * initializer;
-                llvm::DIGlobalVariable debug;
+                llvm::DIGlobalVariable * debug;
 			};			
             class module : public mu::llvmc::skeleton::node, public mu::llvmc::skeleton::namespace_container
             {

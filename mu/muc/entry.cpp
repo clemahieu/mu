@@ -5,15 +5,13 @@
 #include <mu/io/stream_istream.hpp>
 #include <mu/llvmc/compiler.hpp>
 
-#include <llvm/Support/TargetSelect.h>
-#include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/Filesystem.h>
 #include <llvm/Support/FormattedStream.h>
-
-#include <gc.h>
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/TargetSelect.h>
 
 int main (int argc, char const * const argv [])
 {
-    GC_INIT ();
     llvm::InitializeNativeTarget ();
     llvm::InitializeNativeTargetAsmPrinter ();
 	llvm::InitializeNativeTargetAsmParser ();
@@ -47,10 +45,9 @@ int main (int argc, char const * const argv [])
                 if (!file.fail ())
                 {
                     mu::io::stream_istream stream (file, 16);
-                    std::string error;
-                    llvm::raw_fd_ostream output ("test.o", error);
-                    llvm::formatted_raw_ostream formatted (output);
-                    mu::llvmc::compiler compiler (stream, formatted);
+                    std::error_code error;
+                    llvm::raw_fd_ostream output ("test.o", error, llvm::sys::fs::OpenFlags::F_RW);
+                    mu::llvmc::compiler compiler (stream, output);
                     compiler.compile (mu::string (name.begin (), name.end ()), mu::string (directory.begin (), directory.end ()));
                 }
                 else

@@ -3,8 +3,6 @@
 #include <mu/io/tokens.hpp>
 #include <mu/io/lexer.hpp>
 
-#include <gc_cpp.h>
-
 mu::io::stream_token::stream_token (mu::io::lexer & lexer_a, size_t size_a):
 buffer (size_a),
 lexer (lexer_a)
@@ -41,7 +39,7 @@ void mu::io::stream_token::refill ()
         auto token (lexer_l.lex ());
         if (token.error != nullptr)
         {
-            buffer.push_back (new (GC) mu::io::end (mu::core::region (lexer.position, lexer.position)));
+            buffer.push_back (new mu::io::end (mu::core::region (lexer.position, lexer.position)));
         }
         else
         {

@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8)
 project (io)
 
-add_library (mu_io SHARED
+add_library (mu_io
 	lexer.cpp
 	lexer.hpp
     stream.hpp
@@ -11,7 +11,3 @@ add_library (mu_io SHARED
     stream_token.hpp
 	tokens.cpp
 	tokens.hpp)
-    
-target_link_libraries (mu_io
-	mu_core
-	gc)

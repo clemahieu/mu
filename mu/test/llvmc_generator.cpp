@@ -3,31 +3,31 @@
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/llvmc/generator.hpp>
 
-#include <llvm/Module.h>
-#include <llvm/DerivedTypes.h>
-#include <llvm/Instructions.h>
-#include <llvm/LLVMContext.h>
-#include <llvm/Function.h>
-#include <llvm/Analysis/Verifier.h>
-#include <llvm/Support/raw_ostream.h>
-#include <llvm/ExecutionEngine/ExecutionEngine.h>
-#include <llvm/Support/Host.h>
 #include <llvm/ADT/Triple.h>
-#include <llvm/PassManager.h>
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <llvm/IR/DerivedTypes.h>
+#include <llvm/IR/Instructions.h>
+#include <llvm/IR/LegacyPassManager.h>
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Module.h>
+#include <llvm/IR/Function.h>
+#include <llvm/IR/Verifier.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/raw_ostream.h>
 #include <llvm/Transforms/IPO.h>
 
-static void print_module (llvm::Module * module, std::string & target)
+static void print_module (llvm::Module & module, std::string & target)
 {
     llvm::raw_string_ostream stream (target);
-    module->print (stream, nullptr);
+    module.print (stream, nullptr);
 }
 
-static llvm::ExecutionEngine * prepare_module_jit (llvm::Module * module_a)
+static llvm::ExecutionEngine * prepare_module_jit (std::unique_ptr <llvm::Module> module_a)
 {
-    llvm::PassManager manager;
+    llvm::legacy::PassManager manager;
     manager.add (llvm::createStripSymbolsPass (true));
     manager.run (*module_a);
-    llvm::EngineBuilder builder (module_a);
+    llvm::EngineBuilder builder (std::move (module_a));
     auto engine (builder.create ());
     return engine;
 }
@@ -39,9 +39,10 @@ TEST (llvmc_generator, generate1)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate1", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-	print_module (result.module, info);
+	print_module (*result.module, info);
 }
 
 extern char const * const generate_empty_expected;
@@ -56,9 +57,10 @@ TEST (llvmc_generator, generate_empty)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_empty", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_empty_expected), info);
 }
 
@@ -77,9 +79,10 @@ TEST (llvmc_generator, generate_parameter)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_parameter", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_parameter_expected), info);
 }
 
@@ -96,7 +99,8 @@ TEST (llvmc_generator, generate_pointer_type)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_pointer_type", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
 }
 
@@ -117,11 +121,12 @@ TEST (llvmc_generator, generate_parameter_return)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_parameter_return", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_parameter_return_expected), info);
-    llvm::EngineBuilder builder (result.module);
+    llvm::EngineBuilder builder (std::move (result.module));
     auto engine (builder.create ());
     auto function3 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function4 (reinterpret_cast <bool (*) (bool)> (function3));
@@ -156,11 +161,12 @@ TEST (llvmc_generator, generate_add)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_add", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_add_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0, 0));
@@ -190,11 +196,12 @@ TEST (llvmc_generator, generate_alloca)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_alloca", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_alloca_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <void * (*) ()> (function2));
     auto result2 (function3 ());
@@ -223,11 +230,12 @@ TEST (llvmc_generator, generate_and)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_and", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_and_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0, 0));
@@ -260,11 +268,12 @@ TEST (llvmc_generator, generate_ashr)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_ashr", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_ashr_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0x8f, 3));
@@ -297,11 +306,12 @@ TEST (llvmc_generator, DISABLED_generate_cmpxchg)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_cmpxchg", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_cmpxchg_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t *, uint8_t, uint8_t)> (function2));
     uint8_t val (0xff);
@@ -333,11 +343,12 @@ TEST (llvmc_generator, generate_icmp1)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_icmp1", U"", 0));
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_icmp1_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <bool (*) (bool, bool)> (function2));
     auto result2 (function3 (false, false));
@@ -371,11 +382,12 @@ TEST (llvmc_generator, generate_load)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_load", U"", 0));
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_load_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <bool (*) (bool*)> (function2));
     auto val1 (false);
@@ -408,11 +420,12 @@ TEST (llvmc_generator, generate_lshr)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_lshr", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_lshr_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0, 0));
@@ -445,11 +458,12 @@ TEST (llvmc_generator, generate_mul)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_mul", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_mul_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0, 0));
@@ -484,11 +498,12 @@ TEST (llvmc_generator, generate_or)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_or", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_or_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0, 0));
@@ -525,11 +540,12 @@ TEST (llvmc_generator, generate_sdiv)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_sdiv", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_sdiv_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <int8_t (*) (int8_t, int8_t)> (function2));
     auto result2 (function3 (42, 1));
@@ -559,11 +575,12 @@ TEST (llvmc_generator, generate_sext)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_sext", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_sext_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <int16_t (*) (int8_t)> (function2));
     auto result2 (function3 (42));
@@ -594,11 +611,12 @@ TEST (llvmc_generator, generate_shl)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_shl", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_shl_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result_false (function3 (0x0f, 4));
@@ -627,11 +645,12 @@ TEST (llvmc_generator, generate_srem)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_srem", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_srem_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <int8_t (*) (int8_t, int8_t)> (function2));
     auto result2 (function3 (42, 2));
@@ -663,11 +682,12 @@ TEST (llvmc_generator, generate_store)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_store", U"", 0));
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_store_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <void (*) (bool, bool*)> (function2));
     auto val1 (false);
@@ -698,11 +718,12 @@ TEST (llvmc_generator, generate_sub)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_sub", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_sub_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <bool (*) (bool)> (function2));
     auto result_false (function3 (0));
@@ -733,11 +754,12 @@ TEST (llvmc_generator, generate_udiv)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_udiv", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_udiv_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0x10, 0x10));
@@ -768,11 +790,12 @@ TEST (llvmc_generator, generate_urem)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_urem", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_urem_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0x80, 0x80));
@@ -803,11 +826,12 @@ TEST (llvmc_generator, generate_xor)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_xor", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_xor_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0xff, 0x00));
@@ -837,11 +861,12 @@ TEST (llvmc_generator, generate_zext)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_zext", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_zext_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint16_t (*) (uint8_t)> (function2));
     auto result2 (function3 (0x0f));
@@ -867,11 +892,12 @@ TEST (llvmc_generator, generate_two_return)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_two_return", U"", 0));
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_two_return_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
 	struct thing
 	{
@@ -918,8 +944,9 @@ TEST (llvmc_generator, generate_if)
     auto result (generator.generate (context, &module, U"generate_if", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_expected), info);
 }
@@ -955,8 +982,9 @@ TEST (llvmc_generator, generate_if_value)
     auto result (generator.generate (context, &module, U"generate_if_value", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_value_expected), info);
 }
@@ -998,8 +1026,9 @@ TEST (llvmc_generator, generate_if_join)
     auto result (generator.generate (context, &module, U"generate_if_join", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_expected), info);
 }
@@ -1048,8 +1077,9 @@ TEST (llvmc_generator, generate_if_join_value)
     auto result (generator.generate (context, &module, U"generate_if_join_value", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_value_expected), info);
 }
@@ -1116,8 +1146,9 @@ TEST (llvmc_generator, generate_if_join_2value)
     auto result (generator.generate (context, &module, U"generate_if_join_2value", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_2value_expected), info);
 }
@@ -1169,8 +1200,9 @@ TEST (llvmc_generator, generate_if_join_load)
     auto result (generator.generate (context, &module, U"generate_if_join_load", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_load_expected), info);
 }
@@ -1202,8 +1234,9 @@ TEST (llvmc_generator, generate_call_0)
     auto result (generator.generate (context, &module, U"generate_call_0", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_0_expected), info);
 }
@@ -1238,8 +1271,9 @@ TEST (llvmc_generator, generate_call_1)
     auto result (generator.generate (context, &module, U"generate_call_1", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_1_expected), info);
 }
@@ -1284,8 +1318,9 @@ TEST (llvmc_generator, generate_call_2)
     auto result (generator.generate (context, &module, U"generate_call_2", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_2_expected), info);
 }
@@ -1333,8 +1368,9 @@ TEST (llvmc_generator, generate_call_3)
     auto result (generator.generate (context, &module, U"generate_call_3", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_3_expected), info);
 }
@@ -1363,8 +1399,9 @@ TEST (llvmc_generator, generate_call_predicate_b1v0)
     auto result (generator.generate (context, &module, U"generate_call_predicate_b1v0", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_predicate_b1v0_expected), info);
 }
@@ -1396,8 +1433,9 @@ TEST (llvmc_generator, generate_call_predicate_b1v1)
     auto result (generator.generate (context, &module, U"generate_call_predicate_b1v1", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_predicate_b1v1_expected), info);
 }
@@ -1438,8 +1476,9 @@ TEST (llvmc_generator, generate_loop1)
     auto result (generator.generate (context, &module, U"generate_loop1", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_loop1_expected), info);
 }
@@ -1492,11 +1531,12 @@ TEST (llvmc_generator, generate_loop_count)
     auto result (generator.generate (context, &module, U"generate_loop_count", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_loop_count_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint32_t (*) (uint32_t)> (function2));
 	auto result2 (function3 (0 - 5));
@@ -1522,9 +1562,10 @@ TEST (llvmc_generator, generate_asm)
     auto result (generator.generate (context, &module, U"generate_asm", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_asm_expected), info);
 }
 
@@ -1550,11 +1591,12 @@ TEST (llvmc_generator, generate_getelementptr)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_getelementptr", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_getelementptr_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t * (*) (uint8_t *)> (function2));
 	uint8_t val (0);
@@ -1584,11 +1626,12 @@ TEST (llvmc_generator, generate_identity)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_identity", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_identity_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t)> (function2));
     auto result2 (function3 (42));
@@ -1618,9 +1661,10 @@ TEST (llvmc_generator, generate_asm2)
     auto result (generator.generate (context, &module, U"generate_asm2", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_asm2_expected), info);
 }
 
@@ -1664,8 +1708,9 @@ TEST (llvmc_generator, generate_call_0_predicate)
     auto result (generator.generate (context, &module, U"generate_call_0_predicate", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_0_predicate_expected), info);
 }
@@ -1691,8 +1736,9 @@ TEST (llvmc_generator, generate_array)
     auto result (generator.generate (context, &module, U"generate_array", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_array_expected), info);
 }
@@ -1720,11 +1766,12 @@ TEST (llvmc_generator, generate_bitcast)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_bitcast", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_bitcast_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint8_t * (*) (uint32_t *)> (function2));
     uint32_t val;
@@ -1754,11 +1801,12 @@ TEST (llvmc_generator, generate_ptrtoint)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_ptrtoint", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_ptrtoint_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint64_t (*) (uint32_t *)> (function2));
     uint32_t val;
@@ -1788,11 +1836,12 @@ TEST (llvmc_generator, generate_ptrfromint)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_ptrfromint", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_ptrfromint_expected), info);
-    auto engine (prepare_module_jit (result.module));
+    auto engine (prepare_module_jit (std::move (result.module)));
     auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
     auto function3 (reinterpret_cast <uint32_t * (*) (uint64_t)> (function2));
     auto result2 (function3 (~0));
@@ -1813,9 +1862,10 @@ TEST (llvmc_generator, generate_global_variable)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_global_variable", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_global_variable_expected), info);
 }
 
@@ -1860,8 +1910,9 @@ TEST (llvmc_generator, generate_if_join_value_predicate)
     auto result (generator.generate (context, &module, U"generate_if_join_value_predicate", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_value_predicate_expected), info);
 }
@@ -1886,9 +1937,10 @@ TEST (llvmc_generator, generate_struct_type_undefined)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_struct_type_undefined", U"", 0));
     std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
+    print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_struct_type_undefined_expected), info);
 }
 
@@ -1918,8 +1970,9 @@ TEST (llvmc_generator, generate_insertvalue)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_insertvalue", U"", 0));
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_insertvalue_expected), info);
 }
@@ -1946,8 +1999,9 @@ TEST (llvmc_generator, generate_select)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_select_expected", U"", 0));
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_select_expected), info);
 }
@@ -1976,8 +2030,9 @@ TEST (llvmc_generator, generate_extractvalue)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_extractvalue", U"", 0));
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_extractvalue_expected), info);
 }
@@ -2024,8 +2079,9 @@ TEST (llvmc_generator, generate_call_out_of_order)
     auto result (generator.generate (context, &module, U"generate_call_out_of_order", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (*result.module, info);
+	llvm::raw_string_ostream info_stream (info);
+    auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_out_of_order_expected), info);
 }

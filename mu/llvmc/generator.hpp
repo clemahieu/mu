@@ -5,9 +5,9 @@
 #include <mu/core/types.hpp>
 #include <mu/llvmc/skeleton.hpp>
 
-#include <llvm/LLVMContext.h>
-#include <llvm/DIBuilder.h>
-#include <llvm/DebugInfo.h>
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/DIBuilder.h>
+#include <llvm/IR/DebugInfoMetadata.h>
 
 #include <boost/dynamic_bitset.hpp>
 
@@ -50,7 +50,7 @@ namespace mu
         {
         public:
             llvm::Function * entry;
-            llvm::Module * module;
+            std::unique_ptr <llvm::Module> module;
         };
         class generator
         {
@@ -95,7 +95,7 @@ namespace mu
             void generate ();
 			llvm::DIBuilder builder;
             mu::llvmc::skeleton::module * module;
-			llvm::DIFile file;
+			llvm::DIFile * file;
             uint64_t global_id;
 			mu::llvmc::skeleton::visitor * previous;
 			mu::llvmc::generate_system & system;
@@ -128,7 +128,7 @@ namespace mu
             llvm::Function * function_m;
             mu::llvmc::skeleton::function * function;
             mu::llvmc::skeleton::function_return_type function_return_type;
-            llvm::DILexicalBlock block_d;
+            llvm::DILexicalBlock * block_d;
 			mu::llvmc::skeleton::visitor * previous;
         };
     }

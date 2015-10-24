@@ -9,8 +9,6 @@
 
 #include <assert.h>
 
-#include <gc_cpp.h>
-
 mu::io::string_hash::string_hash (mu::string const & string_a)
 {
     MurmurHash3_x86_128 (string_a.c_str(), string_a.size () * sizeof (mu::string::value_type), 0, &hash);
@@ -63,19 +61,19 @@ mu::io::token_result mu::io::lexer::lex ()
                 consume (1);
                 break;
             case U'[':
-                result.token = new (GC) mu::io::left_square (mu::core::region (position, position));
+                result.token = new mu::io::left_square (mu::core::region (position, position));
                 consume (1);
                 break;
             case U']':
-                result.token = new (GC) mu::io::right_square (mu::core::region (position, position));
+                result.token = new mu::io::right_square (mu::core::region (position, position));
                 consume (1);
                 break;
             case U';':
-                result.token = new (GC) mu::io::terminator (mu::core::region (position, position));
+                result.token = new mu::io::terminator (mu::core::region (position, position));
                 consume (1);
                 break;
             case U'\U0000FFFF':
-                result.token = new (GC) mu::io::end (mu::core::region (position, position));
+                result.token = new mu::io::end (mu::core::region (position, position));
                 break;
             case U'{':
                 result = complex_identifier ();
@@ -114,7 +112,7 @@ mu::io::token_result mu::io::lexer::lex ()
                         break;
                     default:
                     {
-                        auto error (new (GC) mu::core::error_string (U"Unknown control character: ", mu::core::error_type::unknown_control_character, mu::core::region (position, position)));
+                        auto error (new mu::core::error_string (U"Unknown control character: ", mu::core::error_type::unknown_control_character, mu::core::region (position, position)));
                         error->message.push_back (character2);
                         result.error = error;
                         break;
@@ -132,7 +130,7 @@ mu::io::token_result mu::io::lexer::lex ()
 
 mu::io::token_result mu::io::lexer::identifier ()
 {
-    auto identifier (new (GC) mu::io::identifier (mu::core::region (position, position)));
+    auto identifier (new mu::io::identifier (mu::core::region (position, position)));
     auto last (position);
     mu::io::token_result result ({nullptr, nullptr});
     while (result.token == nullptr && result.error == nullptr)
@@ -279,7 +277,7 @@ mu::io::token_result mu::io::lexer::identifier ()
                         break;
                     default:
 					{
-						auto error (new (GC) mu::core::error_string (U"Unknown control character: ", mu::core::error_type::unknown_control_character, mu::core::region (position, position)));
+						auto error (new mu::core::error_string (U"Unknown control character: ", mu::core::error_type::unknown_control_character, mu::core::region (position, position)));
 						error->message.push_back (character2);
 						result.error = error;
 						break;
@@ -301,7 +299,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
 {
     assert (stream [0] == U'{');
     mu::io::token_result result ({nullptr, nullptr});
-    auto identifier (new (GC) mu::io::identifier (mu::core::region (position, position)));
+    auto identifier (new mu::io::identifier (mu::core::region (position, position)));
     auto last (position);
     consume (1);
     auto have_terminator (false);
@@ -322,7 +320,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
     }
     if (terminator.size () > 16)
     {
-        result.error = new (GC) mu::core::error_string (U"Termiator token is greater than 16 characters", mu::core::error_type::terminator_token_too_long, mu::core::region (identifier->region.first, position));
+        result.error = new mu::core::error_string (U"Termiator token is greater than 16 characters", mu::core::error_type::terminator_token_too_long, mu::core::region (identifier->region.first, position));
     }
     
     while (result.token == nullptr && result.error == nullptr)
@@ -356,7 +354,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
             }
             else
             {
-                result.error = new (GC) mu::core::error_string (U"End of stream inside complex identifier", mu::core::error_type::end_of_stream_inside_complex_identifier, mu::core::region (position, position));
+                result.error = new mu::core::error_string (U"End of stream inside complex identifier", mu::core::error_type::end_of_stream_inside_complex_identifier, mu::core::region (position, position));
             }
         }
     }
@@ -431,7 +429,7 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
                     consume (1);
                     break;
                 default:
-                    result.error = new (GC) mu::core::error_string (U"Non-hex character", mu::core::error_type::non_hex_character, mu::core::region (position, position));
+                    result.error = new mu::core::error_string (U"Non-hex character", mu::core::error_type::non_hex_character, mu::core::region (position, position));
                     break;
             }
         }
@@ -476,7 +474,7 @@ mu::core::error * mu::io::lexer::region_comment ()
 				}
 				break;
             case U'\U0000ffff':
-                result = new (GC) mu::core::error_string (U"End of stream inside region comment", mu::core::error_type::end_of_stream_inside_region_comment, mu::core::region (position, position));
+                result = new mu::core::error_string (U"End of stream inside region comment", mu::core::error_type::end_of_stream_inside_region_comment, mu::core::region (position, position));
                 done = true;
                 break;
             default:

@@ -2,45 +2,28 @@ cmake_minimum_required (VERSION 2.8)
 project (mu)
 
 if (UNIX OR MINGW)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -g")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 endif ()
 
 file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/temp)
 set (CMAKE_VERBOSE_MAKEFILE "ON")
-set (CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
 add_definitions (-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -DGTEST_USE_OWN_TR1_TUPLE=0 -DGTEST_HAS_TR1_TUPLE=0 -D__STDC_FORMAT_MACROS)
 
-set (llvm_include_directories
-	${CMAKE_SOURCE_DIR}/llvm/include)
-set (boost_include_directories
-	${CMAKE_SOURCE_DIR}/boost)
-set (gtest_include_directories
-	${CMAKE_SOURCE_DIR}/googletest/include)
-set (gc_include_directories
-	${CMAKE_SOURCE_DIR}/gc/include)
+find_package (Boost REQUIRED COMPONENTS filesystem program_options system)
+include_directories (${Boost_INCLUDE_DIR})
 
-set (boost_lib_directories
-	${CMAKE_SOURCE_DIR}/boost/stage/lib)
-if (WIN32)
-	set (llvm_lib_directories
-		${CMAKE_SOURCE_DIR}/llvm/lib)
-else (WIN32)
-	set (llvm_lib_directories
-		"${CMAKE_SOURCE_DIR}/llvm/Release+Asserts/lib")
-endif (WIN32)
-set (gc_lib_directories
-	${CMAKE_SOURCE_DIR}/gc/.libs)
-set (gtest_lib_directories
-	${CMAKE_SOURCE_DIR}/googletest)
+find_package (LLVM REQUIRED)
+MESSAGE (STATUS ${LLVM_CXXFLAGS})
+MESSAGE (STATUS ${LLVM_LDFLAGS})
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXXFLAGS}")
+set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LLVM_LDFLAGS}")
 
-include_directories (
-	${CMAKE_SOURCE_DIR}
-	${boost_include_directories}
-	${gc_include_directories})
+find_package (GTest REQUIRED)
+include_directories (${GTEST_INCLUDE_DIR})
 
-link_directories (
-	${boost_lib_directories}
-	${gc_lib_directories})
+include_directories (${CMAKE_SOURCE_DIR})
+
+link_directories (${LLVM_LIBRARY_DIRS})
 
 add_subdirectory (mu/core)
 add_subdirectory (mu/io)
