@@ -160,8 +160,7 @@ void mu::llvmc::generate_function::generate ()
 			auto variable_info (module.builder.createAutoVariable (function->debug, std::string (name.begin (), name.end ()), module.file, 0, existing->debug));
 			auto store (new llvm::StoreInst (parameter, alloc));
 			entry->getInstList ().push_back (store);
-            auto declaration (module.builder.insertDeclare (alloc, variable_info, nullptr, nullptr, entry));
-			declaration->setDebugLoc (llvm::DebugLoc::get (value->region.last.row, value->region.last.column, function->debug));
+            auto declaration (module.builder.insertDeclare (alloc, variable_info, module.builder.createExpression(), llvm::DebugLoc::get (value->region.last.row, value->region.last.column, function->debug), entry));
         }
         assert ((i != j) == (k != l));
     }
@@ -543,8 +542,7 @@ void mu::llvmc::generate_function::loop_element (mu::llvmc::skeleton::loop_eleme
             last->getInstList ().push_back (alloc);
             auto store (new llvm::StoreInst (loop_parameter, alloc));
             entry->getInstList ().push_back (store);
-            auto declaration (module.builder.insertDeclare (alloc, module.builder.createAutoVariable (function->debug, std::string (param->name.begin (), param->name.end ()), module.file, 0, param->type ()->debug), nullptr, nullptr, last));
-            declaration->setDebugLoc (llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function->debug));
+            auto declaration (module.builder.insertDeclare (alloc, module.builder.createAutoVariable (function->debug, std::string (param->name.begin (), param->name.end ()), module.file, 0, param->type ()->debug), module.builder.createExpression(), llvm::DebugLoc::get (value->region.first.row, value->region.first.column, function->debug), last));
         }
     }
     
@@ -836,10 +834,8 @@ void mu::llvmc::generate_function::named (mu::llvmc::skeleton::named * named)
 		auto store (new llvm::StoreInst (named->generated, alloc));
 		last->getInstList().push_back (store);
 		auto variable_info (module.builder.createAutoVariable (function->debug, std::string (name.begin (), name.end ()), module.file, named->region.first.row, type->debug));
-		auto declaration (module.builder.insertDeclare (alloc, variable_info, nullptr, nullptr, last));
-		declaration->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function->debug));
-		auto update (module.builder.insertDbgValueIntrinsic(named->generated, 0, variable_info, nullptr, nullptr, last));
-		update->setDebugLoc (llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function->debug));
+		auto declaration (module.builder.insertDeclare (alloc, variable_info, module.builder.createExpression(), llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function->debug), last));
+		auto update (module.builder.insertDbgValueIntrinsic (named->generated, 0, variable_info, module.builder.createExpression(), llvm::DebugLoc::get (named->region.first.row, named->region.first.column, function->debug), last));
 	}
 }
 

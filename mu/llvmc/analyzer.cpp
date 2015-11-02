@@ -1219,7 +1219,7 @@ void mu::llvmc::global_processor::number (mu::llvmc::ast::number * number_a)
 	if (data_l.size () > 0)
 	{
 		auto prefix (data_l [0]);
-		std::unique_ptr <uint8_t> remaining (new uint8_t [data_l.size () + 1]);
+		std::unique_ptr <uint8_t []> remaining (new uint8_t [data_l.size () + 1]);
 		uint64_t value;
 		int parsed;
 		switch (prefix)

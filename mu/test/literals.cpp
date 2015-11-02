@@ -1,21 +1,19 @@
 extern char const * const generate_empty_expected = R"%%%(; ModuleID = '0000000000000000'
 
 define void @"0000000000000000-0000000000000000-0"() {
-  unreachable, !dbg !9
+  unreachable, !dbg !7
 }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_empty", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_empty] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void ()* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_empty", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{null}
-!9 = metadata !{i32 0, i32 0, metadata !5, null}
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_empty", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: void ()* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{null}
+!7 = !DILocation(line: 0, scope: !4)
 )%%%";
 
 extern char const * const generate_parameter_expected = R"%%%(; ModuleID = '0000000000000000'
@@ -23,26 +21,28 @@ extern char const * const generate_parameter_expected = R"%%%(; ModuleID = '0000
 define void @"0000000000000000-0000000000000000-0"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
-  call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !10), !dbg !11
-  unreachable, !dbg !11
+  call void @llvm.dbg.declare(metadata i1* %2, metadata !8, metadata !9), !dbg !10
+  unreachable, !dbg !10
 }
 
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
+
+attributes #0 = { nounwind readnone }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_parameter", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_parameter] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void (i1)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_parameter", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{null, metadata !9}
-!9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
-!10 = metadata !{i32 786688, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter1] [line 0]
-!11 = metadata !{i32 0, i32 0, metadata !5, null}
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_parameter", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: void (i1)* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{null, !7}
+!7 = !DIBasicType(name: "int1", size: 1, encoding: DW_ATE_unsigned)
+!8 = !DILocalVariable(name: "parameter1", scope: !4, file: !1, type: !7)
+!9 = !DIExpression()
+!10 = !DILocation(line: 0, scope: !4)
 )%%%";
 
 extern char const * const generate_parameter_return_expected = R"%%%(; ModuleID = '0000000000000000'
@@ -50,26 +50,29 @@ extern char const * const generate_parameter_return_expected = R"%%%(; ModuleID 
 define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %2 = alloca i1
   store i1 %0, i1* %2
-  call void @llvm.dbg.declare(metadata !{i1* %2}, metadata !10), !dbg !11
+  call void @llvm.dbg.declare(metadata i1* %2, metadata !9, metadata !10), !dbg !11
   ret i1 %0, !dbg !11
 }
 
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
+
+attributes #0 = { nounwind readnone }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_parameter_return", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_parameter_return] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i1 (i1)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_parameter_return", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9, metadata !9}
-!9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
-!10 = metadata !{i32 786688, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter1] [line 0]
-!11 = metadata !{i32 0, i32 0, metadata !5, null}
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_parameter_return", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: i1 (i1)* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7, !8}
+!7 = !DIDerivedType(tag: DW_TAG_member, scope: !1, file: !1, baseType: !8, size: 1)
+!8 = !DIBasicType(name: "int1", size: 1, encoding: DW_ATE_unsigned)
+!9 = !DILocalVariable(name: "parameter1", scope: !4, file: !1, type: !8)
+!10 = !DIExpression()
+!11 = !DILocation(line: 0, scope: !4)
 )%%%";
 
 extern char const * const generate_add_expected = R"%%%(; ModuleID = '0000000000000000'
@@ -77,39 +80,43 @@ extern char const * const generate_add_expected = R"%%%(; ModuleID = '0000000000
 define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %3 = alloca i8
   store i8 %0, i8* %3
-  call void @llvm.dbg.declare(metadata !{i8* %3}, metadata !10), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %3, metadata !9, metadata !10), !dbg !11
   %4 = alloca i8
   store i8 %1, i8* %4
-  call void @llvm.dbg.declare(metadata !{i8* %4}, metadata !12), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %4, metadata !12, metadata !10), !dbg !11
   %5 = and i1 true, true
   %6 = add i8 %0, %1, !dbg !11
   %7 = alloca i8
   store i8 %6, i8* %7
-  call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
-  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %7, metadata !13, metadata !10), !dbg !11
+  call void @llvm.dbg.value(metadata i8 %6, i64 0, metadata !13, metadata !10), !dbg !11
   ret i8 %6, !dbg !11
 }
 
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
-declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata, metadata) #0
+
+attributes #0 = { nounwind readnone }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_add", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_add] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_add", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9, metadata !9, metadata !9}
-!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
-!10 = metadata !{i32 786688, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter1] [line 0]
-!11 = metadata !{i32 0, i32 0, metadata !5, null}
-!12 = metadata !{i32 786688, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter2] [line 0]
-!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_add", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: i8 (i8, i8)* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7, !8, !8}
+!7 = !DIDerivedType(tag: DW_TAG_member, scope: !1, file: !1, baseType: !8, size: 8)
+!8 = !DIBasicType(name: "int8", size: 8, encoding: DW_ATE_unsigned)
+!9 = !DILocalVariable(name: "parameter1", scope: !4, file: !1, type: !8)
+!10 = !DIExpression()
+!11 = !DILocation(line: 0, scope: !4)
+!12 = !DILocalVariable(name: "parameter2", scope: !4, file: !1, type: !8)
+!13 = !DILocalVariable(name: "instruction1", scope: !4, file: !1, type: !8)
 )%%%";
 
 extern char const * const generate_alloca_expected = R"%%%(; ModuleID = '0000000000000000'
@@ -118,37 +125,41 @@ define i8* @"0000000000000000-0000000000000000-0"() {
   br i1 true, label %1, label %3
 
 ; <label>:1                                       ; preds = %0
-  %2 = alloca i8, !dbg !11
+  %2 = alloca i8, !dbg !10
   br label %3
 
 ; <label>:3                                       ; preds = %1, %0
   %4 = phi i8* [ %2, %1 ], [ undef, %0 ]
   %5 = alloca i8*
   store i8* %4, i8** %5
-  call void @llvm.dbg.declare(metadata !{i8** %5}, metadata !12), !dbg !11
-  call void @llvm.dbg.value(metadata !{i8* %4}, i64 0, metadata !12), !dbg !11
-  ret i8* %4, !dbg !11
+  call void @llvm.dbg.declare(metadata i8** %5, metadata !11, metadata !12), !dbg !10
+  call void @llvm.dbg.value(metadata i8* %4, i64 0, metadata !11, metadata !12), !dbg !10
+  ret i8* %4, !dbg !10
 }
 
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
-declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata, metadata) #0
+
+attributes #0 = { nounwind readnone }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_alloca", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_alloca] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8* ()* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_alloca", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9}
-!9 = metadata !{i32 786447, null, metadata !"ptr", null, i32 0, i64 8, i64 0, i64 0, i32 0, metadata !10} ; [ DW_TAG_pointer_type ] [ptr] [line 0, size 8, align 0, offset 0] [from int8]
-!10 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
-!11 = metadata !{i32 0, i32 0, metadata !5, null}
-!12 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_alloca", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: i8* ()* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIDerivedType(tag: DW_TAG_member, scope: !1, file: !1, baseType: !8, size: 8)
+!8 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "ptr", baseType: !9, size: 8)
+!9 = !DIBasicType(name: "int8", size: 8, encoding: DW_ATE_unsigned)
+!10 = !DILocation(line: 0, scope: !4)
+!11 = !DILocalVariable(name: "instruction1", scope: !4, file: !1, type: !8)
+!12 = !DIExpression()
 )%%%";
 
 extern char const * const generate_and_expected = R"%%%(; ModuleID = '0000000000000000'
@@ -156,39 +167,43 @@ extern char const * const generate_and_expected = R"%%%(; ModuleID = '0000000000
 define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %3 = alloca i8
   store i8 %0, i8* %3
-  call void @llvm.dbg.declare(metadata !{i8* %3}, metadata !10), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %3, metadata !9, metadata !10), !dbg !11
   %4 = alloca i8
   store i8 %1, i8* %4
-  call void @llvm.dbg.declare(metadata !{i8* %4}, metadata !12), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %4, metadata !12, metadata !10), !dbg !11
   %5 = and i1 true, true
   %6 = and i8 %0, %1, !dbg !11
   %7 = alloca i8
   store i8 %6, i8* %7
-  call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
-  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %7, metadata !13, metadata !10), !dbg !11
+  call void @llvm.dbg.value(metadata i8 %6, i64 0, metadata !13, metadata !10), !dbg !11
   ret i8 %6, !dbg !11
 }
 
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
-declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata, metadata) #0
+
+attributes #0 = { nounwind readnone }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_and", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_and] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_and", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9, metadata !9, metadata !9}
-!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
-!10 = metadata !{i32 786688, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter1] [line 0]
-!11 = metadata !{i32 0, i32 0, metadata !5, null}
-!12 = metadata !{i32 786688, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter2] [line 0]
-!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_and", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: i8 (i8, i8)* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7, !8, !8}
+!7 = !DIDerivedType(tag: DW_TAG_member, scope: !1, file: !1, baseType: !8, size: 8)
+!8 = !DIBasicType(name: "int8", size: 8, encoding: DW_ATE_unsigned)
+!9 = !DILocalVariable(name: "parameter1", scope: !4, file: !1, type: !8)
+!10 = !DIExpression()
+!11 = !DILocation(line: 0, scope: !4)
+!12 = !DILocalVariable(name: "parameter2", scope: !4, file: !1, type: !8)
+!13 = !DILocalVariable(name: "instruction1", scope: !4, file: !1, type: !8)
 )%%%";
 
 extern char const * const generate_ashr_expected = R"%%%(; ModuleID = '0000000000000000'
@@ -196,39 +211,43 @@ extern char const * const generate_ashr_expected = R"%%%(; ModuleID = '000000000
 define i8 @"0000000000000000-0000000000000000-0"(i8, i8) {
   %3 = alloca i8
   store i8 %0, i8* %3
-  call void @llvm.dbg.declare(metadata !{i8* %3}, metadata !10), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %3, metadata !9, metadata !10), !dbg !11
   %4 = alloca i8
   store i8 %1, i8* %4
-  call void @llvm.dbg.declare(metadata !{i8* %4}, metadata !12), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %4, metadata !12, metadata !10), !dbg !11
   %5 = and i1 true, true
   %6 = ashr i8 %0, %1, !dbg !11
   %7 = alloca i8
   store i8 %6, i8* %7
-  call void @llvm.dbg.declare(metadata !{i8* %7}, metadata !13), !dbg !11
-  call void @llvm.dbg.value(metadata !{i8 %6}, i64 0, metadata !13), !dbg !11
+  call void @llvm.dbg.declare(metadata i8* %7, metadata !13, metadata !10), !dbg !11
+  call void @llvm.dbg.value(metadata i8 %6, i64 0, metadata !13, metadata !10), !dbg !11
   ret i8 %6, !dbg !11
 }
 
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
-declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata, metadata) #0
+
+attributes #0 = { nounwind readnone }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_ashr", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_ashr] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_ashr", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9, metadata !9, metadata !9}
-!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
-!10 = metadata !{i32 786688, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter1] [line 0]
-!11 = metadata !{i32 0, i32 0, metadata !5, null}
-!12 = metadata !{i32 786688, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter2] [line 0]
-!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_ashr", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: i8 (i8, i8)* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7, !8, !8}
+!7 = !DIDerivedType(tag: DW_TAG_member, scope: !1, file: !1, baseType: !8, size: 8)
+!8 = !DIBasicType(name: "int8", size: 8, encoding: DW_ATE_unsigned)
+!9 = !DILocalVariable(name: "parameter1", scope: !4, file: !1, type: !8)
+!10 = !DIExpression()
+!11 = !DILocation(line: 0, scope: !4)
+!12 = !DILocalVariable(name: "parameter2", scope: !4, file: !1, type: !8)
+!13 = !DILocalVariable(name: "instruction1", scope: !4, file: !1, type: !8)
 )%%%";
 
 extern char const * const generate_bitcast_expected = R"%%%(; ModuleID = '0000000000000000'
@@ -409,41 +428,45 @@ extern char const * const generate_icmp1_expected = R"%%%(; ModuleID = '00000000
 define i1 @"0000000000000000-0000000000000000-0"(i1, i1) {
   %3 = alloca i1
   store i1 %0, i1* %3
-  call void @llvm.dbg.declare(metadata !{i1* %3}, metadata !10), !dbg !11
+  call void @llvm.dbg.declare(metadata i1* %3, metadata !9, metadata !10), !dbg !11
   %4 = alloca i1
   store i1 %1, i1* %4
-  call void @llvm.dbg.declare(metadata !{i1* %4}, metadata !12), !dbg !11
+  call void @llvm.dbg.declare(metadata i1* %4, metadata !12, metadata !10), !dbg !11
   %5 = and i1 true, true
   %6 = icmp eq i1 %0, %1, !dbg !13
   %7 = alloca i1
   store i1 %6, i1* %7
-  call void @llvm.dbg.declare(metadata !{i1* %7}, metadata !15), !dbg !11
-  call void @llvm.dbg.value(metadata !{i1 %6}, i64 0, metadata !15), !dbg !11
+  call void @llvm.dbg.declare(metadata i1* %7, metadata !15, metadata !10), !dbg !11
+  call void @llvm.dbg.value(metadata i1 %6, i64 0, metadata !15, metadata !10), !dbg !11
   ret i1 %6, !dbg !11
 }
 
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
-declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata, metadata) #0
+
+attributes #0 = { nounwind readnone }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_icmp1", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_icmp1] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i1 (i1, i1)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_icmp1", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9, metadata !9, metadata !9}
-!9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
-!10 = metadata !{i32 786688, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter1] [line 0]
-!11 = metadata !{i32 0, i32 0, metadata !5, null}
-!12 = metadata !{i32 786688, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter2] [line 0]
-!13 = metadata !{i32 0, i32 0, metadata !14, null}
-!14 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 8} ; [ DW_TAG_lexical_block ] [/generate_icmp1]
-!15 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_icmp1", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: i1 (i1, i1)* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7, !8, !8}
+!7 = !DIDerivedType(tag: DW_TAG_member, scope: !1, file: !1, baseType: !8, size: 1)
+!8 = !DIBasicType(name: "int1", size: 1, encoding: DW_ATE_unsigned)
+!9 = !DILocalVariable(name: "parameter1", scope: !4, file: !1, type: !8)
+!10 = !DIExpression()
+!11 = !DILocation(line: 0, scope: !4)
+!12 = !DILocalVariable(name: "parameter2", scope: !4, file: !1, type: !8)
+!13 = !DILocation(line: 0, scope: !14)
+!14 = distinct !DILexicalBlock(scope: !4, file: !1)
+!15 = !DILocalVariable(name: "instruction1", scope: !4, file: !1, type: !8)
 )%%%";
 
 extern char const * const generate_identity_expected = R"%%%(; ModuleID = '0000000000000000'
@@ -568,44 +591,48 @@ extern char const * const generate_load_expected = R"%%%(; ModuleID = '000000000
 define i1 @"0000000000000000-0000000000000000-0"(i1*) {
   %2 = alloca i1*
   store i1* %0, i1** %2
-  call void @llvm.dbg.declare(metadata !{i1** %2}, metadata !11), !dbg !12
+  call void @llvm.dbg.declare(metadata i1** %2, metadata !10, metadata !11), !dbg !12
   br i1 true, label %3, label %5
 
 ; <label>:3                                       ; preds = %1
-  %4 = load i1* %0, !dbg !13
+  %4 = load i1, i1* %0, !dbg !13
   br label %5
 
 ; <label>:5                                       ; preds = %3, %1
   %6 = phi i1 [ %4, %3 ], [ undef, %1 ]
   %7 = alloca i1
   store i1 %6, i1* %7
-  call void @llvm.dbg.declare(metadata !{i1* %7}, metadata !15), !dbg !12
-  call void @llvm.dbg.value(metadata !{i1 %6}, i64 0, metadata !15), !dbg !12
+  call void @llvm.dbg.declare(metadata i1* %7, metadata !15, metadata !11), !dbg !12
+  call void @llvm.dbg.value(metadata i1 %6, i64 0, metadata !15, metadata !11), !dbg !12
   ret i1 %6, !dbg !12
 }
 
-declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
-declare void @llvm.dbg.value(metadata, i64, metadata) nounwind readnone
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata, metadata) #0
+
+attributes #0 = { nounwind readnone }
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_load", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_load] [DW_LANG_C]
-!1 = metadata !{metadata !2}
-!2 = metadata !{i32 0}
-!3 = metadata !{metadata !4}
-!4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i1 (i1*)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!6 = metadata !{i32 786473, metadata !"generate_load", metadata !"", null} ; [ DW_TAG_file_type ]
-!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9, metadata !10}
-!9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
-!10 = metadata !{i32 786447, null, metadata !"ptr", null, i32 0, i64 8, i64 0, i64 0, i32 0, metadata !9} ; [ DW_TAG_pointer_type ] [ptr] [line 0, size 8, align 0, offset 0] [from int1]
-!11 = metadata !{i32 786688, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [parameter1] [line 0]
-!12 = metadata !{i32 0, i32 0, metadata !5, null}
-!13 = metadata !{i32 0, i32 0, metadata !14, null}
-!14 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 9} ; [ DW_TAG_lexical_block ] [/generate_load]
-!15 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "MU 0 (Colin LeMahieu)", isOptimized: false, runtimeVersion: 0, emissionKind: 1, enums: !2, subprograms: !3)
+!1 = !DIFile(filename: "generate_load", directory: "")
+!2 = !{}
+!3 = !{!4}
+!4 = distinct !DISubprogram(name: "0", linkageName: "0000000000000000-0000000000000000-0", scope: !1, file: !1, type: !5, isLocal: false, isDefinition: true, isOptimized: false, function: i1 (i1*)* @"0000000000000000-0000000000000000-0", variables: !2)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7, !9}
+!7 = !DIDerivedType(tag: DW_TAG_member, scope: !1, file: !1, baseType: !8, size: 1)
+!8 = !DIBasicType(name: "int1", size: 1, encoding: DW_ATE_unsigned)
+!9 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "ptr", baseType: !8, size: 8)
+!10 = !DILocalVariable(name: "parameter1", scope: !4, file: !1, type: !9)
+!11 = !DIExpression()
+!12 = !DILocation(line: 0, scope: !4)
+!13 = !DILocation(line: 0, scope: !14)
+!14 = distinct !DILexicalBlock(scope: !4, file: !1)
+!15 = !DILocalVariable(name: "instruction1", scope: !4, file: !1, type: !8)
 )%%%";
 
 extern char const * const generate_mul_expected = R"%%%(; ModuleID = '0000000000000000'

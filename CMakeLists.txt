@@ -13,8 +13,6 @@ find_package (Boost REQUIRED COMPONENTS filesystem program_options system)
 include_directories (${Boost_INCLUDE_DIR})
 
 find_package (LLVM REQUIRED)
-MESSAGE (STATUS ${LLVM_CXXFLAGS})
-MESSAGE (STATUS ${LLVM_LDFLAGS})
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXXFLAGS}")
 set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LLVM_LDFLAGS}")
 
