@@ -5,10 +5,9 @@ add_llvm_library (mu_core
 	error.hpp
 	error_string.cpp
 	error_string.hpp
-	MurmurHash3.cpp
-	MurmurHash3.h
     region.cpp
     region.hpp
+    siphash24.c
     string_hash.cpp
     string_hash.hpp
     types.cpp

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <mu/core/types.hpp>
+#include <mu/core/string_hash.hpp>
 #include <mu/io/lexer.hpp>
 #include <mu/io/stream_istream.hpp>
 #include <mu/io/tokens.hpp>
@@ -543,17 +544,17 @@ TEST (io_lexer, invalid_eof_in_complex_identifier)
 TEST (io_lexer, hash_empty)
 {
     mu::string string;
-    mu::io::string_hash hash (string);
+    mu::core::string_hash hash (string);
     auto text (hash.text());
-    ASSERT_EQ (U"00000000000000000000000000000000", text);
+    ASSERT_EQ (U"5049d74780a3e07d4202ab47d4cef2f4", text);
 }
 
 TEST (io_lexer, hash_sentence)
 {
-    mu::string string (U"The quick brown fox jumps over the lazy dog");;
-    mu::io::string_hash hash (string);
+    mu::string string (U"The quick brown fox jumps over the lazy dog");
+    mu::core::string_hash hash (string);
     auto text (hash.text());
-    ASSERT_EQ (U"09c3a5f1fb1a2f77a1db4872ccb04989", text);
+    ASSERT_EQ (U"e32e5d57dfbb310c2b90a934f1d30625", text);
 }
 
 TEST (io_lexer, region_comment_containing_control_character)
