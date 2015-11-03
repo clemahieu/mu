@@ -18,6 +18,7 @@ namespace mu
 			size_t size () override;
 		private:
 			void refill ();
+			size_t size_m;
 			std::deque <mu::io::token *> buffer;
 			mu::io::lexer & lexer;
 		};

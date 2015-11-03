@@ -2,8 +2,8 @@
 
 #include <assert.h>
 
-mu::io::stream_istream::stream_istream (std::istream & stream_a, size_t size_a):
-buffer (size_a),
+mu::io::stream_istream::stream_istream (std::istream & stream_a, size_t size_a) :
+size_m (size_a),
 stream (stream_a)
 {
 	refill ();
@@ -25,8 +25,7 @@ char32_t & mu::io::stream_istream::operator [] (size_t size_a)
 
 size_t mu::io::stream_istream::size ()
 {
-	auto result (buffer.size ());
-	return result;
+	return size_m;
 }
 
 void mu::io::stream_istream::refill ()

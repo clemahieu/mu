@@ -19,6 +19,7 @@ namespace mu
         private:
             void refill ();
             std::deque <char32_t> buffer;
+			size_t size_m;
             std::istream & stream;
         };
     }

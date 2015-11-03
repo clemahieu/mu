@@ -4,7 +4,7 @@
 #include <mu/io/lexer.hpp>
 
 mu::io::stream_token::stream_token (mu::io::lexer & lexer_a, size_t size_a):
-buffer (size_a),
+size_m (size_a),
 lexer (lexer_a)
 {
 	refill ();
@@ -26,8 +26,7 @@ mu::io::token * & mu::io::stream_token::operator [] (size_t size_a)
 
 size_t mu::io::stream_token::size ()
 {
-	auto result (buffer.size ());
-	return result;
+	return size_m;
 }
 
 void mu::io::stream_token::refill ()
