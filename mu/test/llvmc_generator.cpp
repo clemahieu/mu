@@ -434,8 +434,9 @@ TEST (llvmc_generator, generate_lshr)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_lshr_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0, 0));
     ASSERT_EQ (0, result2);
@@ -472,8 +473,9 @@ TEST (llvmc_generator, generate_mul)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_mul_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0, 0));
     ASSERT_EQ (0, result2);
@@ -512,8 +514,9 @@ TEST (llvmc_generator, generate_or)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_or_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0, 0));
     ASSERT_EQ (0, result2);
@@ -554,8 +557,9 @@ TEST (llvmc_generator, generate_sdiv)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_sdiv_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <int8_t (*) (int8_t, int8_t)> (function2));
     auto result2 (function3 (42, 1));
     ASSERT_EQ (42, result2);
@@ -589,8 +593,9 @@ TEST (llvmc_generator, generate_sext)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_sext_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <int16_t (*) (int8_t)> (function2));
     auto result2 (function3 (42));
     ASSERT_EQ (42, result2);
@@ -625,8 +630,9 @@ TEST (llvmc_generator, generate_shl)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_shl_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result_false (function3 (0x0f, 4));
     ASSERT_EQ (0xf0, result_false);
@@ -659,8 +665,9 @@ TEST (llvmc_generator, generate_srem)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_srem_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <int8_t (*) (int8_t, int8_t)> (function2));
     auto result2 (function3 (42, 2));
     ASSERT_EQ (0, result2);
@@ -696,8 +703,9 @@ TEST (llvmc_generator, generate_store)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_store_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <void (*) (bool, bool*)> (function2));
     auto val1 (false);
     function3 (true, &val1);
@@ -732,8 +740,9 @@ TEST (llvmc_generator, generate_sub)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_sub_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <bool (*) (bool)> (function2));
     auto result_false (function3 (0));
     ASSERT_EQ (0, result_false);
@@ -768,8 +777,9 @@ TEST (llvmc_generator, generate_udiv)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_udiv_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0x10, 0x10));
     ASSERT_EQ (1, result2);
@@ -804,8 +814,9 @@ TEST (llvmc_generator, generate_urem)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_urem_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0x80, 0x80));
     ASSERT_EQ (0, result2);
@@ -840,8 +851,9 @@ TEST (llvmc_generator, generate_xor)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_xor_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
     auto result2 (function3 (0xff, 0x00));
     ASSERT_EQ (0xff, result2);
@@ -875,8 +887,9 @@ TEST (llvmc_generator, generate_zext)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_zext_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint16_t (*) (uint8_t)> (function2));
     auto result2 (function3 (0x0f));
     ASSERT_EQ (0x0f, result2);
@@ -906,8 +919,9 @@ TEST (llvmc_generator, generate_two_return)
     auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_two_return_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
 	struct thing
 	{
 		bool b0;
@@ -1545,8 +1559,9 @@ TEST (llvmc_generator, generate_loop_count)
     auto broken (llvm::verifyModule (*result.module, &info_stream));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_loop_count_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint32_t (*) (uint32_t)> (function2));
 	auto result2 (function3 (0 - 5));
 	ASSERT_EQ (5, result2);
@@ -1605,8 +1620,9 @@ TEST (llvmc_generator, generate_getelementptr)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_getelementptr_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t * (*) (uint8_t *)> (function2));
 	uint8_t val (0);
     auto result2 (function3 (&val));
@@ -1640,8 +1656,9 @@ TEST (llvmc_generator, generate_identity)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_identity_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t (*) (uint8_t)> (function2));
     auto result2 (function3 (42));
     ASSERT_EQ (42, result2);
@@ -1780,8 +1797,9 @@ TEST (llvmc_generator, generate_bitcast)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_bitcast_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint8_t * (*) (uint32_t *)> (function2));
     uint32_t val;
     auto result2 (function3 (&val));
@@ -1815,8 +1833,9 @@ TEST (llvmc_generator, generate_ptrtoint)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_ptrtoint_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint64_t (*) (uint32_t *)> (function2));
     uint32_t val;
     auto result2 (function3 (&val));
@@ -1850,8 +1869,9 @@ TEST (llvmc_generator, generate_ptrfromint)
     ASSERT_TRUE (!broken);
     print_module (*result.module, info);
     ASSERT_EQ (std::string (generate_ptrfromint_expected), info);
+	auto function (result.module->getFunctionList ().begin ());
     auto engine (prepare_module_jit (std::move (result.module)));
-    auto function2 (engine->getPointerToFunction (result.module->getFunctionList ().begin ()));
+    auto function2 (engine->getPointerToFunction (function));
     auto function3 (reinterpret_cast <uint32_t * (*) (uint64_t)> (function2));
     auto result2 (function3 (~0));
     ASSERT_EQ (~0, (uint64_t)result2);
