@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <mu/llvmc/partial_ast.hpp>
-
 #include <mu/io/stream_istream.hpp>
 #include <mu/io/lexer.hpp>
 #include <mu/io/stream_token.hpp>

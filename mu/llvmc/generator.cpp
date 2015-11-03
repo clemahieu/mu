@@ -17,8 +17,6 @@
 #include <llvm/Support/Dwarf.h>
 #include <llvm/Support/Host.h>
 
-#include <boost/array.hpp>
-
 #include <algorithm>
 #include <memory>
 

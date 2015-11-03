@@ -2,8 +2,7 @@
 
 #include <mu/io/stream.hpp>
 
-#include <boost/circular_buffer.hpp>
-
+#include <deque>
 #include <istream>
 
 namespace mu
@@ -19,7 +18,7 @@ namespace mu
             size_t size () override;
         private:
             void refill ();
-            boost::circular_buffer <char32_t> buffer;
+            std::deque <char32_t> buffer;
             std::istream & stream;
         };
     }

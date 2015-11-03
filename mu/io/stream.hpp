@@ -4,15 +4,15 @@
 
 namespace mu
 {
-    namespace io
-    {
-        template <typename T>
-        class stream
-        {
-        public:
-            virtual void consume (size_t size_a) = 0;
-            virtual T & operator [] (size_t size_a) = 0;
-            virtual size_t size () = 0;
-        };
-    }
+	namespace io
+	{
+		template <typename T>
+		class stream
+		{
+		public:
+			virtual void consume (size_t size_a) = 0;
+			virtual T & operator [] (size_t size_a) = 0;
+			virtual size_t size () = 0;
+		};
+	}
 }

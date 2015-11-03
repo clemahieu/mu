@@ -4,7 +4,6 @@
 #include <mu/io/stream_token.hpp>
 #include <mu/io/stream_istream.hpp>
 #include <mu/llvmc/parser.hpp>
-#include <mu/llvmc/partial_ast.hpp>
 
 namespace llvm
 {

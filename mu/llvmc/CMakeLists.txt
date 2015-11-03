@@ -1,7 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
-project (llvmc)
 
-add_library (mu_llvmc
+add_llvm_library (mu_llvmc
 	ast.cpp
 	ast.hpp
     ast_t.hpp

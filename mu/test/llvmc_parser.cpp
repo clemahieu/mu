@@ -5,7 +5,6 @@
 #include <mu/llvmc/parser.hpp>
 #include <mu/io/stream_istream.hpp>
 #include <mu/llvmc/ast.hpp>
-#include <mu/llvmc/partial_ast.hpp>
 #include <mu/core/error.hpp>
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/llvmc/instruction_type.hpp>

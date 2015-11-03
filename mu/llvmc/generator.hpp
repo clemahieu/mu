@@ -9,8 +9,6 @@
 #include <llvm/IR/DIBuilder.h>
 #include <llvm/IR/DebugInfoMetadata.h>
 
-#include <boost/dynamic_bitset.hpp>
-
 namespace llvm
 {
     class Module;

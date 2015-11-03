@@ -5,8 +5,6 @@
 #include <mu/core/error_string.hpp>
 #include <mu/io/stream.hpp>
 
-#include <boost/lexical_cast.hpp>
-
 #include <assert.h>
 
 mu::io::string_hash::string_hash (mu::string const & string_a)

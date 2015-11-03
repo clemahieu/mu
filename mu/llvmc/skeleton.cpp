@@ -1535,18 +1535,14 @@ mu::string mu::llvmc::skeleton::function_type::name ()
 
 mu::string mu::llvmc::skeleton::integer_type::name ()
 {
-	boost::format formatter ("int%1%");
-	formatter % bits;
-	std::string astring (formatter.str ().c_str ());
+	std::string astring ("int" + std::to_string (bits));
 	mu::string result (astring.begin (), astring.end ());
 	return result;
 }
 
 mu::string mu::llvmc::skeleton::fixed_array_type::name ()
 {
-	boost::format formatter ("%1%");
-	formatter % size;
-	std::string astring (formatter.str ().c_str ());
+	auto astring (std::to_string (size));
 	mu::string result (U"farray ");
 	result.append (element->name ());
 	result.push_back (U' ');

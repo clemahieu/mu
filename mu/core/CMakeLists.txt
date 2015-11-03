@@ -1,7 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
-project (core)
 
-add_library (mu_core
+add_llvm_library (mu_core
 	error.cpp
 	error.hpp
 	error_string.cpp

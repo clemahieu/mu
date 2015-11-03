@@ -6,8 +6,6 @@
 #include <mu/llvmc/ast_t.hpp>
 #include <mu/llvmc/skeleton_t.hpp>
 
-#include <boost/lexical_cast.hpp>
-
 #include <typeinfo>
 
 #include <inttypes.h>

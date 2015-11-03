@@ -1,7 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
-project (io)
 
-add_library (mu_io
+add_llvm_library (mu_io
 	lexer.cpp
 	lexer.hpp
     stream.hpp

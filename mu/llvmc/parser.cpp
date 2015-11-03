@@ -4,7 +4,6 @@
 #include <mu/io/stream.hpp>
 #include <mu/io/tokens.hpp>
 #include <mu/llvmc/ast.hpp>
-#include <mu/llvmc/partial_ast.hpp>
 #include <mu/io/stream_token.hpp>
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/llvmc/parser_t.hpp>
