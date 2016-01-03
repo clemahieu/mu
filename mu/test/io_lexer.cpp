@@ -8,7 +8,6 @@
 
 TEST (io_lexer, empty)
 {
-	ASSERT_FALSE(true);
     std::stringstream text ("");
     mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
