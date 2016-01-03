@@ -27,8 +27,11 @@ static llvm::ExecutionEngine * prepare_module_jit (std::unique_ptr <llvm::Module
     llvm::legacy::PassManager manager;
     manager.add (llvm::createStripSymbolsPass (true));
     manager.run (*module_a);
+	std::string error;
     llvm::EngineBuilder builder (std::move (module_a));
+	builder.setErrorStr (&error);
     auto engine (builder.create ());
+	assert (engine != nullptr);
 	engine->finalizeObject ();
     return engine;
 }
