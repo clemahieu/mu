@@ -146,7 +146,7 @@ void mu::llvmc::generate_function::generate ()
         {
             auto value (*k);
             assert (k != l);
-            llvm::Value * parameter (i);
+            llvm::Value * parameter (&*i);
             set_debug_name (parameter, "function_parameter");
             value->generated = parameter;
             value->predicate = llvm::ConstantInt::getTrue (context);
@@ -1458,7 +1458,7 @@ void mu::llvmc::generate_module::function (mu::llvmc::skeleton::function * node_
 	auto function_type (llvm::cast <llvm::FunctionType> (type->generated));
 	auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
 	function_l->setName (get_global_name (node_a->name));
-	node_a->debug = builder.createFunction (file, std::string (node_a->name.begin (), node_a->name.end ()), function_l->getName (), file, node_a->region.first.row, llvm::cast<llvm::DISubroutineType>(type->debug), false, true, node_a->region.first.row, 0, false, function_l);
+	node_a->debug = builder.createFunction (file, std::string (node_a->name.begin (), node_a->name.end ()), function_l->getName (), file, node_a->region.first.row, llvm::cast<llvm::DISubroutineType>(type->debug), false, true, node_a->region.first.row, 0, false);
 	system.result.module->getFunctionList ().push_back (function_l);
 	node_a->generated = function_l;
 	node_a->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
