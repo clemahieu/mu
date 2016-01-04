@@ -23,6 +23,22 @@ namespace mu
             char32_t character;
             mu::core::error * error;
         };
+		class stringref
+		{
+		public:
+			stringref (uint8_t *, uint8_t *);
+			mu::io::stringref substr (size_t) const;
+			mu::io::stringref substr (size_t, size_t) const;
+			uint8_t * begin ();
+			uint8_t * end ();
+			bool operator == (mu::io::stringref const &) const;
+			bool operator != (mu::io::stringref const &) const;
+			bool empty () const;
+			size_t size () const;
+			uint8_t & operator [] (size_t) const;
+			uint8_t * begin_m;
+			uint8_t * end_m;
+		};
         template <typename T>
         class stream;   
         class token;

@@ -16,6 +16,67 @@ mu::io::character_result::~character_result ()
     assert ((error == nullptr) or ((error != nullptr) and (character == '\0')));
 }
 
+mu::io::stringref::stringref (uint8_t * begin_a, uint8_t * end_a) :
+begin_m (begin_a),
+end_m (end_a)
+{
+}
+
+uint8_t * mu::io::stringref::begin ()
+{
+	return begin_m;
+}
+
+uint8_t * mu::io::stringref::end ()
+{
+	return end_m;
+}
+
+mu::io::stringref mu::io::stringref::substr (size_t begin_a) const
+{
+	assert (end_m >= begin_m);
+	assert (begin_a <= static_cast <size_t> (end_m - begin_m));
+	auto begin_l (begin_m);
+	mu::io::stringref result (begin_l + begin_a, end_m);
+	return result;
+}
+
+mu::io::stringref mu::io::stringref::substr (size_t begin_a, size_t end_a) const
+{
+	assert (end_m >= begin_m);
+	assert (begin_a <= static_cast <size_t> (end_m - begin_m));
+	assert (end_a <= static_cast <size_t> (end_m - begin_m));
+	auto begin_l (begin_m);
+	mu::io::stringref result (begin_l + begin_a, begin_l + end_a);
+	return result;
+}
+
+bool mu::io::stringref::operator == (mu::io::stringref const & other_a) const
+{
+	return begin_m == other_a.begin_m && end_m == other_a.end_m;
+}
+
+bool mu::io::stringref::operator != (mu::io::stringref const & other_a) const
+{
+	return !(*this == other_a);
+}
+
+bool mu::io::stringref::empty () const
+{
+	return begin_m == end_m;
+}
+
+size_t mu::io::stringref::size () const
+{
+	return end_m - begin_m;
+}
+
+uint8_t & mu::io::stringref::operator [] (size_t index) const
+{
+	assert (index < static_cast <size_t> (end_m - begin_m));
+	return *(begin_m + index);
+}
+
 mu::io::lexer::lexer (mu::io::stream <char32_t> & stream_a):
 position (0, 1, 1),
 stream (stream_a)

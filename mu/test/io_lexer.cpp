@@ -6,6 +6,28 @@
 #include <mu/io/stream_istream.hpp>
 #include <mu/io/tokens.hpp>
 
+TEST (stringref, basic)
+{
+	std::array <uint8_t, 2> data;
+	data [0] = 0xcc;
+	data [1] = 0xdd;
+	mu::io::stringref string1 (data.data (), data.data () + data.size ());
+	auto string2 (string1.substr (1, 2));
+	auto string3 (string1.substr (1));
+	ASSERT_EQ (string1.end (), string2.end ());
+	ASSERT_EQ (string1.begin () + 1, string2.begin ());
+	ASSERT_EQ (string2, string3);
+	ASSERT_NE (string1, string2);
+	ASSERT_EQ (2, string1.size ());
+	ASSERT_FALSE (string1.empty ());
+	ASSERT_EQ (1, string2.size ());
+	ASSERT_EQ (0xcc, string1 [0]);
+	ASSERT_EQ (0xdd, string1 [1]);
+	ASSERT_EQ (0xdd, string2 [0]);
+	string2 [0] = 0xee;
+	ASSERT_EQ (0xee, string3 [0]);
+}
+
 TEST (io_lexer, empty)
 {
     std::stringstream text ("");
