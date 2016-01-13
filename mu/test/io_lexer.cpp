@@ -3,7 +3,6 @@
 #include <mu/core/types.hpp>
 #include <mu/core/string_hash.hpp>
 #include <mu/core/lexer.hpp>
-#include <mu/core/stream_istream.hpp>
 #include <mu/core/tokens.hpp>
 
 TEST (stringref, basic)

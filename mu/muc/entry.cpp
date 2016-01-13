@@ -1,4 +1,3 @@
-#include <mu/core/stream_istream.hpp>
 #include <mu/llvmc/compiler.hpp>
 
 #include <llvm/Support/CommandLine.h>

@@ -3,7 +3,6 @@
 #include <mu/core/lexer.hpp>
 #include <mu/core/stream_token.hpp>
 #include <mu/llvmc/parser.hpp>
-#include <mu/core/stream_istream.hpp>
 #include <mu/llvmc/ast.hpp>
 #include <mu/core/error.hpp>
 #include <mu/llvmc/skeleton.hpp>

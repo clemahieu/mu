@@ -10,8 +10,6 @@ add_llvm_library (mu_core
 	region.cpp
 	region.hpp
 	siphash24.c
-	stream_istream.cpp
-	stream_istream.hpp
 	stream_token.cpp
 	stream_token.hpp
 	string_hash.cpp

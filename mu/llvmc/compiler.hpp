@@ -2,7 +2,6 @@
 
 #include <mu/core/lexer.hpp>
 #include <mu/core/stream_token.hpp>
-#include <mu/core/stream_istream.hpp>
 #include <mu/llvmc/parser.hpp>
 
 namespace llvm
