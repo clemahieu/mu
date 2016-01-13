@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/io/stream.hpp>
+#include <mu/core/stream.hpp>
 
 #include <deque>
 #include <istream>

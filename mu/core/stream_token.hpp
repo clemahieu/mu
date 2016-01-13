@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mu/core/types.hpp>
-#include <mu/io/stream.hpp>
+#include <mu/core/stream.hpp>
 
 namespace mu
 {

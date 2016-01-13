@@ -1,7 +1,7 @@
-#include <mu/io/stream_token.hpp>
+#include <mu/core/stream_token.hpp>
 
-#include <mu/io/tokens.hpp>
-#include <mu/io/lexer.hpp>
+#include <mu/core/tokens.hpp>
+#include <mu/core/lexer.hpp>
 
 mu::io::stream_token::stream_token (mu::io::lexer & lexer_a, size_t size_a):
 size_m (size_a),

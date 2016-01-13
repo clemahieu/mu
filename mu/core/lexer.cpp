@@ -1,8 +1,8 @@
-#include <mu/io/lexer.hpp>
+#include <mu/core/lexer.hpp>
 
-#include <mu/io/tokens.hpp>
+#include <mu/core/tokens.hpp>
 #include <mu/core/error_string.hpp>
-#include <mu/io/stream.hpp>
+#include <mu/core/stream.hpp>
 
 #include <assert.h>
 

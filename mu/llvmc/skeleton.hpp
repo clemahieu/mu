@@ -3,7 +3,7 @@
 #include <mu/core/types.hpp>
 #include <mu/llvmc/instruction_type.hpp>
 #include <mu/llvmc/predicates.hpp>
-#include <mu/io/tokens.hpp>
+#include <mu/core/tokens.hpp>
 
 #include <llvm/IR/DebugInfoMetadata.h>
 

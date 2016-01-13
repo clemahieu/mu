@@ -24,5 +24,4 @@ target_link_libraries (mu_test
   gtest
   LLVMSupport
   mu_core
-  mu_io
   mu_llvmc)

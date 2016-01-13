@@ -1,10 +1,10 @@
 #include <mu/llvmc/parser.hpp>
 
 #include <mu/core/error_string.hpp>
-#include <mu/io/stream.hpp>
-#include <mu/io/tokens.hpp>
+#include <mu/core/stream.hpp>
+#include <mu/core/tokens.hpp>
 #include <mu/llvmc/ast.hpp>
-#include <mu/io/stream_token.hpp>
+#include <mu/core/stream_token.hpp>
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/llvmc/parser_t.hpp>
 

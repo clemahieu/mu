@@ -2,9 +2,9 @@
 
 #include <mu/core/types.hpp>
 #include <mu/core/string_hash.hpp>
-#include <mu/io/lexer.hpp>
-#include <mu/io/stream_istream.hpp>
-#include <mu/io/tokens.hpp>
+#include <mu/core/lexer.hpp>
+#include <mu/core/stream_istream.hpp>
+#include <mu/core/tokens.hpp>
 
 TEST (stringref, basic)
 {

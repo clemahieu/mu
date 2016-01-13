@@ -12,5 +12,4 @@ add_llvm_tool (muc
 
 target_link_libraries (muc
   mu_core
-  mu_io
   mu_llvmc)

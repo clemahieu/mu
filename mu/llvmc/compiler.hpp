@@ -1,8 +1,8 @@
 #pragma once
 
-#include <mu/io/lexer.hpp>
-#include <mu/io/stream_token.hpp>
-#include <mu/io/stream_istream.hpp>
+#include <mu/core/lexer.hpp>
+#include <mu/core/stream_token.hpp>
+#include <mu/core/stream_istream.hpp>
 #include <mu/llvmc/parser.hpp>
 
 namespace llvm

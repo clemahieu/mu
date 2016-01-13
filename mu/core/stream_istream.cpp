@@ -1,4 +1,4 @@
-#include <mu/io/stream_istream.hpp>
+#include <mu/core/stream_istream.hpp>
 
 #include <assert.h>
 
