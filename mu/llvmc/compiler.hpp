@@ -18,7 +18,7 @@ namespace mu
         class compiler
         {
         public:
-            compiler (mu::io::stringref const &, llvm::raw_pwrite_stream & output_a);
+            compiler (mu::io::string_range const &, llvm::raw_pwrite_stream & output_a);
             void compile (mu::string const & name_a, mu::string const & path_a);
             void inject_entry (llvm::Module & module_a, llvm::Function * entry);
             mu::io::lexer lexer;

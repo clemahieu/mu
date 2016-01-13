@@ -15,7 +15,7 @@
 #include <llvm/IR/InlineAsm.h>
 #include <llvm/IR/Verifier.h>
 
-mu::llvmc::compiler::compiler (mu::io::stringref const & source_a, llvm::raw_pwrite_stream & output_a) :
+mu::llvmc::compiler::compiler (mu::io::string_range const & source_a, llvm::raw_pwrite_stream & output_a) :
 lexer (source_a),
 stream_token (lexer, 2),
 parser (stream_token),

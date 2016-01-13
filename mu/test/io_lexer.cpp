@@ -11,7 +11,7 @@ TEST (stringref, basic)
 	std::array <uint8_t, 2> data;
 	data [0] = 0xcc;
 	data [1] = 0xdd;
-	mu::io::stringref string1 (data.data (), data.data () + data.size ());
+	mu::io::string_range string1 (data.data (), data.data () + data.size ());
 	auto string2 (string1.substr (1, 2));
 	auto string3 (string1.substr (1));
 	ASSERT_EQ (string1.end (), string2.end ());

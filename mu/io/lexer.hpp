@@ -23,18 +23,18 @@ namespace mu
             char32_t character;
             mu::core::error * error;
         };
-		class stringref
+		class string_range
 		{
 		public:
-			stringref (std::string const &);
-			stringref (char const * const &);
-			stringref (uint8_t const *, uint8_t const *);
-			mu::io::stringref substr (size_t) const;
-			mu::io::stringref substr (size_t, size_t) const;
+			string_range (std::string const &);
+			string_range (char const * const &);
+			string_range (uint8_t const *, uint8_t const *);
+			mu::io::string_range substr (size_t) const;
+			mu::io::string_range substr (size_t, size_t) const;
 			uint8_t const * begin ();
 			uint8_t const * end ();
-			bool operator == (mu::io::stringref const &) const;
-			bool operator != (mu::io::stringref const &) const;
+			bool operator == (mu::io::string_range const &) const;
+			bool operator != (mu::io::string_range const &) const;
 			bool empty () const;
 			size_t size () const;
 			char32_t operator [] (size_t) const;
@@ -45,7 +45,7 @@ namespace mu
         class lexer
         {
         public:
-            lexer (mu::io::stringref const &);
+            lexer (mu::io::string_range const &);
             mu::io::token_result identifier ();
             mu::io::token_result complex_identifier ();
             void line_comment ();
@@ -54,7 +54,7 @@ namespace mu
             mu::core::error * region_comment ();
             mu::io::character_result hex_code (int size_a);
             mu::io::token_result lex ();
-            mu::io::stringref source;
+            mu::io::string_range source;
         };
     }
 }

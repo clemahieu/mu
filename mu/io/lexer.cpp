@@ -16,81 +16,81 @@ mu::io::character_result::~character_result ()
     assert ((error == nullptr) or ((error != nullptr) and (character == '\0')));
 }
 
-mu::io::stringref::stringref (std::string const & string_a) :
+mu::io::string_range::string_range (std::string const & string_a) :
 begin_m (reinterpret_cast <uint8_t const *> (string_a.data ())),
 end_m (reinterpret_cast <uint8_t const *> (string_a.data ()) + string_a.size ())
 {
 }
 
-mu::io::stringref::stringref (char const * const & string_a) :
+mu::io::string_range::string_range (char const * const & string_a) :
 begin_m (reinterpret_cast <uint8_t const *> (string_a)),
 end_m (reinterpret_cast <uint8_t const *> (string_a) + strlen (string_a))
 {
 }
 
-mu::io::stringref::stringref (uint8_t const * begin_a, uint8_t const * end_a) :
+mu::io::string_range::string_range (uint8_t const * begin_a, uint8_t const * end_a) :
 begin_m (begin_a),
 end_m (end_a)
 {
 }
 
-uint8_t const * mu::io::stringref::begin ()
+uint8_t const * mu::io::string_range::begin ()
 {
 	return begin_m;
 }
 
-uint8_t const * mu::io::stringref::end ()
+uint8_t const * mu::io::string_range::end ()
 {
 	return end_m;
 }
 
-mu::io::stringref mu::io::stringref::substr (size_t begin_a) const
+mu::io::string_range mu::io::string_range::substr (size_t begin_a) const
 {
 	assert (end_m >= begin_m);
 	assert (begin_a <= static_cast <size_t> (end_m - begin_m));
 	auto begin_l (begin_m);
-	mu::io::stringref result (begin_l + begin_a, end_m);
+	mu::io::string_range result (begin_l + begin_a, end_m);
 	return result;
 }
 
-mu::io::stringref mu::io::stringref::substr (size_t begin_a, size_t end_a) const
+mu::io::string_range mu::io::string_range::substr (size_t begin_a, size_t end_a) const
 {
 	assert (end_m >= begin_m);
 	assert (begin_a <= static_cast <size_t> (end_m - begin_m));
 	assert (end_a <= static_cast <size_t> (end_m - begin_m));
 	auto begin_l (begin_m);
-	mu::io::stringref result (begin_l + begin_a, begin_l + end_a);
+	mu::io::string_range result (begin_l + begin_a, begin_l + end_a);
 	return result;
 }
 
-bool mu::io::stringref::operator == (mu::io::stringref const & other_a) const
+bool mu::io::string_range::operator == (mu::io::string_range const & other_a) const
 {
 	return begin_m == other_a.begin_m && end_m == other_a.end_m;
 }
 
-bool mu::io::stringref::operator != (mu::io::stringref const & other_a) const
+bool mu::io::string_range::operator != (mu::io::string_range const & other_a) const
 {
 	return !(*this == other_a);
 }
 
-bool mu::io::stringref::empty () const
+bool mu::io::string_range::empty () const
 {
 	return begin_m == end_m;
 }
 
-size_t mu::io::stringref::size () const
+size_t mu::io::string_range::size () const
 {
 	return end_m - begin_m;
 }
 
-char32_t mu::io::stringref::operator [] (size_t index) const
+char32_t mu::io::string_range::operator [] (size_t index) const
 {
 	static char32_t const eof = U'\U0000FFFF';
 	auto result (index < static_cast <size_t> (end_m - begin_m) ? *(begin_m + index) : *&eof);
 	return result;
 }
 
-mu::io::lexer::lexer (mu::io::stringref const & source_a):
+mu::io::lexer::lexer (mu::io::string_range const & source_a):
 position (0, 1, 1),
 source (source_a)
 {
