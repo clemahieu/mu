@@ -29,11 +29,9 @@ int main (int argc, char const * const argv [])
 		if (buffer)
 		{
 			std::string raw_string ((*buffer)->getBuffer ().str ());
-			std::stringstream str (raw_string);
-			mu::io::stream_istream stream (str, 16);
 			std::error_code error;
 			llvm::raw_fd_ostream output ("test.o", error, llvm::sys::fs::OpenFlags::F_RW);
-			mu::llvmc::compiler compiler (stream, output);
+			mu::llvmc::compiler compiler (raw_string, output);
 			compiler.compile (mu::string (name.begin (), name.end ()), mu::string (directory.begin (), directory.end ()));
 		}
 		else

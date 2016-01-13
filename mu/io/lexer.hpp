@@ -26,26 +26,26 @@ namespace mu
 		class stringref
 		{
 		public:
-			stringref (uint8_t *, uint8_t *);
+			stringref (std::string const &);
+			stringref (char const * const &);
+			stringref (uint8_t const *, uint8_t const *);
 			mu::io::stringref substr (size_t) const;
 			mu::io::stringref substr (size_t, size_t) const;
-			uint8_t * begin ();
-			uint8_t * end ();
+			uint8_t const * begin ();
+			uint8_t const * end ();
 			bool operator == (mu::io::stringref const &) const;
 			bool operator != (mu::io::stringref const &) const;
 			bool empty () const;
 			size_t size () const;
-			uint8_t & operator [] (size_t) const;
-			uint8_t * begin_m;
-			uint8_t * end_m;
+			char32_t operator [] (size_t) const;
+			uint8_t const * begin_m;
+			uint8_t const * end_m;
 		};
-        template <typename T>
-        class stream;   
         class token;
         class lexer
         {
         public:
-            lexer (mu::io::stream <char32_t> & stream_a);
+            lexer (mu::io::stringref const &);
             mu::io::token_result identifier ();
             mu::io::token_result complex_identifier ();
             void line_comment ();
@@ -54,7 +54,7 @@ namespace mu
             mu::core::error * region_comment ();
             mu::io::character_result hex_code (int size_a);
             mu::io::token_result lex ();
-            mu::io::stream <char32_t> & stream;
+            mu::io::stringref source;
         };
     }
 }

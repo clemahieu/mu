@@ -11,15 +11,11 @@ class test_parser
 {
 public:
     test_parser (char const * const text_a):
-    text (text_a),
-    stream (text, 16),
-    lexer (stream),
+    lexer (text_a),
     stream_token (lexer, 2),
     parser (stream_token)
     {
     };
-    std::stringstream text;
-    mu::io::stream_istream stream;
     mu::io::lexer lexer;
     mu::io::stream_token stream_token;
     mu::llvmc::parser parser;

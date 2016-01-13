@@ -16,18 +16,30 @@ mu::io::character_result::~character_result ()
     assert ((error == nullptr) or ((error != nullptr) and (character == '\0')));
 }
 
-mu::io::stringref::stringref (uint8_t * begin_a, uint8_t * end_a) :
+mu::io::stringref::stringref (std::string const & string_a) :
+begin_m (reinterpret_cast <uint8_t const *> (string_a.data ())),
+end_m (reinterpret_cast <uint8_t const *> (string_a.data ()) + string_a.size ())
+{
+}
+
+mu::io::stringref::stringref (char const * const & string_a) :
+begin_m (reinterpret_cast <uint8_t const *> (string_a)),
+end_m (reinterpret_cast <uint8_t const *> (string_a) + strlen (string_a))
+{
+}
+
+mu::io::stringref::stringref (uint8_t const * begin_a, uint8_t const * end_a) :
 begin_m (begin_a),
 end_m (end_a)
 {
 }
 
-uint8_t * mu::io::stringref::begin ()
+uint8_t const * mu::io::stringref::begin ()
 {
 	return begin_m;
 }
 
-uint8_t * mu::io::stringref::end ()
+uint8_t const * mu::io::stringref::end ()
 {
 	return end_m;
 }
@@ -71,25 +83,25 @@ size_t mu::io::stringref::size () const
 	return end_m - begin_m;
 }
 
-uint8_t & mu::io::stringref::operator [] (size_t index) const
+char32_t mu::io::stringref::operator [] (size_t index) const
 {
-	assert (index < static_cast <size_t> (end_m - begin_m));
-	return *(begin_m + index);
+	static char32_t const eof = U'\U0000FFFF';
+	auto result (index < static_cast <size_t> (end_m - begin_m) ? *(begin_m + index) : *&eof);
+	return result;
 }
 
-mu::io::lexer::lexer (mu::io::stream <char32_t> & stream_a):
+mu::io::lexer::lexer (mu::io::stringref const & source_a):
 position (0, 1, 1),
-stream (stream_a)
+source (source_a)
 {
 }
 
 mu::io::token_result mu::io::lexer::lex ()
 {
-    assert (stream.size () >= 16);
     mu::io::token_result result ({nullptr, nullptr});
     while (result.token == nullptr && result.error == nullptr)
     {
-        auto character (stream [0]);
+        auto character (source [0]);
         switch (character)
         {
             case U' ':
@@ -120,7 +132,7 @@ mu::io::token_result mu::io::lexer::lex ()
                 break;
             case U':':
             {
-                auto character2 (stream [1]);
+                auto character2 (source [1]);
                 switch (character2)
                 {
                     case U'a':
@@ -175,7 +187,7 @@ mu::io::token_result mu::io::lexer::identifier ()
     mu::io::token_result result ({nullptr, nullptr});
     while (result.token == nullptr && result.error == nullptr)
     {
-        auto character (stream [0]);
+        auto character (source [0]);
         switch (character)
         {
             case U' ':
@@ -194,7 +206,7 @@ mu::io::token_result mu::io::lexer::identifier ()
                 break;
             case U':':
             {
-                auto character2 (stream [1]);
+                auto character2 (source [1]);
                 switch (character2)
                 {
                     case U'a':
@@ -337,7 +349,7 @@ mu::io::token_result mu::io::lexer::identifier ()
 
 mu::io::token_result mu::io::lexer::complex_identifier ()
 {
-    assert (stream [0] == U'{');
+    assert (source [0] == U'{');
     mu::io::token_result result ({nullptr, nullptr});
     auto identifier (new mu::io::identifier (mu::core::region (position, position)));
     auto last (position);
@@ -346,7 +358,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
     mu::string terminator;
     while (result.token == nullptr && result.error == nullptr && !have_terminator && terminator.size () <= 16)
     {
-        auto character (stream [0]);
+        auto character (source [0]);
         if (character == U'}')
         {
             last = position;
@@ -368,7 +380,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
         auto have_terminator (true);
         for (size_t i (0), j (terminator.size ()); i < j && have_terminator; ++i)
         {
-            have_terminator = (terminator [i] == stream [i]);
+            have_terminator = (terminator [i] == source [i]);
         }
         if (have_terminator)
         {
@@ -386,7 +398,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
         }
         else
         {
-            auto character (stream [0]);
+            auto character (source [0]);
             if (character != U'\U0000FFFF')
             {
                 identifier->string.push_back (character);
@@ -403,13 +415,13 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
 
 void mu::io::lexer::line_comment ()
 {
-    assert (stream [0] == U':');
-    assert (stream [1] == U'/');
+    assert (source [0] == U':');
+    assert (source [1] == U'/');
     consume (2);
     auto done (false);
     while (!done)
     {
-        auto character (stream [0]);
+        auto character (source [0]);
         consume (1);
         switch (character)
         {
@@ -434,7 +446,7 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
     {
         for (auto j (0); j < 2 && result.error == nullptr; ++j)
         {
-            uint32_t code (stream [0]);
+            uint32_t code (source [0]);
             switch (code)
             {
                 case U'a':
@@ -479,15 +491,15 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
 
 mu::core::error * mu::io::lexer::region_comment ()
 {
-    assert (stream [0] == U':');
-    assert (stream [1] == U'*');
+    assert (source [0] == U':');
+    assert (source [1] == U'*');
     consume (2);
     mu::core::error * result (nullptr);
     auto done (false);
     while (!done)
     {
-        auto character1 (stream [0]);
-        auto character2 (stream [1]);
+        auto character1 (source [0]);
+        auto character2 (source [1]);
         switch (character1)
         {
             case U':':
@@ -529,7 +541,7 @@ void mu::io::lexer::consume (size_t size_a)
 {
     for (size_t i (0); i < size_a; ++i)
     {
-        auto character (stream [0]);
+        auto character (source [0]);
         switch (character)
         {
             case U'\f':
@@ -541,6 +553,6 @@ void mu::io::lexer::consume (size_t size_a)
                 position.character ();
                 break;
         }
-        stream.consume (1);
+		source = source.substr (1);
     }
 }
